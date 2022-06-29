@@ -10,7 +10,7 @@ This is a very barebones, initial README intended to help a bit with initial dev
 
 ## Development Notes
 
-When making changes to code (including the HTML template file), those changes won't reflect on the running application until you kill the Docker Compose stack by going to the terminal running the Docker app, hitting ctrl+c (or cmd+c on a Mac), and then restarting the stack by running `docker-compose up` again.
+When making changes to code (including the HTML template file), those changes won't reflect on the running application until you kill the Docker Compose stack by going to the terminal running the Docker app, hitting ctrl+c, and then restarting the stack by running `docker-compose up` again.
 
 ### The Backend
 
@@ -20,11 +20,13 @@ The backend for this app is very simple at the moment. It's a Flask app (Python)
 * `/build_stratum` < GET > This endpoint is called by the frontend in order to build the initial graph for a stratum. For this purpose, a "path" can be passed in via GET parameter specifying the "location" of the stratum. At present, only the root stratum (path "/") is supported. It assumes that the frontend client has already subscribed to a Server Sent Events (SSE) channel. It launches an asynchronous task called "build_stratum" that is run by a Celery job queue. The "build_stratum" task is intended to be an "adapter" so that it can support multiple projects. At present, "ARC" is the only adapter implemented for this prototype. The task builds an initial subgraph and then performs queries on some initial facets, publishing these subgraphs to the SSE channel as it receives responses from the ARC API.
 * `/publish` < POST > This endpoint allows the "build_stratum" task to publish subgraphs to the client.
 
+The code for all three endpoints can be found in `app/stratocumulus.py`. The code for the ARC "build_stratum" task can be found in `app/adapters/arc/__init__.py`.
+
 In the future, other endpoints will need to be created to handle things like semantic zoom events, saving/exporting the user's graph, etc.
 
 ### The Frontend
 
-The frontend, though also simple, is a bit messy at present as it reflects a transition from using Vis.js to using Graphology.js to layout the graph. At present, it only does the following:
+The frontend, though also simple, is a bit messy at present as it reflects a transition from using Vis.js to using Graphology.js to layout the graph. All code for the frontend is located in `app/templates/index.html`. In the future, a more adapter oriented file structure will be adopted so the app can support separate frontends for projects. At present, it only does the following:
 
 * Loading the page causes the client to a) subscribe to the SSE channel and dictate what happens when subgraph messages are received on the channel's stream, and then b) call the /build_stratum endpoint. The code for these actions resides in the "DOMContentLoaded" event handler toward the top of the Javascript, which itself calls the "build_stratum" function directly below the handler.
 * Upon receiving subgraph messages on the SSE channel, the client attempts to perform an initial, "circle pack" layout of the graph. This is intended to provide initial x/y coordinates for each node, grouping nodes together according to its parent. The code for this is in the "perform_layout" function. For debugging purposes, the "perform_layout" function also calls the "draw_graph" function, which at present tries to draw nodes as square, colored HTML divs.
