@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  stratocumulus:
+    build: ./
+    command: gunicorn stratocumulus:app --worker-class gevent --reload --bind 0.0.0.0:8000
+    volumes:
+      - ./app:/usr/src/app
+    environment:
+      STRATO_SECRET_KEY: bananarama
+    depends_on:
+      - redis
+    links:
+      - redis:redis
+    ports:
+      - 80:8000
+
+  stratocumulus_celery:
+    build: ./
+    command: celery -A stratocumulus.client worker --loglevel=info
+    volumes:
+      - ./app:/usr/src/app
+    environment:
+      STRATO_SECRET_KEY: bananarama
+    depends_on:
+      - redis
+      - stratocumulus
+    links:
+      - redis:redis
+      - stratocumulus:stratocumulus
+
+  redis:
+    image: redis:latest
