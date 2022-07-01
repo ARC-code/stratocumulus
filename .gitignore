@@ -5,3 +5,6 @@ __pycache__/
 
 # IntelliJ
 .idea
+
+# macOS
+*.DS_Store
