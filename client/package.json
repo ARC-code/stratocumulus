@@ -30,5 +30,6 @@
   },
   "homepage": "https://github.com/ARC-code/stratocumulus#readme",
   "dependencies": {
+    "graphology": "^0.24.1"
   }
 }
