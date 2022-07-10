@@ -29,8 +29,8 @@ document.addEventListener('DOMContentLoaded', function () {
     body = document.querySelector('body');
     minimap = document.querySelector('#minimap');
 
-    let graph_stream = new EventSource("{{ url_for('sse.stream') }}");
-    graph_stream.addEventListener('{{ key }}', function(event) {
+    let graph_stream = new EventSource(stratocumulus.sseStreamUrl);
+    graph_stream.addEventListener(stratocumulus.sseStreamKey, function(event) {
         let subgraph = JSON.parse(event.data);
         if (subgraph.hasOwnProperty('path') && strata.hasOwnProperty(subgraph.path)) {
             if (subgraph.hasOwnProperty('nodes')) {

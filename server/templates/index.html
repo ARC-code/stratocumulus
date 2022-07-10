@@ -48,6 +48,15 @@
 </head>
 <body>
     <div id="minimap"></div>
+    <script type="text/javascript">
+      // Collect configuration and environment variables from
+      // the server to be accessed by the client app.
+      // This way we do not need to render server variables into client bundle.
+      window.stratocumulus = {
+        sseStreamUrl: "{{ url_for('sse.stream') }}",
+        sseStreamKey: "{{ key }}"
+      }
+    </script>
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.connections.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/stratocumulus-client.bundle.js') }}"></script>
