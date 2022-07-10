@@ -1,4 +1,7 @@
 const graphology = require('graphology')
+const graphologyLayout = require('graphology-layout')
+const graphologyForce = require('graphology-layout-force')
+const graphologyNoverlap = require('graphology-layout-noverlap')
 
 let strata = {};
 let strata_trail = [];
@@ -116,7 +119,7 @@ function build_stratum(path, context, label, bg_color) {
 function perform_layout(path, final=false) {
 
     if (!final) {
-        strata[path].layout = graphologyLibrary.layout.circlepack(strata[path].graph, {
+        strata[path].layout = graphologyLayout.circlepack(strata[path].graph, {
             hierarchyAttributes: ['parent']
         });
 
@@ -132,7 +135,7 @@ function perform_layout(path, final=false) {
 
          */
 
-        strata[path].layout = graphologyLibrary.ForceLayout(strata[path].graph, {
+        strata[path].layout = graphologyForce(strata[path].graph, {
             maxIterations: 10000,
             settings: {
                 attraction: 0.01,
@@ -143,7 +146,7 @@ function perform_layout(path, final=false) {
         assign_positions(path);
 
 
-        strata[path].layout = graphologyLibrary.layoutNoverlap(strata[path].graph, {
+        strata[path].layout = graphologyNoverlap(strata[path].graph, {
             maxIterations: 200,
             settings: {
                 margin: 20,
