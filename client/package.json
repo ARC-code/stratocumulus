@@ -5,6 +5,7 @@
   "description": "Zoomable frontend for Stratocumulus server",
   "main": "index.js",
   "scripts": {
+    "build": "webpack",
     "test": "npm run lint"
   },
   "repository": {
