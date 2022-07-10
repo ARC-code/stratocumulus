@@ -15,5 +15,7 @@ module.exports = {
   },
 
   // TODO switch to production for slower but more compact builds.
-  mode: 'development'
+  mode: 'development',
+  // TODO switch to 'source-map' for slow but production-quality source maps.
+  devtool: 'eval-source-map'
 }
