@@ -12,7 +12,7 @@ This is a very barebones, initial README intended to help a bit with initial dev
 
 When making changes to code (including the HTML template file), those changes won't reflect on the running application until you kill the Docker Compose stack by going to the terminal running the Docker app, hitting ctrl+c, and then restarting the stack by running `docker-compose up` again.
 
-For now, changes to frontend code require container rebuild with `docker-compose up --build`. In the future, a webpack build process will watch for changes in `client/lib/` and build the frontend automatically for the backend to serve, requiring only a browser page refresh.
+Changes to frontend code do not require container restarts or image rebuilds, only a few seconds and a page refresh. The changes under `client/lib` are automatically watched and the frontend code bundle rebuilt by webpack running in the frontend container. However, any changes outside `client/lib` – for example to `client/index.js` – need an image rebuild with `docker-compose up --build`.
 
 ### The Backend
 
@@ -28,7 +28,7 @@ In the future, other endpoints will need to be created to handle things like sem
 
 ### The Frontend
 
-The frontend code is located under `client` directory. As the frontend will consists of multiple javascript-files, stylesheets, and images, they must be bundled together and be served as static files for web browsers by the backend. For the build process, the frontend has a Docker container that runs [webpack](https://webpack.js.org/). Webpack places the finished bundle to a volume that is shared with the container running the backend. The backend serves the bundle and an HTML page defined in `server/templates/index.html`. When a user opens the page, the browser requests the bundle and other assets from the backend.
+The frontend code is located under `client` directory. As the frontend will consists of multiple javascript-files, stylesheets, and images, they must be bundled together and be served as static files by the backend. For the build process, the frontend has a Docker container that runs [webpack](https://webpack.js.org/). Webpack places the finished bundle to a volume that is shared with the container running the backend. In addition to the bundle, the backend serves an HTML page defined in `server/templates/index.html`. When a user opens the page, the browser requests the bundle and other assets from the backend.
 
 In the future there can be multiple frontends. Each frontend should have its own directory and build process to avoid unnecessary dependencies.
 
