@@ -11,6 +11,7 @@ services:
       STRATO_STATIC_FOLDER: /usr/src/static
     depends_on:
       - redis
+      - stratocumulus_client
     links:
       - redis:redis
     ports:
@@ -21,6 +22,7 @@ services:
     command: celery -A stratocumulus.client worker --loglevel=info
     volumes:
       - ./server:/usr/src/app
+      - static:/usr/src/static
     environment:
       STRATO_SECRET_KEY: bananarama
       STRATO_STATIC_FOLDER: /usr/src/static
@@ -30,6 +32,10 @@ services:
     links:
       - redis:redis
       - stratocumulus:stratocumulus
+
+  stratocumulus_client:
+    build: ./client/
+    command: npx webpack --watch
 
   redis:
     image: redis:latest
