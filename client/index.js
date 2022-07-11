@@ -2,6 +2,11 @@ const graphology = require('graphology')
 const graphologyLayout = require('graphology-layout')
 const graphologyForce = require('graphology-layout-force')
 const graphologyNoverlap = require('graphology-layout-noverlap')
+const config = require('./lib/config')
+
+const default_color = config.default_color
+const kind_color_map = config.kind_color_map
+const min_node_size = config.sizing.min_node_size
 
 let strata = {};
 let strata_trail = [];
@@ -10,19 +15,6 @@ let current_stratum = 0;
 let body = null;
 let minimap = null;
 
-let sizing = {
-    max_node_size: 100,
-    min_node_size: 10,
-    max_value: 100,
-    min_value: 10
-};
-
-let default_color = "#0868ac";
-let kind_color_map = {
-    genres: "#006d2c",
-    disciplines: "#e2aa00",
-    federations: "#810f7c"
-};
 let graph_timers = {};
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -178,7 +170,7 @@ function draw_graph(path, final=false) {
     strata[path].graph.forEachNode(function(key, attrs) {
         let n_id = key.replaceAll('/', '_');
         let n = $(`#${n_id}`);
-        let size = sizing.min_node_size;
+        let size = min_node_size;
         if (attrs.hasOwnProperty('size')) size = attrs.size;
         let n_x = attrs.x + (window.innerWidth / 2);
         let n_y = attrs.y + (window.innerHeight / 2);
