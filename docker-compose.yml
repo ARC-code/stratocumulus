@@ -6,6 +6,7 @@ services:
     command: gunicorn stratocumulus:app --worker-class gevent --reload --bind 0.0.0.0:8000
     volumes:
       - ./server:/usr/src/app
+      - static:/usr/src/static
     environment:
       STRATO_SECRET_KEY: bananarama
       STRATO_STATIC_FOLDER: /usr/src/static
@@ -36,6 +37,11 @@ services:
   stratocumulus_client:
     build: ./client/
     command: npx webpack --watch
+    volumes:
+      - static:/usr/src/client/dist
 
   redis:
     image: redis:latest
+
+volumes:
+  static:
