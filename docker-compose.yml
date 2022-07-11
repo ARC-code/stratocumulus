@@ -8,6 +8,7 @@ services:
       - ./server:/usr/src/app
     environment:
       STRATO_SECRET_KEY: bananarama
+      STRATO_STATIC_FOLDER: /usr/src/static
     depends_on:
       - redis
     links:
@@ -22,6 +23,7 @@ services:
       - ./server:/usr/src/app
     environment:
       STRATO_SECRET_KEY: bananarama
+      STRATO_STATIC_FOLDER: /usr/src/static
     depends_on:
       - redis
       - stratocumulus
