@@ -2,7 +2,7 @@ version: '3'
 
 services:
   stratocumulus:
-    build: ./
+    build: ./server/
     command: gunicorn stratocumulus:app --worker-class gevent --reload --bind 0.0.0.0:8000
     volumes:
       - ./server:/usr/src/app
@@ -19,7 +19,7 @@ services:
       - 80:8000
 
   stratocumulus_celery:
-    build: ./
+    build: ./server/
     command: celery -A stratocumulus.client worker --loglevel=info
     volumes:
       - ./server:/usr/src/app
