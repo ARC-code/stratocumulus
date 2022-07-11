@@ -15,5 +15,14 @@ module.exports = {
   // TODO switch to production for slower but more compact builds.
   mode: 'development',
   // TODO switch to 'source-map' for slow but production-quality source maps.
-  devtool: 'eval-source-map'
+  devtool: 'eval-source-map',
+
+  watchOptions: {
+    // Polling is necessary when watching via Docker mounted volume.
+    poll: 2000,
+    // Time before build after first change.
+    aggregateTimeout: 1000,
+    // Save CPU by skipping large directories.
+    ignored: ['**/node_modules']
+  }
 }

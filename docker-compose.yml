@@ -37,6 +37,7 @@ services:
   stratocumulus_client:
     build: ./client/
     volumes:
+      - ./client/lib:/usr/src/client/lib
       - static:/usr/src/client/dist
 
   redis:
