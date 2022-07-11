@@ -36,7 +36,6 @@ services:
 
   stratocumulus_client:
     build: ./client/
-    command: npx webpack --watch
     volumes:
       - static:/usr/src/client/dist
 
