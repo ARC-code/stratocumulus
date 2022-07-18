@@ -6,7 +6,9 @@ from flask_sse import sse
 from adapters import arc
 from celery import Celery
 
-app = Flask(__name__)
+app = Flask(__name__,
+            static_url_path='/static',
+            static_folder=os.environ['STRATO_STATIC_FOLDER'])
 app.secret_key = os.environ['STRATO_SECRET_KEY']
 app.config["REDIS_URL"] = "redis://redis"
 app.register_blueprint(sse, url_prefix='/stream')

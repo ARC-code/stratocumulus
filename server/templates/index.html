@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- IDEAS
+    * for brush selecting timeline: http://jsfiddle.net/a5j8u6wq/3/
+    -->
+
+    <meta charset="UTF-8">
+    <title>Stratocumulus</title>
+
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #minimap {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200px;
+            height: 100vh;
+            overflow-y: auto;
+            background-color: rgba(200, 200, 200, .5);
+            z-index: 500;
+        }
+
+        .minimap-img {
+            width: 200px;
+            margin-bottom: 10px;
+        }
+
+        .network {
+            width: 100%;
+            height: 100%;
+            border: 1px solid lightgray;
+            z-index: 100;
+        }
+
+        .node {
+            position: absolute;
+            z-index: 1000;
+            border: 1px solid lightgray;
+        }
+    </style>
+</head>
+<body>
+    <div id="minimap"></div>
+    <script type="text/javascript">
+      // Collect configuration and environment variables from
+      // the server to be accessed by the client app.
+      // This way we do not need to render server variables into client bundle.
+      window.stratocumulus = {
+        sseStreamUrl: "{{ url_for('sse.stream') }}",
+        sseStreamKey: "{{ key }}"
+      }
+    </script>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery.connections.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='stratocumulus-client.bundle.js') }}"></script>
+</body>
+</html>
