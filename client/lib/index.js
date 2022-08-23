@@ -112,56 +112,49 @@ function build_stratum(path, context, label, bg_color) {
 function perform_layout(path, final=false) {
 
     if (!final) {
-        strata[path].layout = graphologyLayout.circlepack(strata[path].graph, {
-            hierarchyAttributes: ['parent']
+        graphologyLayout.circlepack.assign(strata[path].graph, {
+            hierarchyAttributes: ['parent'],
+            center: 0,
+            scale: 1.1
         });
-
-        assign_positions(path);
     }
 
     if (final) {
-        /*
-        strata[path].graph.forEachNode(function(key, attrs) {
-            if(['Federations', 'Genres', 'Disciplines'].includes(attrs.label))
-                strata[path].graph.mergeNodeAttributes(key, {'fixed': true});
-        });
+        let rotations = {};
+        let rotation_degree = 0;
+        let zero_outliers_found = false;
 
-         */
-
-        strata[path].layout = graphologyForce(strata[path].graph, {
-            maxIterations: 10000,
-            settings: {
-                attraction: 0.01,
-                maxMove: 100
+        while (rotation_degree <= 340) {
+            let node_coords = strata[path].graph.mapNodes((node_id, node_attrs) => {
+                return [node_attrs.x + (window.innerWidth / 2), node_attrs.y + (window.innerHeight / 2)]
+            });
+            let outliers = 0;
+            for (const coord of node_coords) {
+                if (coord[0] < 0 || coord[0] > window.innerWidth || coord[1] < 0 || coord[1] > window.innerHeight)
+                    outliers += 1;
             }
-        });
+            rotations[outliers] = rotation_degree;
 
-        assign_positions(path);
+            if (rotation_degree > 0 || rotation_degree < 340)
+                graphologyLayout.rotation.assign(strata[path].graph, rotation_degree, {degrees: true, centeredOnZero: true});
 
+            if (outliers === 0) {
+                zero_outliers_found = true;
+                break;
+            } else
+                rotation_degree += 20;
+        }
 
-        strata[path].layout = graphologyNoverlap(strata[path].graph, {
-            maxIterations: 200,
-            settings: {
-                margin: 20,
-                //adjustSizes: true,
-                //gravity: 5,
-                //strongGravityMode: true
-            },
-        });
+        if (!zero_outliers_found) {
+            let fewest_outliers = Math.min(...Object.keys(rotations));
+            let best_rotation = rotations[fewest_outliers];
+            let degrees_to_rotate = best_rotation + (360 - rotation_degree);
 
-        assign_positions(path);
+            graphologyLayout.rotation.assign(strata[path].graph, degrees_to_rotate, {degrees: true});
+        }
     }
 
     draw_graph(path, final);
-}
-
-function assign_positions(path) {
-    for (let node_key in strata[path].layout) {
-        strata[path].graph.mergeNodeAttributes(
-            node_key,
-            strata[path].layout[node_key]
-        );
-    }
 }
 
 function draw_graph(path, final=false) {
@@ -173,9 +166,9 @@ function draw_graph(path, final=false) {
         let n = $(`#${n_id}`);
         let size = min_node_size;
         if (attrs.hasOwnProperty('size')) size = attrs.size;
-        let n_x = attrs.x + (window.innerWidth / 2);
-        let n_y = attrs.y + (window.innerHeight / 2);
-        let style_specs = `top: ${n_x}px; left: ${n_y}px; height: ${size}px; width: ${size}px; background-color: ${attrs.color};`;
+        let n_x = attrs.x + ( (window.innerWidth / 2) - (size / 2) );
+        let n_y = attrs.y + ( (window.innerHeight / 2) - (size / 2) );
+        let style_specs = `top: ${n_y}px; left: ${n_x}px; height: ${size}px; width: ${size}px; background-color: ${attrs.color};`;
         let data_attrs = "";
         for (let a in attrs) {
             data_attrs += `${a}=${attrs[a]};`
@@ -201,7 +194,6 @@ function draw_graph(path, final=false) {
 
 function fit_network(path) {
     if (strata.hasOwnProperty(path)) {
-        //strata[path].network.fit({animate: true});
         setTimeout(take_network_snapshot.bind(this, path), 1000);
     }
 }
