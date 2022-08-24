@@ -6,10 +6,10 @@ exports.sizing = {
     min_value: 10
 };
 
-exports.default_color = "#0868ac";
+exports.default_color = ["#43a2ca", "#0868ac"];
 
 exports.kind_color_map = {
-    genres: "#006d2c",
-    disciplines: "#e2aa00",
-    federations: "#810f7c"
+    genres: ["#2ca25f", "#006d2c"],
+    disciplines: ["#efb915", "#e2aa00"],
+    federations: ["#8856a7", "#810f7c"]
 };

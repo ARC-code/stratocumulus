@@ -11,15 +11,18 @@ const min_node_size = config.sizing.min_node_size
 
 let strata = {};
 let strata_trail = [];
+let global_context = {};
 let current_stratum = 0;
 
-let body = null;
+let sky = null;
 let minimap = null;
+let zoomer = null;
+let zoom_timer = null;
 
 let graph_timers = {};
 
 document.addEventListener('DOMContentLoaded', function () {
-    body = document.querySelector('body');
+    sky = document.querySelector('#sky');
     minimap = document.querySelector('#minimap');
 
     let graph_stream = new EventSource(stratocumulus.sseStreamUrl);
@@ -64,9 +67,9 @@ function build_stratum(path, context, label, bg_color) {
         let div_id = path.replaceAll('/', 'X');
         let network_div = document.createElement('div');
         network_div.id = div_id;
-        network_div.style.backgroundColor = bg_color;
+        //sky.style.backgroundColor = bg_color;
         network_div.className = "network";
-        body.appendChild(network_div);
+        sky.appendChild(network_div);
         network_div.scrollIntoView();
 
         strata[path] = {
@@ -163,22 +166,30 @@ function draw_graph(path, final=false) {
 
     strata[path].graph.forEachNode(function(key, attrs) {
         let n_id = key.replaceAll('/', '_');
+        let n_latch = $(`#${n_id}-latch`);
+        let n_label = $(`#${n_id}-label`);
         let n = $(`#${n_id}`);
         let size = min_node_size;
         if (attrs.hasOwnProperty('size')) size = attrs.size;
         let n_x = attrs.x + ( (window.innerWidth / 2) - (size / 2) );
         let n_y = attrs.y + ( (window.innerHeight / 2) - (size / 2) );
-        let style_specs = `top: ${n_y}px; left: ${n_x}px; height: ${size}px; width: ${size}px; background-color: ${attrs.color};`;
+        let latch_style_specs = `top: ${attrs.y + (window.innerHeight / 2)}px; left: ${attrs.x + (window.innerWidth / 2)}px;`;
+        let label_style_specs = latch_style_specs + ` font-size: ${size / 3}px; margin-top: -${(size / 3) / 2}px`;
+        let node_style_specs = `top: ${n_y}px; left: ${n_x}px; height: ${size}px; width: ${size}px; ${node_color_css(attrs.color)}`;
         let data_attrs = "";
         for (let a in attrs) {
-            data_attrs += `${a}=${attrs[a]};`
+            data_attrs += ` data-${a}="${attrs[a]}"`
         }
         if (!n.length) {
             div.append(`
-                        <div id="${n_id}" class="node" style="${style_specs}" data-attrs="${data_attrs}"></div>
+                        <div id="${n_id}-latch" class="latch" style="${latch_style_specs}"></div>
+                        <div id="${n_id}" class="node" style="${node_style_specs}"${data_attrs}></div>
+                        <span id="${n_id}-label" class="label" style="${label_style_specs}">${attrs.label}</span>
                     `);
         } else {
-            n.attr('style', style_specs);
+            n_latch.attr('style', latch_style_specs);
+            n_label.attr('style', label_style_specs);
+            n.attr('style', node_style_specs);
         }
     });
 
@@ -187,7 +198,13 @@ function draw_graph(path, final=false) {
         strata[path].graph.forEachEdge(function (edge_key, edge_attrs, source_key, target_key) {
             let source_id = source_key.replaceAll('/', '_');
             let target_id = target_key.replaceAll('/', '_');
-            $(`#${source_id}, #${target_id}`).connections();
+            $(`#${source_id}-latch, #${target_id}-latch`).connections({within: '#sky', class: 'edge'});
+        });
+
+        zoomer = panzoom(sky);
+        zoomer.on('transform', function(e) {
+            clearTimeout(zoom_timer);
+            zoom_timer = setTimeout(semantic_zoom, 1000);
         });
     }
 }
@@ -225,4 +242,20 @@ function take_network_snapshot(path) {
         }
         `
     }
+}
+
+function node_color_css(colors) {
+    return `background: -webkit-gradient(linear, left top, left bottom, from(${colors[0]}), to(${colors[1]})); background: -webkit-linear-gradient(top, ${colors[0]}, ${colors[1]}); background: -moz-linear-gradient(top, ${colors[0]}, ${colors[1]}); background: -ms-linear-gradient(top, ${colors[0]}, ${colors[1]}); background: -o-linear-gradient(top, ${colors[0]}, ${colors[1]});`;
+}
+
+function semantic_zoom() {
+    $('.node').each(function() {
+        let node = $(this);
+        let label = $(`#${node[0].id}-label`);
+        let rect = node[0].getBoundingClientRect();
+        if (rect.width >= 20) {
+            label.show();
+        } else
+            label.hide();
+    });
 }
