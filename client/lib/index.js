@@ -6,6 +6,7 @@ const graphologyNoverlap = require('graphology-layout-noverlap')
 const config = require('./config')
 const normalize_size = require('./normalize_size')
 const io = require('./io')
+const model = require('./model')
 
 const default_color = config.default_color
 const kind_color_map = config.kind_color_map
@@ -82,39 +83,26 @@ function build_stratum(path, context, label, bg_color) {
 
   // Begin listen events for the path.
   io.stream.on(path, function (subgraph) {
-    if (subgraph.hasOwnProperty('nodes')) {
-      subgraph.nodes.map(n => {
-        let attrs = {'label': n.label, x: 1, y: 1};
+    // Insert the subgraph received from the server.
+    const graph = strata[path].graph
+    model.graph.update(graph, subgraph)
 
-        if (n.hasOwnProperty('kind') && n.kind in kind_color_map) {
-            attrs['color'] = kind_color_map[n.kind];
-        } else {
-            attrs['color'] = default_color;
-        }
+    // Refresh the layout
+    perform_layout(path);
 
-        if (n.hasOwnProperty('value')) attrs['size'] = normalize_size(n.value);
-        if (n.hasOwnProperty('fixed')) attrs['fixed'] = n.fixed;
-        if (n.hasOwnProperty('parent')) attrs['parent'] = n.parent;
-
-        strata[subgraph.path].graph.addNode(n.id, attrs);
-      });
+    // Try to perform final layout after a moment
+    if (graph_timers[path]) {
+      clearTimeout(graph_timers[path]);
     }
-
-    if (subgraph.hasOwnProperty('edges')) {
-      subgraph.edges.map(e => strata[subgraph.path].graph.addEdge(e.from, e.to));
-    }
-
-    perform_layout(subgraph.path);
-
-    if (graph_timers.hasOwnProperty(subgraph.path)) {
-      clearTimeout(graph_timers[subgraph.path]);
-    }
-
-    graph_timers[subgraph.path] = setTimeout(fit_network.bind(this, subgraph.path), 3000);
+    graph_timers[path] = setTimeout(() => {
+      fit_network(path)
+    }, 3000);
   });
 
+  // Inform the server we are ready to receive the stratum.
   io.stream.sendStratumBuildJob(path, context)
 
+  // Track what strata we have built.
   strata_trail.push(path);
   current_stratum = strata_trail.length - 1;
 }
