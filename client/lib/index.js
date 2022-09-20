@@ -2,8 +2,10 @@ const graphology = require('graphology')
 const graphologyLayout = require('graphology-layout')
 const graphologyForce = require('graphology-layout-force')
 const graphologyNoverlap = require('graphology-layout-noverlap')
+
 const config = require('./config')
 const normalize_size = require('./normalize_size')
+const io = require('./io')
 
 const default_color = config.default_color
 const kind_color_map = config.kind_color_map
@@ -30,40 +32,10 @@ exports.start = function () {
   sky = document.querySelector('#sky');
   minimap = document.querySelector('#minimap');
 
-  let graph_stream = new EventSource(stratocumulus.sseStreamUrl);
-  graph_stream.addEventListener(stratocumulus.sseStreamKey, function(event) {
-      let subgraph = JSON.parse(event.data);
-      if (subgraph.hasOwnProperty('path') && strata.hasOwnProperty(subgraph.path)) {
-          if (subgraph.hasOwnProperty('nodes')) {
-              subgraph.nodes.map(n => {
-                  let attrs = {'label': n.label, x: 1, y: 1};
+  // Open SSE stream
+  io.stream.connect()
 
-                  if (n.hasOwnProperty('kind') && n.kind in kind_color_map) {
-                      attrs['color'] = kind_color_map[n.kind];
-                  } else {
-                      attrs['color'] = default_color;
-                  }
-
-                  if (n.hasOwnProperty('value')) attrs['size'] = normalize_size(n.value);
-                  if (n.hasOwnProperty('fixed')) attrs['fixed'] = n.fixed;
-                  if (n.hasOwnProperty('parent')) attrs['parent'] = n.parent;
-
-                  strata[subgraph.path].graph.addNode(n.id, attrs);
-              });
-          }
-          if (subgraph.hasOwnProperty('edges')) {
-              subgraph.edges.map(e => strata[subgraph.path].graph.addEdge(e.from, e.to));
-          }
-
-          perform_layout(subgraph.path);
-
-          if (graph_timers.hasOwnProperty(subgraph.path))
-              clearTimeout(graph_timers[subgraph.path]);
-
-          graph_timers[subgraph.path] = setTimeout(fit_network.bind(this, subgraph.path), 3000);
-      }
-  });
-
+  // Init first stratum
   build_stratum('/', {}, 'ARC', "#444444");
 };
 
@@ -108,13 +80,40 @@ function build_stratum(path, context, label, bg_color) {
       }
   });`
 
-  const http = new XMLHttpRequest()
-  let request_url = `/build_stratum?path=${path}`;
-  Object.keys(context).map(key => {
-     request_url += `&${key}=${context[key]}`;
+  // Begin listen events for the path.
+  io.stream.on(path, function (subgraph) {
+    if (subgraph.hasOwnProperty('nodes')) {
+      subgraph.nodes.map(n => {
+        let attrs = {'label': n.label, x: 1, y: 1};
+
+        if (n.hasOwnProperty('kind') && n.kind in kind_color_map) {
+            attrs['color'] = kind_color_map[n.kind];
+        } else {
+            attrs['color'] = default_color;
+        }
+
+        if (n.hasOwnProperty('value')) attrs['size'] = normalize_size(n.value);
+        if (n.hasOwnProperty('fixed')) attrs['fixed'] = n.fixed;
+        if (n.hasOwnProperty('parent')) attrs['parent'] = n.parent;
+
+        strata[subgraph.path].graph.addNode(n.id, attrs);
+      });
+    }
+
+    if (subgraph.hasOwnProperty('edges')) {
+      subgraph.edges.map(e => strata[subgraph.path].graph.addEdge(e.from, e.to));
+    }
+
+    perform_layout(subgraph.path);
+
+    if (graph_timers.hasOwnProperty(subgraph.path)) {
+      clearTimeout(graph_timers[subgraph.path]);
+    }
+
+    graph_timers[subgraph.path] = setTimeout(fit_network.bind(this, subgraph.path), 3000);
   });
-  http.open("GET", request_url)
-  http.send();
+
+  io.stream.sendStratumBuildJob(path, context)
 
   strata_trail.push(path);
   current_stratum = strata_trail.length - 1;
