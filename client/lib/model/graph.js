@@ -1,8 +1,18 @@
+const graphology = require('graphology')
+const graphologyLayout = require('graphology-layout')
+const graphologyForce = require('graphology-layout-force')
+const graphologyNoverlap = require('graphology-layout-noverlap')
+
 const config = require('../config')
 const normalize_size = require('../normalize_size')
 
 const kind_color_map = config.kind_color_map
 const default_color = config.default_color
+
+exports.create = function () {
+  // Create a new graph
+  return new graphology.Graph();
+}
 
 exports.update = function (graph, subgraph) {
   // Update the graph object with a subgraph received from the server.
@@ -37,5 +47,68 @@ exports.update = function (graph, subgraph) {
 
   if (subgraph.hasOwnProperty('edges')) {
     subgraph.edges.map(e => graph.addEdge(e.from, e.to));
+  }
+}
+
+exports.perform_layout = function (graph, final=false) {
+  // Apply layout to a graph.
+  //
+  // Parameters
+  //   graph
+  //     a graphology graph object. Will be modified.
+  //
+
+  if (!final) {
+    graphologyLayout.circlepack.assign(graph, {
+      hierarchyAttributes: ['parent'],
+      center: 0,
+      scale: 1.1
+    });
+  }
+
+  if (final) {
+    let rotations = {};
+    let rotation_degree = 0;
+    let zero_outliers_found = false;
+
+    while (rotation_degree <= 340) {
+      let node_coords = graph.mapNodes((node_id, node_attrs) => {
+        const x = node_attrs.x + (window.innerWidth / 2)
+        const y = node_attrs.y + (window.innerHeight / 2)
+        return [x, y]
+      });
+
+      // Find if some nodes are outside viewport
+      let outliers = 0;
+      const w = window.innerWidth
+      const h = window.innerHeight
+      for (const coord of node_coords) {
+        if (coord[0] < 0 || coord[0] > w || coord[1] < 0 || coord[1] > h) {
+          outliers += 1;
+        }
+      }
+      rotations[outliers] = rotation_degree;
+
+      if (rotation_degree > 0 || rotation_degree < 340) {
+        const opts = { degrees: true, centeredOnZero: true }
+        graphologyLayout.rotation.assign(graph, rotation_degree, opts);
+      }
+
+      if (outliers === 0) {
+        zero_outliers_found = true;
+        break;
+      } else {
+        rotation_degree += 20;
+      }
+    }
+
+    // If outliers were found, apply the rotation with least outliers
+    if (!zero_outliers_found) {
+      let fewest_outliers = Math.min(...Object.keys(rotations));
+      let best_rotation = rotations[fewest_outliers];
+      let degrees_to_rotate = best_rotation + (360 - rotation_degree);
+
+      graphologyLayout.rotation.assign(graph, degrees_to_rotate, {degrees: true});
+    }
   }
 }
