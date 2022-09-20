@@ -60,12 +60,29 @@ exports.draw_graph = function (path, graph, final=false) {
       $(`#${source_id}-latch, #${target_id}-latch`).connections({within: '#sky', class: 'edge'});
     });
   }
-}
 
-exports.semantic_zoom = function () {
+  // strata[path].network = new vis.Network(strata[path].div, strata[path].data, graph_options);
+  // strata[path].network.on("click", function(params) {
+  //     if (params.nodes.length > 0) {
+  //         let clicked_uri = params.nodes[0];
+  //         let node = strata[path].data.nodes.get(clicked_uri);
+  //         if (node.hasOwnProperty('kind')) {
+  //             console.log(clicked_uri);
+  //             let obj_id_regex = new RegExp("([^/]*)$", "gm");
+  //             let obj_id_match = obj_id_regex.exec(clicked_uri);
+  //             let obj_id = obj_id_match[1];
+  //             let new_context = Object.assign({}, strata[path].context);
+  //             new_context[f_{node.kind}.id] = obj_id;
+  //             build_stratum(clicked_uri, new_context, node.label, node.color);
+  //         }
+  //     }
+  // });
+};
+
+exports.refresh_labels = function (stratum) {
   // Show/hide labels depending node size
   //
-  $('.node').each(function() {
+  $(stratum.div).find('.node').each(function() {
     let node = $(this);
     let label = $(`#${node[0].id}-label`);
     let rect = node[0].getBoundingClientRect();
@@ -75,4 +92,4 @@ exports.semantic_zoom = function () {
       label.hide();
     }
   });
-}
+};
