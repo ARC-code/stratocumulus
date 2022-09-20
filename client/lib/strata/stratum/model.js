@@ -3,18 +3,18 @@ const graphologyLayout = require('graphology-layout')
 const graphologyForce = require('graphology-layout-force')
 const graphologyNoverlap = require('graphology-layout-noverlap')
 
-const config = require('../config')
-const normalize_size = require('../normalize_size')
+const config = require('../../config')
+const normalize_size = require('./normalize_size')
 
 const kind_color_map = config.kind_color_map
 const default_color = config.default_color
 
-exports.create = function () {
+exports.create_graph = function () {
   // Create a new graph
   return new graphology.Graph();
 }
 
-exports.update = function (graph, subgraph) {
+exports.update_graph = function (graph, subgraph) {
   // Update the graph object with a subgraph received from the server.
   //
   // Parameters:

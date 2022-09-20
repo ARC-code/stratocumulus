@@ -16,10 +16,20 @@ exports.start = function () {
   // DEBUG message to help dev to differentiate between:
   // - app bundle is ok but we are offline (ok message, no UI action)
   // - app bundle is broken (no message, no UI action)
-  console.log('Stratocumulus client started.')
+  console.log('Stratocumulus client started.');
 
   // Open SSE stream
-  io.stream.connect()
+  io.stream.connect();
+
+  // Our application state in a single object.
+  const state = {
+    strata: {},
+    strata_trail: [],
+    current_stratum: 0,
+    zoomer: null,
+    zoom_timer: null,
+    graph_timers: {}
+  };
 
   // Init first stratum
   build_stratum('/', {}, 'ARC', "#444444");

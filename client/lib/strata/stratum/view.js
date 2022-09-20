@@ -1,5 +1,5 @@
 const node_color_css = require('./node_color_css')
-const config = require('../config')
+const config = require('../../config')
 
 const min_node_size = config.sizing.min_node_size
 
