@@ -68,53 +68,56 @@ exports.start = function () {
 };
 
 function build_stratum(path, context, label, bg_color) {
-    if (!strata.hasOwnProperty(path)) {
-        let div_id = path.replaceAll('/', 'X');
-        let network_div = document.createElement('div');
-        network_div.id = div_id;
-        //sky.style.backgroundColor = bg_color;
-        network_div.className = "network";
-        sky.appendChild(network_div);
-        network_div.scrollIntoView();
+  if (strata.hasOwnProperty(path)) {
+    // Stratum already exists. No need to rebuild.
+    return
+  }
 
-        strata[path] = {
-            div: document.getElementById(div_id),
-            graph: new graphology.Graph(),
-            layout: null,
-            label: label,
-            image_src: null,
-            bg_color: bg_color,
-            context: Object.assign({}, context)
-        };
+  let div_id = path.replaceAll('/', 'X');
+  let network_div = document.createElement('div');
+  network_div.id = div_id;
+  //sky.style.backgroundColor = bg_color;
+  network_div.className = "network";
+  sky.appendChild(network_div);
+  network_div.scrollIntoView();
 
-        `strata[path].network = new vis.Network(strata[path].div, strata[path].data, graph_options);
-        strata[path].network.on("click", function(params) {
-            if (params.nodes.length > 0) {
-                let clicked_uri = params.nodes[0];
-                let node = strata[path].data.nodes.get(clicked_uri);
-                if (node.hasOwnProperty('kind')) {
-                    console.log(clicked_uri);
-                    let obj_id_regex = new RegExp("([^/]*)$", "gm");
-                    let obj_id_match = obj_id_regex.exec(clicked_uri);
-                    let obj_id = obj_id_match[1];
-                    let new_context = Object.assign({}, strata[path].context);
-                    new_context[f_{node.kind}.id] = obj_id;
-                    build_stratum(clicked_uri, new_context, node.label, node.color);
-                }
-            }
-        });`
+  strata[path] = {
+      div: document.getElementById(div_id),
+      graph: new graphology.Graph(),
+      layout: null,
+      label: label,
+      image_src: null,
+      bg_color: bg_color,
+      context: Object.assign({}, context)
+  };
 
-        const http = new XMLHttpRequest()
-        let request_url = `/build_stratum?path=${path}`;
-        Object.keys(context).map(key => {
-           request_url += `&${key}=${context[key]}`;
-        });
-        http.open("GET", request_url)
-        http.send();
+  `strata[path].network = new vis.Network(strata[path].div, strata[path].data, graph_options);
+  strata[path].network.on("click", function(params) {
+      if (params.nodes.length > 0) {
+          let clicked_uri = params.nodes[0];
+          let node = strata[path].data.nodes.get(clicked_uri);
+          if (node.hasOwnProperty('kind')) {
+              console.log(clicked_uri);
+              let obj_id_regex = new RegExp("([^/]*)$", "gm");
+              let obj_id_match = obj_id_regex.exec(clicked_uri);
+              let obj_id = obj_id_match[1];
+              let new_context = Object.assign({}, strata[path].context);
+              new_context[f_{node.kind}.id] = obj_id;
+              build_stratum(clicked_uri, new_context, node.label, node.color);
+          }
+      }
+  });`
 
-        strata_trail.push(path);
-        current_stratum = strata_trail.length - 1;
-    }
+  const http = new XMLHttpRequest()
+  let request_url = `/build_stratum?path=${path}`;
+  Object.keys(context).map(key => {
+     request_url += `&${key}=${context[key]}`;
+  });
+  http.open("GET", request_url)
+  http.send();
+
+  strata_trail.push(path);
+  current_stratum = strata_trail.length - 1;
 }
 
 function perform_layout(path, final=false) {
