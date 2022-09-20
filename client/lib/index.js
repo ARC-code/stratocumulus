@@ -21,46 +21,51 @@ let zoom_timer = null;
 
 let graph_timers = {};
 
-document.addEventListener('DOMContentLoaded', function () {
-    sky = document.querySelector('#sky');
-    minimap = document.querySelector('#minimap');
+exports.start = function () {
+  // DEBUG message to help dev to differentiate between:
+  // - app bundle is ok but we are offline (ok message, no UI action)
+  // - app bundle is broken (no message, no UI action)
+  console.log('Stratocumulus Client started.')
 
-    let graph_stream = new EventSource(stratocumulus.sseStreamUrl);
-    graph_stream.addEventListener(stratocumulus.sseStreamKey, function(event) {
-        let subgraph = JSON.parse(event.data);
-        if (subgraph.hasOwnProperty('path') && strata.hasOwnProperty(subgraph.path)) {
-            if (subgraph.hasOwnProperty('nodes')) {
-                subgraph.nodes.map(n => {
-                    let attrs = {'label': n.label, x: 1, y: 1};
+  sky = document.querySelector('#sky');
+  minimap = document.querySelector('#minimap');
 
-                    if (n.hasOwnProperty('kind') && n.kind in kind_color_map) {
-                        attrs['color'] = kind_color_map[n.kind];
-                    } else {
-                        attrs['color'] = default_color;
-                    }
+  let graph_stream = new EventSource(stratocumulus.sseStreamUrl);
+  graph_stream.addEventListener(stratocumulus.sseStreamKey, function(event) {
+      let subgraph = JSON.parse(event.data);
+      if (subgraph.hasOwnProperty('path') && strata.hasOwnProperty(subgraph.path)) {
+          if (subgraph.hasOwnProperty('nodes')) {
+              subgraph.nodes.map(n => {
+                  let attrs = {'label': n.label, x: 1, y: 1};
 
-                    if (n.hasOwnProperty('value')) attrs['size'] = normalize_size(n.value);
-                    if (n.hasOwnProperty('fixed')) attrs['fixed'] = n.fixed;
-                    if (n.hasOwnProperty('parent')) attrs['parent'] = n.parent;
+                  if (n.hasOwnProperty('kind') && n.kind in kind_color_map) {
+                      attrs['color'] = kind_color_map[n.kind];
+                  } else {
+                      attrs['color'] = default_color;
+                  }
 
-                    strata[subgraph.path].graph.addNode(n.id, attrs);
-                });
-            }
-            if (subgraph.hasOwnProperty('edges')) {
-                subgraph.edges.map(e => strata[subgraph.path].graph.addEdge(e.from, e.to));
-            }
+                  if (n.hasOwnProperty('value')) attrs['size'] = normalize_size(n.value);
+                  if (n.hasOwnProperty('fixed')) attrs['fixed'] = n.fixed;
+                  if (n.hasOwnProperty('parent')) attrs['parent'] = n.parent;
 
-            perform_layout(subgraph.path);
+                  strata[subgraph.path].graph.addNode(n.id, attrs);
+              });
+          }
+          if (subgraph.hasOwnProperty('edges')) {
+              subgraph.edges.map(e => strata[subgraph.path].graph.addEdge(e.from, e.to));
+          }
 
-            if (graph_timers.hasOwnProperty(subgraph.path))
-                clearTimeout(graph_timers[subgraph.path]);
+          perform_layout(subgraph.path);
 
-            graph_timers[subgraph.path] = setTimeout(fit_network.bind(this, subgraph.path), 3000);
-        }
-    });
+          if (graph_timers.hasOwnProperty(subgraph.path))
+              clearTimeout(graph_timers[subgraph.path]);
 
-    build_stratum('/', {}, 'ARC', "#444444");
-}, false);
+          graph_timers[subgraph.path] = setTimeout(fit_network.bind(this, subgraph.path), 3000);
+      }
+  });
+
+  build_stratum('/', {}, 'ARC', "#444444");
+};
 
 function build_stratum(path, context, label, bg_color) {
     if (!strata.hasOwnProperty(path)) {
