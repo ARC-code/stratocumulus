@@ -75,21 +75,23 @@ function build_stratum(path, context, label, bg_color) {
   // Begin listen events for the path.
   io.stream.on(path, function (subgraph) {
     // Insert the subgraph received from the server.
-    const graph = strata[path].graph
-    model.graph.update(graph, subgraph)
+    if (strata[path]) {
+      const graph = strata[path].graph
+      model.graph.update(graph, subgraph)
 
-    // Refresh the layout
-    model.graph.perform_layout(graph);
-    // Render the graph
-    view.graph.draw_graph(path, graph);
+      // Refresh the layout
+      model.graph.perform_layout(graph);
+      // Render the graph
+      view.graph.draw_graph(path, graph);
 
-    // Try to perform final layout after a moment
-    if (graph_timers[path]) {
-      clearTimeout(graph_timers[path]);
+      // Try to perform final layout after a moment
+      if (graph_timers[path]) {
+        clearTimeout(graph_timers[path]);
+      }
+      graph_timers[path] = setTimeout(() => {
+        fit_network(path)
+      }, 3000);
     }
-    graph_timers[path] = setTimeout(() => {
-      fit_network(path)
-    }, 3000);
   });
 
   // Inform the server we are ready to receive the stratum.
