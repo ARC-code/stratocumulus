@@ -63,22 +63,22 @@ function build_stratum(path, context, label, bg_color) {
       context: Object.assign({}, context)
   };
 
-  `strata[path].network = new vis.Network(strata[path].div, strata[path].data, graph_options);
-  strata[path].network.on("click", function(params) {
-      if (params.nodes.length > 0) {
-          let clicked_uri = params.nodes[0];
-          let node = strata[path].data.nodes.get(clicked_uri);
-          if (node.hasOwnProperty('kind')) {
-              console.log(clicked_uri);
-              let obj_id_regex = new RegExp("([^/]*)$", "gm");
-              let obj_id_match = obj_id_regex.exec(clicked_uri);
-              let obj_id = obj_id_match[1];
-              let new_context = Object.assign({}, strata[path].context);
-              new_context[f_{node.kind}.id] = obj_id;
-              build_stratum(clicked_uri, new_context, node.label, node.color);
-          }
-      }
-  });`
+  // strata[path].network = new vis.Network(strata[path].div, strata[path].data, graph_options);
+  // strata[path].network.on("click", function(params) {
+  //     if (params.nodes.length > 0) {
+  //         let clicked_uri = params.nodes[0];
+  //         let node = strata[path].data.nodes.get(clicked_uri);
+  //         if (node.hasOwnProperty('kind')) {
+  //             console.log(clicked_uri);
+  //             let obj_id_regex = new RegExp("([^/]*)$", "gm");
+  //             let obj_id_match = obj_id_regex.exec(clicked_uri);
+  //             let obj_id = obj_id_match[1];
+  //             let new_context = Object.assign({}, strata[path].context);
+  //             new_context[f_{node.kind}.id] = obj_id;
+  //             build_stratum(clicked_uri, new_context, node.label, node.color);
+  //         }
+  //     }
+  // });
 
   // Begin listen events for the path.
   io.stream.on(path, function (subgraph) {
