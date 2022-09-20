@@ -4,7 +4,7 @@ This is a very barebones, initial README intended to help a bit with initial dev
 
 ## Building and Running the App
 
-* Have Docker Desktop installed on your development machine and make sure it's running
+* Have [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed on your development machine and make sure it's running
 * In a terminal, navigate to this locally cloned repo directory (the same directory as docker-compose.yml) and issue this command: `docker-compose up`
 * Visit the prototype by opening a browser and navigating to [localhost](localhost)
 
