@@ -14,6 +14,8 @@ When making changes to code (including the HTML template file), those changes wo
 
 Changes to frontend code do not require container restarts or image rebuilds, only a few seconds and a page refresh. The changes under `client/lib` are automatically watched and the frontend code bundle rebuilt by webpack running in the frontend container. However, any changes outside `client/lib` – for example to `client/index.js` – need an image rebuild with `docker-compose up --build`.
 
+To inspect frontend build errors, see the console output of the frontend container via Docker Desktop.
+
 ### The Backend
 
 The backend for this app is located under `server` dir. It's a Flask app (Python) that makes use of a Celery task queue and a Redis message broker for handling Server Sent Events. It currently features three HTTP endpoints:
