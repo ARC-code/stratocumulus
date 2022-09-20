@@ -1,5 +1,6 @@
 const model = require('./model');
 const view = require('./view');
+const emitter = require('component-emitter');
 
 exports.build_stratum = function (path, context, label, bg_color) {
   // Create container for the stratum
@@ -27,6 +28,9 @@ exports.build_stratum = function (path, context, label, bg_color) {
     context: Object.assign({}, context),
     alive: true
   };
+
+  // Give stratum object emitter methods: on, off, emit
+  emitter(stratum);
 
   // Begin listen events for the path.
   let graph_timer = null;
