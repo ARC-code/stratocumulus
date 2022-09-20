@@ -21,13 +21,13 @@ exports.connect = function () {
   // Open a SSE stream and begin to listen to events.
   //
   if (graph_stream) {
-    // Stream already strated. No need to restart.
+    // Stream already started. No need to restart.
     return
   }
 
   // Open stream and begin listen all the events.
   graph_stream = new EventSource(stratocumulus.sseStreamUrl);
-  graph_stream.addEventListener(STREAM_KEY, function (ev) => {
+  graph_stream.addEventListener(STREAM_KEY, function (ev) {
     const data = JSON.parse(ev.data)
 
     // Check event format
@@ -43,9 +43,10 @@ exports.connect = function () {
         // In development, we like to know if this happens.
         console.warn('Received an event with unregisterd path: ' + path)
       }
+    } else {
+      // In development, we'd like to know if ev has no path.
+      console.warn('Unknown SSE event format detected', data)
     }
-
-    console.warn('Unknown SSE event format detected', data)
   })
 }
 
