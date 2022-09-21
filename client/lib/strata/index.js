@@ -1,5 +1,6 @@
 /* global panzoom */
 const stratumLib = require('./stratum');
+const tapspace = require('tapspace');
 
 exports.build = function () {
   // State - the global context.
@@ -10,6 +11,15 @@ exports.build = function () {
     current_stratum: 0,
     graph_timers: {}
   };
+
+  // Setup sky
+  // const sky = document.getElementById('sky');
+  // sky.style.backgroundColor = bg_color;
+
+  // Setup tapspace
+  const space = tapspace.create('#sky');
+  const view = space.getViewport();
+  const origin = space.createPlane();
 
   // TODO build more than single stratum
   const stratum = stratumLib.build_stratum('/', {}, 'ARC', '#444444');
