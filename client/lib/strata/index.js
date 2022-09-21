@@ -1,4 +1,4 @@
-const minimap = require('./minimap');
+/* global panzoom */
 const stratumLib = require('./stratum');
 
 exports.build = function () {
@@ -12,12 +12,12 @@ exports.build = function () {
   };
 
   // TODO build more than single stratum
-  const stratum = stratumLib.build_stratum('/', {}, 'ARC', "#444444");
+  const stratum = stratumLib.build_stratum('/', {}, 'ARC', '#444444');
 
   // Track what strata we have built.
   state.strata['/'] = stratum;
   state.strata_trail.push(stratum.path);
-  state.current_stratum = strata_trail.length - 1;
+  state.current_stratum = state.strata_trail.length - 1;
 
   stratum.once('final', () => {
     // Make zoomable after rendered
@@ -43,5 +43,5 @@ exports.build = function () {
     // TODO minimap.draw_minimap()
   });
 
-  return state
+  return state;
 };

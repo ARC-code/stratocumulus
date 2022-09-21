@@ -1,17 +1,18 @@
 const model = require('./model');
 const view = require('./view');
 const emitter = require('component-emitter');
+const io = require('../../io');
 
 exports.build_stratum = function (path, context, label, bg_color) {
   // Create container for the stratum
-  let div_id = path.replaceAll('/', 'X');
-  let network_div = document.createElement('div');
+  const div_id = path.replaceAll('/', 'X');
+  const network_div = document.createElement('div');
   network_div.id = div_id;
-  network_div.className = "network";
+  network_div.className = 'network';
 
   // Append to container
   const sky = document.getElementById('#sky');
-  //sky.style.backgroundColor = bg_color;
+  // sky.style.backgroundColor = bg_color;
   sky.appendChild(network_div);
 
   network_div.scrollIntoView();
@@ -60,10 +61,10 @@ exports.build_stratum = function (path, context, label, bg_color) {
   io.stream.sendStratumBuildJob(path, context);
 
   return stratum;
-}
+};
 
 exports.semantic_zoom = (stratum) => {
   if (stratum.alive) {
     view.refresh_labels(stratum);
   }
-}
+};

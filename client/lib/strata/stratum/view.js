@@ -1,9 +1,10 @@
-const node_color_css = require('./node_color_css')
-const config = require('../../config')
+/* global $ */
+const node_color_css = require('./node_color_css');
+const config = require('../../config');
 
-const min_node_size = config.sizing.min_node_size
+const min_node_size = config.sizing.min_node_size;
 
-exports.draw_graph = function (path, graph, final=false) {
+exports.draw_graph = function (path, graph, final = false) {
   // Render the graph. If elements already exist, update.
   //
   // Parameters:
@@ -14,28 +15,30 @@ exports.draw_graph = function (path, graph, final=false) {
   //   final
   //     boolean, set true to update edges
   //
-  let div_id = path.replaceAll('/', 'X');
-  let div = $(`#${div_id}`);
+  const div_id = path.replaceAll('/', 'X');
+  const div = $(`#${div_id}`);
 
-  graph.forEachNode(function(key, attrs) {
-    let n_id = key.replaceAll('/', '_');
-    let n_latch = $(`#${n_id}-latch`);
-    let n_label = $(`#${n_id}-label`);
-    let n = $(`#${n_id}`);
+  graph.forEachNode(function (key, attrs) {
+    const n_id = key.replaceAll('/', '_');
+    const n_latch = $(`#${n_id}-latch`);
+    const n_label = $(`#${n_id}-label`);
+    const n = $(`#${n_id}`);
+
+    const ww = window.innerWidth;
+    const wh = window.innerHeight;
 
     let size = min_node_size;
-    const ww = window.innerWidth
-    const wh = window.innerHeight
-    if (attrs.hasOwnProperty('size')) size = attrs.size;
-    let n_x = attrs.x + ( (ww / 2) - (size / 2) );
-    let n_y = attrs.y + ( (wh / 2) - (size / 2) );
-    let latch_style_specs = `top: ${attrs.y + (wh / 2)}px; left: ${attrs.x + (ww / 2)}px;`;
-    let label_style_specs = latch_style_specs + ` font-size: ${size / 3}px; margin-top: -${(size / 3) / 2}px`;
-    let node_style_specs = `top: ${n_y}px; left: ${n_x}px; height: ${size}px; width: ${size}px; ${node_color_css(attrs.color)}`;
+    if ('size' in attrs) size = attrs.size;
 
-    let data_attrs = "";
-    for (let a in attrs) {
-      data_attrs += ` data-${a}="${attrs[a]}"`
+    const n_x = attrs.x + ((ww / 2) - (size / 2));
+    const n_y = attrs.y + ((wh / 2) - (size / 2));
+    const latch_style_specs = `top: ${attrs.y + (wh / 2)}px; left: ${attrs.x + (ww / 2)}px;`;
+    const label_style_specs = latch_style_specs + ` font-size: ${size / 3}px; margin-top: -${(size / 3) / 2}px`;
+    const node_style_specs = `top: ${n_y}px; left: ${n_x}px; height: ${size}px; width: ${size}px; ${node_color_css(attrs.color)}`;
+
+    let data_attrs = '';
+    for (const a in attrs) {
+      data_attrs += ` data-${a}="${attrs[a]}"`;
     }
 
     if (!n.length) {
@@ -55,9 +58,12 @@ exports.draw_graph = function (path, graph, final=false) {
 
   if (final) {
     graph.forEachEdge(function (edge_key, edge_attrs, source_key, target_key) {
-      let source_id = source_key.replaceAll('/', '_');
-      let target_id = target_key.replaceAll('/', '_');
-      $(`#${source_id}-latch, #${target_id}-latch`).connections({within: '#sky', class: 'edge'});
+      const source_id = source_key.replaceAll('/', '_');
+      const target_id = target_key.replaceAll('/', '_');
+      $(`#${source_id}-latch, #${target_id}-latch`).connections({
+        within: '#sky',
+        class: 'edge'
+      });
     });
   }
 
@@ -82,10 +88,10 @@ exports.draw_graph = function (path, graph, final=false) {
 exports.refresh_labels = function (stratum) {
   // Show/hide labels depending node size
   //
-  $(stratum.div).find('.node').each(function() {
-    let node = $(this);
-    let label = $(`#${node[0].id}-label`);
-    let rect = node[0].getBoundingClientRect();
+  $(stratum.div).find('.node').each(function () {
+    const node = $(this);
+    const label = $(`#${node[0].id}-label`);
+    const rect = node[0].getBoundingClientRect();
     if (rect.width >= 20) {
       label.show();
     } else {

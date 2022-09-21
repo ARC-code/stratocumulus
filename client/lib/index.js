@@ -1,5 +1,5 @@
-const io = require('./io')
-const strata = require('./strata')
+const io = require('./io');
+const strata = require('./strata');
 
 exports.start = function () {
   // DEBUG message to help dev to differentiate between:
@@ -11,5 +11,5 @@ exports.start = function () {
   io.stream.connect();
 
   // Init first stratum
-  strata.build()
+  strata.build();
 };

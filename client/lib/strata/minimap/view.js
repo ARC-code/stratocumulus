@@ -1,5 +1,5 @@
 exports.draw_minimap = function () {
-  throw new Error('not implemented')
+  throw new Error('not implemented');
 
   // minimap = document.querySelector('#minimap');
   //
@@ -21,4 +21,4 @@ exports.draw_minimap = function () {
   //     minimap_image.className = "minimap-img";
   //     minimap_image_div.appendChild(minimap_image);
   // }
-}
+};
