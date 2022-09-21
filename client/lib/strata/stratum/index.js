@@ -11,7 +11,7 @@ exports.build_stratum = function (path, context, label, bg_color) {
   network_div.className = 'network';
 
   // Append to container
-  const sky = document.getElementById('#sky');
+  const sky = document.getElementById('sky');
   // sky.style.backgroundColor = bg_color;
   sky.appendChild(network_div);
 
@@ -21,7 +21,7 @@ exports.build_stratum = function (path, context, label, bg_color) {
   const stratum = {
     path: path,
     div: document.getElementById(div_id),
-    graph: model.graph.create(),
+    graph: model.create_graph(),
     layout: null,
     label: label,
     image_src: null,
@@ -38,7 +38,7 @@ exports.build_stratum = function (path, context, label, bg_color) {
   io.stream.on(path, function (subgraph) {
     // Insert the subgraph received from the server.
     if (stratum.alive) {
-      model.update(stratum.graph, subgraph);
+      model.update_graph(stratum.graph, subgraph);
 
       // Refresh the layout
       model.perform_layout(stratum.graph);
