@@ -3,7 +3,7 @@ const view = require('./view');
 const emitter = require('component-emitter');
 const io = require('../../io');
 
-exports.build_stratum = function (path, context, label, bg_color) {
+exports.build_stratum = function (path, context, label, bg_color, space) {
   // Parameters:
   //   path
   //     string, the stratum id
@@ -13,6 +13,8 @@ exports.build_stratum = function (path, context, label, bg_color) {
   //     string
   //   bg_color
   //     string, css color
+  //   space
+  //     a tapspace space on which to draw the graph
 
   // Build valid html-friendly id
   const div_id = path.replaceAll('/', 'X');

@@ -22,7 +22,7 @@ exports.build = function () {
   const origin = space.createPlane();
 
   // TODO build more than single stratum
-  const stratum = stratumLib.build_stratum('/', {}, 'ARC', '#444444');
+  const stratum = stratumLib.build_stratum('/', {}, 'ARC', '#444444', space);
 
   // Track what strata we have built.
   state.strata['/'] = stratum;
