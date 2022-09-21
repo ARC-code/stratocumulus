@@ -46,7 +46,7 @@ exports.build_stratum = function (path, context, label, bg_color) {
       // Refresh the layout
       model.perform_layout(stratum.graph);
       // Render the graph
-      view.draw_graph(path, stratum.graph);
+      view.draw_graph(stratum);
 
       // Try to perform final layout after a moment
       if (graph_timer) {
@@ -54,7 +54,7 @@ exports.build_stratum = function (path, context, label, bg_color) {
       }
       graph_timer = setTimeout(() => {
         model.perform_layout(stratum.graph, true);
-        view.draw_graph(path, stratum.graph, true);
+        view.draw_graph(stratum, true);
         stratum.emit('final');
       }, 3000);
     }

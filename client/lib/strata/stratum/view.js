@@ -31,21 +31,18 @@ exports.create_network_div = function (space, id) {
   return network_div;
 }
 
-exports.draw_graph = function (path, graph, final = false) {
+exports.draw_graph = function (stratum, final = false) {
   // Render the graph. If elements already exist, update.
   //
   // Parameters:
-  //   path
-  //     a string. The identity of the graph. We use it to construct elem ids.
-  //   graph
-  //     a graphology graph object
+  //   stratum
+  //     a stratum object with 'path', 'div', and 'graph' properties
   //   final
   //     boolean, set true to update edges
   //
-
-  // Stratum container
-  const div_id = path.replaceAll('/', 'X');
-  const div = $(`#${div_id}`);
+  const div_id = stratum.id
+  const path = stratum.path
+  const div = stratum.div
 
   graph.forEachNode(function (key, attrs) {
     const n_id = key.replaceAll('/', '_');
