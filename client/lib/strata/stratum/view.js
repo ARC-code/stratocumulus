@@ -1,24 +1,34 @@
 /* global $ */
 const node_color_css = require('./node_color_css');
 const config = require('../../config');
+const tapspace = require('tapspace');
 
 const min_node_size = config.sizing.min_node_size;
 
-exports.create_network_div = function (path) {
+exports.create_network_div = function (space, id) {
   // Create container for the stratum
-  const div_id = path.replaceAll('/', 'X');
-  const network_div = document.createElement('div');
-  network_div.id = div_id;
+  //
+  // Parameters:
+  //   space
+  //     a Tapspace space into which to add the network div.
+  //   id
+  //     string, a valid html id for the network div.
+  //
+  // Return
+  //   a HTMLElement with affine perk
+  //
+
+  // Space plane for content. Adds the plane to the space.
+  const network_plane = space.createPlane()
+
+  // Set element attributes so we can refer to the element.
+  const network_div = network_plane.getElement()
+  network_div.id = id;
   network_div.className = 'network';
 
-  // Append to container
-  const sky = document.getElementById('sky');
-  // sky.style.backgroundColor = bg_color;
-  sky.appendChild(network_div);
+  // network_div.scrollIntoView(); // TODO is necessary?
 
-  network_div.scrollIntoView(); // TODO is necessary?
-
-  return network_div
+  return network_div;
 }
 
 exports.draw_graph = function (path, graph, final = false) {

@@ -14,11 +14,14 @@ exports.build_stratum = function (path, context, label, bg_color) {
   //   bg_color
   //     string, css color
 
+  // Build valid html-friendly id
+  const div_id = path.replaceAll('/', 'X');
   // Create container for the stratum
-  const network_div = view.create_network_div(path)
+  const network_div = view.create_network_div(space, div_id)
 
   // Create stratum object
   const stratum = {
+    id: div_id,
     path: path,
     div: network_div,
     graph: model.create_graph(),
