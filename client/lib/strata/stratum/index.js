@@ -4,23 +4,23 @@ const emitter = require('component-emitter');
 const io = require('../../io');
 
 exports.build_stratum = function (path, context, label, bg_color) {
+  // Parameters:
+  //   path
+  //     string, the stratum id
+  //   context
+  //     object
+  //   label
+  //     string
+  //   bg_color
+  //     string, css color
+
   // Create container for the stratum
-  const div_id = path.replaceAll('/', 'X');
-  const network_div = document.createElement('div');
-  network_div.id = div_id;
-  network_div.className = 'network';
-
-  // Append to container
-  const sky = document.getElementById('sky');
-  // sky.style.backgroundColor = bg_color;
-  sky.appendChild(network_div);
-
-  network_div.scrollIntoView();
+  const network_div = view.create_network_div(path)
 
   // Create stratum object
   const stratum = {
     path: path,
-    div: document.getElementById(div_id),
+    div: network_div,
     graph: model.create_graph(),
     layout: null,
     label: label,

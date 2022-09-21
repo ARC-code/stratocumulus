@@ -4,6 +4,23 @@ const config = require('../../config');
 
 const min_node_size = config.sizing.min_node_size;
 
+exports.create_network_div = function (path) {
+  // Create container for the stratum
+  const div_id = path.replaceAll('/', 'X');
+  const network_div = document.createElement('div');
+  network_div.id = div_id;
+  network_div.className = 'network';
+
+  // Append to container
+  const sky = document.getElementById('sky');
+  // sky.style.backgroundColor = bg_color;
+  sky.appendChild(network_div);
+
+  network_div.scrollIntoView(); // TODO is necessary?
+
+  return network_div
+}
+
 exports.draw_graph = function (path, graph, final = false) {
   // Render the graph. If elements already exist, update.
   //
@@ -15,6 +32,8 @@ exports.draw_graph = function (path, graph, final = false) {
   //   final
   //     boolean, set true to update edges
   //
+
+  // Stratum container
   const div_id = path.replaceAll('/', 'X');
   const div = $(`#${div_id}`);
 
