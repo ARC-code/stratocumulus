@@ -1,9 +1,6 @@
 /* global $ */
-const node_color_css = require('./node_color_css');
-const config = require('../../config');
+const node_template = require('./node_template');
 const tapspace = require('tapspace');
-
-const min_node_size = config.sizing.min_node_size;
 
 exports.create_network_div = function (space, id) {
   // Create container for the stratum
@@ -40,56 +37,57 @@ exports.draw_graph = function (stratum, final = false) {
   //   final
   //     boolean, set true to update edges
   //
-  const div_id = stratum.id
-  const path = stratum.path
   const div = stratum.div;
+  const plane = div.affine;
+  const graph = stratum.graph;
 
   graph.forEachNode(function (key, attrs) {
     const n_id = key.replaceAll('/', '_');
-    const n_latch = $(`#${n_id}-latch`);
-    const n_label = $(`#${n_id}-label`);
-    const n = $(`#${n_id}`);
+    const n_el = document.getElementById(n_id);
 
-    const ww = window.innerWidth;
-    const wh = window.innerHeight;
+    const n_x = attrs.x;
+    const n_y = attrs.y;
 
-    let size = min_node_size;
-    if ('size' in attrs) size = attrs.size;
-
-    const n_x = attrs.x + ((ww / 2) - (size / 2));
-    const n_y = attrs.y + ((wh / 2) - (size / 2));
-    const latch_style_specs = `top: ${attrs.y + (wh / 2)}px; left: ${attrs.x + (ww / 2)}px;`;
-    const label_style_specs = latch_style_specs + ` font-size: ${size / 3}px; margin-top: -${(size / 3) / 2}px`;
-    const node_style_specs = `top: ${n_y}px; left: ${n_x}px; height: ${size}px; width: ${size}px; ${node_color_css(attrs.color)}`;
-
-    let data_attrs = '';
-    for (const a in attrs) {
-      data_attrs += ` data-${a}="${attrs[a]}"`;
-    }
-
-    if (!n.length) {
-      // Create node elements
-      div.append(`
-        <div id="${n_id}-latch" class="latch" style="${latch_style_specs}"></div>
-        <div id="${n_id}" class="node" style="${node_style_specs}"${data_attrs}></div>
-        <span id="${n_id}-label" class="label" style="${label_style_specs}">${attrs.label}</span>
-      `);
+    if (n_el) {
+      // Node exists. Update position.
+      n_el.affine.translateTo(plane.at(n_x, n_y));
     } else {
-      // Update node elements
-      n_latch.attr('style', latch_style_specs);
-      n_label.attr('style', label_style_specs);
-      n.attr('style', node_style_specs);
+      // No such node yet. Create.
+      const new_el = node_template(n_id, attrs);
+      const new_item = tapspace.element(new_el);
+      plane.add(new_item, plane.at(n_x, n_y));
     }
   });
 
   if (final) {
+    // Draw edges
     graph.forEachEdge(function (edge_key, edge_attrs, source_key, target_key) {
       const source_id = source_key.replaceAll('/', '_');
       const target_id = target_key.replaceAll('/', '_');
-      $(`#${source_id}-latch, #${target_id}-latch`).connections({
-        within: '#sky',
-        class: 'edge'
-      });
+      const edge_id = edge_key.replaceAll('/', '_');
+
+      const edge_el = document.getElementById(edge_id);
+
+      let edge_item;
+      if (edge_el) {
+        // Edge exists.
+        edge_item = edge_el.affine;
+      } else {
+        // No such edge yet. Create.
+        edge_item = tapspace.edge('white', {
+          id: edge_id,
+          className: 'edge'
+        });
+        plane.add(edge_item);
+      }
+
+      // Move edge to position. We need the nodes.
+      const source_el = document.getElementById(source_id);
+      const target_el = document.getElementById(target_id);
+      edge_item.setPoints(
+        source_el.affine.atAnchor(),
+        target_el.affine.atAnchor()
+      );
     });
   }
 
