@@ -19,17 +19,17 @@ exports.create_network_div = function (space, id) {
   //
 
   // Space plane for content. Adds the plane to the space.
-  const network_plane = space.createPlane()
+  const network_plane = space.createPlane();
 
   // Set element attributes so we can refer to the element.
-  const network_div = network_plane.getElement()
+  const network_div = network_plane.getElement();
   network_div.id = id;
   network_div.className = 'network';
 
   // network_div.scrollIntoView(); // TODO is necessary?
 
   return network_div;
-}
+};
 
 exports.draw_graph = function (stratum, final = false) {
   // Render the graph. If elements already exist, update.
@@ -42,7 +42,7 @@ exports.draw_graph = function (stratum, final = false) {
   //
   const div_id = stratum.id
   const path = stratum.path
-  const div = stratum.div
+  const div = stratum.div;
 
   graph.forEachNode(function (key, attrs) {
     const n_id = key.replaceAll('/', '_');

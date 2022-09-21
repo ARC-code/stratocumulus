@@ -17,7 +17,7 @@ exports.build_stratum = function (path, context, label, bg_color) {
   // Build valid html-friendly id
   const div_id = path.replaceAll('/', 'X');
   // Create container for the stratum
-  const network_div = view.create_network_div(space, div_id)
+  const network_div = view.create_network_div(space, div_id);
 
   // Create stratum object
   const stratum = {
