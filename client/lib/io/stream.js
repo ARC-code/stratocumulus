@@ -35,6 +35,7 @@ exports.connect = function () {
       const path = data.path;
 
       if (pathEmitter.hasListeners(path)) {
+        console.log('Received an event:', ev)
         // Handlers for the path are available.
         // Execute each handler function.
         pathEmitter.emit(path, data);
