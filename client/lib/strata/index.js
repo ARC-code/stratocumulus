@@ -1,4 +1,3 @@
-/* global panzoom */
 const stratumLib = require('./stratum');
 const tapspace = require('tapspace');
 
@@ -17,7 +16,8 @@ exports.build = function () {
   // sky.style.backgroundColor = bg_color;
 
   // Setup tapspace
-  const space = tapspace.create('#sky');
+  const sky = document.querySelector('#sky');
+  const space = tapspace.create(sky);
   const view = space.getViewport();
   const origin = space.createPlane();
 
@@ -31,17 +31,16 @@ exports.build = function () {
 
   stratum.once('final', () => {
     // Make zoomable after rendered
-    const sky = document.querySelector('#sky');
-    const zoomer = panzoom(sky);
+    view.pannable().zoomable();
 
     // Hide labels after zoom
-    let zoom_timer = null;
-    zoomer.on('transform', function (e) {
-      clearTimeout(zoom_timer);
-      zoom_timer = setTimeout(() => {
-        stratumLib.semantic_zoom(stratum);
-      }, 1000);
-    });
+    // let zoom_timer = null;
+    // zoomer.on('transform', function (e) {
+    //   clearTimeout(zoom_timer);
+    //   zoom_timer = setTimeout(() => {
+    //     stratumLib.semantic_zoom(stratum);
+    //   }, 1000);
+    // });
 
     // Fit view to the network
     // TODO
