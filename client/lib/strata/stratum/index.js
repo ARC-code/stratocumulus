@@ -68,8 +68,8 @@ exports.build_stratum = function (path, context, label, bg_color, space) {
   return stratum;
 };
 
-exports.semantic_zoom = (stratum) => {
+exports.semantic_zoom = (stratum, space) => {
   if (stratum.alive) {
-    view.refresh_labels(stratum);
+    view.refresh_labels(stratum, space);
   }
 };

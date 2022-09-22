@@ -36,24 +36,28 @@ exports.build = function () {
   // Center viewport to stratum.
   stratum.div.affine.translateTo(view.atCenter());
 
+  // Once the first stratum is rendered...
   stratum.once('final', () => {
     // DEBUG show final in console
     console.log('stratum ' + stratum.path + ' event: final');
 
+    // TODO Fit view to the network
+    // const stratum_plane = stratum.div.affine;
+    // stratum_plane.scaleToFit(view);
+
     // Make viewport zoomable after rendered
     view.pannable().zoomable();
 
-    // Hide labels after zoom
-    // let zoom_timer = null;
-    // zoomer.on('transform', function (e) {
-    //   clearTimeout(zoom_timer);
-    //   zoom_timer = setTimeout(() => {
-    //     stratumLib.semantic_zoom(stratum);
-    //   }, 1000);
-    // });
-
-    // Fit view to the network
-    // TODO
+    // Show/hide labels after zoom
+    stratumLib.semantic_zoom(stratum, space);
+    // TODO view.on('idle', () => { ... })
+    let zoom_timer = null;
+    view.capturer('wheel').on('wheel', () => {
+      clearTimeout(zoom_timer);
+      zoom_timer = setTimeout(() => {
+        stratumLib.semantic_zoom(stratum, space);
+      }, 500);
+    });
 
     // Take a snapshot
     // TODO

@@ -153,17 +153,32 @@ exports.draw_graph = function (stratum, final = false) {
   // });
 };
 
-exports.refresh_labels = function (stratum) {
-  // Show/hide labels depending node size
+exports.refresh_labels = function (stratum, space) {
+  // Show/hide labels depending on visible node size.
   //
-  $(stratum.div).find('.node').each(function () {
-    const node = $(this);
-    const label = $(`#${node[0].id}-label`);
-    const rect = node[0].getBoundingClientRect();
-    if (rect.width >= 20) {
-      label.show();
-    } else {
-      label.hide();
+  // Parameters:
+  //   stratum
+  //     a stratum object
+  //   space
+  //     a tapspace space, required for finding node size relative to viewport.
+  //
+  const stratum_plane = stratum.div.affine;
+  const nodes = stratum_plane.node_group.getChildren(); // HACKY
+
+  nodes.forEach((node) => {
+    // Determine node size on viewport.
+    const size = node.getWidth(); // a Distance on node
+    const sizeOnViewport = size.changeBasis(space).d;
+
+    // Show if large enough, ensure hidden otherwise.
+    const label = node.getElement().querySelector('.label');
+    // Check that label exists.
+    if (label) {
+      if (sizeOnViewport >= 20) {
+        label.style.display = 'inline';
+      } else {
+        label.style.display = 'none';
+      }
     }
   });
 };
