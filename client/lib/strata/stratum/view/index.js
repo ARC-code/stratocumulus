@@ -24,6 +24,18 @@ exports.create_network_div = function (space, id) {
   network_div.id = id;
   network_div.className = 'network';
 
+  // Create groups for nodes and edges
+  const node_group = new tapspace.components.Group();
+  const edge_group = new tapspace.components.Group();
+
+  // Add edge group first so they will be drawn first.
+  network_plane.add(edge_group);
+  network_plane.add(node_group);
+
+  // A sketchy way to refer to the groups later. TODO improve.
+  network_plane.edge_group = edge_group;
+  network_plane.node_group = node_group;
+
   // network_div.scrollIntoView(); // TODO is necessary?
 
   return network_div;
@@ -41,6 +53,9 @@ exports.draw_graph = function (stratum, final = false) {
   const div = stratum.div;
   const plane = div.affine;
   const graph = stratum.graph;
+
+  const edge_group = plane.edge_group;
+  const node_group = plane.node_group;
 
   graph.forEachNode(function (key, attrs) {
     const n_id = key.replaceAll('/', '_');
@@ -73,7 +88,7 @@ exports.draw_graph = function (stratum, final = false) {
           y: n_size / 2
         }
       });
-      plane.add(new_item, plane.at(n_x, n_y));
+      node_group.addChild(new_item, plane.at(n_x, n_y));
     }
   });
 
@@ -96,7 +111,7 @@ exports.draw_graph = function (stratum, final = false) {
           id: edge_id,
           className: 'edge'
         });
-        plane.add(edge_item);
+        edge_group.addChild(edge_item);
       }
 
       // Move edge to position. We need the nodes.
