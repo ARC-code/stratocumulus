@@ -84,10 +84,21 @@ exports.draw_graph = function (stratum, final = false) {
       // Move edge to position. We need the nodes.
       const source_el = document.getElementById(source_id);
       const target_el = document.getElementById(target_id);
-      edge_item.setPoints(
-        source_el.affine.atAnchor(),
-        target_el.affine.atAnchor()
-      );
+
+      // Ensure both exists and are affine
+      if (source_el && target_el) {
+        if (source_el.affine && target_el.affine) {
+          // Edge endpoints are valid tapspace elements.
+          edge_item.setPoints(
+            source_el.affine.atAnchor(),
+            target_el.affine.atAnchor()
+          );
+        } else {
+          console.error('Tried to create edge between non-tapspace elements.');
+        }
+      } else {
+        console.warn('Tried to create edge between non-existent elements.');
+      }
     });
   }
 
