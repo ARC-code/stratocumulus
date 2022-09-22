@@ -1,4 +1,4 @@
-const config = require('../../config');
+const config = require('../../../config');
 const min_node_size = config.sizing.min_node_size;
 
 module.exports = (attrs) => {
