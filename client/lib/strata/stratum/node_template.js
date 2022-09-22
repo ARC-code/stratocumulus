@@ -1,6 +1,5 @@
 const node_color_css = require('./node_color_css');
-const config = require('../../config');
-const min_node_size = config.sizing.min_node_size;
+const node_size = require('./node_size');
 
 const build_data_attrs = (attrs) => {
   // Build string for element data attributes
@@ -13,14 +12,8 @@ const build_data_attrs = (attrs) => {
   return data_attrs;
 };
 
-const get_size = (attrs) => {
-  let size = min_node_size;
-  if ('size' in attrs) size = attrs.size;
-  return size;
-};
-
 const build_node_style = (attrs) => {
-  const size = get_size(attrs);
+  const size = node_size(attrs);
   const style = `
     height: ${size}px;
     width: ${size}px;
