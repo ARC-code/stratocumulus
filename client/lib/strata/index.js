@@ -17,9 +17,13 @@ exports.build = function () {
 
   // Setup tapspace
   const sky = document.querySelector('#sky');
-  const space = tapspace.create(sky);
+  const space = tapspace.create(sky, {
+    size: { // TODO set in css
+      width: '100%',
+      height: '100%'
+    }
+  });
   const view = space.getViewport();
-  const origin = space.createPlane();
 
   // TODO build more than single stratum
   const stratum = stratumLib.build_stratum('/', {}, 'ARC', '#444444', space);
