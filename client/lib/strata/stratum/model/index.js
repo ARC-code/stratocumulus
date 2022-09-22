@@ -30,6 +30,13 @@ exports.update_graph = function (graph, subgraph) {
   //
   if ('nodes' in subgraph) {
     subgraph.nodes.forEach(n => {
+      // Ensure no such node exists yet.
+      // Server might send some nodes multiple times.
+      if (graph.hasNode(n.id)) {
+        console.warn(`Duplicate for node ${n.id} detected.`); // DEBUG
+        return;
+      }
+
       const attrs = { label: n.label, x: 1, y: 1 };
 
       if ('kind' in n && n.kind in kind_color_map) {
