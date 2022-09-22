@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack",
+    "lint": "semistandard \"lib/**/*.js\"",
     "test": "npm run lint"
   },
   "repository": {
