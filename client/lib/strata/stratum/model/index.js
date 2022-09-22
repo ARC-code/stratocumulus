@@ -5,7 +5,7 @@ const graphologyLayout = require('graphology-layout');
 
 const config = require('../../../config');
 const normalize_size = require('./normalize_size');
-const optimize_rotation = require('./optimize_rotation');
+// const optimize_rotation = require('./optimize_rotation');
 
 const kind_color_map = config.kind_color_map;
 const default_color = config.default_color;
@@ -59,15 +59,21 @@ exports.perform_layout = function (graph, final = false) {
   //     a graphology graph object. Will be modified.
   //
 
-  if (!final) {
-    graphologyLayout.circlepack.assign(graph, {
-      hierarchyAttributes: ['parent'],
-      center: 0,
-      scale: 1.1
-    });
-  }
+  graphologyLayout.circlepack.assign(graph, {
+    hierarchyAttributes: ['parent'],
+    center: 0,
+    scale: 1.1
+  });
 
-  if (final) {
-    optimize_rotation(graph);
-  }
+  // if (!final) {
+  //   graphologyLayout.circlepack.assign(graph, {
+  //     hierarchyAttributes: ['parent'],
+  //     center: 0,
+  //     scale: 1.1
+  //   });
+  // }
+  //
+  // if (final) {
+  //   optimize_rotation(graph);
+  // }
 };
