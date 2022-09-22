@@ -48,7 +48,8 @@ exports.draw_graph = function (stratum, final = false) {
 
     const n_x = attrs.x;
     const n_y = attrs.y;
-    const n_size = node_size(attrs);
+    const size_margin = 4;
+    const n_size = node_size(attrs) + size_margin;
 
     if (n_el) {
       // Node exists. Update position.

@@ -15,8 +15,10 @@ const build_data_attrs = (attrs) => {
 const build_node_style = (attrs) => {
   const size = node_size(attrs);
   const style = `
-    height: ${size}px;
+    left: 2px;
+    top: 2px;
     width: ${size}px;
+    height: ${size}px;
     ${node_color_css(attrs.color)}
   `;
   return style.trim();
