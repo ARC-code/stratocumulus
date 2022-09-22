@@ -31,8 +31,20 @@ const build_node_element = (id, attrs) => {
     data_attrs + '></div>';
 };
 
+const build_label_style = (attrs) => {
+  const size = node_size(attrs);
+  const style = `
+    font-size: ${size / 3}px;
+    margin-top: ${size / 6}px;
+    margin-left: ${size / 2}px;
+  `;
+  return style.trim();
+};
+
 const build_label_element = (id, attrs) => {
-  return `<span id="${id}-label" class="label">${attrs.label}</span>`;
+  const label_style = build_label_style(attrs)
+  return `<span id="${id}-label" class="label" ` +
+    `style="${label_style}">${attrs.label}</span>`;
 };
 
 module.exports = (id, attrs) => {
