@@ -33,6 +33,9 @@ exports.build = function () {
   state.strata_trail.push(stratum.path);
   state.current_stratum = state.strata_trail.length - 1;
 
+  // Center viewport to stratum.
+  stratum.div.affine.translateTo(view.atCenter());
+
   stratum.once('final', () => {
     // Make zoomable after rendered
     view.pannable().zoomable();
