@@ -3,7 +3,7 @@ const graphologyLayout = require('graphology-layout');
 // const graphologyForce = require('graphology-layout-force');
 // const graphologyNoverlap = require('graphology-layout-noverlap');
 
-const config = require('../../config');
+const config = require('../../../config');
 const normalize_size = require('./normalize_size');
 const optimize_rotation = require('./optimize_rotation');
 
