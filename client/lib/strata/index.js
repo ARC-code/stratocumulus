@@ -37,7 +37,10 @@ exports.build = function () {
   stratum.div.affine.translateTo(view.atCenter());
 
   stratum.once('final', () => {
-    // Make zoomable after rendered
+    // DEBUG show final in console
+    console.log('stratum ' + stratum.path + ' event: final');
+
+    // Make viewport zoomable after rendered
     view.pannable().zoomable();
 
     // Hide labels after zoom

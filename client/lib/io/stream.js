@@ -29,13 +29,13 @@ exports.connect = function () {
   graph_stream = new window.EventSource(STREAM_URL);
   graph_stream.addEventListener(STREAM_KEY, function (ev) {
     const data = JSON.parse(ev.data);
+    console.log('Received an event with data:', data);
 
     // Check event format
     if (data && data.path) {
       const path = data.path;
 
       if (pathEmitter.hasListeners(path)) {
-        console.log('Received an event:', ev);
         // Handlers for the path are available.
         // Execute each handler function.
         pathEmitter.emit(path, data);
