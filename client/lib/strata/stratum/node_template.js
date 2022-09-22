@@ -22,14 +22,20 @@ const build_node_style = (attrs) => {
   return style.trim();
 };
 
-module.exports = (id, attrs) => {
+const build_node_element = (id, attrs) => {
   const node_style = build_node_style(attrs);
   const data_attrs = build_data_attrs(attrs);
-  const node_el = `<div id="${id}" class="node" style="${node_style}"${data_attrs}></div>`;
-  const label_el = `<span id="${id}-label" class="label">${attrs.label}</span>`;
+  return `<div id="${id}-node" class="node" style="${node_style}"` +
+    data_attrs + '></div>';
+};
 
-  return `
-    ${node_el}
-    ${label_el}
-  `.trim();
+const build_label_element = (id, attrs) => {
+  return `<span id="${id}-label" class="label">${attrs.label}</span>`;
+};
+
+module.exports = (id, attrs) => {
+  const node_el = build_node_element(id, attrs);
+  const label_el = build_label_element(id, attrs);
+
+  return node_el + '\n' + label_el;
 };
