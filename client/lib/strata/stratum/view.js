@@ -1,5 +1,6 @@
 /* global $ */
 const node_template = require('./node_template');
+const node_size = require('./node_size');
 const tapspace = require('tapspace');
 
 exports.create_network_div = function (space, id) {
@@ -47,14 +48,30 @@ exports.draw_graph = function (stratum, final = false) {
 
     const n_x = attrs.x;
     const n_y = attrs.y;
+    const n_size = node_size(attrs);
 
     if (n_el) {
       // Node exists. Update position.
       n_el.affine.translateTo(plane.at(n_x, n_y));
+      // Update also size.
+      n_el.affine.setSize({
+        width: n_size,
+        height: n_size
+      });
     } else {
       // No such node yet. Create.
       const new_el = node_template(n_id, attrs);
-      const new_item = tapspace.element(new_el);
+      const new_item = tapspace.element(new_el, {
+        id: n_id,
+        size: {
+          width: n_size,
+          height: n_size
+        },
+        anchor: {
+          x: n_size / 2,
+          y: n_size / 2
+        }
+      });
       plane.add(new_item, plane.at(n_x, n_y));
     }
   });
