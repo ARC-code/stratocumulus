@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <title>Stratocumulus</title>
 
+    <link rel="stylesheet" href="{{ url_for('static', filename='tapspace.css') }}">
     <style>
         html, body {
             width: 100%;
@@ -50,6 +51,7 @@
             z-index: 1000;
             border: 1px solid lightgray;
             border-radius: 50%;
+            box-sizing: border-box;
         }
 
         .label {
@@ -83,8 +85,6 @@
       }
     </script>
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='jquery.connections.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='stratocumulus-client.bundle.js') }}"></script>
-    <script src='https://unpkg.com/panzoom@9.4.0/dist/panzoom.min.js'></script>
 </body>
 </html>

@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack",
+    "lint": "semistandard \"lib/**/*.js\"",
     "test": "npm run lint"
   },
   "repository": {
@@ -35,7 +36,8 @@
     "graphology": "^0.24.1",
     "graphology-layout": "^0.6.0",
     "graphology-layout-force": "^0.2.4",
-    "graphology-layout-noverlap": "^0.4.2"
+    "graphology-layout-noverlap": "^0.4.2",
+    "tapspace": "^2.0.0-alpha.1"
   },
   "devDependencies": {
     "semistandard": "^16.0.1",

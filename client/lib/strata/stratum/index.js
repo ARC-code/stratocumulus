@@ -3,24 +3,29 @@ const view = require('./view');
 const emitter = require('component-emitter');
 const io = require('../../io');
 
-exports.build_stratum = function (path, context, label, bg_color) {
-  // Create container for the stratum
+exports.build_stratum = function (path, context, label, bg_color, space) {
+  // Parameters:
+  //   path
+  //     string, the stratum id
+  //   context
+  //     object
+  //   label
+  //     string
+  //   bg_color
+  //     string, css color
+  //   space
+  //     a tapspace space on which to draw the graph
+
+  // Build valid html-friendly id
   const div_id = path.replaceAll('/', 'X');
-  const network_div = document.createElement('div');
-  network_div.id = div_id;
-  network_div.className = 'network';
-
-  // Append to container
-  const sky = document.getElementById('sky');
-  // sky.style.backgroundColor = bg_color;
-  sky.appendChild(network_div);
-
-  network_div.scrollIntoView();
+  // Create container for the stratum
+  const network_div = view.create_network_div(space, div_id);
 
   // Create stratum object
   const stratum = {
+    id: div_id,
     path: path,
-    div: document.getElementById(div_id),
+    div: network_div,
     graph: model.create_graph(),
     layout: null,
     label: label,
@@ -43,7 +48,7 @@ exports.build_stratum = function (path, context, label, bg_color) {
       // Refresh the layout
       model.perform_layout(stratum.graph);
       // Render the graph
-      view.draw_graph(path, stratum.graph);
+      view.draw_graph(stratum);
 
       // Try to perform final layout after a moment
       if (graph_timer) {
@@ -51,7 +56,7 @@ exports.build_stratum = function (path, context, label, bg_color) {
       }
       graph_timer = setTimeout(() => {
         model.perform_layout(stratum.graph, true);
-        view.draw_graph(path, stratum.graph, true);
+        view.draw_graph(stratum, true);
         stratum.emit('final');
       }, 3000);
     }
@@ -63,8 +68,8 @@ exports.build_stratum = function (path, context, label, bg_color) {
   return stratum;
 };
 
-exports.semantic_zoom = (stratum) => {
+exports.semantic_zoom = (stratum, space) => {
   if (stratum.alive) {
-    view.refresh_labels(stratum);
+    view.refresh_labels(stratum, space);
   }
 };
