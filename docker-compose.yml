@@ -3,7 +3,7 @@ version: '3'
 services:
   stratocumulus:
     build: ./server/
-    command: gunicorn stratocumulus:app --worker-class gevent --reload --bind 0.0.0.0:8000
+    command: gunicorn stratocumulus:app --log-level=info --worker-class gevent --reload --bind 0.0.0.0:8000
     volumes:
       - ./server:/usr/src/app
       - static:/usr/src/static
