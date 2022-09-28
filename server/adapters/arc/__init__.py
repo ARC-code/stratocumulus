@@ -18,15 +18,17 @@ redis_cache = redis.Redis(host="redis", decode_responses=True)
 #   redis cache key.
 # "context" is a dictionary containing GET variables passed to /build_stratum, containing information like the path and
 #   any facet/search specifications
-def build_stratum(channel, request_identifier, context={}, wait=0):
+def build_stratum(channel, cache_key, context={}, wait=0):
 
     # optional wait in seconds, as a way, for example,
     # to allow a browser time to subscribe
     sleep(wait)
 
-    # build skeleton for the stratum graph
+    # build initial skeleton for the stratum graph
     stratum_graph = {
         'path': context['path'],
+        'stage': 'initial',
+        'provenance': 'corpora',
         'nodes': [
             {'id': '/arc', 'label': 'ARC', 'fixed': True, 'value': 5000, 'parent': 'self'},
             {'id': '/arc/federations', 'label': 'Federations', 'value': 5000, 'parent': '/arc/federations'},
@@ -70,8 +72,21 @@ def build_stratum(channel, request_identifier, context={}, wait=0):
                 for edge in facet_subgraph['edges']:
                     stratum_graph['edges'].append(edge)
 
-    # cache the full stratum graph so we don't have to rebuild it every time!
-    redis_cache.set(request_identifier, json.dumps(stratum_graph))
+    # set the scope and provenance so we can cache the full stratum graph preventing us from having to rebuild it
+    # every time!
+    stratum_graph['stage'] = 'final'
+    stratum_graph['provenance'] = 'cache'
+    redis_cache.set(cache_key, json.dumps(stratum_graph))
+
+    # now that we've cached the full graph, let's declare the graph as fully built to the client so edges can be drawn,
+    # etc.
+    make_subgraph(channel, {
+        'path': context['path'],
+        'stage': 'final',
+        'provenance': 'corpora',
+        'nodes': [],
+        'edges': []
+    })
 
 
 async def build_facets(channel, path, facets, connected_to, query_params=None):
@@ -124,10 +139,11 @@ async def perform_facet_query(session, channel, path, facet, connected_to, facet
         return subgraphs
 
 
-
-def make_node(channel, path, uri, label, kind=None, value=None):
+def make_node(channel, path, uri, label, kind=None, value=None, stage='update', provenance='corpora'):
     subgraph = {
         'path': path,
+        'stage': stage,
+        'provenance': provenance,
         'nodes': [
             {
                 'id': uri,
@@ -146,9 +162,11 @@ def make_node(channel, path, uri, label, kind=None, value=None):
     return subgraph
 
 
-def make_nedge(channel, path, uri, label, from_uri, kind=None, value=None):
+def make_nedge(channel, path, uri, label, from_uri, kind=None, value=None, stage='update', provenance='corpora'):
     subgraph = {
         'path': path,
+        'stage': stage,
+        'provenance': provenance,
         'nodes': [
             {
                 'id': uri,
