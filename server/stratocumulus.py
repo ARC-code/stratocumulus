@@ -50,7 +50,8 @@ def build_stratum():
         wait = 2
 
     # check if we've already built this stratum before and cached the entire stratum's graph
-    cached_response = sse.redis.get(request.full_path)
+    cache_key = 'strato_cache_' + request.full_path
+    cached_response = sse.redis.get(cache_key)
     if cached_response:
         app.logger.info('got cached response')
         if wait:
@@ -61,7 +62,7 @@ def build_stratum():
     else:
         # since we haven't built this stratum before, we need to build it. this might involve some longer than ideal
         # HTTP requests, so we'll do our building asynchronously by launching a Celery task
-        launch_stratum_build_job.apply_async(args=[sess_key, request.full_path, request.args, wait])
+        launch_stratum_build_job.apply_async(args=[sess_key, cache_key, request.args, wait])
     return "Building."
 
 
@@ -89,8 +90,8 @@ def _get_strato_key():
 # pluggable via adapter style code. for now we only have ARC registered, so our asynchronous task here just calls the
 # "build_stratum" function belonging to the "arc" module
 @client.task
-def launch_stratum_build_job(key, request_identifier, context, wait):
-    arc.build_stratum(key, request_identifier, context, wait)
+def launch_stratum_build_job(session_key, cache_key, context, wait):
+    arc.build_stratum(session_key, cache_key, context, wait)
 
 
 if __name__ == '__main__':
