@@ -45,6 +45,18 @@ def build_stratum(channel, cache_key, context={}, wait=0):
     # publish the skeleton to the browser client immediately
     make_subgraph(channel, stratum_graph)
 
+    # to support faceting/filtering/searching, find any valid GET params passed in via "context" and add them to this
+    # "query_params" dict to pass along to the "build_facets" fuction
+    query_params = {}
+    for param in context.keys():
+        if param in [
+            'q',
+            'operator',
+            'es_debug',
+            'es_debug_query'
+        ] or param[:2] in ['q_', 't_', 'p_', 's_', 'f_', 'r_', 'w_', 'e_', 'a_']:
+            query_params[param] = context[param]
+
     # fire off the "build_facets" function asynchronously. it returns an array (one item per facet),
     # and each of those items are themselves arrays of subgraphs. we'll use these to constitute the full facet graph
     # for the purpose of caching
@@ -57,7 +69,8 @@ def build_stratum(channel, cache_key, context={}, wait=0):
             'genres',
             'disciplines',
         ],
-        '/arc'
+        '/arc',
+        query_params
     ))
 
     # now that we have an array of arrays of subgraphs, iterate over them and add each node and edge to the larger
@@ -89,7 +102,7 @@ def build_stratum(channel, cache_key, context={}, wait=0):
     })
 
 
-async def build_facets(channel, path, facets, connected_to, query_params=None):
+async def build_facets(channel, path, facets, connected_to, query_params={}):
     async with aiohttp.ClientSession() as session:
         queries = []
         for facet in facets:
@@ -126,70 +139,61 @@ async def perform_facet_query(session, channel, path, facet, connected_to, facet
 
             for agg_key, agg_count in data['meta']['aggregations'][facet].items():
                 node_parts = agg_key.split('|||')
+
+                node_attrs = {
+                    'id': "{connected_to}/{facet}/{id}".format(connected_to=connected_to, facet=facet, id=node_parts[0]),
+                    'label': node_parts[1],
+                    'parent': "{connected_to}/{facet}".format(connected_to=connected_to, facet=facet),
+                    'kind': facet,
+                    'value': agg_count,
+                    'facet_param': 'f_{facet}.id'.format(facet=facet),
+                    'facet_value': node_parts[0],
+                }
+
                 subgraphs.append(make_nedge(
                     channel,
                     path,
-                    "{connected_to}/{facet}/{id}".format(connected_to=connected_to, facet=facet, id=node_parts[0]),
-                    node_parts[1],
-                    "{connected_to}/{facet}".format(connected_to=connected_to, facet=facet),
-                    facet,
-                    agg_count
+                    node_attrs
                 ))
 
         return subgraphs
 
 
-def make_node(channel, path, uri, label, kind=None, value=None, stage='update', provenance='corpora'):
+def make_node(channel, path, node_attrs, stage='update', provenance='corpora'):
     subgraph = {
         'path': path,
         'stage': stage,
         'provenance': provenance,
         'nodes': [
-            {
-                'id': uri,
-                'label': label,
-            }
+            node_attrs
         ],
     }
-
-    if kind:
-        subgraph['nodes'][0]['kind'] = kind
-
-    if value:
-        subgraph['nodes'][0]['value'] = value
 
     make_subgraph(channel, subgraph)
     return subgraph
 
 
-def make_nedge(channel, path, uri, label, from_uri, kind=None, value=None, stage='update', provenance='corpora'):
-    subgraph = {
-        'path': path,
-        'stage': stage,
-        'provenance': provenance,
-        'nodes': [
-            {
-                'id': uri,
-                'label': label,
-                'parent': from_uri
-            }
-        ],
-        'edges': [
-            {
-                'from': from_uri,
-                'to': uri
-            }
-        ]
-    }
+def make_nedge(channel, path, node_attrs, stage='update', provenance='corpora'):
+    if 'id' in node_attrs and 'parent' in node_attrs:
 
-    if kind:
-        subgraph['nodes'][0]['kind'] = kind
+        subgraph = {
+            'path': path,
+            'stage': stage,
+            'provenance': provenance,
+            'nodes': [
+                node_attrs
+            ],
+            'edges': [
+                {
+                    'from': node_attrs['parent'],
+                    'to': node_attrs['id']
+                }
+            ]
+        }
 
-    if value:
-        subgraph['nodes'][0]['value'] = value
-
-    make_subgraph(channel, subgraph)
-    return subgraph
+        make_subgraph(channel, subgraph)
+        return subgraph
+    return {}
 
 
 def make_subgraph(channel, graph):
