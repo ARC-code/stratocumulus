@@ -48,6 +48,8 @@ exports.update_graph = function (graph, subgraph) {
       if ('value' in n) attrs.size = normalize_size(n.value);
       if ('fixed' in n) attrs.fixed = n.fixed;
       if ('parent' in n) attrs.parent = n.parent;
+      if ('facet_param' in n) attrs.facet_param = n.facet_param;
+      if ('facet_value' in n) attrs.facet_value = n.facet_value;
 
       graph.addNode(n.id, attrs);
     });

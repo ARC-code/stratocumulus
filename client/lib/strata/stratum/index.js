@@ -39,26 +39,21 @@ exports.build_stratum = function (path, context, label, bg_color, space) {
   emitter(stratum);
 
   // Begin listen events for the path.
-  let graph_timer = null;
   io.stream.on(path, function (subgraph) {
     // Insert the subgraph received from the server.
     if (stratum.alive) {
       model.update_graph(stratum.graph, subgraph);
 
-      // Refresh the layout
-      model.perform_layout(stratum.graph);
-      // Render the graph
-      view.draw_graph(stratum);
+      // Determine if final message for graph
+      let is_final = (subgraph.hasOwnProperty('stage') && subgraph.stage === 'final')
 
-      // Try to perform final layout after a moment
-      if (graph_timer) {
-        clearTimeout(graph_timer);
-      }
-      graph_timer = setTimeout(() => {
-        model.perform_layout(stratum.graph, true);
-        view.draw_graph(stratum, true);
-        stratum.emit('final');
-      }, 3000);
+      // Refresh the layout
+      model.perform_layout(stratum.graph, is_final);
+      // Render the graph
+      view.draw_graph(stratum, is_final);
+
+      // Emit 'final' event if last message
+      if (is_final) stratum.emit('final');
     }
   });
 
