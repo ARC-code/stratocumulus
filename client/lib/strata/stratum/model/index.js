@@ -24,7 +24,14 @@ exports.updateGraph = function (graph, subgraph) {
   //   subgraph
   //     object, received from the server, has optional properties:
   //       nodes
-  //         optional array of node objects
+  //         optional array of node objects. Each node object has properties:
+  //           id
+  //           label
+  //           value
+  //           fixed
+  //           parent
+  //           facet_param
+  //           facet_value
   //       edges
   //         optional array of edge objects
   //
