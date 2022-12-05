@@ -45,6 +45,15 @@ exports.build = function () {
     // Make viewport maintain the center under window resize
     view.responsive()
 
+    // Add basic zoom control
+    const zoomControl = new tapspace.components.ZoomControl({
+      scaleStep: 1.5
+    })
+    view.addControl(zoomControl)
+    zoomControl.match({
+      source: zoomControl.atBottomRight(),
+      target: view.atBottomRight().offset(-10, -10)
+    })
 
     // Show/hide labels after zoom
     stratumLib.semanticZoom(stratum, space)
