@@ -30,8 +30,8 @@ exports.createNetworkDiv = function (space, id) {
   edgeGroup.addClass('network-edges')
 
   // Add edge group first so they will be drawn first.
-  networkPlane.add(edgeGroup)
-  networkPlane.add(nodeGroup)
+  networkPlane.addChild(edgeGroup)
+  networkPlane.addChild(nodeGroup)
 
   // A sketchy way to refer to the groups later. TODO improve.
   networkPlane.edgeGroup = edgeGroup
