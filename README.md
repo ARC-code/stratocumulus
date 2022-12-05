@@ -8,13 +8,15 @@ This is a very barebones, initial README intended to help a bit with initial dev
 * In a terminal, navigate to this locally cloned repo directory (the same directory as docker-compose.yml) and issue this command: `docker-compose up`
 * Visit the prototype by opening a browser and navigating to [localhost](localhost)
 
-## Development Notes
+## Development Workflow
 
 When making changes to code (including the HTML template file), those changes won't reflect on the running application until you kill the Docker Compose stack by going to the terminal running the Docker app, hitting ctrl+c, and then restarting the stack by running `docker-compose up` again.
 
 Changes to frontend code do not require container restarts or image rebuilds, only a few seconds and a page refresh. The changes under `client/lib` are automatically watched and the frontend code bundle rebuilt by webpack running in the frontend container. However, any changes outside `client/lib` – for example to `client/index.js` – need an image rebuild with `docker-compose up --build`. Also, if you modify static files to be served by the backend, the volumes from where these static files are served need a reset with `docker-compose down --volumes`.
 
 To inspect frontend build errors, see the console output of the frontend container via Docker Desktop or in the terminal in which you are running `docker-compose`.
+
+To lint the frontend code to catch unused variables and other issues, cd to `client/` and run `npm run lint`. The frontend code should follow [JavaScript Standard Style](https://standardjs.com/).
 
 ### The Backend
 
