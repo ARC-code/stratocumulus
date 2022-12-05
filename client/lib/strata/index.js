@@ -41,8 +41,10 @@ exports.build = function () {
     // stratum_plane.scaleToFit(view)
 
     // Make viewport zoomable after rendered
-    view.pannable()
-    // Make viewport
+    view.zoomable()
+    // Make viewport maintain the center under window resize
+    view.responsive()
+
 
     // Show/hide labels after zoom
     stratumLib.semanticZoom(stratum, space)
