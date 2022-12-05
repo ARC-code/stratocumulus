@@ -95,11 +95,11 @@ exports.drawGraph = function (stratum, final = false) {
 
   if (final) {
     // Draw edges
-    graph.forEachEdge(function (edge_key, edge_attrs, source_key, target_key) {
+    graph.forEachEdge(function (edgeKey, edgeAttrs, sourceKey, targetKey) {
       // Prefixing all ids with path to prevent id collisions across strata
-      const sourceId = `${path}${source_key}`.replaceAll('/', '_')
-      const targetId = `${path}${target_key}`.replaceAll('/', '_')
-      const edgeId = `${path}${edge_key}`.replaceAll('/', '_')
+      const sourceId = `${path}${sourceKey}`.replaceAll('/', '_')
+      const targetId = `${path}${targetKey}`.replaceAll('/', '_')
+      const edgeId = `${path}${edgeKey}`.replaceAll('/', '_')
 
       const edgeEl = document.getElementById(edgeId)
 
