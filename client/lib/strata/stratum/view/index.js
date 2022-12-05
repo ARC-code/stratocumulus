@@ -16,16 +16,16 @@ exports.createNetworkDiv = function (space, id) {
   //
 
   // Space plane for content. Adds the plane to the space.
-  const networkPlane = space.createPlane()
+  const networkPlane = tapspace.createBasis()
 
   // Set element attributes so we can refer to the element.
   const networkDiv = networkPlane.getElement()
   networkDiv.id = id
-  networkDiv.className = 'network'
+  networkDiv.classList.add('network')
 
   // Create groups for nodes and edges
-  const nodeGroup = new tapspace.components.Group()
-  const edgeGroup = new tapspace.components.Group()
+  const nodeGroup = tapspace.createBasis()
+  const edgeGroup = tapspace.createBasis()
 
   // Add edge group first so they will be drawn first.
   networkPlane.add(edgeGroup)
@@ -35,9 +35,11 @@ exports.createNetworkDiv = function (space, id) {
   networkPlane.edgeGroup = edgeGroup
   networkPlane.nodeGroup = nodeGroup
 
+  space.addChild(networkPlane)
   // networkDiv.scrollIntoView() // TODO is necessary?
 
   return networkDiv
+
 }
 
 exports.drawGraph = function (stratum, final = false) {
@@ -78,17 +80,11 @@ exports.drawGraph = function (stratum, final = false) {
     } else {
       // No such node yet. Create.
       const newElem = nodeTemplate(nId, attrs)
-      const newItem = tapspace.element(newElem, {
-        id: nId,
-        size: {
-          width: nSize,
-          height: nSize
-        },
-        anchor: {
-          x: nSize / 2,
-          y: nSize / 2
-        }
-      })
+      const newItem = tapspace.createItem(newElem)
+      newItem.element.id = nId
+      newItem.setSize(nSize, nSize)
+      newItem.setAnchor(nSize / 2, nSize / 2)
+
       nodeGroup.addChild(newItem, plane.at(nx, ny))
     }
   })
@@ -109,10 +105,9 @@ exports.drawGraph = function (stratum, final = false) {
         edgeItem = edgeEl.affine
       } else {
         // No such edge yet. Create.
-        edgeItem = tapspace.edge('white', {
-          id: edgeId,
-          className: 'edge'
-        })
+        edgeItem = tapspace.createEdge('white')
+        edgeItem.addClass('edge')
+        edgeItem.element.id = edgeId // TODO setId
         edgeGroup.addChild(edgeItem)
       }
 
