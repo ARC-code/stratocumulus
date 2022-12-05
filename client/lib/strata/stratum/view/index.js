@@ -25,7 +25,9 @@ exports.createNetworkDiv = function (space, id) {
 
   // Create groups for nodes and edges
   const nodeGroup = tapspace.createBasis()
+  nodeGroup.addClass('network-nodes')
   const edgeGroup = tapspace.createBasis()
+  edgeGroup.addClass('network-edges')
 
   // Add edge group first so they will be drawn first.
   networkPlane.add(edgeGroup)
