@@ -1,4 +1,3 @@
-/* global $ */
 const nodeTemplate = require('./nodeTemplate')
 const nodeSize = require('./nodeSize')
 const tapspace = require('tapspace')
@@ -140,9 +139,9 @@ exports.drawGraph = function (stratum, final = false) {
     // Add click event for facetable nodes
     const facetableNodes = document.querySelectorAll('.node[data-facet_param]')
     const facetableClickHandler = (event) => {
-      let facetParam = event.target.getAttribute('data-facet_param')
-      let facetValue = event.target.getAttribute('data-facet_value')
-      let context = {}
+      const facetParam = event.target.getAttribute('data-facet_param')
+      const facetValue = event.target.getAttribute('data-facet_value')
+      const context = {}
       context[`f_${facetParam}`] = facetValue
       console.log(`To create the newly faceted stratum, I'm assuming we'd call "build_stratum" with the following params:
   path: "${event.target.id.replaceAll('_', '/')}"

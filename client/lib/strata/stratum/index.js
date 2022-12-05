@@ -45,7 +45,7 @@ exports.buildStratum = function (path, context, label, bgColor, space) {
       model.updateGraph(stratum.graph, subgraph)
 
       // Determine if final message for graph
-      let isFinal = (subgraph.hasOwnProperty('stage') && subgraph.stage === 'final')
+      const isFinal = ('stage' in subgraph && subgraph.stage === 'final')
 
       // Refresh the layout
       model.performLayout(stratum.graph, isFinal)
