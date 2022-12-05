@@ -5,51 +5,51 @@
 // the impact to this adapter code instead of rewriting the app.
 //
 
-const Emitter = require('component-emitter');
+const Emitter = require('component-emitter')
 
 // Get connection configuration etched to the html by the server.
-const STREAM_URL = window.stratocumulus.sseStreamUrl;
-const STREAM_KEY = window.stratocumulus.sseStreamKey;
+const STREAM_URL = window.stratocumulus.sseStreamUrl
+const STREAM_KEY = window.stratocumulus.sseStreamKey
 
 // Use only one stream; the singleton pattern.
-let graph_stream = null;
+let graphStream = null
 
 // Keep track what paths we listen.
-const pathEmitter = new Emitter();
+const pathEmitter = new Emitter()
 
 exports.connect = function () {
   // Open a SSE stream and begin to listen to events.
   //
-  if (graph_stream) {
+  if (graphStream) {
     // Stream already started. No need to restart.
-    return;
+    return
   }
 
   // Open stream and begin listen all the events.
-  graph_stream = new window.EventSource(STREAM_URL);
-  graph_stream.addEventListener(STREAM_KEY, function (ev) {
-    const data = JSON.parse(ev.data);
-    console.log('Received an event with data:', data);
+  graphStream = new window.EventSource(STREAM_URL)
+  graphStream.addEventListener(STREAM_KEY, function (ev) {
+    const data = JSON.parse(ev.data)
+    console.log('Received an event with data:', data)
 
     // Check event format
     if (data && data.path) {
-      const path = data.path;
+      const path = data.path
 
       if (pathEmitter.hasListeners(path)) {
         // Handlers for the path are available.
         // Execute each handler function.
-        pathEmitter.emit(path, data);
+        pathEmitter.emit(path, data)
       } else {
         // No handlers set for the path.
         // In development, we like to know if this happens.
-        console.warn('Received an event with unregisterd path: ' + path);
+        console.warn('Received an event with unregisterd path: ' + path)
       }
     } else {
       // In development, we'd like to know if ev has no path.
-      console.warn('Unknown SSE event format detected', data);
+      console.warn('Unknown SSE event format detected', data)
     }
-  });
-};
+  })
+}
 
 exports.on = function (path, handler) {
   // Register a path listener.
@@ -65,14 +65,14 @@ exports.on = function (path, handler) {
 
   // Validate
   if (typeof path !== 'string') {
-    throw new Error('Invalid path event to listen: ' + path);
+    throw new Error('Invalid path event to listen: ' + path)
   }
   if (typeof handler !== 'function') {
-    throw new Error('Invalid path event handler function: ' + handler);
+    throw new Error('Invalid path event handler function: ' + handler)
   }
 
-  pathEmitter.on(path, handler);
-};
+  pathEmitter.on(path, handler)
+}
 
 exports.off = function (path, handler) {
   // Unregister a path listener
@@ -86,11 +86,11 @@ exports.off = function (path, handler) {
   //
 
   if (typeof path !== 'string') {
-    throw new Error('Invalid path to unregister: ' + path);
+    throw new Error('Invalid path to unregister: ' + path)
   }
 
-  pathEmitter.off(path, handler);
-};
+  pathEmitter.off(path, handler)
+}
 
 exports.sendStratumBuildJob = function (path, context) {
   // Send a job to server to build a stratum.
@@ -103,15 +103,15 @@ exports.sendStratumBuildJob = function (path, context) {
   //     object to be converted into url query attributes ?key=value&...
   //
 
-  if (!graph_stream) {
-    throw new Error('No stream available.');
+  if (!graphStream) {
+    throw new Error('No stream available.')
   }
 
-  const http = new window.XMLHttpRequest();
-  let request_url = `/build_stratum?path=${path}`;
+  const http = new window.XMLHttpRequest()
+  let requestUrl = `/build_stratum?path=${path}`
   Object.keys(context).forEach(key => {
-    request_url += `&${key}=${context[key]}`;
-  });
-  http.open('GET', request_url);
-  http.send();
-};
+    requestUrl += `&${key}=${context[key]}`
+  })
+  http.open('GET', requestUrl)
+  http.send()
+}

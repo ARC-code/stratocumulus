@@ -1,21 +1,21 @@
-const graphology = require('graphology');
-const graphologyLayout = require('graphology-layout');
-// const graphologyForce = require('graphology-layout-force');
-// const graphologyNoverlap = require('graphology-layout-noverlap');
+const graphology = require('graphology')
+const graphologyLayout = require('graphology-layout')
+// const graphologyForce = require('graphology-layout-force')
+// const graphologyNoverlap = require('graphology-layout-noverlap')
 
-const config = require('../../../config');
-const normalize_size = require('./normalize_size');
-// const optimize_rotation = require('./optimize_rotation');
+const config = require('../../../config')
+const normalizeSize = require('./normalizeSize')
+// const optimizeRotation = require('./optimizeRotation')
 
-const kind_color_map = config.kind_color_map;
-const default_color = config.default_color;
+const kindColorMap = config.kindColorMap
+const defaultColor = config.defaultColor
 
-exports.create_graph = function () {
+exports.createGraph = function () {
   // Create a new graph
-  return new graphology.Graph();
-};
+  return new graphology.Graph()
+}
 
-exports.update_graph = function (graph, subgraph) {
+exports.updateGraph = function (graph, subgraph) {
   // Update the graph object with a subgraph received from the server.
   //
   // Parameters:
@@ -24,7 +24,14 @@ exports.update_graph = function (graph, subgraph) {
   //   subgraph
   //     object, received from the server, has optional properties:
   //       nodes
-  //         optional array of node objects
+  //         optional array of node objects. Each node object has properties:
+  //           id
+  //           label
+  //           value
+  //           fixed
+  //           parent
+  //           facet_param
+  //           facet_value
   //       edges
   //         optional array of edge objects
   //
@@ -33,32 +40,34 @@ exports.update_graph = function (graph, subgraph) {
       // Ensure no such node exists yet.
       // Server might send some nodes multiple times.
       if (graph.hasNode(n.id)) {
-        console.warn(`Duplicate for node ${n.id} detected.`); // DEBUG
-        return;
+        console.warn(`Duplicate for node ${n.id} detected.`) // DEBUG
+        return
       }
 
-      const attrs = { label: n.label, x: 1, y: 1 };
+      const attrs = { label: n.label, x: 1, y: 1 }
 
-      if ('kind' in n && n.kind in kind_color_map) {
-        attrs.color = kind_color_map[n.kind];
+      if ('kind' in n && n.kind in kindColorMap) {
+        attrs.color = kindColorMap[n.kind]
       } else {
-        attrs.color = default_color;
+        attrs.color = defaultColor
       }
 
-      if ('value' in n) attrs.size = normalize_size(n.value);
-      if ('fixed' in n) attrs.fixed = n.fixed;
-      if ('parent' in n) attrs.parent = n.parent;
+      if ('value' in n) attrs.size = normalizeSize(n.value)
+      if ('fixed' in n) attrs.fixed = n.fixed
+      if ('parent' in n) attrs.parent = n.parent
+      if ('facet_param' in n) attrs.facet_param = n.facet_param
+      if ('facet_value' in n) attrs.facet_value = n.facet_value
 
-      graph.addNode(n.id, attrs);
-    });
+      graph.addNode(n.id, attrs)
+    })
   }
 
   if ('edges' in subgraph) {
-    subgraph.edges.forEach(e => graph.addEdge(e.from, e.to));
+    subgraph.edges.forEach(e => graph.addEdge(e.from, e.to))
   }
-};
+}
 
-exports.perform_layout = function (graph, final = false) {
+exports.performLayout = function (graph, final = false) {
   // Apply layout to a graph.
   //
   // Parameters
@@ -70,17 +79,17 @@ exports.perform_layout = function (graph, final = false) {
     hierarchyAttributes: ['parent'],
     center: 0,
     scale: 1.1
-  });
+  })
 
   // if (!final) {
   //   graphologyLayout.circlepack.assign(graph, {
   //     hierarchyAttributes: ['parent'],
   //     center: 0,
   //     scale: 1.1
-  //   });
+  //   })
   // }
   //
   // if (final) {
-  //   optimize_rotation(graph);
+  //   optimizeRotation(graph)
   // }
-};
+}

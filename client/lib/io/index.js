@@ -1,1 +1,1 @@
-exports.stream = require('./stream');
+exports.stream = require('./stream')
