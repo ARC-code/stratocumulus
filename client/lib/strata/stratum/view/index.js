@@ -185,7 +185,7 @@ exports.refreshLabels = function (stratum, space) {
   nodes.forEach((node) => {
     // Determine node size on viewport.
     const size = node.getWidth() // a Distance on node
-    const sizeOnViewport = size.changeBasis(space).d
+    const sizeOnViewport = size.changeBasis(space).getRaw()
 
     // Show if large enough, ensure hidden otherwise.
     const label = node.getElement().querySelector('.label')
