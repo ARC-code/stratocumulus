@@ -1,5 +1,5 @@
 const config = require('../../../config');
-const min_node_size = config.sizing.min_node_size;
+const minNodeSize = config.sizing.minNodeSize;
 
 module.exports = (attrs) => {
   // Get preferred visible node size from graph node attributes.
@@ -7,7 +7,7 @@ module.exports = (attrs) => {
   // Return
   //   a number
   //
-  let size = min_node_size;
+  let size = minNodeSize;
   if ('size' in attrs) size = attrs.size;
   return size;
 };

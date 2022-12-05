@@ -6,14 +6,14 @@ exports.build = function () {
   // Our application state in a single object.
   const state = {
     strata: {},
-    strata_trail: [],
-    current_stratum: 0,
-    graph_timers: {}
+    strataTrail: [],
+    currentStratum: 0,
+    graphTimers: {}
   };
 
   // Setup sky
   // const sky = document.getElementById('sky');
-  // sky.style.backgroundColor = bg_color;
+  // sky.style.backgroundColor = bgColor;
 
   // Setup tapspace
   const sky = document.querySelector('#sky');
@@ -26,12 +26,12 @@ exports.build = function () {
   const view = space.getViewport();
 
   // TODO build more than single stratum
-  const stratum = stratumLib.build_stratum('/', {}, 'ARC', '#444444', space);
+  const stratum = stratumLib.buildStratum('/', {}, 'ARC', '#444444', space);
 
   // Track what strata we have built.
   state.strata['/'] = stratum;
-  state.strata_trail.push(stratum.path);
-  state.current_stratum = state.strata_trail.length - 1;
+  state.strataTrail.push(stratum.path);
+  state.currentStratum = state.strataTrail.length - 1;
 
   // Center viewport to stratum.
   stratum.div.affine.translateTo(view.atCenter());
@@ -49,13 +49,13 @@ exports.build = function () {
     view.pannable().zoomable();
 
     // Show/hide labels after zoom
-    stratumLib.semantic_zoom(stratum, space);
+    stratumLib.semanticZoom(stratum, space);
     // TODO view.on('idle', () => { ... })
-    let zoom_timer = null;
+    let zoomTimer = null;
     view.capturer('wheel').on('wheel', () => {
-      clearTimeout(zoom_timer);
-      zoom_timer = setTimeout(() => {
-        stratumLib.semantic_zoom(stratum, space);
+      clearTimeout(zoomTimer);
+      zoomTimer = setTimeout(() => {
+        stratumLib.semanticZoom(stratum, space);
       }, 500);
     });
 

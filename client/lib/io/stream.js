@@ -12,7 +12,7 @@ const STREAM_URL = window.stratocumulus.sseStreamUrl;
 const STREAM_KEY = window.stratocumulus.sseStreamKey;
 
 // Use only one stream; the singleton pattern.
-let graph_stream = null;
+let graphStream = null;
 
 // Keep track what paths we listen.
 const pathEmitter = new Emitter();
@@ -20,14 +20,14 @@ const pathEmitter = new Emitter();
 exports.connect = function () {
   // Open a SSE stream and begin to listen to events.
   //
-  if (graph_stream) {
+  if (graphStream) {
     // Stream already started. No need to restart.
     return;
   }
 
   // Open stream and begin listen all the events.
-  graph_stream = new window.EventSource(STREAM_URL);
-  graph_stream.addEventListener(STREAM_KEY, function (ev) {
+  graphStream = new window.EventSource(STREAM_URL);
+  graphStream.addEventListener(STREAM_KEY, function (ev) {
     const data = JSON.parse(ev.data);
     console.log('Received an event with data:', data);
 
@@ -103,15 +103,15 @@ exports.sendStratumBuildJob = function (path, context) {
   //     object to be converted into url query attributes ?key=value&...
   //
 
-  if (!graph_stream) {
+  if (!graphStream) {
     throw new Error('No stream available.');
   }
 
   const http = new window.XMLHttpRequest();
-  let request_url = `/build_stratum?path=${path}`;
+  let requestUrl = `/build_stratum?path=${path}`;
   Object.keys(context).forEach(key => {
-    request_url += `&${key}=${context[key]}`;
+    requestUrl += `&${key}=${context[key]}`;
   });
-  http.open('GET', request_url);
+  http.open('GET', requestUrl);
   http.send();
 };

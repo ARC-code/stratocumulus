@@ -4,18 +4,18 @@ const graphologyLayout = require('graphology-layout');
 // const graphologyNoverlap = require('graphology-layout-noverlap');
 
 const config = require('../../../config');
-const normalize_size = require('./normalize_size');
-// const optimize_rotation = require('./optimize_rotation');
+const normalizeSize = require('./normalizeSize');
+// const optimizeRotation = require('./optimizeRotation');
 
-const kind_color_map = config.kind_color_map;
-const default_color = config.default_color;
+const kindColorMap = config.kindColorMap;
+const defaultColor = config.defaultColor;
 
-exports.create_graph = function () {
+exports.createGraph = function () {
   // Create a new graph
   return new graphology.Graph();
 };
 
-exports.update_graph = function (graph, subgraph) {
+exports.updateGraph = function (graph, subgraph) {
   // Update the graph object with a subgraph received from the server.
   //
   // Parameters:
@@ -39,13 +39,13 @@ exports.update_graph = function (graph, subgraph) {
 
       const attrs = { label: n.label, x: 1, y: 1 };
 
-      if ('kind' in n && n.kind in kind_color_map) {
-        attrs.color = kind_color_map[n.kind];
+      if ('kind' in n && n.kind in kindColorMap) {
+        attrs.color = kindColorMap[n.kind];
       } else {
-        attrs.color = default_color;
+        attrs.color = defaultColor;
       }
 
-      if ('value' in n) attrs.size = normalize_size(n.value);
+      if ('value' in n) attrs.size = normalizeSize(n.value);
       if ('fixed' in n) attrs.fixed = n.fixed;
       if ('parent' in n) attrs.parent = n.parent;
       if ('facet_param' in n) attrs.facet_param = n.facet_param;
@@ -60,7 +60,7 @@ exports.update_graph = function (graph, subgraph) {
   }
 };
 
-exports.perform_layout = function (graph, final = false) {
+exports.performLayout = function (graph, final = false) {
   // Apply layout to a graph.
   //
   // Parameters
@@ -83,6 +83,6 @@ exports.perform_layout = function (graph, final = false) {
   // }
   //
   // if (final) {
-  //   optimize_rotation(graph);
+  //   optimizeRotation(graph);
   // }
 };

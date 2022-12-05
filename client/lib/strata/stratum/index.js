@@ -3,7 +3,7 @@ const view = require('./view');
 const emitter = require('component-emitter');
 const io = require('../../io');
 
-exports.build_stratum = function (path, context, label, bg_color, space) {
+exports.buildStratum = function (path, context, label, bgColor, space) {
   // Parameters:
   //   path
   //     string, the stratum id
@@ -11,26 +11,26 @@ exports.build_stratum = function (path, context, label, bg_color, space) {
   //     object
   //   label
   //     string
-  //   bg_color
+  //   bgColor
   //     string, css color
   //   space
   //     a tapspace space on which to draw the graph
 
   // Build valid html-friendly id
-  const div_id = path.replaceAll('/', 'X');
+  const divId = path.replaceAll('/', 'X');
   // Create container for the stratum
-  const network_div = view.create_network_div(space, div_id);
+  const networkDiv = view.createNetworkDiv(space, divId);
 
   // Create stratum object
   const stratum = {
-    id: div_id,
+    id: divId,
     path: path,
-    div: network_div,
-    graph: model.create_graph(),
+    div: networkDiv,
+    graph: model.createGraph(),
     layout: null,
     label: label,
-    image_src: null,
-    bg_color: bg_color,
+    imageSrc: null,
+    bgColor: bgColor,
     context: Object.assign({}, context),
     alive: true
   };
@@ -42,18 +42,18 @@ exports.build_stratum = function (path, context, label, bg_color, space) {
   io.stream.on(path, function (subgraph) {
     // Insert the subgraph received from the server.
     if (stratum.alive) {
-      model.update_graph(stratum.graph, subgraph);
+      model.updateGraph(stratum.graph, subgraph);
 
       // Determine if final message for graph
-      let is_final = (subgraph.hasOwnProperty('stage') && subgraph.stage === 'final')
+      let isFinal = (subgraph.hasOwnProperty('stage') && subgraph.stage === 'final')
 
       // Refresh the layout
-      model.perform_layout(stratum.graph, is_final);
+      model.performLayout(stratum.graph, isFinal);
       // Render the graph
-      view.draw_graph(stratum, is_final);
+      view.drawGraph(stratum, isFinal);
 
       // Emit 'final' event if last message
-      if (is_final) stratum.emit('final');
+      if (isFinal) stratum.emit('final');
     }
   });
 
@@ -63,8 +63,8 @@ exports.build_stratum = function (path, context, label, bg_color, space) {
   return stratum;
 };
 
-exports.semantic_zoom = (stratum, space) => {
+exports.semanticZoom = (stratum, space) => {
   if (stratum.alive) {
-    view.refresh_labels(stratum, space);
+    view.refreshLabels(stratum, space);
   }
 };
