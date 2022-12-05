@@ -52,13 +52,15 @@ exports.draw_graph = function (stratum, final = false) {
   //
   const div = stratum.div;
   const plane = div.affine;
+  const path = stratum.path;
   const graph = stratum.graph;
 
   const edge_group = plane.edge_group;
   const node_group = plane.node_group;
 
   graph.forEachNode(function (key, attrs) {
-    const n_id = key.replaceAll('/', '_');
+    // Prefixing node ids with path to prevent id collisions across strata
+    const n_id = `${path}${key}`.replaceAll('/', '_');
     const n_el = document.getElementById(n_id);
 
     const n_x = attrs.x;
@@ -95,9 +97,10 @@ exports.draw_graph = function (stratum, final = false) {
   if (final) {
     // Draw edges
     graph.forEachEdge(function (edge_key, edge_attrs, source_key, target_key) {
-      const source_id = source_key.replaceAll('/', '_');
-      const target_id = target_key.replaceAll('/', '_');
-      const edge_id = edge_key.replaceAll('/', '_');
+      // Prefixing all ids with path to prevent id collisions across strata
+      const source_id = `${path}${source_key}`.replaceAll('/', '_');
+      const target_id = `${path}${target_key}`.replaceAll('/', '_');
+      const edge_id = `${path}${edge_key}`.replaceAll('/', '_');
 
       const edge_el = document.getElementById(edge_id);
 
@@ -132,6 +135,26 @@ exports.draw_graph = function (stratum, final = false) {
       } else {
         console.warn('Tried to create edge between non-existent elements.');
       }
+    });
+
+    // Add click event for facetable nodes
+    const facetable_nodes = document.querySelectorAll('.node[data-facet_param]');
+    const facetable_click_handler = (event) => {
+      let facet_param = event.target.getAttribute('data-facet_param');
+      let facet_value = event.target.getAttribute('data-facet_value');
+      let context = {}
+      context[`f_${facet_param}`] = facet_value;
+      console.log(`To create the newly faceted stratum, I'm assuming we'd call "build_stratum" with the following params:
+  path: "${event.target.id.replaceAll('_', '/')}"
+  context: ${context}
+  label: "to be determined"
+  bg_color: "to be determined"
+  space: ?  
+      `);
+    };
+    facetable_nodes.forEach(facetable_node => {
+      facetable_node.removeEventListener('click', facetable_click_handler);
+      facetable_node.addEventListener('click', facetable_click_handler);
     });
   }
 
