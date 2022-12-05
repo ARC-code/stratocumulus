@@ -6,5 +6,5 @@ module.exports = function (colors) {
     background: -moz-linear-gradient(top, ${colors[0]}, ${colors[1]});
     background: -ms-linear-gradient(top, ${colors[0]}, ${colors[1]});
     background: -o-linear-gradient(top, ${colors[0]}, ${colors[1]});
-  `.trim();
-};
+  `.trim()
+}
