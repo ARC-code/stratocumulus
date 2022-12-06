@@ -66,7 +66,7 @@ module.exports = function (stratum, final = false) {
         edgeItem = edgeEl.affine
       } else {
         // No such edge yet. Create.
-        edgeItem = tapspace.createEdge('white')
+        edgeItem = tapspace.createEdge('gray')
         edgeItem.addClass('edge')
         edgeItem.element.id = edgeId // TODO setId
         edgeGroup.addChild(edgeItem)
