@@ -1,6 +1,6 @@
-const nodeTemplate = require('./nodeTemplate')
-const nodeSize = require('./nodeSize')
 const tapspace = require('tapspace')
+const nodeTemplate = require('./node/nodeTemplate')
+const nodeSize = require('./node/nodeSize')
 
 module.exports = function (stratum, final = false) {
   // Render the graph. If elements already exist, update.
