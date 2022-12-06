@@ -101,6 +101,20 @@ module.exports = function (stratum, final = false) {
   bgColor: "to be determined"
   space: ?
       `)
+
+      // TODO The click should emit an event, let's say "substratum-requested",
+      // and that event should be listened at strata/ level, so that individual
+      // stratum does not need to know about or control other strata.
+
+      // TEMP For demonstrative purposes, until true substratum rendering
+      // is implemented, let a click add something below the clicked node.
+      const nodeItem = tapspace.components.Basis.findAffineAncestor(event.target)
+      if (nodeItem) {
+        const protoStratum = tapspace.createCircle(10, 'white')
+        const protoPosition = nodeItem.atCenter().offset(0, 0, 30)
+        nodeGroup.addChild(protoStratum, protoPosition)
+        console.log('Proto stratum rendered')
+      }
     }
     facetableNodes.forEach(facetableNode => {
       facetableNode.removeEventListener('click', facetableClickHandler)
