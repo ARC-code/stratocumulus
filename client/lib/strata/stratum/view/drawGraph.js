@@ -1,6 +1,7 @@
 const tapspace = require('tapspace')
 const nodeTemplate = require('./node/nodeTemplate')
 const nodeSize = require('./node/nodeSize')
+const generateNodeId = require('./node/generateNodeId')
 
 module.exports = function (stratum, final = false) {
   // Render the graph. If elements already exist, update.
@@ -21,7 +22,7 @@ module.exports = function (stratum, final = false) {
 
   graph.forEachNode(function (key, attrs) {
     // Prefixing node ids with path to prevent id collisions across strata
-    const nId = `${path}${key}`.replaceAll('/', '_')
+    const nId = generateNodeId(path, key)
     const nElem = document.getElementById(nId)
 
     const nx = attrs.x
