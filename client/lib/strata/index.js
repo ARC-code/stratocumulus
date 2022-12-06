@@ -44,6 +44,8 @@ exports.build = function () {
     view.zoomable()
     // Make viewport maintain the center under window resize
     view.responsive()
+    // Make viewport use perspective projection.
+    view.perspective()
 
     // Add basic zoom control
     const zoomControl = new tapspace.components.ZoomControl({
