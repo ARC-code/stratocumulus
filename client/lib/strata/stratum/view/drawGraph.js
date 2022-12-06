@@ -28,8 +28,7 @@ module.exports = function (stratum, final = false) {
 
     const nx = attrs.x
     const ny = attrs.y
-    const sizeMargin = 4
-    const nSize = nodeSize(attrs) + sizeMargin
+    const nSize = nodeSize(attrs)
 
     if (nElem) {
       // Node exists. Update position.
@@ -45,7 +44,7 @@ module.exports = function (stratum, final = false) {
       const newItem = tapspace.createItem(newElem)
       newItem.element.id = nId
       newItem.setSize(nSize, nSize)
-      newItem.setAnchor(nSize / 2, nSize / 2)
+      newItem.setAnchor(newItem.atCenter())
 
       nodeGroup.addChild(newItem, plane.at(nx, ny))
     }

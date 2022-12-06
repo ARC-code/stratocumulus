@@ -13,14 +13,7 @@ const buildDataAttrs = (attrs) => {
 }
 
 const buildNodeStyle = (attrs) => {
-  const size = nodeSize(attrs)
-  const style = `
-    left: 2px;
-    top: 2px;
-    width: ${size}px;
-    height: ${size}px;
-    ${nodeColorCSS(attrs.color)}
-  `
+  const style = nodeColorCSS(attrs.color)
   return style.trim()
 }
 
