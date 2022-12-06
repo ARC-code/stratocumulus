@@ -17,12 +17,7 @@ exports.build = function () {
 
   // Setup tapspace
   const sky = document.querySelector('#sky')
-  const space = tapspace.create(sky, {
-    size: { // TODO set in css
-      width: '100%',
-      height: '100%'
-    }
-  })
+  const space = tapspace.createSpace(sky)
   const view = space.getViewport()
 
   // TODO build more than single stratum
@@ -46,7 +41,21 @@ exports.build = function () {
     // stratum_plane.scaleToFit(view)
 
     // Make viewport zoomable after rendered
-    view.pannable().zoomable()
+    view.zoomable()
+    // Make viewport maintain the center under window resize
+    view.responsive()
+    // Make viewport use perspective projection.
+    view.perspective()
+
+    // Add basic zoom control
+    const zoomControl = new tapspace.components.ZoomControl({
+      scaleStep: 1.5
+    })
+    view.addControl(zoomControl)
+    zoomControl.match({
+      source: zoomControl.atBottomRight(),
+      target: view.atBottomRight().offset(-10, -10)
+    })
 
     // Show/hide labels after zoom
     stratumLib.semanticZoom(stratum, space)

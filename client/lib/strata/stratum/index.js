@@ -15,6 +15,7 @@ exports.buildStratum = function (path, context, label, bgColor, space) {
   //     string, css color
   //   space
   //     a tapspace space on which to draw the graph
+  //
 
   // Build valid html-friendly id
   const divId = path.replaceAll('/', 'X')

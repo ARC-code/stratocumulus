@@ -24,5 +24,18 @@ module.exports = {
     aggregateTimeout: 1000,
     // Save CPU by skipping large directories.
     ignored: ['**/node_modules']
+  },
+
+  // Tapspace build process requires style-loader and css-loader.
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          { loader: 'style-loader' },
+          { loader: 'css-loader' }
+        ]
+      }
+    ]
   }
 }
