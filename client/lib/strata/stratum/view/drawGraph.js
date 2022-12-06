@@ -54,8 +54,8 @@ module.exports = function (stratum, final = false) {
     // Draw edges
     graph.forEachEdge(function (edgeKey, edgeAttrs, sourceKey, targetKey) {
       // Prefixing all ids with path to prevent id collisions across strata
-      const sourceId = `${path}${sourceKey}`.replaceAll('/', '_')
-      const targetId = `${path}${targetKey}`.replaceAll('/', '_')
+      const sourceId = generateNodeId(path, sourceKey)
+      const targetId = generateNodeId(path, targetKey)
       const edgeId = `${path}${edgeKey}`.replaceAll('/', '_')
 
       const edgeEl = document.getElementById(edgeId)
