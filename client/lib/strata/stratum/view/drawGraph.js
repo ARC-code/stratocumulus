@@ -14,30 +14,25 @@ module.exports = function (stratum, final = false) {
   //     boolean, set true to update edges
   //
   const div = stratum.div
-  const plane = div.affine
+  const stratumPlane = div.affine
   const path = stratum.path
   const graph = stratum.graph
 
-  const edgeGroup = plane.edgeGroup
-  const nodeGroup = plane.nodeGroup
+  const edgeGroup = stratumPlane.edgeGroup
+  const nodeGroup = stratumPlane.nodeGroup
 
   graph.forEachNode(function (key, attrs) {
     // Prefixing node ids with path to prevent id collisions across strata
     const nId = generateNodeId(path, key)
     const nElem = document.getElementById(nId)
 
-    const nx = attrs.x
-    const ny = attrs.y
+    const nPosition = stratumPlane.at(attrs.x, attrs.y)
     const nSize = nodeSize(attrs)
 
     if (nElem) {
-      // Node exists. Update position.
-      nElem.affine.translateTo(plane.at(nx, ny))
-      // Update also size.
-      nElem.affine.setSize({
-        width: nSize,
-        height: nSize
-      })
+      // Node exists. Update position and size.
+      nElem.affine.translateTo(nPosition)
+      nElem.affine.setSize(nSize, nSize)
     } else {
       // No such node yet. Create.
       const newElem = nodeTemplate(nId, attrs)
@@ -46,7 +41,7 @@ module.exports = function (stratum, final = false) {
       newItem.setSize(nSize, nSize)
       newItem.setAnchor(newItem.atCenter())
 
-      nodeGroup.addChild(newItem, plane.at(nx, ny))
+      nodeGroup.addChild(newItem, nPosition)
     }
   })
 
