@@ -21,8 +21,20 @@ exports.build = function () {
   const space = tapspace.createSpace(sky)
   const view = space.getViewport()
 
-  const createStratum = function (path, context, label, bgColor) {
+  const createStratum = function (path, context, label, bgColor, position) {
     // Create and start one stratum.
+    //
+    // Parameters:
+    //   path
+    //     string, identifies the stratum
+    //   context
+    //     object
+    //   label
+    //     string, label for the root node
+    //   bgColor
+    //     string, css color for the root node
+    //   position
+    //     tapspace Point, the position of the root node.
     //
     // Return:
     //   a stratum. If a stratum with the path already exists, the existing
@@ -38,7 +50,8 @@ exports.build = function () {
     }
 
     // Build and render
-    const stratum = stratumLib.buildStratum(path, context, label, bgColor, space)
+    const stratum = stratumLib.buildStratum(path, context, label,
+      bgColor, position, space)
 
     // Keep track of what strata we have built.
     state.strata['/'] = stratum
@@ -51,7 +64,7 @@ exports.build = function () {
       // Stratum build might be heavy. To avoid blocking click interaction
       // too long, place the build last in the event loop. Thus timeout 0.
       setTimeout(() => {
-        createStratum(ev.path, ev.context, ev.label, ev.bgColor)
+        createStratum(ev.path, ev.context, ev.label, ev.bgColor, ev.position)
       }, 0)
     })
 
@@ -77,10 +90,8 @@ exports.build = function () {
     })
   }
 
-  const firstStratum = createStratum('/', {}, 'ARC', '#444444')
-
-  // Center viewport to stratum.
-  firstStratum.div.affine.translateTo(view.atCenter())
+  // Begin from root stratum /
+  const firstStratum = createStratum('/', {}, 'ARC', '#444444', view.atCenter())
 
   // Once the first stratum has been rendered and we have some content in space,
   // make the viewport interactive and begin refreshing labels.

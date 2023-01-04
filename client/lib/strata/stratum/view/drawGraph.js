@@ -4,29 +4,33 @@ const nodeSize = require('./node/nodeSize')
 const generateNodeId = require('./node/generateNodeId')
 const generateEdgeId = require('./edge/generateEdgeId')
 
-module.exports = function (stratum, final = false) {
+module.exports = function (stratum, position, final = false) {
   // Render the graph. If elements already exist, update.
   //
   // Parameters:
   //   stratum
   //     a stratum object with 'path', 'div', and 'graph' properties
+  //   position
+  //     a tapspace Point at which to draw the root node
   //   final
   //     boolean, set true to update edges
   //
   const div = stratum.div
   const stratumPlane = div.affine
+  const stratumOrigin = position.changeBasis(stratumPlane)
   const path = stratum.path
   const graph = stratum.graph
 
   const edgeGroup = stratumPlane.edgeGroup
   const nodeGroup = stratumPlane.nodeGroup
 
+  // Map each node in graph model to a visible tapspace item.
   graph.forEachNode(function (key, attrs) {
     // Prefixing node ids with path to prevent id collisions across strata
     const nId = generateNodeId(path, key)
     const nElem = document.getElementById(nId)
 
-    const nPosition = stratumPlane.at(attrs.x, attrs.y)
+    const nPosition = stratumOrigin.offset(attrs.x, attrs.y)
     const nSize = nodeSize(attrs)
 
     if (nElem) {
@@ -99,21 +103,16 @@ module.exports = function (stratum, final = false) {
 
       const nodeItem = tapspace.components.Basis.findAffineAncestor(event.target)
       if (nodeItem) {
-        // TEMP For demonstrative purposes, until true substratum rendering
-        // is implemented, let a click add something below the clicked node.
-        const protoStratum = tapspace.createCircle(10, 'white')
-        const protoPosition = nodeItem.atCenter().offset(0, 0, 30)
-        nodeGroup.addChild(protoStratum, protoPosition)
-        console.log('Proto stratum rendered')
-
         // The click emits an event "stratumrequest" which is listened on
         // strata-level, so that individual stratum does not need to know
         // about or control other strata.
+        const position = nodeItem.atCenter().offset(0, 0, 30)
         stratum.emit('stratumrequest', {
           path: facetPath,
           context: context,
           label: 'todo',
-          bgColor: 'todo'
+          bgColor: 'todo',
+          position: position
         })
       }
     }

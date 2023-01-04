@@ -3,7 +3,7 @@ const view = require('./view')
 const emitter = require('component-emitter')
 const io = require('../../io')
 
-exports.buildStratum = function (path, context, label, bgColor, space) {
+exports.buildStratum = function (path, context, label, bgColor, position, space) {
   // Create a stratum object.
   //
   // Stratum inherits Emitter
@@ -17,8 +17,10 @@ exports.buildStratum = function (path, context, label, bgColor, space) {
   //     string
   //   bgColor
   //     string, css color
+  //   position
+  //     a tapspace Point at which to draw the graph
   //   space
-  //     a tapspace space on which to draw the graph
+  //     a tapspace space on which to place the graph
   //
   // Stratum emits:
   //   final
@@ -62,7 +64,7 @@ exports.buildStratum = function (path, context, label, bgColor, space) {
       // Refresh the layout
       model.performLayout(stratum.graph, isFinal)
       // Render the graph
-      view.drawGraph(stratum, isFinal)
+      view.drawGraph(stratum, position, isFinal)
 
       // Emit 'final' event if last message
       if (isFinal) stratum.emit('final')
