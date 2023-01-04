@@ -4,6 +4,10 @@ const emitter = require('component-emitter')
 const io = require('../../io')
 
 exports.buildStratum = function (path, context, label, bgColor, space) {
+  // Create a stratum object.
+  //
+  // Stratum inherits Emitter
+  //
   // Parameters:
   //   path
   //     string, the stratum id
@@ -15,6 +19,13 @@ exports.buildStratum = function (path, context, label, bgColor, space) {
   //     string, css color
   //   space
   //     a tapspace space on which to draw the graph
+  //
+  // Stratum emits:
+  //   final
+  //     when all subgraphs of the stratum has been loaded and rendered
+  //   stratumrequest
+  //     when the stratum would like one of its nodes to be opened as
+  //     a new stratum.
   //
 
   // Build valid html-friendly id
