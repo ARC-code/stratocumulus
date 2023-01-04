@@ -29,7 +29,7 @@ exports.connect = function () {
   graphStream = new window.EventSource(STREAM_URL)
   graphStream.addEventListener(STREAM_KEY, function (ev) {
     const data = JSON.parse(ev.data)
-    console.log('Received an event with data:', data)
+    console.log('Received a SSE event with data:', data)
 
     // Check event format
     if (data && data.path) {
@@ -42,7 +42,7 @@ exports.connect = function () {
       } else {
         // No handlers set for the path.
         // In development, we like to know if this happens.
-        console.warn('Received an event with unregisterd path: ' + path)
+        console.warn('Received a SSE event with unregisterd path: ' + path)
       }
     } else {
       // In development, we'd like to know if ev has no path.
