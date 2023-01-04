@@ -10,5 +10,12 @@ module.exports = function (stratumPath, nodeKey) {
   // Return
   //   a string, suitable for HTMLElement id.
   //
-  return `${stratumPath}${nodeKey}`.replaceAll('/', '_')
+
+  // Remove trailing slash.
+  // Root is a special path as it begins and ends with the same slash.
+  if (stratumPath.endsWith('/')) {
+    stratumPath = stratumPath.substring(0, stratumPath.length - 1)
+  }
+
+  return (stratumPath + nodeKey).replaceAll('/', '_')
 }
