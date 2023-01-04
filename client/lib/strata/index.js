@@ -21,44 +21,86 @@ exports.build = function () {
   const space = tapspace.createSpace(sky)
   const view = space.getViewport()
 
-  // TODO build more than single stratum
-  const stratum = stratumLib.buildStratum('/', {}, 'ARC', '#444444', space)
+  const createStratum = function (path, context, label, bgColor) {
+    // Create and start one stratum.
+    //
+    // Return:
+    //   a stratum. If a stratum with the path already exists, the existing
+    //   one is returned.
+    //
+    // DEV NOTE: this looks like a method. Maybe have class for strata?
+    //
 
-  // Track what strata we have built.
-  state.strata['/'] = stratum
-  state.strataTrail.push(stratum.path)
-  state.currentStratum = state.strataTrail.length - 1
+    // Ensure we do not create duplicate strata.
+    if (state.strata[path]) {
+      console.warn('Attempted to recreate existing stratum: ' + path)
+      return state.strata[path]
+    }
+
+    // Build and render
+    const stratum = stratumLib.buildStratum(path, context, label, bgColor, space)
+
+    // Keep track of what strata we have built.
+    state.strata['/'] = stratum
+    state.strataTrail.push(stratum.path)
+    state.currentStratum = state.strataTrail.length - 1
+
+    stratum.on('stratumrequest', (ev) => {
+      // Some interaction within the stratum requested to render a substratum.
+      console.log('stratum ' + path + ' event: stratumrequest for ' + ev.path)
+      // Stratum build might be heavy. To avoid blocking click interaction
+      // too long, place the build last in the event loop. Thus timeout 0.
+      setTimeout(() => {
+        createStratum(ev.path, ev.context, ev.label, ev.bgColor)
+      }, 0)
+    })
+
+    stratum.on('final', (ev) => {
+      console.log('stratum ' + path + ' event: final')
+    })
+
+    return stratum
+  }
+
+  // TODO deleteStratum = function (path) { ... }
+
+  const refreshLabels = function () {
+    // A semantic zoom feature: show labels of nodes that are close enough.
+    //
+    // DEV NOTE: this looks like a method. Maybe have class for strata?
+    //
+
+    // For each stratum
+    Object.keys(state.strata).forEach(stratumId => {
+      const stratum = state.strata[stratumId]
+      stratumLib.semanticZoom(stratum, space)
+    })
+  }
+
+  const firstStratum = createStratum('/', {}, 'ARC', '#444444')
 
   // Center viewport to stratum.
-  stratum.div.affine.translateTo(view.atCenter())
+  firstStratum.div.affine.translateTo(view.atCenter())
 
-  // Once the first stratum is rendered...
-  stratum.once('final', () => {
-    // DEBUG show final in console
-    console.log('stratum ' + stratum.path + ' event: final')
-
-    // TODO Fit view to the network
-    // const stratum_plane = stratum.div.affine
-    // stratum_plane.scaleToFit(view)
-
+  // Once the first stratum has been rendered and we have some content in space,
+  // make the viewport interactive and begin refreshing labels.
+  firstStratum.once('final', () => {
+    // Make viewport interactive now when space has content.
     initViewport(view)
 
     // Show/hide labels after zoom
-    stratumLib.semanticZoom(stratum, space)
+    refreshLabels()
     // TODO view.on('idle', () => { ... })
     let zoomTimer = null
     view.capturer('wheel').on('wheel', () => {
       clearTimeout(zoomTimer)
       zoomTimer = setTimeout(() => {
-        stratumLib.semanticZoom(stratum, space)
+        refreshLabels()
       }, 500)
     })
 
-    // Take a snapshot
-    // TODO
-
-    // Add snapshot to minimap
-    // TODO minimap.draw_minimap()
+    // TODO Take a snapshot
+    // TODO Add snapshot to minimap
   })
 
   return state
