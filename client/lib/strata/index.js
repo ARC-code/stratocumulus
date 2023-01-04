@@ -1,5 +1,6 @@
 const stratumLib = require('./stratum')
 const tapspace = require('tapspace')
+const initViewport = require('./initViewport')
 
 exports.build = function () {
   // State - the global context.
@@ -40,22 +41,7 @@ exports.build = function () {
     // const stratum_plane = stratum.div.affine
     // stratum_plane.scaleToFit(view)
 
-    // Make viewport zoomable after rendered
-    view.zoomable()
-    // Make viewport maintain the center under window resize
-    view.responsive()
-    // Make viewport use perspective projection.
-    view.perspective()
-
-    // Add basic zoom control
-    const zoomControl = new tapspace.components.ZoomControl({
-      scaleStep: 1.5
-    })
-    view.addControl(zoomControl)
-    zoomControl.match({
-      source: zoomControl.atBottomRight(),
-      target: view.atBottomRight().offset(-10, -10)
-    })
+    initViewport(view)
 
     // Show/hide labels after zoom
     stratumLib.semanticZoom(stratum, space)
