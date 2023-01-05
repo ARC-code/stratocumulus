@@ -78,7 +78,9 @@ exports.buildStratum = function (path, context, label, bgColor, position, space)
 }
 
 exports.semanticZoom = (stratum, space) => {
+  const viewport = space.getViewport()
+
   if (stratum.alive) {
-    view.refreshLabels(stratum, space)
+    view.refreshLabels(stratum, viewport)
   }
 }
