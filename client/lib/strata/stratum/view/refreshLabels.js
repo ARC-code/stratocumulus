@@ -11,15 +11,21 @@ module.exports = function (stratum, viewport) {
   const nodes = stratumPlane.nodeGroup.getChildren() // HACKY
 
   nodes.forEach((node) => {
+    const trip = viewport.atCamera().getVectorTo(node.atCenter())
+    const tripDeltaZ = trip.transitRaw(viewport).z
+
     // Determine node size on viewport.
-    const width = node.getWidth() // a Distance on node
-    const widthOnViewport = width.changeBasis(viewport).getRaw()
+    const width = node.getWidth().getRaw() // px
+
+    // TODO Replace with true, projected node size on viewport in pixels,
+    // TODO so that the label threshold is based on font size.
+    const indicator = tripDeltaZ - width * width
 
     // Show if large enough, ensure hidden otherwise.
     const label = node.getElement().querySelector('.label')
     // Check that label exists.
     if (label) {
-      if (widthOnViewport >= 20) {
+      if (indicator < 100) {
         label.style.display = 'inline'
       } else {
         label.style.display = 'none'
