@@ -98,18 +98,27 @@ module.exports = function (stratum, position, final = false) {
       const facetPath = clickedNodeId.replaceAll('_', '/')
       const facetParam = event.target.getAttribute('data-facet_param')
       const facetValue = event.target.getAttribute('data-facet_value')
-      const context = {}
-      context[`f_${facetParam}`] = facetValue
+      const new_context = Object.assign({}, stratum.context)
+
+      if (new_context.hasOwnProperty(facetParam)) {
+        let current_values = new_context[facetParam].split('__')
+
+        if (!current_values.includes(facetValue))
+          current_values.push(facetValue)
+
+        new_context[facetParam] = current_values.join('__')
+      } else
+        new_context[facetParam] = facetValue
 
       const nodeItem = tapspace.components.Basis.findAffineAncestor(event.target)
       if (nodeItem) {
         // The click emits an event "stratumrequest" which is listened on
         // strata-level, so that individual stratum does not need to know
         // about or control other strata.
-        const position = nodeItem.atCenter().offset(0, 0, 30)
+        const position = nodeItem.atCenter().offset(0, 0, 120)
         stratum.emit('stratumrequest', {
           path: facetPath,
-          context: context,
+          context: new_context,
           label: 'todo',
           bgColor: 'todo',
           position: position
