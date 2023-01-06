@@ -54,7 +54,7 @@ exports.build = function () {
       bgColor, position, space)
 
     // Keep track of what strata we have built.
-    state.strata['/'] = stratum
+    state.strata[path] = stratum
     state.strataTrail.push(stratum.path)
     state.currentStratum = state.strataTrail.length - 1
 
