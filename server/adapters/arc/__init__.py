@@ -1,6 +1,7 @@
 import requests
 import aiohttp
 import asyncio
+import traceback
 import json
 import redis
 from time import sleep
@@ -103,7 +104,9 @@ def build_stratum(channel, cache_key, context={}, wait=0):
 
 
 async def build_facets(channel, path, facets, connected_to, query_params={}):
-    async with aiohttp.ClientSession() as session:
+    # TODO figure out why requests occasionally hang on MacOS, forcing user to wait for timeout before any further requests can occur
+
+    async with aiohttp.ClientSession(trust_env=True) as session:
         queries = []
         for facet in facets:
             facet_query = "https://corpora.dh.tamu.edu/api/corpus/5f623b8eff276600a4f44553/ArcArtifact/?page-size=0&a_terms_{facet}={facet}.id,{facet}.label.raw".format(
@@ -129,34 +132,48 @@ async def build_facets(channel, path, facets, connected_to, query_params={}):
 
 
 async def perform_facet_query(session, channel, path, facet, connected_to, facet_query):
-    async with session.get(facet_query) as resp:
-        data = await resp.json()
-        subgraphs = []
+    try:
+        async with session.get(facet_query) as resp:
+            data = await resp.json()
+            subgraphs = []
 
-        if 'meta' in data and \
-                'aggregations' in data['meta'] and \
-                facet in data['meta']['aggregations']:
+            if 'meta' in data and \
+                    'total' in data['meta'] and \
+                    'aggregations' in data['meta'] and \
+                    facet in data['meta']['aggregations']:
 
-            for agg_key, agg_count in data['meta']['aggregations'][facet].items():
-                node_parts = agg_key.split('|||')
+                total_results = data['meta']['total']
 
-                node_attrs = {
-                    'id': "{connected_to}/{facet}/{id}".format(connected_to=connected_to, facet=facet, id=node_parts[0]),
-                    'label': node_parts[1],
-                    'parent': "{connected_to}/{facet}".format(connected_to=connected_to, facet=facet),
-                    'kind': facet,
-                    'value': agg_count,
-                    'facet_param': 'f_{facet}.id'.format(facet=facet),
-                    'facet_value': node_parts[0],
-                }
+                for agg_key, agg_count in data['meta']['aggregations'][facet].items():
+                    node_parts = agg_key.split('|||')
 
-                subgraphs.append(make_nedge(
-                    channel,
-                    path,
-                    node_attrs
-                ))
+                    node_attrs = {
+                        'id': "{connected_to}/{facet}/{id}".format(connected_to=connected_to, facet=facet, id=node_parts[0]),
+                        'label': node_parts[1],
+                        'parent': "{connected_to}/{facet}".format(connected_to=connected_to, facet=facet),
+                        'kind': facet,
+                        'value': agg_count,
+                        'is_facetable': True,
+                        'facet_param': 'f_{facet}.id'.format(facet=facet),
+                        'facet_value': node_parts[0]
+                    }
 
-        return subgraphs
+                    # check if node is facetable by seeing if the aggregate it
+                    # represents is less than the total amount of records
+                    if agg_count == total_results:
+                        del node_attrs['is_facetable']
+
+                    subgraphs.append(make_nedge(
+                        channel,
+                        path,
+                        node_attrs
+                    ))
+
+            return subgraphs
+    # This try/except block is for troubleshooting connection hanging problem on MacOS; not a permanent solution
+    except:
+        print(traceback.format_exc())
+        return []
 
 
 def make_node(channel, path, node_attrs, stage='update', provenance='corpora'):

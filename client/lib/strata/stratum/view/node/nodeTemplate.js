@@ -36,8 +36,9 @@ const buildLabelStyle = (attrs) => {
 
 const buildLabelElement = (id, attrs) => {
   const labelStyle = buildLabelStyle(attrs)
+  const labelCount = `<div style="float: right; font-size: 50%;">${attrs.value.toLocaleString("en-US")}</div>`
   return `<span id="${id}-label" class="label" ` +
-    `style="${labelStyle}">${attrs.label}</span>`
+    `style="${labelStyle}">${attrs.label}${('facet_param' in attrs) ? labelCount : ''}</span>`
 }
 
 module.exports = (id, attrs) => {

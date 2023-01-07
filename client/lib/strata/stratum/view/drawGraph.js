@@ -92,7 +92,7 @@ module.exports = function (stratum, position, final = false) {
     })
 
     // Add click event for facetable nodes
-    const facetableNodes = document.querySelectorAll('.node[data-facet_param]')
+    const facetableNodes = document.querySelectorAll('.node[data-is_facetable]')
     const facetableClickHandler = (event) => {
       const clickedNodeId = event.target.id
       const facetPath = clickedNodeId.replaceAll('_', '/')

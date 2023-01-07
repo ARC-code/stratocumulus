@@ -52,9 +52,13 @@ exports.updateGraph = function (graph, subgraph) {
         attrs.color = defaultColor
       }
 
-      if ('value' in n) attrs.size = normalizeSize(n.value)
+      if ('value' in n) {
+        attrs.value = n.value
+        attrs.size = normalizeSize(n.value)
+      }
       if ('fixed' in n) attrs.fixed = n.fixed
       if ('parent' in n) attrs.parent = n.parent
+      if ('is_facetable' in n) attrs.is_facetable = n.is_facetable
       if ('facet_param' in n) attrs.facet_param = n.facet_param
       if ('facet_value' in n) attrs.facet_value = n.facet_value
 
