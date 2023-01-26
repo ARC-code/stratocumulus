@@ -4,7 +4,7 @@ import os
 from flask import Flask, request, render_template, session
 from flask_sse import sse
 from time import sleep
-from adapters import arc
+from adapters.arc.stratum import build_stratum as build_arc_stratum
 from celery import Celery
 
 
@@ -91,7 +91,7 @@ def _get_strato_key():
 # "build_stratum" function belonging to the "arc" module
 @client.task
 def launch_stratum_build_job(session_key, cache_key, context, wait):
-    arc.build_stratum(session_key, cache_key, context, wait)
+    build_arc_stratum(session_key, cache_key, context, wait)
 
 
 if __name__ == '__main__':
