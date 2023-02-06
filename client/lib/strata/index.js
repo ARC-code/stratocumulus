@@ -1,5 +1,7 @@
 const stratumLib = require('./stratum')
 const tapspace = require('tapspace')
+const timeSliderMarks = require('toolcool-range-slider/dist/plugins/tcrs-marks.min.js')
+const timeSliderLib = require('toolcool-range-slider')
 const initViewport = require('./initViewport')
 
 exports.build = function () {
@@ -18,8 +20,13 @@ exports.build = function () {
 
   // Setup tapspace
   const sky = document.querySelector('#sky')
+  const timeSlider = document.querySelector('#time-slider')
+  let timeSliderTimer = null;
   const space = tapspace.createSpace(sky)
   const view = space.getViewport()
+
+  // Adjust timeSlider styling (can't use stylesheet since component uses shadow-DOM)
+  timeSlider.addCSS(`.mark-value{ font-family: Arial, Helvetica, sans-serif; }`)
 
   const createStratum = function (path, context, label, bgColor, position) {
     // Create and start one stratum.
@@ -108,6 +115,20 @@ exports.build = function () {
       zoomTimer = setTimeout(() => {
         refreshLabels()
       }, 500)
+    })
+
+    // Setup time slider
+    timeSlider.addEventListener('change', (evt) => {
+      clearTimeout(timeSliderTimer)
+      timeSliderTimer = setTimeout(() => {
+        console.log(`time range start: ${timeSlider.value1}; time range end: ${timeSlider.value2}`)
+        // this code is intended to add the time range parameter to the context for any existing strata.
+        // TODO: actually fire off an update request and handle nodes that will either resize or possibly
+        // disappear/reappear
+        for (let path in state.strata) {
+          state.strata[path].context['r_years'] = `${timeSlider.value1}to${timeSlider.value2}`
+        }
+      }, 1500)
     })
 
     // TODO Take a snapshot

@@ -23,6 +23,6 @@ module.exports = (view) => {
   view.addControl(zoomControl)
   zoomControl.match({
     source: zoomControl.atBottomRight(),
-    target: view.atBottomRight().offset(-10, -10)
+    target: view.atBottomRight().offset(-10, -60)
   })
 }
