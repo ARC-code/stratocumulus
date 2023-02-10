@@ -22,8 +22,10 @@ exports.build = function () {
   const sky = document.querySelector('#sky')
   const timeSlider = document.querySelector('#time-slider')
   let timeSliderTimer = null;
-  const space = tapspace.createSpace(sky)
-  const view = space.getViewport()
+
+  const viewport = tapspace.createView(sky)
+  const space = tapspace.createSpace()
+  viewport.addChild(space)
 
   // Adjust timeSlider styling (can't use stylesheet since component uses shadow-DOM)
   timeSlider.addCSS(`.mark-value{ font-family: Arial, Helvetica, sans-serif; }`)
@@ -98,19 +100,20 @@ exports.build = function () {
   }
 
   // Begin from root stratum /
-  const firstStratum = createStratum('/', {}, 'ARC', '#444444', view.atCenter())
+  const firstPoint = viewport.atCenter()
+  const firstStratum = createStratum('/', {}, 'ARC', '#444444', firstPoint)
 
   // Once the first stratum has been rendered and we have some content in space,
   // make the viewport interactive and begin refreshing labels.
   firstStratum.once('final', () => {
     // Make viewport interactive now when space has content.
-    initViewport(view)
+    initViewport(viewport)
 
     // Show/hide labels after zoom
     refreshLabels()
     // TODO view.on('idle', () => { ... })
     let zoomTimer = null
-    view.capturer('wheel').on('wheel', () => {
+    viewport.on('idle', () => {
       clearTimeout(zoomTimer)
       zoomTimer = setTimeout(() => {
         refreshLabels()
