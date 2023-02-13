@@ -9,12 +9,14 @@ module.exports = (view) => {
   // Therefore, favorably call the function only after the space has content.
   //
 
-  // Make viewport zoomable after rendered
-  view.zoomable()
+  // Enable viewport pan and zoom via touch, scroll, and keyboard
+  view.pannable().zoomable()
   // Make viewport maintain the center under window resize
   view.responsive()
   // Make viewport use perspective projection.
   view.perspective()
+  // Allow viewport to receive focus to emit keyboard events.
+  view.focusable()
 
   // Add basic zoom control
   const zoomControl = new tapspace.components.ZoomControl({
@@ -24,5 +26,10 @@ module.exports = (view) => {
   zoomControl.match({
     source: zoomControl.atBottomRight(),
     target: view.atBottomRight().offset(-10, -60)
+  })
+
+  // Give viewport focus after click. When in focus, can emit keyboard events.
+  view.on('pinchend', () => {
+    view.focus()
   })
 }
