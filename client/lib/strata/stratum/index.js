@@ -1,5 +1,5 @@
-const model = require('./model')
-const view = require('./view')
+const stratumModel = require('./model')
+const stratumView = require('./view')
 const emitter = require('component-emitter')
 const io = require('../../io')
 
@@ -33,14 +33,14 @@ exports.buildStratum = function (path, context, label, bgColor, position, space)
   // Build valid html-friendly id
   const divId = path.replaceAll('/', 'X')
   // Create container for the stratum
-  const networkDiv = view.createNetworkDiv(space, divId)
+  const networkDiv = stratumView.createNetworkDiv(space, divId)
 
   // Create stratum object
   const stratum = {
     id: divId,
     path: path,
     div: networkDiv,
-    graph: model.createGraph(),
+    graph: stratumModel.createGraph(),
     layout: null,
     label: label,
     imageSrc: null,
@@ -56,15 +56,15 @@ exports.buildStratum = function (path, context, label, bgColor, position, space)
   io.stream.on(path, function (subgraph) {
     // Insert the subgraph received from the server.
     if (stratum.alive) {
-      model.updateGraph(stratum.graph, subgraph)
+      stratumModel.updateGraph(stratum.graph, subgraph)
 
       // Determine if final message for graph
       const isFinal = ('stage' in subgraph && subgraph.stage === 'final')
 
       // Refresh the layout
-      model.performLayout(stratum.graph, isFinal)
+      stratumModel.performLayout(stratum.graph, isFinal)
       // Render the graph
-      view.drawGraph(stratum, position, isFinal)
+      stratumView.drawGraph(stratum, position, isFinal)
 
       // Emit 'final' event if last message
       if (isFinal) stratum.emit('final')
@@ -81,6 +81,6 @@ exports.semanticZoom = (stratum, space) => {
   const viewport = space.getViewport()
 
   if (stratum.alive) {
-    view.refreshLabels(stratum, viewport)
+    stratumView.refreshLabels(stratum, viewport)
   }
 }
