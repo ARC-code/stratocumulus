@@ -1,7 +1,7 @@
 const tapspace = require('tapspace')
 
 module.exports = function (id) {
-  // Create a container for a single stratum.
+  // Create a planar container for a single stratum.
   //
   // Parameters:
   //   id

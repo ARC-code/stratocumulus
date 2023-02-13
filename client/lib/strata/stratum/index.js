@@ -33,15 +33,15 @@ exports.buildStratum = function (path, context, label, bgColor, position, space)
   // Build valid html-friendly id
   const divId = path.replaceAll('/', 'X')
   // Create container for the stratum
-  const networkPlane = stratumView.createNetworkPlane(divId)
+  const stratumPlane = stratumView.createGraphPlane(divId)
   // Position the container at given depth in space.
-  space.addChild(networkPlane, position)
+  space.addChild(stratumPlane, position)
 
   // Create stratum object
   const stratum = {
     id: divId,
     path: path,
-    plane: networkPlane,
+    plane: stratumPlane,
     graph: stratumModel.createGraph(),
     layout: null,
     label: label,
