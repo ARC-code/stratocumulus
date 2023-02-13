@@ -40,7 +40,10 @@ module.exports = function (stratum, final = false) {
       const newItem = tapspace.createItem(newElem)
       newItem.element.id = nId
       newItem.setSize(nSize, nSize)
+      // Gravity at node center
       newItem.setAnchor(newItem.atCenter())
+      // Disable interaction with node content.
+      newItem.setContentInput(false)
 
       nodeGroup.addChild(newItem, nPosition)
     }
