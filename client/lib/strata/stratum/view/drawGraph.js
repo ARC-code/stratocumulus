@@ -4,20 +4,17 @@ const nodeSize = require('./node/nodeSize')
 const generateNodeId = require('./node/generateNodeId')
 const generateEdgeId = require('./edge/generateEdgeId')
 
-module.exports = function (stratum, position, final = false) {
+module.exports = function (stratum, final = false) {
   // Render the graph. If elements already exist, update.
   //
   // Parameters:
   //   stratum
-  //     a stratum object with 'path', 'div', and 'graph' properties
-  //   position
-  //     a tapspace Point at which to draw the root node
+  //     a stratum object with 'path', 'plane', and 'graph' properties
   //   final
   //     boolean, set true to update edges
   //
-  const div = stratum.div
-  const stratumPlane = div.affine
-  const stratumOrigin = position.changeBasis(stratumPlane)
+  const stratumPlane = stratum.plane
+  const stratumOrigin = stratumPlane.at(0, 0)
   const path = stratum.path
   const graph = stratum.graph
 

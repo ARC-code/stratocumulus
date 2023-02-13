@@ -33,13 +33,15 @@ exports.buildStratum = function (path, context, label, bgColor, position, space)
   // Build valid html-friendly id
   const divId = path.replaceAll('/', 'X')
   // Create container for the stratum
-  const networkDiv = stratumView.createNetworkDiv(space, divId)
+  const networkPlane = stratumView.createNetworkPlane(divId)
+  // Position the container at given depth in space.
+  space.addChild(networkPlane, position)
 
   // Create stratum object
   const stratum = {
     id: divId,
     path: path,
-    div: networkDiv,
+    plane: networkPlane,
     graph: stratumModel.createGraph(),
     layout: null,
     label: label,
@@ -64,7 +66,7 @@ exports.buildStratum = function (path, context, label, bgColor, position, space)
       // Refresh the layout
       stratumModel.performLayout(stratum.graph, isFinal)
       // Render the graph
-      stratumView.drawGraph(stratum, position, isFinal)
+      stratumView.drawGraph(stratum, isFinal)
 
       // Emit 'final' event if last message
       if (isFinal) stratum.emit('final')

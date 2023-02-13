@@ -18,11 +18,11 @@ exports.build = function () {
   // const sky = document.getElementById('sky')
   // sky.style.backgroundColor = bgColor
 
-  // Setup tapspace
   const sky = document.querySelector('#sky')
   const timeSlider = document.querySelector('#time-slider')
   let timeSliderTimer = null;
 
+  // Setup tapspace
   const viewport = tapspace.createView(sky)
   const space = tapspace.createSpace()
   viewport.addChild(space)

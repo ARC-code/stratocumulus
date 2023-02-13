@@ -1,42 +1,38 @@
 const tapspace = require('tapspace')
 
-module.exports = function (space, id) {
-  // Create container for the stratum
+module.exports = function (id) {
+  // Create a container for a single stratum.
   //
   // Parameters:
-  //   space
-  //     a Tapspace space into which to add the network div.
   //   id
-  //     string, a valid html id for the network div.
+  //     string, an ID for the network div.
+  //     Must contain only characters that are valid for HTML ID attributes.
   //
   // Return
-  //   a HTMLElement with affine perk
+  //   a tapspace.components.Plane
   //
 
   // Space plane for content. Adds the plane to the space.
-  const networkPlane = tapspace.createBasis()
+  const networkPlane = tapspace.createPlane()
 
   // Set element attributes so we can refer to the element.
   const networkDiv = networkPlane.getElement()
   networkDiv.id = id
   networkDiv.classList.add('network')
 
-  // Create groups for nodes and edges
-  const nodeGroup = tapspace.createBasis()
-  nodeGroup.addClass('network-nodes')
-  const edgeGroup = tapspace.createBasis()
-  edgeGroup.addClass('network-edges')
+  // Create subplanes for nodes and edges
+  const nodePlane = tapspace.createPlane()
+  nodePlane.addClass('network-nodes')
+  const edgePlane = tapspace.createPlane()
+  edgePlane.addClass('network-edges')
 
   // Add edge group first so they will be drawn first.
-  networkPlane.addChild(edgeGroup)
-  networkPlane.addChild(nodeGroup)
+  networkPlane.addChild(edgePlane)
+  networkPlane.addChild(nodePlane)
 
   // A sketchy way to refer to the groups later. TODO improve.
-  networkPlane.edgeGroup = edgeGroup
-  networkPlane.nodeGroup = nodeGroup
+  networkPlane.edgeGroup = edgePlane
+  networkPlane.nodeGroup = nodePlane
 
-  space.addChild(networkPlane)
-  // networkDiv.scrollIntoView() // TODO is necessary?
-
-  return networkDiv
+  return networkPlane
 }
