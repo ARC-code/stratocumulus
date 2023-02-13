@@ -2,6 +2,12 @@
 
 This is a very barebones, initial README intended to help a bit with initial development.
 
+## Resources
+
+- [live prototype](http://prototype.bigdiva.org/)
+- [BigDIVA](https://bigdiva.org/)
+- [Center of Digital Humanities Research](https://codhr.dh.tamu.edu/)
+
 ## Building and Running the App
 
 * Have [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed on your development machine and make sure it's running
