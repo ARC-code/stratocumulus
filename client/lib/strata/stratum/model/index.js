@@ -6,6 +6,7 @@ const graphologyLayout = require('graphology-layout')
 const config = require('../../../config')
 const normalizeSize = require('./normalizeSize')
 // const optimizeRotation = require('./optimizeRotation')
+const orientByNode = require('./orientByNode')
 
 const kindColorMap = config.kindColorMap
 const defaultColor = config.defaultColor
@@ -96,15 +97,23 @@ exports.performLayout = function (stratum, final = false) {
     scale: 1.1
   })
 
-  // if (!final) {
-  //   graphologyLayout.circlepack.assign(graph, {
-  //     hierarchyAttributes: ['parent'],
-  //     center: 0,
-  //     scale: 1.1
-  //   })
-  // }
-  //
-  // if (final) {
-  //   optimizeRotation(graph)
-  // }
+  // Find root node for graph orientation.
+  // Pick the root based on the context, the user arrival direction.
+  const context = stratum.context
+  const rootNode = stratum.graph.findNode((nodeKey, attrs) => {
+    // Find the node that matches the context
+    if (!attrs.facetParam || !attrs.facetValue || !context) {
+      return false
+    }
+    if (context[attrs.facetParam] === attrs.facetValue) {
+      return true
+    }
+    return false
+  })
+
+  // Consider possibility of the empty graph or no matching node
+  if (rootNode) {
+    // Keep the root at the left.
+    orientByNode(stratum.graph, rootNode, Math.PI)
+  }
 }
