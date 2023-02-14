@@ -7,6 +7,7 @@ const config = require('../../../config')
 const normalizeSize = require('./normalizeSize')
 // const optimizeRotation = require('./optimizeRotation')
 const orientByNode = require('./orientByNode')
+const translateByNode = require('./translateByNode')
 
 const kindColorMap = config.kindColorMap
 const defaultColor = config.defaultColor
@@ -115,5 +116,7 @@ exports.performLayout = function (stratum, final = false) {
   if (rootNode) {
     // Keep the root at the left.
     orientByNode(stratum.graph, rootNode, Math.PI)
+    // Translate so that the root at 0,0
+    translateByNode(stratum.graph, rootNode, { x: 0, y: 0 })
   }
 }
