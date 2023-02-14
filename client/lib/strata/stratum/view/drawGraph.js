@@ -44,8 +44,11 @@ module.exports = function (stratum, final = false) {
       newItem.setAnchor(newItem.atCenter())
       // Disable interaction with node content.
       newItem.setContentInput(false)
-      // Make it easy to find node attributes via tapspace.
-      newItem.nodeAttributes = attrs
+      // Make it easy to find node attributes via tapspace component.
+      newItem.model = {
+        nodeKey: key,
+        nodeAttributes: attrs
+      }
 
       nodeGroup.addChild(newItem, nPosition)
     }
@@ -70,6 +73,14 @@ module.exports = function (stratum, final = false) {
         edgeItem = tapspace.createEdge('gray')
         edgeItem.addClass('edge')
         edgeItem.setId(edgeId)
+        // Make it easy to find edge attributes via tapspace component.
+        edgeItem.model = {
+          edgeKey: edgeKey,
+          edgeAttributes: edgeAttrs,
+          sourceKey: sourceKey,
+          targetKey: targetKey
+        }
+
         edgeGroup.addChild(edgeItem)
       }
 
@@ -95,7 +106,7 @@ module.exports = function (stratum, final = false) {
 
     const facetableClickHandler = (event) => {
       const clickedItem = event.component
-      const attrs = clickedItem.nodeAttributes
+      const attrs = clickedItem.model.nodeAttributes
       const facetPath = attrs.id
       const facetParam = attrs.facetParam
       const facetValue = attrs.facetValue
@@ -126,7 +137,7 @@ module.exports = function (stratum, final = false) {
     }
 
     const facetableItems = nodeGroup.getChildren().filter(nodeItem => {
-      return nodeItem.nodeAttributes.isFacetable
+      return nodeItem.model.nodeAttributes.isFacetable
     })
 
     facetableItems.forEach(item => {
