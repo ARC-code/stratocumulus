@@ -20,7 +20,7 @@ exports.build = function () {
 
   const sky = document.querySelector('#sky')
   const timeSlider = document.querySelector('#time-slider')
-  let timeSliderTimer = null;
+  let timeSliderTimer = null
 
   // Setup tapspace
   const viewport = tapspace.createView(sky)
@@ -28,7 +28,7 @@ exports.build = function () {
   viewport.addChild(space)
 
   // Adjust timeSlider styling (can't use stylesheet since component uses shadow-DOM)
-  timeSlider.addCSS(`.mark-value{ font-family: Arial, Helvetica, sans-serif; }`)
+  timeSlider.addCSS('.mark-value{ font-family: Arial, Helvetica, sans-serif; }')
 
   const createStratum = function (path, context, label, bgColor, position) {
     // Create and start one stratum.
