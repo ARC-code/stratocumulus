@@ -44,12 +44,23 @@ exports.updateGraph = function (graph, subgraph) {
         return
       }
 
-      const attrs = { label: n.label, x: 1, y: 1 }
+      const attrs = {
+        id: n.id,
+        label: n.label,
+        x: 1,
+        y: 1,
+        color: defaultColor,
+        value: 0,
+        size: 0,
+        fixed: false,
+        parent: null,
+        isFacetable: false,
+        facetParam: null,
+        facetValue: null
+      }
 
       if ('kind' in n && n.kind in kindColorMap) {
         attrs.color = kindColorMap[n.kind]
-      } else {
-        attrs.color = defaultColor
       }
 
       if ('value' in n) {
@@ -58,9 +69,9 @@ exports.updateGraph = function (graph, subgraph) {
       }
       if ('fixed' in n) attrs.fixed = n.fixed
       if ('parent' in n) attrs.parent = n.parent
-      if ('is_facetable' in n) attrs.is_facetable = n.is_facetable
-      if ('facet_param' in n) attrs.facet_param = n.facet_param
-      if ('facet_value' in n) attrs.facet_value = n.facet_value
+      if ('is_facetable' in n) attrs.isFacetable = n.is_facetable
+      if ('facet_param' in n) attrs.facetParam = n.facet_param
+      if ('facet_value' in n) attrs.facetValue = n.facet_value
 
       graph.addNode(n.id, attrs)
     })
