@@ -38,7 +38,7 @@ module.exports = function (stratum, final = false) {
       // No such node yet. Create.
       const newElem = nodeTemplate(nId, attrs)
       const newItem = tapspace.createItem(newElem)
-      newItem.element.id = nId
+      newItem.setId(nId)
       newItem.setSize(nSize, nSize)
       // Gravity at node center
       newItem.setAnchor(newItem.atCenter())
@@ -69,7 +69,7 @@ module.exports = function (stratum, final = false) {
         // No such edge yet. Create.
         edgeItem = tapspace.createEdge('gray')
         edgeItem.addClass('edge')
-        edgeItem.element.id = edgeId // TODO setId
+        edgeItem.setId(edgeId)
         edgeGroup.addChild(edgeItem)
       }
 
