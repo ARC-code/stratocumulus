@@ -82,15 +82,15 @@ exports.updateGraph = function (graph, subgraph) {
   }
 }
 
-exports.performLayout = function (graph, final = false) {
+exports.performLayout = function (stratum, final = false) {
   // Apply layout to a graph.
   //
   // Parameters
-  //   graph
-  //     a graphology graph object. Will be modified.
+  //   stratum
+  //     a stratum object. The graph property will be modified.
   //
 
-  graphologyLayout.circlepack.assign(graph, {
+  graphologyLayout.circlepack.assign(stratum.graph, {
     hierarchyAttributes: ['parent'],
     center: 0,
     scale: 1.1

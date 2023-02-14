@@ -12,7 +12,7 @@ exports.buildStratum = function (path, context, label, bgColor, position, space)
   //   path
   //     string, the stratum id
   //   context
-  //     object
+  //     object, where the user came from.
   //   label
   //     string
   //   bgColor
@@ -64,7 +64,7 @@ exports.buildStratum = function (path, context, label, bgColor, position, space)
       const isFinal = ('stage' in subgraph && subgraph.stage === 'final')
 
       // Refresh the layout
-      stratumModel.performLayout(stratum.graph, isFinal)
+      stratumModel.performLayout(stratum, isFinal)
       // Render the graph
       stratumView.drawGraph(stratum, isFinal)
 
