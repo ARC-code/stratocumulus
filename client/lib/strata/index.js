@@ -106,9 +106,9 @@ exports.build = function () {
     //
 
     // For each stratum
-    Object.keys(state.strata).forEach(stratumId => {
-      const stratum = state.strata[stratumId]
-      stratumLib.refresh(stratum, space)
+    Object.keys(state.strata).forEach(stratumPath => {
+      const stratum = state.strata[stratumPath]
+      stratumLib.refresh(stratum)
     })
   }
 
