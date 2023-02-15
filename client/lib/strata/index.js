@@ -55,8 +55,10 @@ exports.build = function () {
     }
 
     // Build and render
-    const stratum = stratumLib.build(path, context, label,
-      bgColor, position, space)
+    const stratum = stratumLib.build(path, context, label, bgColor)
+
+    // Place into space DOM. Stratum (0,0,0) will match with the position.
+    space.addChild(stratum.space, position)
 
     // Keep track of what strata we have built.
     state.strata[path] = stratum
@@ -70,6 +72,7 @@ exports.build = function () {
       // Stratum build might be heavy. To avoid blocking click interaction
       // too long, place the build last in the event loop. Thus timeout 0.
       setTimeout(() => {
+        // Note the recursive nature of the call.
         createStratum(ev.path, ev.context, ev.label, ev.bgColor, ev.position)
       }, 0)
     })
@@ -93,7 +96,11 @@ exports.build = function () {
       stratum.off('stratumrequest')
       stratum.off('final')
       // Remove from DOM.
+      space.removeChild(stratum.space)
+      // Clean up.
       stratumLib.remove(stratum)
+      // Forget
+      delete state.strata[path]
     } else {
       // DEBUG else already removed.
       console.warn('Stratum already removed or did not exist: ' + path)

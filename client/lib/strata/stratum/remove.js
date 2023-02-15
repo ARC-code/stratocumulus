@@ -11,9 +11,6 @@ module.exports = function (stratum) {
   // Stop listening further stream events.
   io.stream.off(stratum.path)
 
-  // Remove from space DOM.
-  stratum.plane.remove()
-
   // Mark as removed
   stratum.alive = false
 }

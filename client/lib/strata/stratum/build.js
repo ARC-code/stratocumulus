@@ -3,8 +3,10 @@ const stratumView = require('./view')
 const emitter = require('component-emitter')
 const io = require('../../io')
 
-module.exports = function (path, context, label, bgColor, position, space) {
+module.exports = function (path, context, label, bgColor) {
   // Create a stratum object.
+  // The stratum is not yet added to the document.
+  // Append stratum.space to a parent space in order to do that.
   //
   // Stratum inherits Emitter
   //
@@ -17,10 +19,6 @@ module.exports = function (path, context, label, bgColor, position, space) {
   //     string
   //   bgColor
   //     string, css color
-  //   position
-  //     a tapspace Point at which to draw the graph
-  //   space
-  //     a tapspace space on which to place the graph
   //
   // Stratum emits:
   //   final
@@ -29,13 +27,14 @@ module.exports = function (path, context, label, bgColor, position, space) {
   //     when the stratum would like one of its nodes to be opened as
   //     a new stratum.
   //
+  // Return
+  //   a stratum object.
+  //
 
   // Build valid html-friendly id
   const divId = path.replaceAll('/', 'X')
   // Create container for the stratum
   const stratumSpace = stratumView.createGraphSpace(divId)
-  // Position the container at given depth in space.
-  space.addChild(stratumSpace, position)
 
   // Create stratum object
   const stratum = {
