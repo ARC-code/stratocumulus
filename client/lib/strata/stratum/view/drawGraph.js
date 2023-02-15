@@ -13,13 +13,13 @@ module.exports = function (stratum, final = false) {
   //   final
   //     boolean, set true to update edges
   //
-  const stratumPlane = stratum.plane
-  const stratumOrigin = stratumPlane.at(0, 0)
+  const stratumSpace = stratum.space
+  const stratumOrigin = stratumSpace.at(0, 0)
   const path = stratum.path
   const graph = stratum.graph
 
-  const edgeGroup = stratumPlane.edgeGroup
-  const nodeGroup = stratumPlane.nodeGroup
+  const edgeGroup = stratumSpace.edgeGroup
+  const nodeGroup = stratumSpace.nodeGroup
 
   // Map each node in graph model to a visible tapspace item.
   graph.forEachNode(function (key, attrs) {

@@ -33,15 +33,15 @@ module.exports = function (path, context, label, bgColor, position, space) {
   // Build valid html-friendly id
   const divId = path.replaceAll('/', 'X')
   // Create container for the stratum
-  const stratumPlane = stratumView.createGraphPlane(divId)
+  const stratumSpace = stratumView.createGraphSpace(divId)
   // Position the container at given depth in space.
-  space.addChild(stratumPlane, position)
+  space.addChild(stratumSpace, position)
 
   // Create stratum object
   const stratum = {
     id: divId,
     path: path,
-    plane: stratumPlane,
+    space: stratumSpace,
     graph: stratumModel.createGraph(),
     layout: null,
     label: label,

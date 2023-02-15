@@ -1,7 +1,10 @@
 const tapspace = require('tapspace')
 
 module.exports = function (id) {
-  // Create a planar container for a single stratum.
+  // Create a space container for a single stratum.
+  // While most of the nodes and edges will be placed on a flat plane,
+  // some of them might need to be placed outside the plane
+  // for 3D connections and effects.
   //
   // Parameters:
   //   id
@@ -9,7 +12,7 @@ module.exports = function (id) {
   //     Must contain only characters that are valid for HTML ID attributes.
   //
   // Return
-  //   a tapspace.components.Plane
+  //   a tapspace.components.Space
   //
 
   // Space plane for content. Adds the plane to the space.
