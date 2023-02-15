@@ -108,7 +108,7 @@ exports.build = function () {
     // For each stratum
     Object.keys(state.strata).forEach(stratumId => {
       const stratum = state.strata[stratumId]
-      stratumLib.semanticZoom(stratum, space)
+      stratumLib.refresh(stratum, space)
     })
   }
 

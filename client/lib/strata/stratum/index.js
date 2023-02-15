@@ -7,5 +7,5 @@
 //
 
 exports.buildStratum = require('./build')
-exports.semanticZoom = require('./semanticZoom')
+exports.refresh = require('./refresh')
 exports.removeStratum = require('./remove')
