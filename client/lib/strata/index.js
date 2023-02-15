@@ -80,7 +80,24 @@ exports.build = function () {
     return stratum
   }
 
-  // TODO deleteStratum = function (path) { ... }
+  const removeStratum = function (path) {
+    // Forget stratum and remove it from DOM.
+    //
+
+    // Find stratum object.
+    const stratum = state.strata[path]
+
+    if (stratum) {
+      // Destroy listeners we set during creation.
+      stratum.off('stratumrequest')
+      stratum.off('final')
+      // Remove from DOM.
+      stratumLib.removeStratum(stratum)
+    } else {
+      // DEBUG else already removed.
+      console.warn('Stratum already removed or did not exist: ' + path)
+    }
+  }
 
   const refreshLabels = function () {
     // A semantic zoom feature: show labels of nodes that are close enough.
@@ -107,7 +124,6 @@ exports.build = function () {
 
     // Show/hide labels after zoom
     refreshLabels()
-    // TODO view.on('idle', () => { ... })
     let zoomTimer = null
     viewport.on('idle', () => {
       clearTimeout(zoomTimer)
