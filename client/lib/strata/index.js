@@ -55,7 +55,7 @@ exports.build = function () {
     }
 
     // Build and render
-    const stratum = stratumLib.buildStratum(path, context, label,
+    const stratum = stratumLib.build(path, context, label,
       bgColor, position, space)
 
     // Keep track of what strata we have built.
@@ -64,7 +64,8 @@ exports.build = function () {
     state.currentStratum = state.strataTrail.length - 1
 
     stratum.on('stratumrequest', (ev) => {
-      // Some interaction within the stratum requested to render a substratum.
+      // This event tells us that an interaction within the stratum
+      // requested a substratum to be built and rendered.
       console.log('stratum ' + path + ' event: stratumrequest for ' + ev.path)
       // Stratum build might be heavy. To avoid blocking click interaction
       // too long, place the build last in the event loop. Thus timeout 0.
@@ -92,7 +93,7 @@ exports.build = function () {
       stratum.off('stratumrequest')
       stratum.off('final')
       // Remove from DOM.
-      stratumLib.removeStratum(stratum)
+      stratumLib.remove(stratum)
     } else {
       // DEBUG else already removed.
       console.warn('Stratum already removed or did not exist: ' + path)
