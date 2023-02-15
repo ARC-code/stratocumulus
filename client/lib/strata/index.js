@@ -14,10 +14,6 @@ exports.build = function () {
     graphTimers: {}
   }
 
-  // Setup sky
-  // const sky = document.getElementById('sky')
-  // sky.style.backgroundColor = bgColor
-
   const sky = document.querySelector('#sky')
   const timeSlider = document.querySelector('#time-slider')
   let timeSliderTimer = null
