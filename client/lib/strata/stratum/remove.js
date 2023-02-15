@@ -13,4 +13,7 @@ module.exports = function (stratum) {
 
   // Remove from space DOM.
   stratum.plane.remove()
+
+  // Mark as removed
+  stratum.alive = false
 }
