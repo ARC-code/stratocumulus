@@ -14,7 +14,7 @@ module.exports = function (path, context, label, bgColor) {
   //   path
   //     string, the stratum id
   //   context
-  //     object, where the user came from.
+  //     object, tells where the user came from.
   //   label
   //     string
   //   bgColor

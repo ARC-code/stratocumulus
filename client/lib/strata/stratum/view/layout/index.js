@@ -4,6 +4,7 @@ const graphologyLayout = require('graphology-layout')
 // const optimizeRotation = require('./optimizeRotation')
 const orientByNode = require('./orientByNode')
 const translateByNode = require('./translateByNode')
+const findNodeByContext = require('../../model/findNodeByContext')
 
 module.exports = function (stratum, final = false) {
   // Compute layout for a graph without modifying it.
@@ -26,19 +27,9 @@ module.exports = function (stratum, final = false) {
 
   // Find root node for graph orientation.
   // Pick the root based on the context, the user arrival direction.
-  const context = stratum.context
-  const rootNode = stratum.graph.findNode((nodeKey, attrs) => {
-    // Find the node that matches the context
-    if (!attrs.facetParam || !attrs.facetValue || !context) {
-      return false
-    }
-    if (context[attrs.facetParam] === attrs.facetValue) {
-      return true
-    }
-    return false
-  })
+  const rootNode = findNodeByContext(stratum.graph, stratum.context)
 
-  // Consider possibility of the empty graph or no matching node
+  // Consider possibility of the empty graph or no matching node.
   if (rootNode) {
     // Keep the root at the left.
     positions = orientByNode(positions, rootNode, Math.PI)

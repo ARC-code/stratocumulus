@@ -6,4 +6,5 @@
 //
 
 exports.createGraph = require('./createGraph')
+exports.findNodeByContext = require('./findNodeByContext')
 exports.updateGraph = require('./updateGraph')
