@@ -36,8 +36,6 @@ module.exports = function (graph, subgraph) {
       const attrs = {
         id: n.id,
         label: n.label,
-        x: 1,
-        y: 1,
         color: defaultColor,
         value: 0,
         size: 0,

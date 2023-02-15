@@ -62,9 +62,7 @@ module.exports = function (path, context, label, bgColor) {
       // Determine if final message for graph
       const isFinal = ('stage' in subgraph && subgraph.stage === 'final')
 
-      // Refresh the layout
-      stratumModel.performLayout(stratum, isFinal)
-      // Render the graph
+      // Render the graph and do the layout
       stratumView.drawGraph(stratum, isFinal)
 
       // Emit 'final' event if last message

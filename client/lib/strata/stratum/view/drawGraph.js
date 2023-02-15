@@ -3,6 +3,7 @@ const nodeTemplate = require('./node/nodeTemplate')
 const nodeSize = require('./node/nodeSize')
 const generateNodeId = require('./node/generateNodeId')
 const generateEdgeId = require('./edge/generateEdgeId')
+const layoutGraph = require('./layout')
 
 module.exports = function (stratum, final = false) {
   // Render the graph. If elements already exist, update.
@@ -21,18 +22,21 @@ module.exports = function (stratum, final = false) {
   const edgeGroup = stratumSpace.edgeGroup
   const nodeGroup = stratumSpace.nodeGroup
 
+  const layoutPositions = layoutGraph(stratum, final)
+
   // Map each node in graph model to a visible tapspace item.
   graph.forEachNode(function (key, attrs) {
     // Prefixing node ids with path to prevent id collisions across strata
     const nId = generateNodeId(path, key)
     const nElem = document.getElementById(nId)
 
-    const nPosition = stratumOrigin.offset(attrs.x, attrs.y)
+    const nPosition = layoutPositions[key]
+    const nPoint = stratumOrigin.offset(nPosition.x, nPosition.y)
     const nSize = nodeSize(attrs)
 
     if (nElem) {
       // Node exists. Update position and size.
-      nElem.affine.translateTo(nPosition)
+      nElem.affine.translateTo(nPoint)
       nElem.affine.setSize(nSize, nSize)
     } else {
       // No such node yet. Create.
@@ -50,7 +54,7 @@ module.exports = function (stratum, final = false) {
         nodeAttributes: attrs
       }
 
-      nodeGroup.addChild(newItem, nPosition)
+      nodeGroup.addChild(newItem, nPoint)
     }
   })
 

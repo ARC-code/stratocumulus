@@ -6,14 +6,19 @@ const orientByNode = require('./orientByNode')
 const translateByNode = require('./translateByNode')
 
 module.exports = function (stratum, final = false) {
-  // Apply layout to a graph.
+  // Compute layout for a graph without modifying it.
   //
   // Parameters
   //   stratum
   //     a stratum object. The graph property will be modified.
+  //   final
+  //     a boolean. Set true for additional finish. TODO is it needed?
+  //
+  // Return
+  //   a map: path -> {x,y}. The graphology layout positions.
   //
 
-  graphologyLayout.circlepack.assign(stratum.graph, {
+  let positions = graphologyLayout.circlepack(stratum.graph, {
     hierarchyAttributes: ['parent'],
     center: 0,
     scale: 1.1
@@ -36,8 +41,10 @@ module.exports = function (stratum, final = false) {
   // Consider possibility of the empty graph or no matching node
   if (rootNode) {
     // Keep the root at the left.
-    orientByNode(stratum.graph, rootNode, Math.PI)
+    positions = orientByNode(positions, rootNode, Math.PI)
     // Translate so that the root at 0,0
-    translateByNode(stratum.graph, rootNode, { x: 0, y: 0 })
+    positions = translateByNode(positions, rootNode, { x: 0, y: 0 })
   }
+
+  return positions
 }
