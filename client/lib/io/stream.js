@@ -1,5 +1,15 @@
 // An adapter to the stream connection.
 //
+// Usage:
+// - open a stream: stream.connect()
+// - listen stratum events: stream.on(path, callback)
+// - stop listening events: stream.off(path[, callback])
+// - send a job: stream.sendStratumBuildJob(path, context)
+//
+// Architectural note:
+// This stream module uses a singleton pattern. Thus multiple connect() calls
+// open the stream only once.
+//
 // Architectural note:
 // If the connection method changes in the future, we can limit
 // the impact to this adapter code instead of rewriting the app.

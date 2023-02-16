@@ -8,7 +8,6 @@
     <meta charset="UTF-8">
     <title>Stratocumulus</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='tapspace.css') }}">
     <style>
         html, body {
             width: 100%;
@@ -90,6 +89,13 @@
         .edge {
             /* tapspace edges use only border-top */
             border-top: .5px solid rgb(160, 160, 160);
+        }
+
+        .facetable {
+          cursor: pointer;
+        }
+        .facetable.node:hover {
+          border-color: white;
         }
     </style>
 </head>

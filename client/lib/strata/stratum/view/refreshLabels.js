@@ -7,8 +7,8 @@ module.exports = function (stratum, viewport) {
   //   viewport
   //     a tapspace viewport, required for finding node size relative to it.
   //
-  const stratumPlane = stratum.div.affine
-  const nodes = stratumPlane.nodeGroup.getChildren() // HACKY
+  const stratumSpace = stratum.space
+  const nodes = stratumSpace.nodeGroup.getChildren() // HACKY
 
   nodes.forEach((node) => {
     const trip = viewport.atCamera().getVectorTo(node.atCenter())
