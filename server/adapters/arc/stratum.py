@@ -129,10 +129,13 @@ async def build_facets(channel, path, facets, connected_to, query_params={}):
     async with aiohttp.ClientSession(trust_env=True) as session:
         queries = []
         for facet in facets:
-            facet_query = f"{corpora_url}ArcArtifact/?page-size=0&a_terms_{facet}={facet}.id,{facet}.label.raw"
+            query_prefix = f"{corpora_url}ArcArtifact/?page-size=0"
 
             if query_params:
-                facet_query += '&' + format_get_params(query_params)
+                query_prefix += '&' + format_get_params(query_params)
+
+            facet_query = f"{query_prefix}&a_terms_{facet}={facet}.id,{facet}.label.raw"
+            decade_query_template = query_prefix + "&{facet}.id={{facet_id}}&a_histogram_decades=years__10".format(facet=facet)
 
             queries.append(
                 perform_facet_query(
@@ -141,50 +144,56 @@ async def build_facets(channel, path, facets, connected_to, query_params={}):
                     path,
                     facet,
                     connected_to,
-                    facet_query
+                    facet_query,
+                    decade_query_template
                 )
             )
 
         return await asyncio.gather(*queries, return_exceptions=True)
 
 
-async def perform_facet_query(session, channel, path, facet, connected_to, facet_query):
+async def perform_facet_query(session, channel, path, facet, connected_to, facet_query, decade_query_template):
     try:
         async with session.get(facet_query) as resp:
             data = await resp.json()
             subgraphs = []
 
-            if 'meta' in data and \
-                    'total' in data['meta'] and \
-                    'aggregations' in data['meta'] and \
-                    facet in data['meta']['aggregations']:
+            if 'meta' in data and 'total' in data['meta'] and 'aggregations' in data['meta'] and facet in data['meta']['aggregations']:
 
                 total_results = data['meta']['total']
 
                 for agg_key, agg_count in data['meta']['aggregations'][facet].items():
                     node_parts = agg_key.split('|||')
+                    facet_id = node_parts[0]
+                    facet_label = node_parts[1]
+                    decade_query = decade_query_template.format(facet_id=facet_id)
 
-                    node_attrs = {
-                        'id': "{connected_to}/{facet}/{id}".format(connected_to=connected_to, facet=facet, id=node_parts[0]),
-                        'label': node_parts[1],
-                        'parent': "{connected_to}/{facet}".format(connected_to=connected_to, facet=facet),
-                        'kind': facet,
-                        'value': agg_count,
-                        'is_facetable': True,
-                        'facet_param': 'f_{facet}.id'.format(facet=facet),
-                        'facet_value': node_parts[0]
-                    }
+                    async with session.get(decade_query) as decade_resp:
+                        decade_data = await decade_resp.json()
+                        if 'meta' in decade_data and 'aggregations' in decade_data['meta'] and 'decades' in decade_data['meta']['aggregations']:
 
-                    # check if node is facetable by seeing if the aggregate it
-                    # represents is less than the total amount of records
-                    if agg_count == total_results:
-                        del node_attrs['is_facetable']
+                            node_attrs = {
+                                'id': f"{connected_to}/{facet}/{facet_id}",
+                                'label': facet_label,
+                                'parent': f"{connected_to}/{facet}",
+                                'kind': facet,
+                                'value': agg_count,
+                                'decades': decade_data['meta']['aggregations']['decades'],
+                                'is_facetable': True,
+                                'facet_param': f"f_{facet}.id",
+                                'facet_value': facet_id
+                            }
 
-                    subgraphs.append(make_nedge(
-                        channel,
-                        path,
-                        node_attrs
-                    ))
+                            # check if node is facetable by seeing if the aggregate it
+                            # represents is less than the total amount of records
+                            if agg_count == total_results:
+                                del node_attrs['is_facetable']
+
+                            subgraphs.append(make_nedge(
+                                channel,
+                                path,
+                                node_attrs
+                            ))
 
             return subgraphs
     # This try/except block is for troubleshooting connection hanging problem on MacOS; not a permanent solution

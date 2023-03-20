@@ -38,6 +38,7 @@ module.exports = function (graph, subgraph) {
         label: n.label,
         color: defaultColor,
         value: 0,
+        decades: {},
         size: 0,
         fixed: false,
         parent: null,
@@ -54,6 +55,7 @@ module.exports = function (graph, subgraph) {
         attrs.value = n.value
         attrs.size = normalizeSize(n.value)
       }
+      if ('decades' in n) attrs.decades = n.decades
       if ('fixed' in n) attrs.fixed = n.fixed
       if ('parent' in n) attrs.parent = n.parent
       if ('is_facetable' in n) attrs.isFacetable = n.is_facetable
