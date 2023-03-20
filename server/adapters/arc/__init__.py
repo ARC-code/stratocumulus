@@ -1,3 +1,4 @@
+import os
 import redis
 
 
@@ -6,7 +7,9 @@ redis_cache = redis.Redis(host="redis", decode_responses=True)
 cache_expiry = 60 * 60
 
 # api URL for host and corpus
-corpora_url = "https://corpora.dh.tamu.edu/api/corpus/5f623b8eff276600a4f44553/"
+corpora_host = os.environ.get('STRATO_CORPORA_HOST', '')
+corpora_corpus_id = os.environ.get('STRATO_CORPORA_CORPUS_ID', '')
+corpora_url = f"{corpora_host}/api/corpus/{corpora_corpus_id}/"
 
 def extract_query_params(context):
     query_params = {}
