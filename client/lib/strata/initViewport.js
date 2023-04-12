@@ -13,8 +13,6 @@ module.exports = (view) => {
   view.pannable().zoomable()
   // Make viewport maintain the center under window resize
   view.responsive()
-  // Make viewport use perspective projection.
-  view.perspective()
   // Allow viewport to receive focus to emit keyboard events.
   view.focusable()
 
@@ -29,7 +27,7 @@ module.exports = (view) => {
   })
 
   // Give viewport focus after click. When in focus, can emit keyboard events.
-  view.on('pinchend', () => {
+  view.on('idle', () => {
     view.focus()
   })
 }
