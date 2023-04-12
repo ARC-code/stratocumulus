@@ -17,17 +17,6 @@
             background-color: #444444;
         }
 
-        #minimap {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 200px;
-            height: calc(100vh - 50px);
-            overflow-y: auto;
-            background-color: rgba(200, 200, 200, .5);
-            z-index: 500;
-        }
-
         #time-slider-div {
             display: flex;
             align-items: center;
@@ -47,9 +36,20 @@
             height: 100%;
         }
 
-        .minimap-img {
-            width: 200px;
-            margin-bottom: 10px;
+        #search-box {
+          width: 15.1rem;
+        }
+        #search-box input.search-text {
+          font-size: 1.2rem;
+          padding: 0.4rem;
+          width: 12rem;
+          box-sizing: border-box;
+        }
+        #search-box input.search-button {
+          font-size: 1.2rem;
+          padding: 0.4rem;
+          width: 3rem;
+          box-sizing: border-box;
         }
 
         .network {
@@ -101,11 +101,6 @@
 </head>
 <body>
     <div id="sky"></div>
-    <div id="minimap">
-        <input type="text" id="search-box" placeholder="Search" />
-        <input type="text" id="year-start-box" placeholder="400" />
-        <input type="text" id="year-end-box" placeholder="2100" />
-    </div>
     <div id="time-slider-div">
         <tc-range-slider
             id="time-slider"

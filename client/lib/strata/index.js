@@ -4,7 +4,7 @@ const timeSliderMarks = require('toolcool-range-slider/dist/plugins/tcrs-marks.m
 const timeSliderLib = require('toolcool-range-slider')
 const initViewport = require('./initViewport')
 
-exports.build = function () {
+exports.build = function (viewport) {
   // State - the global context.
   // Our application state in a single object.
   const state = {
@@ -14,12 +14,10 @@ exports.build = function () {
     graphTimers: {}
   }
 
-  const sky = document.querySelector('#sky')
   const timeSlider = document.querySelector('#time-slider')
   let timeSliderTimer = null
 
   // Setup tapspace
-  const viewport = tapspace.createView(sky)
   const space = tapspace.createSpace()
   viewport.addChild(space)
 
