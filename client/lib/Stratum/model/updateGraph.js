@@ -1,4 +1,4 @@
-const config = require('../../../config')
+const config = require('../../config')
 const normalizeSize = require('./normalizeSize')
 
 const kindColorMap = config.kindColorMap

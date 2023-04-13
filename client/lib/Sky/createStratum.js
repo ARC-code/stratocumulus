@@ -1,4 +1,4 @@
-const stratumLib = require('./stratum')
+const Stratum = require('../Stratum')
 
 module.exports = function (path, context, label, bgColor, position) {
   // Create and start one stratum.
@@ -26,8 +26,8 @@ module.exports = function (path, context, label, bgColor, position) {
     return this.strata[path]
   }
 
-  // Build and render
-  const stratum = stratumLib.build(path, context, label, bgColor)
+  // Build
+  const stratum = new Stratum(path, context, label, bgColor)
 
   // Place into space DOM. Stratum (0,0,0) will match with the position.
   // TODO use FractalLoader for placing the content.
@@ -37,6 +37,9 @@ module.exports = function (path, context, label, bgColor, position) {
   this.strata[path] = stratum
   this.strataTrail.push(stratum.path)
   this.currentStratum = this.strataTrail.length - 1
+
+  // Begin loading and rendering
+  stratum.load()
 
   stratum.on('stratumrequest', (ev) => {
     // This event tells us that an interaction within the stratum

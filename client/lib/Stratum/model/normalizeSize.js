@@ -1,4 +1,4 @@
-const sizing = require('../../../config').sizing
+const sizing = require('../../config').sizing
 
 module.exports = (s) => {
   if (s < sizing.minValue) { sizing.minValue = s }

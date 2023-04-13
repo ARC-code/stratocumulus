@@ -1,5 +1,3 @@
-const stratumLib = require('./stratum')
-
 module.exports = function (path) {
   // Unregister stratum.
   // Forget stratum and remove it from DOM.
@@ -14,14 +12,9 @@ module.exports = function (path) {
     return
   }
 
-  // Destroy listeners we set during creation.
-  stratum.off('stratumrequest')
-  stratum.off('final')
-
-  // Remove from DOM.
-  this.space.removeChild(stratum.space)
-  // Clean up.
-  stratumLib.remove(stratum)
+  // Remove from DOM and stop listeners.
+  // TODO remove via FractalLoader
+  stratum.remove()
   // Forget
   delete this.strata[path]
 }
