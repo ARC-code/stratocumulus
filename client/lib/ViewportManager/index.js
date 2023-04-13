@@ -1,13 +1,15 @@
 const tapspace = require('tapspace')
 
 const ViewportManager = function () {
-  // The viewport manager prepares the tapspace Viewport for interaction.
-  // We would like to avoid user to interact with
-  // the viewport before there is something to show. Otherwise
-  // a few accidental moves could pan the viewport somewhere
-  // where there is no content.
-  // Call manager.enableNavigation when there some content is visible.
+  // The viewport manager handles the tapspace Viewport interaction setup.
+  // The manager can be used to enable or disable interaction.
   //
+  // For example, we would like to avoid user to interact with
+  // the viewport before there is something to show.
+  // Otherwise a few accidental moves could pan the viewport somewhere
+  // where there will be no content.
+  //
+
   this.enabled = false
 
   const skyElement = document.querySelector('#sky')
