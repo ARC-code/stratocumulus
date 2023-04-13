@@ -2,12 +2,14 @@ const io = require('./io')
 const strata = require('./strata')
 const tapspace = require('tapspace')
 const Toolbar = require('./Toolbar')
+const clientVersion = require('./version')
 
 exports.start = function () {
   // DEBUG message to help dev to differentiate between:
   // - app bundle is ok but we are offline (ok message, no UI action)
   // - app bundle is broken (no message, no UI action)
-  console.log('Stratocumulus client started.')
+  // - app bundle is cached (ok message, old versions)
+  console.log('stratocumulus-client v' + clientVersion)
   console.log('tapspace.js v' + tapspace.version)
 
   // Open SSE stream

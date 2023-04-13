@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack",
+    "gv": "genversion lib/version.js",
     "lint": "standard \"lib/**/*.js\"",
     "test": "npm run lint"
   },
@@ -42,6 +43,7 @@
   },
   "devDependencies": {
     "css-loader": "^6.7.2",
+    "genversion": "^3.1.1",
     "standard": "^16.0.4",
     "style-loader": "^3.3.1",
     "webpack": "^5.73.0",
