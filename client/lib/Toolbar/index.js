@@ -1,10 +1,12 @@
 const emitter = require('component-emitter')
 const SearchForm = require('./SearchForm')
+require('./toolbar.css')
 
 const Toolbar = function () {
   // A component for search and information tools.
   //
   this.element = document.createElement('div')
+  this.element.className = 'toolbar-box'
 
   this.searchForm = new SearchForm()
 

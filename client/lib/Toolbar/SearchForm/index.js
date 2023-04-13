@@ -5,7 +5,7 @@ const SearchForm = function () {
   //
 
   const form = document.createElement('form')
-  form.id = 'search-box'
+  form.className = 'search-box'
   form.action = '#' // no-op
 
   form.innerHTML = [
