@@ -3,8 +3,8 @@ const tapspace = require('tapspace')
 const Sky = require('./Sky')
 const TimeSlider = require('./TimeSlider')
 const Toolbar = require('./Toolbar')
+const ViewportManager = require('./ViewportManager')
 const clientVersion = require('./version')
-const initViewport = require('./initViewport')
 
 exports.start = function () {
   // DEBUG message to help dev to differentiate between:
@@ -17,9 +17,9 @@ exports.start = function () {
   // Open SSE stream
   io.stream.connect()
 
-  // Setup tapspace
-  const skyElement = document.querySelector('#sky')
-  const viewport = tapspace.createView(skyElement)
+  // Setup tapspace viewport
+  const viewportManager = new ViewportManager()
+  const viewport = viewportManager.getViewport()
 
   // Setup search tools
   const toolbar = new Toolbar()
@@ -65,7 +65,8 @@ exports.start = function () {
   // make the viewport interactive and begin refreshing labels.
   firstStratum.once('final', () => {
     // Make viewport interactive now when space has content.
-    initViewport(viewport)
+    // TODO enable already after first node.
+    viewportManager.enableNavigation()
 
     // Show/hide labels after zoom
     sky.refreshLabels()
