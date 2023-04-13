@@ -10,7 +10,9 @@ const SearchForm = function () {
 
   form.innerHTML = [
     '<input type="text" class="search-text" placeholder="Search" />',
-    '<input type="button" class="search-button" value="Go" />'
+    '<button type="submit" class="search-button" aria-label="Go">',
+    '<span aria-hidden="true" focusable="false">&#128269;</span>',
+    '</button>'
   ].join('')
 
   this.element = form
