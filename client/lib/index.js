@@ -23,7 +23,7 @@ exports.start = function () {
   const toolbar = new Toolbar()
   const toolbarControl = tapspace.createControl(toolbar.getElement())
   toolbarControl.setSize(250, 60)
-  viewport.addControl(toolbarControl, viewport.at(10, 10))
+  viewport.addControl(toolbarControl, viewport.at(10, 12))
 
   // DEBUG
   toolbar.on('search', (ev) => {

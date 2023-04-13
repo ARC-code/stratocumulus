@@ -9,8 +9,8 @@ const SearchForm = function () {
   form.action = '#' // no-op
 
   form.innerHTML = [
-    '<input type="text" class="search-text" placeholder="Search" />',
-    '<button type="submit" class="search-button" aria-label="Go">',
+    '<input type="text" tabindex="0" class="search-text" placeholder="Search" />',
+    '<button type="submit" tabindex="0" class="search-button" aria-label="Go">',
     '<span aria-hidden="true" focusable="false">&#128269;</span>',
     '</button>'
   ].join('')
