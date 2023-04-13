@@ -1,6 +1,8 @@
 const stratumLib = require('./stratum')
 const tapspace = require('tapspace')
 const initViewport = require('./initViewport')
+// Styles
+require('./stratum.css')
 
 exports.build = function (viewport) {
   // State - the global context.
