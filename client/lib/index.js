@@ -1,6 +1,7 @@
 const io = require('./io')
 const strata = require('./strata')
 const tapspace = require('tapspace')
+const Toolbar = require('./Toolbar')
 
 exports.start = function () {
   // DEBUG message to help dev to differentiate between:
@@ -16,13 +17,16 @@ exports.start = function () {
   const sky = document.querySelector('#sky')
   const viewport = tapspace.createView(sky)
 
-  // Setup search bar
-  const searchHtml = '<form id="search-box">' +
-    '<input type="text" class="search-text" placeholder="Search" />' +
-    '<input type="button" class="search-button" value="Go" />' +
-    '</form>'
-  const searchBar = tapspace.createControl(searchHtml)
-  viewport.addControl(searchBar, viewport.at(10, 10))
+  // Setup search tools
+  const toolbar = new Toolbar()
+  const toolbarControl = tapspace.createControl(toolbar.getElement())
+  toolbarControl.setSize(250, 60)
+  viewport.addControl(toolbarControl, viewport.at(10, 10))
+
+  // DEBUG
+  toolbar.on('search', (ev) => {
+    console.log('search', ev)
+  })
 
   // Init first stratum
   strata.build(viewport)
