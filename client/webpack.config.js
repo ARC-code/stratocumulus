@@ -35,6 +35,13 @@ module.exports = {
           { loader: 'style-loader' },
           { loader: 'css-loader' }
         ]
+      },
+      {
+        test: /\.ejs$/,
+        loader: 'ejs-loader',
+        options: {
+          esModule: false // enable CommonJS modules.
+        }
       }
     ]
   }
