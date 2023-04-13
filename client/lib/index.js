@@ -1,6 +1,7 @@
 const io = require('./io')
 const strata = require('./strata')
 const tapspace = require('tapspace')
+const TimeSlider = require('./TimeSlider')
 const Toolbar = require('./Toolbar')
 const clientVersion = require('./version')
 
@@ -25,9 +26,25 @@ exports.start = function () {
   toolbarControl.setSize(250, 60)
   viewport.addControl(toolbarControl, viewport.at(10, 12))
 
+  // Setup year range slider
+  const slider = new TimeSlider()
+  document.body.appendChild(slider.getElement())
+
   // DEBUG
   toolbar.on('search', (ev) => {
     console.log('search', ev)
+  })
+
+  slider.on('change', (ev) => {
+    console.log('range', ev)
+
+    // Add the time range parameter to the context for any existing strata.
+    // Do this after the stratum is complete.
+    // TODO: actually fire off an update request and handle nodes
+    // that will either resize or possibly disappear/reappear
+    // for (let path in state.strata) {
+    //   state.strata[path].context['r_years'] = `${timeSlider.value1}to${timeSlider.value2}`
+    // }
   })
 
   // Init first stratum

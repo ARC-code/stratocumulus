@@ -13,18 +13,6 @@
             background-color: #444444;
         }
 
-        #time-slider-div {
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-            position: fixed;
-            bottom: 0;
-            width: 100vw;
-            height: 50px;
-            background-color: rgba(200, 200, 200, .5);
-            z-index: 500;
-        }
-
         #sky {
             margin: 0;
             padding: 0;
@@ -81,23 +69,6 @@
 </head>
 <body>
     <div id="sky"></div>
-    <div id="time-slider-div">
-        <tc-range-slider
-            id="time-slider"
-            slider-width="90vw"
-            keyboard-disabled="true"
-            mousewheel-disabled="true"
-            min="400"
-            max="2100"
-            value1="400"
-            value2="2100"
-            step="5"
-            marks="true"
-            marks-count="34"
-            marks-values-color="#FFFFFF"
-        >
-        </tc-range-slider>
-    </div>
     <script type="text/javascript">
       // Collect configuration and environment variables from
       // the server to be accessed by the client app.
