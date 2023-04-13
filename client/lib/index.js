@@ -1,9 +1,10 @@
 const io = require('./io')
-const strata = require('./strata')
 const tapspace = require('tapspace')
+const Sky = require('./Sky')
 const TimeSlider = require('./TimeSlider')
 const Toolbar = require('./Toolbar')
 const clientVersion = require('./version')
+const initViewport = require('./initViewport')
 
 exports.start = function () {
   // DEBUG message to help dev to differentiate between:
@@ -17,8 +18,8 @@ exports.start = function () {
   io.stream.connect()
 
   // Setup tapspace
-  const sky = document.querySelector('#sky')
-  const viewport = tapspace.createView(sky)
+  const skyElement = document.querySelector('#sky')
+  const viewport = tapspace.createView(skyElement)
 
   // Setup search tools
   const toolbar = new Toolbar()
@@ -47,6 +48,32 @@ exports.start = function () {
     // }
   })
 
-  // Init first stratum
-  strata.build(viewport)
+  // Init stratum loader and begin loading the first stratum
+  const sky = new Sky(viewport)
+
+  // Begin from the root stratum path '/'
+  const firstPoint = viewport.atCenter()
+  const firstStratum = sky.createStratum(
+    '/', // Path
+    {}, // Context
+    'ARC', // Label
+    '#444444', // Color
+    firstPoint // Position
+  )
+
+  // Once the first stratum has been rendered and we have some content in space,
+  // make the viewport interactive and begin refreshing labels.
+  firstStratum.once('final', () => {
+    // Make viewport interactive now when space has content.
+    initViewport(viewport)
+
+    // Show/hide labels after zoom
+    sky.refreshLabels()
+    viewport.on('idle', () => {
+      sky.refreshLabels()
+    })
+
+    // TODO release time slider
+    // TODO Take a snapshot or add a breadcrumb
+  })
 }
