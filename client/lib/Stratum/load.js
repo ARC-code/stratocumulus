@@ -24,6 +24,7 @@ module.exports = function () {
       return
     }
 
+    const wasEmpty = (this.graph.order === 0)
     stratumModel.updateGraph(this.graph, subgraph)
 
     // Determine if final message for graph
@@ -32,7 +33,10 @@ module.exports = function () {
     // Render the graph and do the layout
     stratumView.drawGraph(this, isFinal)
 
-    // TODO if subgraph first and not empty, emit 'first'
+    // Emit 'first' at the first node.
+    if (wasEmpty && this.graph.order > 0 ) {
+      this.emit('first')
+    }
 
     // Emit 'final' event if last message
     if (isFinal) this.emit('final')

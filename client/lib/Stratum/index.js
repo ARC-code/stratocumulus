@@ -21,7 +21,7 @@ const Stratum = function (path, context, label, bgColor) {
   //
   // Stratum emits:
   //   first
-  //     TODO when the first node has been rendered.
+  //     when the first node has been loaded and rendered.
   //   final
   //     when all subgraphs of the stratum has been loaded and rendered.
   //   stratumrequest
