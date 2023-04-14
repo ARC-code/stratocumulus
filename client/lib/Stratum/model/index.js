@@ -7,4 +7,5 @@
 
 exports.createGraph = require('./createGraph')
 exports.findNodeByContext = require('./findNodeByContext')
+exports.getCardinality = require('./getCardinality')
 exports.updateGraph = require('./updateGraph')
