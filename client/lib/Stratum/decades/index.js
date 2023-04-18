@@ -31,24 +31,32 @@ exports.estimate = (decades, beginYear, endYear) => {
     return decades[decadeKeys[0]]
   }
 
-  const maxNumInRange = decadeKeys.reduce((max, decadeKey) => {
-    return Math.max(max, decades[decadeKey])
-  }, 0)
+  // Collect maximum for estimation
+  let maxNumInRange = 0
+  let numDecadesInRange = 0
+  let numDocsInRange = 0
 
-  const numDocsInRange = decadeKeys.reduce((sum, decadeKey) => {
-    const dec = parseInt(decadeKey)
+  for (let i = 0; i < numDecades; i += 1) {
+    const dec = decadeKeys[i]
+
     if (beginYear <= dec && dec <= endYear) {
-      const decadeNumDocs = decades[decadeKey]
-      return sum + decadeNumDocs
+      const decadeNumDocs = decades[dec]
+      maxNumInRange = Math.max(maxNumInRange, decadeNumDocs)
+      numDecadesInRange += 1
+      numDocsInRange += decadeNumDocs
     }
-    // Outside the range
-    return sum
-  }, 0)
+  }
 
+  // Handle narrow range
+  if (numDecadesInRange <= 1) {
+    return maxNumInRange
+  }
+
+  // Estimate from maximum and average
   const avgNumRestDocs = (
-    (numDocsInRange - maxNumInRange) / (numDecades - 1)
+    (numDocsInRange - maxNumInRange) / (numDecadesInRange - 1)
   )
+  const estimate = maxNumInRange + avgNumRestDocs * 2 / 3
 
-  // Estimate
-  return maxNumInRange + avgNumRestDocs * 2 / 3
+  return estimate
 }

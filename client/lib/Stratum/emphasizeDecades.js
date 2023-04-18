@@ -27,6 +27,12 @@ module.exports = function (beginYear, endYear) {
   // Refresh the graph nodes based on the year range.
   this.graph.updateEachNodeAttributes((nodeKey, nodeAttrs) => {
     const decades = nodeAttrs.decades
+
+    if (Object.keys(decades).length === 0) {
+      // Nodes with empty decades. Maybe navigational nodes. Keep the same.
+      return nodeAttrs
+    }
+
     const count = estimateCount(decades, beginYear, endYear)
 
     // Update node model values and sizes.
