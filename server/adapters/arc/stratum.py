@@ -168,7 +168,6 @@ async def perform_facet_query(session, channel, path, facet, connected_to, facet
                     facet_id = node_parts[0]
                     facet_label = node_parts[1]
                     time_query = time_query_template.format(facet_id=facet_id)
-                    print(time_query)
 
                     async with session.get(time_query) as time_resp:
                         time_data = await time_resp.json()
