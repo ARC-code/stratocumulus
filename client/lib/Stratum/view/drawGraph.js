@@ -49,6 +49,7 @@ module.exports = function (stratum, final = false) {
       // Disable interaction with node content.
       newItem.setContentInput(false)
       // Make it easy to find node attributes via tapspace component.
+      // NOTE does not follow changes in the graph model. TODO improve
       newItem.model = {
         nodeKey: key,
         nodeAttributes: attrs

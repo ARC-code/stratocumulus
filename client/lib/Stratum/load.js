@@ -34,7 +34,7 @@ module.exports = function () {
     stratumView.drawGraph(this, isFinal)
 
     // Emit 'first' at the first node.
-    if (wasEmpty && this.graph.order > 0 ) {
+    if (wasEmpty && this.graph.order > 0) {
       this.emit('first')
     }
 
