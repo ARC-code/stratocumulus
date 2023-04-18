@@ -15,6 +15,7 @@ module.exports = function (space, graph) {
     const nodeKey = nodeItem.model.nodeKey
     const nodeSize = graph.getNodeAttribute(nodeKey, 'size')
 
-    nodeItem.setSize(nodeSize, nodeSize)
+    const newSize = { w: nodeSize, h: nodeSize }
+    nodeItem.resizeTo(newSize, nodeItem.atCenter())
   })
 }
