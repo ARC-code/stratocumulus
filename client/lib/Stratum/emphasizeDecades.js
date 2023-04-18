@@ -1,4 +1,6 @@
 const estimateCount = require('./decades').estimate
+const normalizeSize = require('./model/normalizeSize')
+const refreshCounts = require('./view/refreshCounts')
 
 module.exports = function (beginYear, endYear) {
   // Make the nodes, that have documents within this time range,
@@ -23,11 +25,18 @@ module.exports = function (beginYear, endYear) {
   this.context.r_years = beginYear + 'to' + endYear
 
   // Refresh the graph nodes based on the year range.
-  this.graph.forEachNode((nodeKey, nodeAttrs) => {
+  this.graph.updateEachNodeAttributes((nodeKey, nodeAttrs) => {
     const decades = nodeAttrs.decades
     const count = estimateCount(decades, beginYear, endYear)
 
-    // Commit this to the rendered nodes.
-    console.log(count)
+    // Update node model values and sizes.
+    return {
+      ...nodeAttrs,
+      value: count,
+      size: normalizeSize(count)
+    }
   })
+
+  // Refresh the rendered node sizes.
+  refreshCounts(this.space, this.graph)
 }
