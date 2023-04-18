@@ -32,5 +32,6 @@ const proto = Sky.prototype
 
 // Methods
 proto.createStratum = require('./createStratum')
+proto.emphasizeDecades = require('./emphasizeDecades')
 proto.refreshLabels = require('./refreshLabels')
 proto.removeStratum = require('./removeStratum')

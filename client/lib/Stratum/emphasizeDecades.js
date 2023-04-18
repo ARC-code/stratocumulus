@@ -1,0 +1,33 @@
+const estimateCount = require('./decades').estimate
+
+module.exports = function (beginYear, endYear) {
+  // Make the nodes, that have documents within this time range,
+  // stand out from the others. Does not remove or completely hide
+  // the unmatched nodes.
+  //
+  // Parameters
+  //   beginYear
+  //     a number, inclusive year
+  //   endYear
+  //     a number, inclusive year
+  //
+
+  if (beginYear > endYear) {
+    // Switch
+    const trueEnd = beginYear
+    beginYear = endYear
+    endYear = trueEnd
+  }
+
+  // Update the filtering context for further queries
+  this.context.r_years = beginYear + 'to' + endYear
+
+  // Refresh the graph nodes based on the year range.
+  this.graph.forEachNode((nodeKey, nodeAttrs) => {
+    const decades = nodeAttrs.decades
+    const count = estimateCount(decades, beginYear, endYear)
+
+    // Commit this to the rendered nodes.
+    console.log(count)
+  })
+}

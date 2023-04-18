@@ -31,23 +31,6 @@ exports.start = function () {
   const slider = new TimeSlider()
   document.body.appendChild(slider.getElement())
 
-  // DEBUG
-  toolbar.on('search', (ev) => {
-    console.log('search', ev)
-  })
-
-  slider.on('change', (ev) => {
-    console.log('range', ev)
-
-    // Add the time range parameter to the context for any existing strata.
-    // Do this after the stratum is complete.
-    // TODO: actually fire off an update request and handle nodes
-    // that will either resize or possibly disappear/reappear
-    // for (let path in state.strata) {
-    //   state.strata[path].context['r_years'] = `${timeSlider.value1}to${timeSlider.value2}`
-    // }
-  })
-
   // Init stratum loader and begin loading the first stratum
   const sky = new Sky(viewport)
 
@@ -78,5 +61,18 @@ exports.start = function () {
   firstStratum.once('final', () => {
     // TODO release time slider
     // TODO Take a snapshot or add a breadcrumb
+  })
+
+  // Connect search bar
+  toolbar.on('search', (ev) => {
+    console.log('search', ev)
+  })
+
+  // Connect time range slider
+  slider.on('change', (ev) => {
+    console.log('range', ev.rangeStart, ev.rangeEnd)
+
+    // Update strata based on the year range
+    sky.emphasizeDecades(ev.rangeStart, ev.rangeEnd)
   })
 }

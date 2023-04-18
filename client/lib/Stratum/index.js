@@ -63,6 +63,7 @@ const proto = Stratum.prototype
 emitter(proto)
 
 // Methods
+proto.emphasizeDecades = require('./emphasizeDecades')
 proto.load = require('./load')
 proto.getSpace = require('./getSpace')
 proto.refresh = require('./refresh')
