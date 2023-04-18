@@ -129,13 +129,14 @@ async def build_facets(channel, path, facets, connected_to, query_params={}):
     async with aiohttp.ClientSession(trust_env=True) as session:
         queries = []
         for facet in facets:
-            query_prefix = f"{corpora_url}ArcArtifact/?page-size=0"
+            query_prefix = f"{corpora_url}ArcArtifact/?page-size=0&r_years=400to2100"
 
             if query_params:
                 query_prefix += '&' + format_get_params(query_params)
 
             facet_query = f"{query_prefix}&a_terms_{facet}={facet}.id,{facet}.label.raw"
-            decade_query_template = query_prefix + "&{facet}.id={{facet_id}}&a_histogram_decades=years__10".format(facet=facet)
+            #time_query_template = query_prefix + "&f_{facet}.id={{facet_id}}&a_histogram_decades=years__10&a_histogram_halfcenturies=years__50&a_histogram_centuries=years__100".format(facet=facet)
+            time_query_template = query_prefix + "&f_{facet}.id={{facet_id}}&a_histogram_decades=years__10".format(facet=facet)
 
             queries.append(
                 perform_facet_query(
@@ -145,14 +146,14 @@ async def build_facets(channel, path, facets, connected_to, query_params={}):
                     facet,
                     connected_to,
                     facet_query,
-                    decade_query_template
+                    time_query_template
                 )
             )
 
         return await asyncio.gather(*queries, return_exceptions=True)
 
 
-async def perform_facet_query(session, channel, path, facet, connected_to, facet_query, decade_query_template):
+async def perform_facet_query(session, channel, path, facet, connected_to, facet_query, time_query_template):
     try:
         async with session.get(facet_query) as resp:
             data = await resp.json()
@@ -166,11 +167,14 @@ async def perform_facet_query(session, channel, path, facet, connected_to, facet
                     node_parts = agg_key.split('|||')
                     facet_id = node_parts[0]
                     facet_label = node_parts[1]
-                    decade_query = decade_query_template.format(facet_id=facet_id)
+                    time_query = time_query_template.format(facet_id=facet_id)
+                    print(time_query)
 
-                    async with session.get(decade_query) as decade_resp:
-                        decade_data = await decade_resp.json()
-                        if 'meta' in decade_data and 'aggregations' in decade_data['meta'] and 'decades' in decade_data['meta']['aggregations']:
+                    async with session.get(time_query) as time_resp:
+                        time_data = await time_resp.json()
+                        if 'meta' in time_data \
+                                and 'aggregations' in time_data['meta'] \
+                                and 'decades' in time_data['meta']['aggregations']: # and 'halfcenturies' in time_data['meta']['aggregations']: and 'centuries' in time_data['meta']['aggregations']:
 
                             node_attrs = {
                                 'id': f"{connected_to}/{facet}/{facet_id}",
@@ -178,7 +182,9 @@ async def perform_facet_query(session, channel, path, facet, connected_to, facet
                                 'parent': f"{connected_to}/{facet}",
                                 'kind': facet,
                                 'value': agg_count,
-                                'decades': decade_data['meta']['aggregations']['decades'],
+                                'decades': time_data['meta']['aggregations']['decades'],
+                                #'halfcenturies': time_data['meta']['aggregations']['halfcenturies'],
+                                #'centuries': time_data['meta']['aggregations']['centuries'],
                                 'is_facetable': True,
                                 'facet_param': f"f_{facet}.id",
                                 'facet_value': facet_id
