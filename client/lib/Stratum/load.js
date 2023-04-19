@@ -15,6 +15,7 @@ module.exports = function () {
 
   // Mark that it has or will have content.
   this.alive = true
+  this.loading = true
 
   // Begin listen events for the path.
   io.stream.on(this.path, (subgraph) => {
@@ -39,7 +40,12 @@ module.exports = function () {
     }
 
     // Emit 'final' event if last message
-    if (isFinal) this.emit('final')
+    if (isFinal) {
+      // Register that loading is now finished.
+      this.loading = false
+      // Signal e.g. viewport that the graph is rendered.
+      this.emit('final')
+    }
   })
 
   // Inform the server we are ready to receive the stratum.

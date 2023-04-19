@@ -54,6 +54,8 @@ const Stratum = function (path, context, label, bgColor) {
   this.context = Object.assign({}, context)
   // Alive when loading or loaded.
   this.alive = false
+  // Keep track if still loading
+  this.loading = false
 }
 
 module.exports = Stratum
