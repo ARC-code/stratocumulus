@@ -1,8 +1,4 @@
-const config = require('../../config')
 const normalizeSize = require('./normalizeSize')
-
-const kindColorMap = config.kindColorMap
-const defaultColor = config.defaultColor
 
 module.exports = function (graph, subgraph) {
   // Update the graph object with a subgraph received from the server.
@@ -36,7 +32,6 @@ module.exports = function (graph, subgraph) {
       const attrs = {
         id: n.id,
         label: n.label,
-        color: defaultColor,
         value: 0,
         decades: {},
         size: 0,
@@ -47,10 +42,9 @@ module.exports = function (graph, subgraph) {
         facetValue: null
       }
 
-      if ('kind' in n && n.kind in kindColorMap) {
-        attrs.color = kindColorMap[n.kind]
+      if ('kind' in n && n.kind.length > 0) {
+        attrs.kind = n.kind
       }
-
       if ('value' in n) {
         attrs.value = n.value
         attrs.size = normalizeSize(n.value)

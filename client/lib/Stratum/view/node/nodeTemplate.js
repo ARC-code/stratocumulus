@@ -1,10 +1,13 @@
-const nodeColorCSS = require('./nodeColorCSS')
 const nodeSize = require('./nodeSize')
 
 const buildClassNames = (attrs) => {
   let classNames = 'node'
   if (attrs.isFacetable) {
     classNames += ' facetable'
+  }
+  // Kind for coloring
+  if (attrs.kind) {
+    classNames += ' node-' + attrs.kind
   }
   return classNames
 }
@@ -20,16 +23,10 @@ const buildDataAttrs = (attrs) => {
   return dataAttrs
 }
 
-const buildNodeStyle = (attrs) => {
-  const style = nodeColorCSS(attrs.color)
-  return style.trim()
-}
-
 const buildNodeElement = (id, attrs) => {
   const classNames = buildClassNames(attrs)
-  const nodeStyle = buildNodeStyle(attrs)
   const dataAttrs = buildDataAttrs(attrs)
-  return `<div id="${id}-node" class="${classNames}" style="${nodeStyle}"` +
+  return `<div id="${id}-node" class="${classNames}"` +
     dataAttrs + '></div>'
 }
 

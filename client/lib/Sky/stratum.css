@@ -21,6 +21,8 @@
     /* Fill space item */
     width: 100%;
     height: 100%;
+    /* Default color */
+    background: linear-gradient(#43a2ca, #0868ac);
 }
 
 .label {
@@ -42,4 +44,18 @@
 }
 .facetable.node:hover {
   border-color: white;
+}
+
+/* Kind-specific styling */
+.node.node-disciplines {
+  background: linear-gradient(#efb915, #e2aa00);
+}
+.node.node-federations {
+  background: linear-gradient(#8856a7, #810f7c);
+}
+.node.node-genres {
+  background: linear-gradient(#2ca25f, #006d2c);
+}
+.node.empty-node {
+  background: linear-gradient(#969696, #666666);
 }
