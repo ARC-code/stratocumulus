@@ -17,7 +17,7 @@ exports.estimate = (decades, beginYear, endYear) => {
   //     an integer
   //
   // Return:
-  //   a number, document count
+  //   an integer, document count
   //
 
   const decadeKeys = Object.keys(decades)
@@ -58,5 +58,5 @@ exports.estimate = (decades, beginYear, endYear) => {
   )
   const estimate = maxNumInRange + avgNumRestDocs * 2 / 3
 
-  return estimate
+  return Math.round(estimate)
 }
