@@ -22,6 +22,14 @@ module.exports = function (space, graph) {
     const nodeElement = nodeItemElem.querySelector('.node')
     const countElement = nodeItemElem.querySelector('.node-label-count')
 
+    // Number of documents define the node color.
+    const nodeValue = nodeAttrs.value
+    if (nodeValue < 0.1) {
+      nodeElement.classList.add('empty-node')
+    } else {
+      nodeElement.classList.remove('empty-node')
+    }
+
     // Update the label count. Some nodes do not have counts.
     if (countElement) {
       countElement.innerText = nodeValue.toLocaleString('en-US')
