@@ -66,6 +66,7 @@ emitter(proto)
 
 // Methods
 proto.emphasizeDecades = require('./emphasizeDecades')
+proto.filterByKeyword = require('./filterByKeyword')
 proto.load = require('./load')
 proto.getSpace = require('./getSpace')
 proto.refresh = require('./refresh')

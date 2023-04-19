@@ -23,16 +23,25 @@ module.exports = function (space, graph) {
     const countElement = nodeItemElem.querySelector('.node-label-count')
 
     // Number of documents define the node color.
+    // Stale nodes are treated as empty.
+    const nodeIsStale = nodeAttrs.stale
     const nodeValue = nodeAttrs.value
-    if (nodeValue < 0.1) {
+    if (nodeValue < 0.1 || nodeIsStale) {
       nodeElement.classList.add('empty-node')
     } else {
       nodeElement.classList.remove('empty-node')
     }
 
     // Update the label count. Some nodes do not have counts.
+    // Stale nodes have unknown count.
     if (countElement) {
-      countElement.innerText = nodeValue.toLocaleString('en-US')
+      if (nodeIsStale) {
+        // Still waiting for valid count
+        countElement.innerText = '***'
+      } else {
+        // Add thousands separator for readability
+        countElement.innerText = nodeValue.toLocaleString('en-US')
+      }
     }
   })
 }

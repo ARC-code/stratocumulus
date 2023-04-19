@@ -146,8 +146,13 @@ module.exports = function (stratum, final = false) {
     })
 
     facetableItems.forEach(item => {
-      item.tappable()
-      item.on('tap', facetableClickHandler)
+      try {
+        item.tappable()
+        item.on('tap', facetableClickHandler)
+      } catch (err) {
+        // TODO throws error because duplicate tappable call.
+        // TODO implement at tapspace: isTappable() or isInteractive()
+      }
     })
   }
 }

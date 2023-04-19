@@ -25,6 +25,26 @@ module.exports = function (graph, subgraph) {
       // Ensure no such node exists yet.
       // Server might send some nodes multiple times.
       if (graph.hasNode(n.id)) {
+        const nodeAttrs = graph.getNodeAttributes(n.id)
+
+        if (nodeAttrs.stale) {
+          // Duplicate because filtered. Means that node is filtered in.
+          graph.updateNodeAttributes(n.id, attrs => {
+            const nextAttrs = { ...attrs, stale: false }
+            if ('value' in n) {
+              nextAttrs.value = n.value
+              nextAttrs.size = normalizeSize(n.value)
+            }
+            if ('decades' in n) {
+              nextAttrs.decades = n.decades
+            }
+            return nextAttrs
+          })
+          // Node updated.
+          return
+        }
+
+        // Else notify duplicate node
         console.warn(`Duplicate for node ${n.id} detected.`) // DEBUG
         return
       }
@@ -39,7 +59,8 @@ module.exports = function (graph, subgraph) {
         parent: null,
         isFacetable: false,
         facetParam: null,
-        facetValue: null
+        facetValue: null,
+        stale: false // for cache invalidation during filtering
       }
 
       if ('kind' in n && n.kind.length > 0) {
@@ -61,6 +82,15 @@ module.exports = function (graph, subgraph) {
   }
 
   if ('edges' in subgraph) {
-    subgraph.edges.forEach(e => graph.addEdge(e.from, e.to))
+    subgraph.edges.forEach(edge => {
+      if (graph.hasEdge(edge.from, edge.to)) {
+        // Mark cached edge as fresh.
+        graph.updateEdgeAttribute(edge.from, edge.to, 'stale', () => false)
+      } else {
+        graph.addEdge(edge.from, edge.to, {
+          stale: false // for cache invalidation during filtering
+        })
+      }
+    })
   }
 }

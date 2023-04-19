@@ -66,6 +66,8 @@ exports.start = function () {
   // Connect search bar
   toolbar.on('search', (ev) => {
     console.log('search', ev)
+
+    sky.filterByKeyword(ev.query)
   })
 
   // Connect time range slider
