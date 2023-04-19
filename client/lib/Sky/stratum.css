@@ -33,6 +33,10 @@
     -webkit-text-stroke: .1px rgb(68, 68, 68);
     color: white;
 }
+.label .node-label-count {
+  float: right;
+  font-size: 50%;
+}
 
 .edge {
     /* tapspace edges use only border-top */

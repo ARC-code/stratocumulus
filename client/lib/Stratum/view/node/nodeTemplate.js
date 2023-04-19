@@ -51,7 +51,7 @@ const buildLabelStyle = (attrs) => {
 const buildLabelElement = (id, attrs) => {
   const classNames = buildLabelClassNames(attrs)
   const labelStyle = buildLabelStyle(attrs)
-  const labelCount = `<div style="float: right; font-size: 50%;">${attrs.value.toLocaleString('en-US')}</div>`
+  const labelCount = `<div class="node-label-count">${attrs.value.toLocaleString('en-US')}</div>`
   return `<span id="${id}-label" class="${classNames}" ` +
     `style="${labelStyle}">${attrs.label}${attrs.isFacetable ? labelCount : ''}</span>`
 }

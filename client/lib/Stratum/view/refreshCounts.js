@@ -1,5 +1,3 @@
-const computeNodeSize = require('./node/nodeSize')
-
 module.exports = function (space, graph) {
   // Refresh the counts and sizes of all nodes.
   //
@@ -13,9 +11,20 @@ module.exports = function (space, graph) {
 
   nodeItems.forEach((nodeItem) => {
     const nodeKey = nodeItem.model.nodeKey
-    const nodeSize = graph.getNodeAttribute(nodeKey, 'size')
+    const nodeAttrs = graph.getNodeAttributes(nodeKey)
 
+    const nodeSize = nodeAttrs.size
     const newSize = { w: nodeSize, h: nodeSize }
     nodeItem.resizeTo(newSize, nodeItem.atCenter())
+
+    // Find the color node and label
+    const nodeItemElem = nodeItem.getElement()
+    const nodeElement = nodeItemElem.querySelector('.node')
+    const countElement = nodeItemElem.querySelector('.node-label-count')
+
+    // Update the label count. Some nodes do not have counts.
+    if (countElement) {
+      countElement.innerText = nodeValue.toLocaleString('en-US')
+    }
   })
 }
