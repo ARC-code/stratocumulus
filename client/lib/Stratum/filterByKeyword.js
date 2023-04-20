@@ -22,10 +22,17 @@ module.exports = function (keyword) {
   const beginBuildJob = () => {
     // Send a new build job with the updated context.
 
-    // Safeguard
+    // Safeguard for removed stratum, e.g. when previous final has taken
+    // long time and the user has moved far away.
     if (!this.alive) {
       return
     }
+    // Safeguard duplicate final listeners, e.g. when user immediately tries
+    // another keyword.
+    if (this.loading) {
+      return
+    }
+
     // Invalidate nodes in order to remove extra.
     stratumModel.invalidateAll(this.graph)
     stratumView.refreshCounts(this.space, this.graph)

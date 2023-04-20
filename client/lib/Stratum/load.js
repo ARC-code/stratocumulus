@@ -12,6 +12,11 @@ module.exports = function () {
     console.warn('Duplicate stratum.load() call for ' + this.path)
     return
   }
+  if (this.loading) {
+    // Already loading.
+    console.warn('Already loading ' + this.path)
+    return
+  }
 
   // Mark that it has or will have content.
   this.alive = true
