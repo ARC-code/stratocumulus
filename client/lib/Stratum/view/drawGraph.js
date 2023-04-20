@@ -54,6 +54,9 @@ module.exports = function (stratum, final = false) {
         nodeKey: key,
         nodeAttributes: attrs
       }
+      // Track if the item is interactive.
+      // TODO use future tapspace methods to check this.
+      newItem.interactiveNode = false
 
       nodeGroup.addChild(newItem, nPoint)
     }
@@ -109,6 +112,7 @@ module.exports = function (stratum, final = false) {
       }
     })
 
+    // Make facetable nodes interactive
     const facetableClickHandler = (event) => {
       const clickedItem = event.component
       const attrs = clickedItem.model.nodeAttributes
@@ -140,18 +144,15 @@ module.exports = function (stratum, final = false) {
         position: position
       })
     }
-
     const facetableItems = nodeGroup.getChildren().filter(nodeItem => {
       return nodeItem.model.nodeAttributes.isFacetable
     })
-
     facetableItems.forEach(item => {
-      try {
+      // Prevent duplicate interaction setup
+      if (!item.interactiveNode) {
+        item.interactiveNode = true // TODO use future tapspace methods to test
         item.tappable()
         item.on('tap', facetableClickHandler)
-      } catch (err) {
-        // TODO throws error because duplicate tappable call.
-        // TODO implement at tapspace: isTappable() or isInteractive()
       }
     })
   }
