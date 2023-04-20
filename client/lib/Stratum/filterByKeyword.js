@@ -34,11 +34,16 @@ module.exports = function (keyword) {
     }
 
     // Invalidate nodes in order to remove extra.
-    stratumModel.invalidateAll(this.graph)
+    stratumModel.staleAll(this.graph)
     stratumView.refreshCounts(this.space, this.graph)
     // Mark that we are loading again.
     this.loading = true
     io.stream.sendStratumBuildJob(this.path, this.context)
+    // Unfreeze and remove all the stale.
+    this.once('final', () => {
+      stratumModel.pruneStale(this.graph)
+      stratumView.prune(this.space, this.graph)
+    })
   }
 
   if (this.loading) {

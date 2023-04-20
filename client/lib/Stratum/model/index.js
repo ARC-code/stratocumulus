@@ -8,5 +8,6 @@
 exports.createGraph = require('./createGraph')
 exports.findNodeByContext = require('./findNodeByContext')
 exports.getCardinality = require('./getCardinality')
-exports.invalidateAll = require('./invalidateAll')
+exports.pruneStale = require('./pruneStale')
+exports.staleAll = require('./staleAll')
 exports.updateGraph = require('./updateGraph')
