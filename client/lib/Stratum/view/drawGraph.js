@@ -37,7 +37,31 @@ module.exports = function (stratum, final = false) {
     if (nElem) {
       // Node exists. Update position and size.
       nElem.affine.translateTo(nPoint)
-      nElem.affine.setSize(nSize, nSize)
+      const newSize = { w: nSize, h: nSize }
+      nElem.affine.resizeTo(newSize, nElem.affine.atCenter())
+
+      const roundElement = nElem.querySelector('.node')
+      const countElement = nElem.querySelector('.node-label-count')
+
+      const nodeIsStale = attrs.stale
+      const nodeValue = attrs.value
+      if (nodeValue < 0.1 || nodeIsStale) {
+        roundElement.classList.add('empty-node')
+      } else {
+        roundElement.classList.remove('empty-node')
+      }
+
+      // Update the label count. Some nodes do not have counts.
+      // Stale nodes have unknown count.
+      if (countElement) {
+        if (nodeIsStale) {
+          // Still waiting for valid count
+          countElement.innerText = '***'
+        } else {
+          // Add thousands separator for readability
+          countElement.innerText = nodeValue.toLocaleString('en-US')
+        }
+      }
     } else {
       // No such node yet. Create.
       const newElem = nodeTemplate(nId, attrs)
@@ -82,6 +106,7 @@ module.exports = function (stratum, final = false) {
         edgeItem.addClass('edge')
         edgeItem.setId(edgeId)
         // Make it easy to find edge attributes via tapspace component.
+        // TODO mark only the key because attributes become stale.
         edgeItem.model = {
           edgeKey: edgeKey,
           edgeAttributes: edgeAttrs,
