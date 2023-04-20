@@ -9,23 +9,27 @@ module.exports = function (stratum, viewport) {
   //
   const stratumSpace = stratum.space
   const nodes = stratumSpace.nodeGroup.getChildren() // HACKY
+  const viewportWidth = viewport.getWidth().getNumber()
 
   nodes.forEach((node) => {
-    const trip = viewport.atCamera().getVectorTo(node.atCenter())
-    const tripDeltaZ = trip.transitRaw(viewport).z
+    // const trip = viewport.atCamera().getVectorTo(node.atCenter())
+    // const tripDeltaZ = trip.transitRaw(viewport).z
 
     // Determine node size on viewport.
-    const width = node.getWidth().getRaw() // px
+    const camera = viewport.atCamera()
+    const nodeWidthTensor = node.getWidth().projectTo(viewport, camera)
+    const nodeWidth = nodeWidthTensor.getNumber() // px
+    const indicator = nodeWidth / viewportWidth
 
     // TODO Replace with true, projected node size on viewport in pixels,
     // TODO so that the label threshold is based on font size.
-    const indicator = tripDeltaZ - width * width
+    // const indicator = tripDeltaZ - width * width
 
     // Show if large enough, ensure hidden otherwise.
     const label = node.getElement().querySelector('.label')
     // Check that label exists.
     if (label) {
-      if (indicator < 100) {
+      if (indicator > 0.01 && indicator < 0.7) {
         label.style.display = 'inline'
       } else {
         label.style.display = 'none'
