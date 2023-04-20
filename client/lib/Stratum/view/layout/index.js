@@ -6,20 +6,20 @@ const orientByNode = require('./orientByNode')
 const translateByNode = require('./translateByNode')
 const findNodeByContext = require('../../model/findNodeByContext')
 
-module.exports = function (stratum, final = false) {
+module.exports = function (graph, context) {
   // Compute layout for a graph without modifying it.
   //
   // Parameters
-  //   stratum
-  //     a stratum object. The graph property will be modified.
-  //   final
-  //     a boolean. Set true for additional finish. TODO is it needed?
+  //   graph
+  //     a graphology Graph.
+  //   context
+  //     a stratum context object.
   //
   // Return
-  //   a map: path -> {x,y}. The graphology layout positions.
+  //   a map: nodeKey -> {x,y}. The graphology layout positions.
   //
 
-  let positions = graphologyLayout.circlepack(stratum.graph, {
+  let positions = graphologyLayout.circlepack(graph, {
     hierarchyAttributes: ['parent'],
     center: 0,
     scale: 1.1
@@ -27,7 +27,7 @@ module.exports = function (stratum, final = false) {
 
   // Find root node for graph orientation.
   // Pick the root based on the context, the user arrival direction.
-  const rootNode = findNodeByContext(stratum.graph, stratum.context)
+  const rootNode = findNodeByContext(graph, context)
 
   // Consider possibility of the empty graph or no matching node.
   if (rootNode) {

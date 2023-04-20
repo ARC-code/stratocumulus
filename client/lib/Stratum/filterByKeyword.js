@@ -45,6 +45,7 @@ module.exports = function (keyword) {
       stratumModel.pruneStale(this.graph)
       stratumModel.unfreezeLayout(this.graph)
       stratumView.prune(this.space, this.graph)
+      stratumView.refreshLayout(this.space, this.graph, this.path, this.context)
     })
   }
 

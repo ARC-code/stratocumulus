@@ -22,7 +22,7 @@ module.exports = function (stratum, final = false) {
   const edgeGroup = stratumSpace.edgeGroup
   const nodeGroup = stratumSpace.nodeGroup
 
-  const layoutPositions = layoutGraph(stratum, final)
+  const layoutPositions = layoutGraph(stratum.graph, stratum.context)
 
   // Map each node in graph model to a visible tapspace item.
   graph.forEachNode(function (key, attrs) {
