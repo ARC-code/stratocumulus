@@ -35,6 +35,7 @@ module.exports = function (keyword) {
 
     // Invalidate nodes in order to remove extra.
     stratumModel.staleAll(this.graph)
+    stratumModel.freezeLayout(this.graph)
     stratumView.refreshCounts(this.space, this.graph)
     // Mark that we are loading again.
     this.loading = true
@@ -42,6 +43,7 @@ module.exports = function (keyword) {
     // Unfreeze and remove all the stale.
     this.once('final', () => {
       stratumModel.pruneStale(this.graph)
+      stratumModel.unfreezeLayout(this.graph)
       stratumView.prune(this.space, this.graph)
     })
   }
