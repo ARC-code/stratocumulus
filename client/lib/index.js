@@ -65,15 +65,12 @@ exports.start = function () {
 
   // Connect search bar
   toolbar.on('search', (ev) => {
-    console.log('search', ev)
-
+    // Filter strata by search query
     sky.filterByKeyword(ev.query)
   })
 
   // Connect time range slider
   slider.on('change', (ev) => {
-    console.log('range', ev.rangeStart, ev.rangeEnd)
-
     // Update strata based on the year range
     sky.emphasizeDecades(ev.rangeStart, ev.rangeEnd)
   })
