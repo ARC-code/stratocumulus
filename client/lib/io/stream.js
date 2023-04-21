@@ -39,7 +39,10 @@ exports.connect = function () {
   graphStream = new window.EventSource(STREAM_URL)
   graphStream.addEventListener(STREAM_KEY, function (ev) {
     const data = JSON.parse(ev.data)
-    console.log('Received a SSE event with data:', data)
+    // DEBUG
+    const msg = `${data.stage} for '${data.path}' ` +
+      `(edges:${data.edges.length}, nodes:${data.nodes.length})`
+    console.log('Incoming SSE event: ' + msg)
 
     // Check event format
     if (data && data.path) {
@@ -52,7 +55,7 @@ exports.connect = function () {
       } else {
         // No handlers set for the path.
         // In development, we like to know if this happens.
-        console.warn('Received a SSE event with unregisterd path: ' + path)
+        console.warn('Incoming SSE event with unregistered path: ' + path)
       }
     } else {
       // In development, we'd like to know if ev has no path.
@@ -116,6 +119,10 @@ exports.sendStratumBuildJob = function (path, context) {
   if (!graphStream) {
     throw new Error('No stream available.')
   }
+
+  // DEBUG
+  const msg = `get '${path}' with context ${JSON.stringify(context)}`
+  console.log('Outgoing request: ' + msg)
 
   const http = new window.XMLHttpRequest()
   let requestUrl = `/build_stratum?path=${path}`

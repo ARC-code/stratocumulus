@@ -1,0 +1,69 @@
+.network {
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+}
+
+.latch {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+}
+
+.node {
+    position: absolute;
+    z-index: 1000;
+    /* Make to look like circle */
+    border: 1px solid lightgray;
+    border-radius: 50%;
+    /* Avoid offset from border width */
+    box-sizing: border-box;
+    /* Fill space item */
+    width: 100%;
+    height: 100%;
+    /* Default color */
+    background: linear-gradient(#43a2ca, #0868ac);
+}
+
+.label {
+    position: absolute;
+    z-index: 2000;
+    display: none;
+    font-family: Arial, Helvetica, sans-serif;
+    -webkit-text-stroke: .1px rgb(68, 68, 68);
+    color: white;
+}
+.label .node-label-count {
+  float: right;
+  font-size: 50%;
+}
+
+.edge {
+    /* tapspace edges use only border-top */
+    border-top: .5px solid rgb(160, 160, 160);
+}
+
+/* Kind-specific styling */
+.node.node-disciplines {
+  background: linear-gradient(#efb915, #e2aa00);
+}
+.node.node-federations {
+  background: linear-gradient(#8856a7, #810f7c);
+}
+.node.node-genres {
+  background: linear-gradient(#2ca25f, #006d2c);
+}
+.node.empty-node {
+  background: linear-gradient(#969696, #666666);
+}
+
+/* Faceting */
+.facetable {
+  cursor: pointer;
+}
+.facetable.node:hover {
+  border-color: white;
+}
+.faceted-node .facetable.node {
+  background: transparent;
+}

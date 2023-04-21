@@ -1,0 +1,11 @@
+.time-slider-box {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  height: 50px;
+  background-color: rgba(200, 200, 200, .5);
+  z-index: 500;
+}

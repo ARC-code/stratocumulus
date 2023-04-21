@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack",
+    "gv": "genversion lib/version.js",
     "lint": "standard \"lib/**/*.js\"",
     "test": "npm run lint"
   },
@@ -37,11 +38,13 @@
     "graphology-layout": "^0.6.0",
     "graphology-layout-force": "^0.2.4",
     "graphology-layout-noverlap": "^0.4.2",
-    "tapspace": "^2.0.0-alpha.4",
+    "tapspace": "^2.0.0-alpha.5",
     "toolcool-range-slider": "^4.0.20"
   },
   "devDependencies": {
     "css-loader": "^6.7.2",
+    "ejs-loader": "^0.5.0",
+    "genversion": "^3.1.1",
     "standard": "^16.0.4",
     "style-loader": "^3.3.1",
     "webpack": "^5.73.0",
