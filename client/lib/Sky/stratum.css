@@ -43,13 +43,6 @@
     border-top: .5px solid rgb(160, 160, 160);
 }
 
-.facetable {
-  cursor: pointer;
-}
-.facetable.node:hover {
-  border-color: white;
-}
-
 /* Kind-specific styling */
 .node.node-disciplines {
   background: linear-gradient(#efb915, #e2aa00);
@@ -62,4 +55,15 @@
 }
 .node.empty-node {
   background: linear-gradient(#969696, #666666);
+}
+
+/* Faceting */
+.facetable {
+  cursor: pointer;
+}
+.facetable.node:hover {
+  border-color: white;
+}
+.faceted-node .facetable.node {
+  background: transparent;
 }
