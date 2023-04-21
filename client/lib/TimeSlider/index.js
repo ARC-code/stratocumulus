@@ -38,8 +38,7 @@ const TimeSlider = function () {
       const rangeStart = this.slider.value1
       const rangeEnd = this.slider.value2
       // DEBUG
-      console.log(`time range start: ${this.slider.value1};` +
-        `time range end: ${this.slider.value2}`)
+      console.log(`Time range set: ${rangeStart}–${rangeEnd}`)
       // Signal the range has changed.
       this.emit('change', { rangeStart, rangeEnd })
     }, THROTTLE_DELAY)
