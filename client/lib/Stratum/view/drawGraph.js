@@ -157,10 +157,14 @@ module.exports = function (stratum, final = false) {
         newContext[facetParam] = facetValue
       }
 
+      // Make the node transparent or somehow allow users to see
+      // the new stratum within
+      clickedItem.addClass('faceted-node')
+
       // The click emits an event "stratumrequest" which is listened on
       // strata-level, so that individual stratum does not need to know
       // about or control other strata.
-      const position = clickedItem.atCenter().offset(0, 0, 120)
+      const position = clickedItem.atCenter().offset(0, 0, 10)
       stratum.emit('stratumrequest', {
         path: facetPath,
         context: newContext,

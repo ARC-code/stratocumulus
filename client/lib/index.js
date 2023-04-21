@@ -36,12 +36,14 @@ exports.start = function () {
 
   // Begin from the root stratum path '/'
   const firstPoint = viewport.atCenter()
+  const firstScale = viewport.getScale()
   const firstStratum = sky.createStratum(
     '/', // Path
     {}, // Context
     'ARC', // Label
     '#444444', // Color
-    firstPoint // Position
+    firstPoint, // Position
+    firstScale // Scale
   )
 
   // Once the first stratum has some rendered content,
