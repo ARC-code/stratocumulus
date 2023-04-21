@@ -44,17 +44,13 @@ module.exports = function (path, context, label, bgColor, position) {
   stratum.on('stratumrequest', (ev) => {
     // This event tells us that an interaction within the stratum
     // requested a substratum to be built and rendered.
-    console.log('stratum ' + path + ' event: stratumrequest for ' + ev.path)
+
     // Stratum build might be heavy. To avoid blocking click interaction
     // too long, place the build last in the event loop. Thus timeout 0.
     setTimeout(() => {
       // Note the recursive nature of the call.
       this.createStratum(ev.path, ev.context, ev.label, ev.bgColor, ev.position)
     }, 0)
-  })
-
-  stratum.on('final', (ev) => {
-    console.log('stratum ' + path + ' event: final')
   })
 
   return stratum
