@@ -22,8 +22,8 @@ module.exports = function () {
   // Position to bottom right corner
   const positionZoomControl = () => {
     zoomControl.match({
-      source: zoomControl.atBottomRight(),
-      target: this.viewport.atBottomRight().offset(-10, -70)
+      source: zoomControl.atBottomLeft(),
+      target: this.viewport.atBottomLeft().offset(10, -70)
     })
   }
 
