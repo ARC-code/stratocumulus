@@ -5,4 +5,5 @@
 // updated backend APIs.
 //
 
+exports.corpora = require('./corpora')
 exports.stream = require('./stream')
