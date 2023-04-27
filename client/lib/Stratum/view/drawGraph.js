@@ -180,7 +180,7 @@ module.exports = function (stratum, final = false) {
       // Prevent duplicate interaction setup
       if (!item.interactiveNode) {
         item.interactiveNode = true // TODO use future tapspace methods to test
-        item.tappable()
+        item.tappable({ preventDefault: false })
         item.on('tap', facetableClickHandler)
       }
     })
