@@ -31,8 +31,11 @@ module.exports = function (stratum, viewport) {
     if (label) {
       if (indicator > 0.01 && indicator < 0.7) {
         label.style.display = 'inline'
+        node.setSolidity(true)
       } else {
         label.style.display = 'none'
+        // Allow travel through
+        node.setSolidity(false)
       }
     }
   })
