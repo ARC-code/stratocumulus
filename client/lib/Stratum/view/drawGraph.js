@@ -4,6 +4,7 @@ const nodeSize = require('./node/nodeSize')
 const generateNodeId = require('./node/generateNodeId')
 const generateEdgeId = require('./edge/generateEdgeId')
 const layoutGraph = require('./layout')
+const Distance = tapspace.geometry.Distance
 
 module.exports = function (stratum, final = false) {
   // Render the graph. If elements already exist, update.
@@ -123,11 +124,21 @@ module.exports = function (stratum, final = false) {
 
       // Ensure both exists and are affine
       if (sourceElem && targetElem) {
-        if (sourceElem.affine && targetElem.affine) {
+        const sourceNode = sourceElem.affine
+        const targetNode = targetElem.affine
+        if (sourceNode && targetNode) {
+          const sourceAttrs = graph.getNodeAttributes(sourceKey)
+          const targetAttrs = graph.getNodeAttributes(targetKey)
+          const sourceRadius = nodeSize(sourceAttrs) / 2
+          const targetRadius = nodeSize(targetAttrs) / 2
+          const sourceDist = new Distance(sourceNode, sourceRadius)
+          const targetDist = new Distance(targetNode, targetRadius)
           // Edge endpoints are valid tapspace elements.
-          edgeItem.setPoints(
-            sourceElem.affine.atAnchor(),
-            targetElem.affine.atAnchor()
+          edgeItem.trimPoints(
+            sourceNode.atAnchor(),
+            targetNode.atAnchor(),
+            sourceDist,
+            targetDist
           )
         } else {
           console.error('Tried to create edge between non-tapspace elements.')
