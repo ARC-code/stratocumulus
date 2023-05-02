@@ -1,5 +1,4 @@
 exports.createGraphSpace = require('./createGraphSpace')
-exports.drawGraph = require('./drawGraph')
 exports.prune = require('./prune')
 exports.refreshCounts = require('./refreshCounts')
 exports.refreshLabels = require('./refreshLabels')

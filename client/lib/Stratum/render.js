@@ -1,32 +1,32 @@
 const tapspace = require('tapspace')
-const nodeTemplate = require('./node/nodeTemplate')
-const nodeSize = require('./node/nodeSize')
-const generateNodeId = require('./node/generateNodeId')
-const generateEdgeId = require('./edge/generateEdgeId')
-const layoutGraph = require('./layout')
+const nodeTemplate = require('./view/node/nodeTemplate')
+const nodeSize = require('./view/node/nodeSize')
+const generateNodeId = require('./view/node/generateNodeId')
+const generateEdgeId = require('./view/edge/generateEdgeId')
+const layoutGraph = require('./view/layout')
 const Distance = tapspace.geometry.Distance
 
-module.exports = function (stratum, final = false) {
+module.exports = function (final = false) {
   // Render the graph. If elements already exist, update.
+  // This method is idempotent, thus you can call this method multiple times
+  // for example once for every new substratum from the server.
   //
   // Parameters:
-  //   stratum
-  //     a stratum object with 'path', 'plane', and 'graph' properties
   //   final
   //     boolean, set true to update edges
   //
-  const stratumSpace = stratum.space
+  const stratumSpace = this.space
   const stratumOrigin = stratumSpace.at(0, 0)
-  const path = stratum.path
-  const graph = stratum.graph
+  const path = this.path
+  const graph = this.graph
 
   const edgeGroup = stratumSpace.edgeGroup
   const nodeGroup = stratumSpace.nodeGroup
 
-  const layoutPositions = layoutGraph(stratum.graph, stratum.context)
+  const layoutPositions = layoutGraph(graph, this.context)
 
   // Map each node in graph model to a visible tapspace item.
-  graph.forEachNode(function (key, attrs) {
+  graph.forEachNode((key, attrs) => {
     // Prefixing node ids with path to prevent id collisions across strata
     const nId = generateNodeId(path, key)
     const nElem = document.getElementById(nId)
@@ -89,7 +89,7 @@ module.exports = function (stratum, final = false) {
 
   if (final) {
     // Draw edges
-    graph.forEachEdge(function (edgeKey, edgeAttrs, sourceKey, targetKey) {
+    graph.forEachEdge((edgeKey, edgeAttrs, sourceKey, targetKey) => {
       // Prefixing all ids with path to prevent id collisions across strata
       const sourceId = generateNodeId(path, sourceKey)
       const targetId = generateNodeId(path, targetKey)
@@ -155,7 +155,7 @@ module.exports = function (stratum, final = false) {
       const facetPath = attrs.id
       const facetParam = attrs.facetParam
       const facetValue = attrs.facetValue
-      const newContext = Object.assign({}, stratum.context)
+      const newContext = Object.assign({}, this.context)
 
       if (newContext[facetParam]) {
         const currentValues = newContext[facetParam].split('__')
@@ -176,7 +176,7 @@ module.exports = function (stratum, final = false) {
       // strata-level, so that individual stratum does not need to know
       // about or control other strata.
       const position = clickedItem.atCenter().offset(0, 0, 10)
-      stratum.emit('stratumrequest', {
+      this.emit('stratumrequest', {
         path: facetPath,
         context: newContext,
         label: 'todo',
