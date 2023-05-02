@@ -15,8 +15,6 @@ const ViewportManager = function () {
   const skyElement = document.querySelector('#sky')
   this.viewport = tapspace.createView(skyElement)
 
-  // Make viewport maintain the center under window resize
-  this.viewport.responsive()
   // Allow viewport to receive focus to emit keyboard events.
   this.viewport.focusable()
 
