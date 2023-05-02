@@ -72,3 +72,5 @@ proto.getSpace = require('./getSpace')
 proto.refresh = require('./refresh')
 proto.remove = require('./remove')
 proto.render = require('./render')
+// TODO setLabel? The large label below the stratum.
+// TODO Or render the label automatically when the context is modified?
