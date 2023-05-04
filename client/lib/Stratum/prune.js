@@ -9,22 +9,19 @@ module.exports = (space, graph) => {
   //     a graphology Graph
   //
 
-  const nodeItems = space.nodeGroup.getChildren() // HACKY
+  const renderedNodeKeys = Object.keys(this.renderedNodes)
+  const renderedEdgeKeys = Object.keys(this.renderedEdges)
 
-  nodeItems.forEach(nodeItem => {
-    const nodeKey = nodeItem.model.nodeKey
-
+  renderedNodeKeys.forEach(nodeKey => {
     if (!graph.hasNode(nodeKey)) {
-      nodeItem.remove()
+      const stratumNode = this.renderedNodes[nodeKey]
+      stratumNode.remove()
     }
   })
 
-  const edgeItems = space.edgeGroup.getChildren() // HACKY
-
-  edgeItems.forEach(edgeItem => {
-    const edgeKey = edgeItem.model.edgeKey
-
+  renderedEdgeKeys.forEach(edgeKey => {
     if (!graph.hasEdge(edgeKey)) {
+      const edgeItem = this.renderedEdges[edgeKey]
       edgeItem.remove()
     }
   })

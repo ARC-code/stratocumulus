@@ -18,4 +18,5 @@ module.exports = function () {
   // Remove from sky.
   // TODO remove via FractalLoader
   this.space.remove()
+  // TODO remove each node individually?
 }

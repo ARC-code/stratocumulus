@@ -4,12 +4,6 @@
     z-index: 100;
 }
 
-.latch {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-}
-
 .node {
     position: absolute;
     z-index: 1000;
@@ -27,8 +21,11 @@
 
 .label {
     position: absolute;
+    top: 60px;
+    left: 72px;
     z-index: 2000;
     display: none;
+    font-size: 60px;
     font-family: Arial, Helvetica, sans-serif;
     -webkit-text-stroke: .1px rgb(68, 68, 68);
     color: white;
@@ -38,9 +35,8 @@
   font-size: 50%;
 }
 
-.edge {
-    /* tapspace edges use only border-top */
-    border-top: .5px solid rgb(160, 160, 160);
+.readable .label {
+  display: block;
 }
 
 /* Kind-specific styling */
@@ -66,4 +62,10 @@
 }
 .faceted-node .facetable.node {
   background: transparent;
+}
+
+/* Edges */
+.edge {
+    /* tapspace edges use only border-top */
+    border-top: .5px solid rgb(160, 160, 160);
 }

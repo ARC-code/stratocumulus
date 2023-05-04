@@ -1,5 +1,3 @@
-const nodeSize = require('./nodeSize')
-
 const buildClassNames = (attrs) => {
   let classNames = 'node'
   if (attrs.isFacetable) {
@@ -26,8 +24,7 @@ const buildDataAttrs = (attrs) => {
 const buildNodeElement = (id, attrs) => {
   const classNames = buildClassNames(attrs)
   const dataAttrs = buildDataAttrs(attrs)
-  return `<div id="${id}-node" class="${classNames}"` +
-    dataAttrs + '></div>'
+  return `<div class="${classNames}" ${dataAttrs}></div>`
 }
 
 const buildLabelClassNames = (attrs) => {
@@ -38,22 +35,12 @@ const buildLabelClassNames = (attrs) => {
   return classNames
 }
 
-const buildLabelStyle = (attrs) => {
-  const size = nodeSize(attrs)
-  const style = `
-    font-size: ${size / 3}px;
-    margin-top: ${size / 6}px;
-    margin-left: ${size / 2}px;
-  `
-  return style.trim()
-}
-
 const buildLabelElement = (id, attrs) => {
   const classNames = buildLabelClassNames(attrs)
-  const labelStyle = buildLabelStyle(attrs)
-  const labelCount = `<div class="node-label-count">${attrs.value.toLocaleString('en-US')}</div>`
-  return `<span id="${id}-label" class="${classNames}" ` +
-    `style="${labelStyle}">${attrs.label}${attrs.isFacetable ? labelCount : ''}</span>`
+  const localCount = attrs.value.toLocaleString('en-US')
+  const labelCount = `<div class="node-label-count">${localCount}</div>`
+  const labelContent = attrs.label + (attrs.isFacetable ? labelCount : '')
+  return `<span class="${classNames}">${labelContent}</span>`
 }
 
 module.exports = (id, attrs) => {

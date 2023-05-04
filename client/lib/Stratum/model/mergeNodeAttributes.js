@@ -20,6 +20,7 @@ module.exports = (nodeAttrs, newAttrs) => {
   }
   if ('value' in newAttrs) {
     changeSet.value = newAttrs.value
+    // TODO is size really needed in model?
     changeSet.size = normalizeSize(newAttrs.value)
   }
   if ('decades' in newAttrs) {

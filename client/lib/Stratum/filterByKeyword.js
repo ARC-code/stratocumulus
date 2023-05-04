@@ -1,6 +1,5 @@
 const io = require('../io')
 const stratumModel = require('./model')
-const stratumView = require('./view')
 
 module.exports = function (keyword) {
   // Filter the stratum by a free-form text query.
@@ -36,7 +35,7 @@ module.exports = function (keyword) {
     // Invalidate nodes in order to remove extra.
     stratumModel.staleAll(this.graph)
     stratumModel.freezeLayout(this.graph)
-    stratumView.refreshCounts(this.space, this.graph)
+    this.refreshCounts()
     // Mark that we are loading again.
     this.loading = true
     io.stream.sendStratumBuildJob(this.path, this.context)
@@ -44,8 +43,8 @@ module.exports = function (keyword) {
     this.once('final', () => {
       stratumModel.pruneStale(this.graph)
       stratumModel.unfreezeLayout(this.graph)
-      stratumView.prune(this.space, this.graph)
-      stratumView.refreshLayout(this.space, this.graph, this.path, this.context)
+      this.prune()
+      this.refreshLayout()
     })
   }
 

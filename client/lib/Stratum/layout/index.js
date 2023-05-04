@@ -4,7 +4,7 @@ const graphologyLayout = require('graphology-layout')
 // const optimizeRotation = require('./optimizeRotation')
 const orientByNode = require('./orientByNode')
 const translateByNode = require('./translateByNode')
-const findNodeByContext = require('../../model/findNodeByContext')
+const findNodeByContext = require('../model/findNodeByContext')
 
 module.exports = function (graph, context) {
   // Compute layout for a graph without modifying it.

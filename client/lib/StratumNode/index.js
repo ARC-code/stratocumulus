@@ -1,39 +1,63 @@
-/* eslint-disable */
-const emitter = require('component-emitter')
+const tapspace = require('tapspace')
+const nodeTemplate = require('./nodeTemplate')
 
-const StratumNode = function (key, attrs) {
+const StratumNode = function (key, attrs, space) {
   // A node in a stratum. Stratum maintains set of nodes.
   //
   // StratumNode inherits Emitter
   //
   // Parameters:
   //   key
+  //     string, graph node key
   //   attrs
+  //     object, graph node attributes
+  //   space
+  //     a tapspace.components.Space or Plane.
   //
   // Emits:
   //   open
   //
 
   // References to sub-node elements.
-  this.circleElement
-  this.labelElement
-  this.countElement
+  // this.circleElement
+  // this.labelElement
+  // this.countElement
+
+  const newItem = tapspace.createItem('')
+  newItem.addClass('stratum-node')
+
+  // Render in this pixel size
+  newItem.setSize(256, 256)
+  // Gravity at node center
+  newItem.setAnchor(newItem.atCenter())
+  // Disable interaction with node content.
+  newItem.setContentInput(false)
+
+  // Make it easy to find node attributes via tapspace component.
+  newItem.nodeKey = key
+
+  // Track if the item is interactive.
+  // TODO use future tapspace methods to check this.
+  newItem.interactiveNode = false
+
+  this.space = space
+  this.space.addChild(newItem)
+  this.component = newItem
+
+  this.updateCount(attrs)
 }
 
 module.exports = StratumNode
 const proto = StratumNode.prototype
 proto.isStratumNode
 
-// Inherit
-emitter(proto)
-
 // Methods
-proto.getElement // for adding the node to space
-proto.update // and render, for data updates.
-proto.getOrigin // get node center for drawing edges
-proto.getRadius // for trimming the edges
-proto.getScale // get current or intented scale? for matching.
-proto.makeFacetable // for enabling node opening and clicking.
-proto.openSubstratum // begin substratum loading process. Conflict w/ open ev?
-proto.translateTo // move node to position
-proto.remove // remove node from space and stop its interaction and listeners
+// proto.getElement // for adding the node to space
+proto.updateCount = require('./updateCount')
+proto.getOrigin = require('./getOrigin')
+proto.getRadius = require('./getRadius')
+// proto.getScale // get current or intented scale? for matching.
+// proto.makeFacetable // for enabling node opening and clicking.
+// proto.openSubstratum // begin substratum loading process. Conflict w/ open ev?
+proto.translateTo = require('./translateTo')
+proto.remove = require('./remove')
