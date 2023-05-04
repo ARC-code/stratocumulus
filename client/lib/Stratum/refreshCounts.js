@@ -8,7 +8,7 @@ module.exports = function () {
 
   // Map each node in graph model to a visible tapspace item.
   this.graph.forEachNode((key, attrs) => {
-    let stratumNode = this.renderedNodes[key]
+    const stratumNode = this.renderedNodes[key]
 
     if (!stratumNode) {
       // Node does not exist. Skip

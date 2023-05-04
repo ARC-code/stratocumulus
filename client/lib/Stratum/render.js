@@ -1,7 +1,6 @@
 const tapspace = require('tapspace')
 const layoutGraph = require('./layout')
 const StratumNode = require('../StratumNode')
-const Distance = tapspace.geometry.Distance
 
 module.exports = function (final = false) {
   // Render the graph. If elements already exist, update.

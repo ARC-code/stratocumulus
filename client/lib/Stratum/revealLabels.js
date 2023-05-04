@@ -9,7 +9,6 @@ module.exports = function () {
   }
 
   const viewport = this.space.getViewport()
-  const viewportWidth = viewport.getWidth().getNumber()
   const nodes = Object.values(this.renderedNodes)
 
   nodes.forEach((node) => {

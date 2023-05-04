@@ -1,5 +1,4 @@
 const tapspace = require('tapspace')
-const nodeTemplate = require('./nodeTemplate')
 
 const StratumNode = function (key, attrs, space) {
   // A node in a stratum. Stratum maintains set of nodes.
@@ -49,7 +48,7 @@ const StratumNode = function (key, attrs, space) {
 
 module.exports = StratumNode
 const proto = StratumNode.prototype
-proto.isStratumNode
+proto.isStratumNode = true
 
 // Methods
 // proto.getElement // for adding the node to space

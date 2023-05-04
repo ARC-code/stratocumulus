@@ -9,7 +9,6 @@ let graphStream = null
 // Keep track what paths we listen.
 const pathEmitter = new Emitter()
 
-
 exports.connect = function () {
   // Open a SSE stream and begin to listen to events.
   //
