@@ -11,6 +11,11 @@
 .affine-space {
   transform-style: flat !important;
 }
+.edge {
+  /* tapspace edges use only border-top */
+  border-top: 1px solid rgb(160, 160, 160) !important;
+}
+/* TEMP Patch ends */
 
 .stratum-context-label {
   text-align: center;
@@ -23,7 +28,7 @@
     position: absolute;
     z-index: 1000;
     /* Make to look like circle */
-    border: 1px solid lightgray;
+    border: 2px solid rgb(160, 160, 160);
     border-radius: 50%;
     /* Avoid offset from border width */
     box-sizing: border-box;
@@ -80,10 +85,4 @@
 }
 .faceted-node .label {
   display: none;
-}
-
-/* Edges */
-.edge {
-  /* tapspace edges use only border-top */
-  border-top: .5px solid rgb(160, 160, 160);
 }
