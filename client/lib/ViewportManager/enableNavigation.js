@@ -1,4 +1,4 @@
-const tapspace = require('tapspace')
+const ZoomControl = require('./ZoomControl')
 
 module.exports = function () {
   // Enable viewport navigation
@@ -14,7 +14,7 @@ module.exports = function () {
   this.viewport.pannable().zoomable()
 
   // Add basic zoom control
-  const zoomControl = new tapspace.components.ZoomControl({
+  const zoomControl = new ZoomControl({
     scaleStep: 1.5
   })
   this.viewport.addControl(zoomControl)

@@ -8,6 +8,7 @@ const clientVersion = require('./version')
 
 // TEMP, patch tapspace
 tapspace.interaction.WheelZoom = require('./WheelZoom')
+tapspace.interaction.KeyboardZoom = require('./KeyboardZoom')
 tapspace.components.BasisComponent.prototype.isPlanar = () => true
 tapspace.components.TransformerComponent.prototype.isPlanar = () => true
 tapspace.components.Hyperspace.prototype.isPlanar = () => true
