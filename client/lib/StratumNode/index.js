@@ -39,15 +39,21 @@ const StratumNode = function (key, attrs, space) {
   // Make it easy to find node attributes via tapspace component.
   newItem.nodeKey = key
 
-  // Track if the item is interactive.
-  // TODO use future tapspace methods to check this.
-  newItem.interactiveNode = false
+  // Track if the item is interactive for faceting.
+  this.facetingEnabled = false
+  // Make interactive for navigational tap.
+  newItem.tappable({ preventDefault: false })
+  this.ontap = () => {}
+  newItem.on('tap', (ev) => (
+    this.ontap(ev)
+  ))
 
   this.space = space
   this.space.addChild(newItem)
   this.component = newItem
 
   this.updateCount(attrs)
+  this.enableFocusing()
 }
 
 module.exports = StratumNode
@@ -58,6 +64,7 @@ proto.isStratumNode = true
 // proto.getElement // for adding the node to space
 proto.disableFaceting = require('./disableFaceting')
 proto.enableFaceting = require('./enableFaceting')
+proto.enableFocusing = require('./enableFocusing')
 proto.getOrigin = require('./getOrigin')
 proto.getRadius = require('./getRadius')
 // proto.getScale // get current or intented scale? for matching.

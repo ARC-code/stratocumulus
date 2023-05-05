@@ -3,4 +3,5 @@ module.exports = function (onTap) {
   //
   const nodeItem = this.component
   nodeItem.addClass('faceted-node')
+  this.disableFaceting()
 }

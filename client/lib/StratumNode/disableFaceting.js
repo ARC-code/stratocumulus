@@ -1,9 +1,8 @@
-module.exports = function (onTap) {
-  // Disable further interaction.
+module.exports = function () {
+  // Disable further faceting and instead move viewport closer.
   //
-  const nodeItem = this.component
-
-  nodeItem.off('tap')
-  nodeItem.tappable(false)
-  nodeItem.interactiveNode = false
+  if (this.facetingEnabled) {
+    this.facetingEnabled = false
+    this.enableFocusing()
+  }
 }
