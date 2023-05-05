@@ -2,9 +2,9 @@ const graphologyLayout = require('graphology-layout')
 // const graphologyForce = require('graphology-layout-force')
 // const graphologyNoverlap = require('graphology-layout-noverlap')
 // const optimizeRotation = require('./optimizeRotation')
-const orientByNode = require('./orientByNode')
-const translateByNode = require('./translateByNode')
-const findNodeByContext = require('../model/findNodeByContext')
+// const orientByNode = require('./orientByNode')
+// const translateByNode = require('./translateByNode')
+// const findNodeByContext = require('../model/findNodeByContext')
 
 module.exports = function (graph, context) {
   // Compute layout for a graph without modifying it.
@@ -19,7 +19,7 @@ module.exports = function (graph, context) {
   //   a map: nodeKey -> {x,y}. The graphology layout positions.
   //
 
-  let positions = graphologyLayout.circlepack(graph, {
+  const positions = graphologyLayout.circlepack(graph, {
     hierarchyAttributes: ['parent'],
     center: 0,
     scale: 1.1
