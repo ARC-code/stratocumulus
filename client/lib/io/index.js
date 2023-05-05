@@ -6,4 +6,4 @@
 //
 
 exports.corpora = require('./corpora')
-exports.stream = require('./streamMock')
+exports.stream = require('./stream')
