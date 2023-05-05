@@ -6,6 +6,9 @@ const Toolbar = require('./Toolbar')
 const ViewportManager = require('./ViewportManager')
 const clientVersion = require('./version')
 
+// TEMP, patch tapspace
+tapspace.interaction.WheelZoom = require('./WheelZoom')
+
 exports.start = function () {
   // DEBUG message to help dev to differentiate between:
   // - app bundle is ok but we are offline (ok message, no UI action)
