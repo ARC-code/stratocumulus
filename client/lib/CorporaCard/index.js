@@ -1,29 +1,44 @@
 const tapspace = require('tapspace')
-const template = require('./template.ejs')
+const generateDataPlaneCardContent = require('./generateDataPlaneCardContent')
+const getArtifactId = require('./getArtifactId')
 require('./style.css')
 
-const CorporaCard = function (key) {
+const CorporaCard = function (key, attrs, space) {
   // DataCard is a card-like element in space.
   //
   // Parameters:
   //   key
-  //     a string, some corpora-specific id.
+  //     a string, node key
+  //   attrs
+  //     node attributes
+  //   space
+  //     a parent space
   //
+
+  const artifactId = getArtifactId(attrs)
 
   this.element = document.createElement('div')
   this.element.className = 'data-node'
 
-  this.element.innerHTML = template({
-    // The initial template parameters.
-    // Fetching updates or more data can either modify the DOM directly or
-    // render the template again.
-  })
-
   // Create an item to add to the space.
-  this.spaceItem = tapspace.createItem(this.element)
+  this.component = tapspace.createItem(this.element)
+  this.component.setSize(256, 256)
+  // Allow interaction with content.
+  this.component.setContentInput('pointer')
 
-  // Fetch content for the card.
-  // See fetch() https://developer.mozilla.org/en-US/docs/Web/API/fetch
+  // Begin fetching content for the card.
+  generateDataPlaneCardContent(artifactId, this.element)
+
+  this.space = space
+  this.space.addChild(this.component)
 }
 
 module.exports = CorporaCard
+const proto = CorporaCard.prototype
+
+proto.translateTo = require('./translateTo')
+proto.getOrigin = require('./getOrigin')
+proto.getRadius = require('./getRadius')
+
+// TODO make it unnecessary to implement every StratumNode method.
+proto.updateCount = () => {}
