@@ -37,7 +37,7 @@ module.exports = function () {
     // about or control other strata.
     // TODO use targetNode.getOrigin
     // TODO adjust depth to scale
-    const position = targetItem.atCenter().offset(0, 0, 10)
+    const position = targetItem.atCenter().offset(0, 0, -1)
     this.emit('stratumrequest', {
       path: facetPath,
       context: newContext,
