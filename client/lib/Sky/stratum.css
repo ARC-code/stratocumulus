@@ -68,7 +68,7 @@
   border-color: white;
 }
 .faceted-node .facetable.node {
-  background: transparent;
+  background: #444444; /* match with background to visually hide edges below */
 }
 .faceted-node .label {
   display: none;
@@ -76,6 +76,6 @@
 
 /* Edges */
 .edge {
-    /* tapspace edges use only border-top */
-    border-top: .5px solid rgb(160, 160, 160);
+  /* tapspace edges use only border-top */
+  border-top: .5px solid rgb(160, 160, 160);
 }
