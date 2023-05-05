@@ -8,6 +8,7 @@ const clientVersion = require('./version')
 
 // TEMP, patch tapspace
 tapspace.interaction.WheelZoom = require('./WheelZoom')
+tapspace.components.TransformerComponent.prototype.isPlanar = () => true
 
 exports.start = function () {
   // DEBUG message to help dev to differentiate between:

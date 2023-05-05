@@ -51,15 +51,8 @@ module.exports = (viewport) => {
       }
     }
 
-    // We want to scale the length of the vector from camera to target.
-    const delta = camera.getVectorTo(pivotOnTarget)
-    // The desired difference vector.
-    const desired = delta.scaleBy(factor)
-    // A trip the viewport must take in order to reach the desired diff.
-    // delta + X = desired <=> X = desired - delta
-    const trip = desired.difference(delta)
-    // Travel
-    viewport.translateBy(trip)
+    // Just scale. 2D.
+    viewport.scaleBy(1 / factor, pivotOnTarget)
 
     // Upgrade event
     ev.navigationBasis = selectedTarget

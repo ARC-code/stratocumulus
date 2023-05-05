@@ -4,6 +4,14 @@
     z-index: 100;
 }
 
+/* TEMP Patch tapspace */
+.affine-hyperspace {
+  transform-style: flat !important;
+}
+.affine-space {
+  transform-style: flat !important;
+}
+
 .stratum-context-label {
   text-align: center;
   font-family: Arial, Helvetica, sans-serif;
