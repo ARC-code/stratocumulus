@@ -25,17 +25,22 @@ module.exports = function (graph, context) {
     scale: 1.1
   })
 
-  // Find root node for graph orientation.
-  // Pick the root based on the context, the user arrival direction.
-  const rootNode = findNodeByContext(graph, context)
+  // The following commented lines would orient the graph
+  // so that the faceting node is at the left.
+  // It looks funny but is likely disorienting because things
+  // are not anymore on the same places.
 
-  // Consider possibility of the empty graph or no matching node.
-  if (rootNode) {
-    // Keep the root at the left.
-    positions = orientByNode(positions, rootNode, Math.PI)
-    // Translate so that the root at 0,0
-    positions = translateByNode(positions, rootNode, { x: 0, y: 0 })
-  }
+  // // Find root node for graph orientation.
+  // // Pick the root based on the context, the user arrival direction.
+  // const rootNode = findNodeByContext(graph, context)
+  //
+  // // Consider possibility of the empty graph or no matching node.
+  // if (rootNode) {
+  //   // Keep the root at the left.
+  //   positions = orientByNode(positions, rootNode, Math.PI)
+  //   // Translate so that the root at 0,0
+  //   positions = translateByNode(positions, rootNode, { x: 0, y: 0 })
+  // }
 
   return positions
 }
