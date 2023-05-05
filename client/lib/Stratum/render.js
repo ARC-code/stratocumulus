@@ -41,6 +41,8 @@ module.exports = function (final = false) {
   if (final) {
     // Enable faceting
     this.enableFaceting()
+    // Display context label
+    this.renderContextLabel()
     // Draw edges
     this.graph.forEachEdge((edgeKey, edgeAttrs, sourceKey, targetKey) => {
       let edgeItem = this.renderedEdges[edgeKey]

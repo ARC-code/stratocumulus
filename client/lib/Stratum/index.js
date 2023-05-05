@@ -70,6 +70,8 @@ const Stratum = function (path, context, label, bgColor) {
   this.renderedNodes = {}
   // Keep track of rendered edges. edgeKey -> StratumEdge
   this.renderedEdges = {}
+  // Context label element provides information about the filtering context
+  this.contextLabel = null
 }
 
 module.exports = Stratum
@@ -89,6 +91,7 @@ proto.refreshCounts = require('./refreshCounts')
 proto.refreshLayout = require('./refreshLayout')
 proto.remove = require('./remove')
 proto.render = require('./render')
+proto.renderContextLabel = require('./renderContextLabel')
 proto.revealLabels = require('./revealLabels')
 // TODO setLabel? The large label below the stratum.
 // TODO Or render the label automatically when the context is modified?

@@ -1,4 +1,5 @@
 const tapspace = require('tapspace')
+const labelCache = require('../labelCache')
 
 const StratumNode = function (key, attrs, space) {
   // A node in a stratum. Stratum maintains set of nodes.
@@ -21,6 +22,9 @@ const StratumNode = function (key, attrs, space) {
   // this.circleElement
   // this.labelElement
   // this.countElement
+
+  // HACK cache node labels for stratum context labels
+  labelCache.store(attrs.facetParam, attrs.facetValue, attrs.label)
 
   const newItem = tapspace.createItem('')
   newItem.addClass('stratum-node')
