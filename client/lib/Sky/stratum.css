@@ -63,6 +63,9 @@
 .faceted-node .facetable.node {
   background: transparent;
 }
+.faceted-node .label {
+  display: none;
+}
 
 /* Edges */
 .edge {

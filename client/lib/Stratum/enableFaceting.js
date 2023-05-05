@@ -4,10 +4,12 @@ module.exports = function () {
   // and make them interactive.
   //
 
-  // Construct click handler
+  // Construct click handler once for all the nodes.
   const onTap = (event) => {
     const targetItem = event.component
     const targetKey = targetItem.nodeKey
+
+    const stratumNode = this.renderedNodes[targetKey]
     const attrs = this.graph.getNodeAttributes(targetKey)
 
     const facetPath = attrs.id
@@ -28,9 +30,7 @@ module.exports = function () {
 
     // Make the node transparent or somehow allow users to see
     // the new stratum within
-    // TODO use stratuNode.makeFaceted
-    targetItem.addClass('faceted-node')
-    targetItem.setSolidity(false)
+    stratumNode.makeFaceted()
 
     // The click emits an event "stratumrequest" which is listened on
     // strata-level, so that individual stratum does not need to know
@@ -56,12 +56,6 @@ module.exports = function () {
 
   facetableKeys.forEach(nodeKey => {
     const stratumNode = this.renderedNodes[nodeKey]
-    const nodeItem = stratumNode.component
-    // Prevent duplicate interaction setup
-    if (!nodeItem.interactiveNode) {
-      nodeItem.interactiveNode = true // TODO use some tapspace method to test
-      nodeItem.tappable({ preventDefault: false })
-      nodeItem.on('tap', onTap)
-    }
+    stratumNode.enableFaceting(onTap)
   })
 }

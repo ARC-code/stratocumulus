@@ -53,10 +53,11 @@ proto.isStratumNode = true
 // Methods
 // proto.getElement // for adding the node to space
 proto.updateCount = require('./updateCount')
+proto.disableFaceting = require('./disableFaceting')
+proto.enableFaceting = require('./enableFaceting')
 proto.getOrigin = require('./getOrigin')
 proto.getRadius = require('./getRadius')
 // proto.getScale // get current or intented scale? for matching.
-// proto.makeFacetable // for enabling node opening and clicking.
-// proto.openSubstratum // begin substratum loading process. Conflict w/ open ev?
 proto.translateTo = require('./translateTo')
+proto.makeFaceted = require('./makeFaceted')
 proto.remove = require('./remove')
