@@ -18,11 +18,14 @@ const CorporaCard = function (key, attrs, space) {
   const artifactId = getArtifactId(attrs)
 
   this.element = document.createElement('div')
-  this.element.className = 'data-node'
+  this.element.className = 'dataplane-card'
 
   // Create an item to add to the space.
   this.component = tapspace.createItem(this.element)
   this.component.setSize(256, 256)
+  // Gravity at card center
+  this.component.setAnchor(this.component.atCenter())
+
   // Allow interaction with content.
   this.component.setContentInput('pointer')
 
@@ -31,6 +34,9 @@ const CorporaCard = function (key, attrs, space) {
 
   this.space = space
   this.space.addChild(this.component)
+
+  // Make quite small
+  this.component.scaleBy(0.06, this.component.atCenter())
 }
 
 module.exports = CorporaCard
