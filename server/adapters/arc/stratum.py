@@ -54,7 +54,7 @@ def build_stratum(channel, cache_key, context={}, wait=0):
         'structure': 'stratum_graph',
         'provenance': 'corpora',
         'nodes': [
-            {'id': '/arc', 'kind': 'grouping', 'label': 'ARC', 'fixed': True, 'value': 5000, 'parent': 'self'},
+            {'id': '/arc', 'kind': 'root', 'label': 'ARC', 'fixed': True, 'value': result_count, 'parent': 'self'},
             {'id': '/arc/federations', 'kind': 'grouping', 'label': 'Federations', 'value': 5000, 'parent': '/arc/federations'},
             {'id': '/arc/genres', 'kind': 'grouping', 'label': 'Genres', 'value': 5000, 'parent': '/arc/genres'},
             {'id': '/arc/disciplines', 'kind': 'grouping', 'label': 'Disciplines', 'value': 5000, 'parent': '/arc/disciplines'},
