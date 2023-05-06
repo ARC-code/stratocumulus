@@ -49,6 +49,8 @@
     font-family: Arial, Helvetica, sans-serif;
     -webkit-text-stroke: .1px rgb(68, 68, 68);
     color: white;
+    /* For moving label nicely when opened */
+    transition: left 0.5s ease;
 }
 .label .node-label-count {
   float: right;
@@ -84,5 +86,5 @@
   background: #444444; /* match with background to visually hide edges below */
 }
 .faceted-node .label {
-  display: none;
+  left: 270px;
 }
