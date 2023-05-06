@@ -59,7 +59,7 @@ def build_data_plane(channel, context):
                                 'id': f"/results/people/{agent_id}",
                                 'label': entity_data['label'],
                                 'parent': '/results/people',
-                                'kind': 'Person',
+                                'kind': 'person',
                                 'value': agent_count,
                             }
                         )
@@ -85,7 +85,7 @@ def build_data_plane(channel, context):
                     'id': f"/results/artifacts/{art['id']}",
                     'label': art['label'],
                     'parent': '/results/artifacts',
-                    'kind': 'Artifact',
+                    'kind': 'artifact',
                     'value': 5000,
                 }
             )
