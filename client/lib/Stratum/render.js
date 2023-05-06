@@ -30,8 +30,8 @@ module.exports = function (final = false) {
 
       const isDataCard = (attrs.kind && attrs.kind === 'Artifact')
       if (isDataCard) {
-        console.log('DataCard detected')
-        console.log(key, attrs)
+        // console.log('DataCard detected')
+        // console.log(key, attrs)
         stratumNode = new CorporaCard(key, attrs, this.nodePlane)
       } else {
         stratumNode = new StratumNode(key, attrs, this.nodePlane)
