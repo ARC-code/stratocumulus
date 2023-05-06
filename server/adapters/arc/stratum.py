@@ -51,12 +51,13 @@ def build_stratum(channel, cache_key, context={}, wait=0):
     stratum_graph = {
         'path': context['path'],
         'stage': 'initial',
+        'structure': 'stratum_graph',
         'provenance': 'corpora',
         'nodes': [
-            {'id': '/arc', 'label': 'ARC', 'fixed': True, 'value': 5000, 'parent': 'self'},
-            {'id': '/arc/federations', 'label': 'Federations', 'value': 5000, 'parent': '/arc/federations'},
-            {'id': '/arc/genres', 'label': 'Genres', 'value': 5000, 'parent': '/arc/genres'},
-            {'id': '/arc/disciplines', 'label': 'Disciplines', 'value': 5000, 'parent': '/arc/disciplines'},
+            {'id': '/arc', 'kind': 'grouping', 'label': 'ARC', 'fixed': True, 'value': 5000, 'parent': 'self'},
+            {'id': '/arc/federations', 'kind': 'grouping', 'label': 'Federations', 'value': 5000, 'parent': '/arc/federations'},
+            {'id': '/arc/genres', 'kind': 'grouping', 'label': 'Genres', 'value': 5000, 'parent': '/arc/genres'},
+            {'id': '/arc/disciplines', 'kind': 'grouping', 'label': 'Disciplines', 'value': 5000, 'parent': '/arc/disciplines'},
         ],
         'edges': [
             {'from': '/arc', 'to': '/arc/federations'},
@@ -155,6 +156,7 @@ async def build_facets(channel, path, facets, connected_to, query_params={}):
 
 async def perform_facet_query(session, channel, path, facet, connected_to, facet_query, time_query_template):
     try:
+        print(facet_query)
         async with session.get(facet_query) as resp:
             data = await resp.json()
             subgraphs = []
