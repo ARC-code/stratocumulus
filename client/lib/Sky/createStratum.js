@@ -58,7 +58,7 @@ module.exports = function (path, context, label, bgColor, position, scale) {
         ev.label,
         ev.bgColor,
         ev.position,
-        ev.scale.scaleBy(0.4)
+        ev.scale.scaleBy(0.1)
       )
     }, 0)
   })
