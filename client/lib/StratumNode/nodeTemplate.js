@@ -39,7 +39,8 @@ const buildLabelElement = (id, attrs) => {
   const classNames = buildLabelClassNames(attrs)
   const localCount = attrs.value.toLocaleString('en-US')
   const labelCount = `<div class="node-label-count">${localCount}</div>`
-  const labelContent = attrs.label + (attrs.isFacetable ? labelCount : '')
+  const renderLabel = attrs.isFacetable || attrs.kind === 'root'
+  const labelContent = attrs.label + (renderLabel ? labelCount : '')
   return `<span class="${classNames}">${labelContent}</span>`
 }
 

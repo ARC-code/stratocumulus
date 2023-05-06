@@ -23,7 +23,7 @@ module.exports = (graph) => {
   // Find min and max counts/values over the graph
   const extremeValues = graph.reduceNodes((acc, key, attrs) => {
     // Skip the grouping nodes, because their value is not real.
-    if (attrs.kind === 'grouping') {
+    if (['grouping', 'root'].includes(attrs.kind)) {
       return acc
     }
     if (acc.minValue > attrs.value) {
@@ -49,7 +49,7 @@ module.exports = (graph) => {
   graph.updateEachNodeAttributes((key, attrs) => {
 
     // Size grouping nodes differently, because their value prop is not real.
-    if (attrs.kind === 'grouping') {
+    if (['grouping', 'root'].includes(attrs.kind)) {
       return {
         ...attrs,
         size: valueToSize(minValue, maxValue, maxValue)
