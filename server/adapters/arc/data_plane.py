@@ -12,6 +12,8 @@ def build_data_plane(channel, context):
         'path': context['path'],
         'stage': 'initial',
         'provenance': 'corpora',
+        'structure': 'data_plane',
+        'provenance_api_prefix': corpora_url,
         'nodes': [
             {'id': '/results', 'label': 'Results', 'fixed': True, 'value': 5000, 'parent': 'self'},
             {'id': '/results/people', 'label': 'People', 'value': 5000, 'parent': '/results/people'},
