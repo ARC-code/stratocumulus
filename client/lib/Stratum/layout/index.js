@@ -5,6 +5,7 @@ const graphologyLayout = require('graphology-layout')
 // const orientByNode = require('./orientByNode')
 // const translateByNode = require('./translateByNode')
 // const findNodeByContext = require('../model/findNodeByContext')
+const normalizeSizes = require('./normalizeSizes')
 
 module.exports = function (graph, context) {
   // Compute layout for a graph without modifying it.
@@ -18,6 +19,9 @@ module.exports = function (graph, context) {
   // Return
   //   a map: nodeKey -> {x,y}. The graphology layout positions.
   //
+
+  // Normalize node sizes before layout
+  normalizeSizes(graph)
 
   const positions = graphologyLayout.circlepack(graph, {
     hierarchyAttributes: ['parent'],

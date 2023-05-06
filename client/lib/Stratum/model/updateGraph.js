@@ -103,7 +103,7 @@ module.exports = function (graph, subgraph) {
               return nextNodeAttrs
             })
           } else {
-            // Construct a new node
+            // Construct a new card node
             const newNodeAttrs = mergeNodeAttributes({
               // Default values.
               id: n.id,
@@ -119,6 +119,8 @@ module.exports = function (graph, subgraph) {
               facetValue: null,
               stale: false // for cache invalidation during filtering
             }, n)
+            // Use some made-up value for cards
+            newNodeAttrs.value = 100
             graph.addNode(n.id, newNodeAttrs)
           }
         }

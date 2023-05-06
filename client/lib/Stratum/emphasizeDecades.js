@@ -1,5 +1,4 @@
 const estimateCount = require('./decades').estimate
-const normalizeSize = require('./model/normalizeSize')
 
 module.exports = function (beginYear, endYear) {
   // Make the nodes, that have documents within this time range,
@@ -37,8 +36,7 @@ module.exports = function (beginYear, endYear) {
     // Update node model values and sizes.
     return {
       ...nodeAttrs,
-      value: count,
-      size: normalizeSize(count)
+      value: count
     }
   })
 

@@ -22,7 +22,7 @@ const CorporaCard = function (key, attrs, space) {
 
   // Create an item to add to the space.
   this.component = tapspace.createItem(this.element)
-  this.component.setSize(256, 256)
+  this.component.setSize(300, 400)
   // Gravity at card center
   this.component.setAnchor(this.component.atCenter())
 
@@ -36,7 +36,7 @@ const CorporaCard = function (key, attrs, space) {
   this.space.addChild(this.component)
 
   // Make quite small
-  this.component.scaleBy(0.06, this.component.atCenter())
+  this.component.scaleBy(0.4, this.component.atCenter())
 }
 
 module.exports = CorporaCard

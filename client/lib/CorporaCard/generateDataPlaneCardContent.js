@@ -189,7 +189,6 @@ module.exports = function (artifactId, cardFrame) {
           let roleCode = roleMatch[0]
           name = name.replace(roleCode, '').trim()
           roleCode = roleCode.replace('(', '').replace(')', '')
-          console.log(roleCode)
           if (roleCode in agentRoleMapping) {
             role = agentRoleMapping[roleCode]
           }
