@@ -32,6 +32,13 @@ module.exports = function () {
     // the new stratum within
     stratumNode.makeFaceted()
 
+    // Zoom closer to node
+    const viewport = this.space.getViewport()
+    const goalScale = targetItem.getScale().scaleBy(0.62)
+    viewport.animateOnce({ duration: '1.5s' })
+    viewport.translateTo(targetItem.atCenter())
+    viewport.setScale(goalScale, targetItem.atCenter())
+
     // The click emits an event "stratumrequest" which is listened on
     // strata-level, so that individual stratum does not need to know
     // about or control other strata.
