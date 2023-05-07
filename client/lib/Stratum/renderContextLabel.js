@@ -48,7 +48,15 @@ module.exports = function () {
       target: bbox.atNorm(0.5, 1.05)
     })
     // Scale so that it matches the stratum width.
-    labelItem.scaleToWidth(bbox.getWidth(), labelItem.atTopMid())
+    // If the space is empty, the width goes to zero and then scaling does
+    // not work anymore. Thus prevent.
+    const bboxWidth = bbox.getWidth()
+    // TODO use something like tapspace.geometry.Box:isEmpty ?
+    if (bboxWidth.getRaw() > 0) {
+      labelItem.scaleToWidth(bboxWidth, labelItem.atTopMid())
+    }
+    // Else the box is empty, so we just match the space scale,
+    // and that is already so.
 
     this.contextLabel = labelItem
   }
