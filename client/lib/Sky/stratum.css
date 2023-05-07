@@ -37,6 +37,9 @@
     height: 100%;
     /* Default color */
     background: linear-gradient(#43a2ca, #0868ac);
+    /* Disable native touch actions for the node */
+    touch-action: none;
+    user-select: none;
 }
 
 .label {
