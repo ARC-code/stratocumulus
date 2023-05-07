@@ -36,6 +36,12 @@ module.exports = function (graph, subgraph) {
     } else {
       throw new Error('Unexpected missing subgraph structure property')
     }
+  } else {
+    if (subgraph.structure && subgraph.structure !== structureKind) {
+      // Update to data_plane
+      graph.setAttribute('structure', subgraph.structure)
+      structureKind = subgraph.structure
+    }
   }
 
   if (structureKind === 'stratum_graph') {
