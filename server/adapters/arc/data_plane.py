@@ -12,6 +12,8 @@ def build_data_plane(channel, context):
         'path': context['path'],
         'stage': 'initial',
         'provenance': 'corpora',
+        'structure': 'data_plane',
+        'provenance_api_prefix': corpora_url,
         'nodes': [
             {'id': '/results', 'label': 'Results', 'fixed': True, 'value': 5000, 'parent': 'self'},
             {'id': '/results/people', 'label': 'People', 'value': 5000, 'parent': '/results/people'},
@@ -26,6 +28,7 @@ def build_data_plane(channel, context):
     query_params = extract_query_params(context)
 
     # determine most referenced people
+    '''
     people_query = f"{corpora_url}ArcArtifact/?page-size=0&a_terms_agents=agents.id"
     if query_params:
         people_query += '&' + format_get_params(query_params)
@@ -57,7 +60,7 @@ def build_data_plane(channel, context):
                                 'id': f"/results/people/{agent_id}",
                                 'label': entity_data['label'],
                                 'parent': '/results/people',
-                                'kind': 'Person',
+                                'kind': 'person',
                                 'value': agent_count,
                             }
                         )
@@ -65,6 +68,7 @@ def build_data_plane(channel, context):
                         rendered_agent_ids.append(agent_id)
             else:
                 break
+    '''
 
     # render first artifacts
     art_query = f"{corpora_url}ArcArtifact?page-size={graph_artifact_limit}&only=label,agents"
@@ -83,17 +87,19 @@ def build_data_plane(channel, context):
                     'id': f"/results/artifacts/{art['id']}",
                     'label': art['label'],
                     'parent': '/results/artifacts',
-                    'kind': 'Artifact',
+                    'kind': 'artifact',
                     'value': 5000,
                 }
             )
 
+            '''
             for art_agent in art['agents']:
                 if art_agent['id'] in rendered_agent_ids:
                     art_edges.append({
                         'from': f"/results/artifacts/{art['id']}",
                         'to': f"/results/people/{art_agent['id']}"
                     })
+            '''
 
         if art_edges:
             make_subgraph(channel, {

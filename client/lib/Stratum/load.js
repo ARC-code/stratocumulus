@@ -1,6 +1,5 @@
 const io = require('../io')
 const stratumModel = require('./model')
-const stratumView = require('./view')
 
 module.exports = function () {
   // Begin constructing stratum from the back-end.
@@ -37,7 +36,7 @@ module.exports = function () {
     const isFinal = ('stage' in subgraph && subgraph.stage === 'final')
 
     // Render the graph and do the layout
-    stratumView.drawGraph(this, isFinal)
+    this.render(isFinal)
 
     // Emit 'first' at the first node.
     if (wasEmpty && this.graph.order > 0) {

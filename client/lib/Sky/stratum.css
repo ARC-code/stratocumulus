@@ -4,17 +4,31 @@
     z-index: 100;
 }
 
-.latch {
-    position: absolute;
-    width: 1px;
-    height: 1px;
+/* TEMP Patch tapspace */
+.affine-hyperspace {
+  transform-style: flat !important;
+}
+.affine-space {
+  transform-style: flat !important;
+}
+.edge {
+  /* tapspace edges use only border-top */
+  border-top: 1px solid rgb(160, 160, 160) !important;
+}
+/* TEMP Patch ends */
+
+.stratum-context-label {
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 40px;
+  color: white;
 }
 
 .node {
     position: absolute;
     z-index: 1000;
     /* Make to look like circle */
-    border: 1px solid lightgray;
+    border: 2px solid rgb(160, 160, 160);
     border-radius: 50%;
     /* Avoid offset from border width */
     box-sizing: border-box;
@@ -27,20 +41,24 @@
 
 .label {
     position: absolute;
+    top: 60px;
+    left: 72px;
     z-index: 2000;
     display: none;
+    font-size: 60px;
     font-family: Arial, Helvetica, sans-serif;
     -webkit-text-stroke: .1px rgb(68, 68, 68);
     color: white;
+    /* For moving label nicely when opened */
+    transition: left 0.5s ease;
 }
 .label .node-label-count {
   float: right;
   font-size: 50%;
 }
 
-.edge {
-    /* tapspace edges use only border-top */
-    border-top: .5px solid rgb(160, 160, 160);
+.readable .label {
+  display: block;
 }
 
 /* Kind-specific styling */
@@ -65,5 +83,8 @@
   border-color: white;
 }
 .faceted-node .facetable.node {
-  background: transparent;
+  background: #444444; /* match with background to visually hide edges below */
+}
+.faceted-node .label {
+  left: 270px;
 }

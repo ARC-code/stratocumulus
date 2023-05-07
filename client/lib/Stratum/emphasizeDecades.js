@@ -1,6 +1,4 @@
 const estimateCount = require('./decades').estimate
-const normalizeSize = require('./model/normalizeSize')
-const refreshCounts = require('./view/refreshCounts')
 
 module.exports = function (beginYear, endYear) {
   // Make the nodes, that have documents within this time range,
@@ -38,11 +36,10 @@ module.exports = function (beginYear, endYear) {
     // Update node model values and sizes.
     return {
       ...nodeAttrs,
-      value: count,
-      size: normalizeSize(count)
+      value: count
     }
   })
 
   // Refresh the rendered node sizes.
-  refreshCounts(this.space, this.graph)
+  this.refreshLayout()
 }

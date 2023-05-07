@@ -1,5 +1,3 @@
-const normalizeSize = require('./normalizeSize')
-
 module.exports = (nodeAttrs, newAttrs) => {
   // Construct updated node attributes by merging new attributes to
   // current ones. Overwrite existing property values.
@@ -20,7 +18,6 @@ module.exports = (nodeAttrs, newAttrs) => {
   }
   if ('value' in newAttrs) {
     changeSet.value = newAttrs.value
-    changeSet.size = normalizeSize(newAttrs.value)
   }
   if ('decades' in newAttrs) {
     changeSet.decades = newAttrs.decades

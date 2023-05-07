@@ -11,7 +11,7 @@ const Sky = function (viewport) {
   //
 
   // Current known set of stratum objects.
-  // stratumId -> Stratum
+  // stratumPath -> Stratum
   this.strata = {}
   // Current navigational path.
   // array of stratumId

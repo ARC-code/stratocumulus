@@ -33,13 +33,19 @@ def build_stratum(channel, cache_key, context={}, wait=0):
     # before we start building the graph, let's check to make sure our query matches the minimum number of results to
     # justify an aggregated view of the data
     result_count = 0
-    count_query_url = f"{corpora_url}ArcArtifact/?page-size=0"
+    total_decades = {}
+    count_query_url = f"{corpora_url}ArcArtifact/?page-size=0&r_years=400to2100&a_histogram_decades=years__10"
     if query_params:
         count_query_url += '&' + format_get_params(query_params)
     count_request = requests.get(count_query_url)
     count_data = count_request.json()
-    if count_data and 'meta' in count_data and 'total' in count_data['meta']:
+    if count_data and 'meta' in count_data \
+            and 'total' in count_data['meta'] \
+            and 'aggregations' in count_data['meta'] \
+            and 'decades' in count_data['meta']['aggregations']:
+
         result_count = count_data['meta']['total']
+        total_decades = count_data['meta']['aggregations']['decades']
 
     print(f"TOTAL RESULTS: {result_count}")
     if result_count < minimum_aggregated_records:
@@ -51,12 +57,13 @@ def build_stratum(channel, cache_key, context={}, wait=0):
     stratum_graph = {
         'path': context['path'],
         'stage': 'initial',
+        'structure': 'stratum_graph',
         'provenance': 'corpora',
         'nodes': [
-            {'id': '/arc', 'label': 'ARC', 'fixed': True, 'value': 5000, 'parent': 'self'},
-            {'id': '/arc/federations', 'label': 'Federations', 'value': 5000, 'parent': '/arc/federations'},
-            {'id': '/arc/genres', 'label': 'Genres', 'value': 5000, 'parent': '/arc/genres'},
-            {'id': '/arc/disciplines', 'label': 'Disciplines', 'value': 5000, 'parent': '/arc/disciplines'},
+            {'id': '/arc', 'kind': 'root', 'label': 'ARC', 'fixed': True, 'value': result_count, 'decades': total_decades, 'parent': 'self'},
+            {'id': '/arc/federations', 'kind': 'grouping', 'label': 'Federations', 'value': 5000, 'parent': '/arc/federations'},
+            {'id': '/arc/genres', 'kind': 'grouping', 'label': 'Genres', 'value': 5000, 'parent': '/arc/genres'},
+            {'id': '/arc/disciplines', 'kind': 'grouping', 'label': 'Disciplines', 'value': 5000, 'parent': '/arc/disciplines'},
         ],
         'edges': [
             {'from': '/arc', 'to': '/arc/federations'},
