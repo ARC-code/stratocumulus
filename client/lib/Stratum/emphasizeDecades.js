@@ -41,5 +41,5 @@ module.exports = function (beginYear, endYear) {
   })
 
   // Refresh the rendered node sizes.
-  this.refreshCounts()
+  this.refreshLayout()
 }

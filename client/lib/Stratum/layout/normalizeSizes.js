@@ -47,7 +47,6 @@ module.exports = (graph) => {
   // console.log('maxValue', maxValue)
 
   graph.updateEachNodeAttributes((key, attrs) => {
-
     // Size grouping nodes differently, because their value prop is not real.
     if (['grouping', 'root'].includes(attrs.kind)) {
       return {

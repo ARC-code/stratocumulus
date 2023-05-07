@@ -26,6 +26,9 @@ module.exports = function () {
     const nPoint = stratumOrigin.offset(nPosition.x, nPosition.y)
 
     stratumNode.translateTo(nPoint)
+
+    // Update size and scale according to attributes.
+    stratumNode.updateCount(attrs)
   })
 
   this.graph.forEachEdge((edgeKey, edgeAttrs, sourceKey, targetKey) => {
@@ -45,8 +48,8 @@ module.exports = function () {
       const sourceRadius = sourceNode.getRadius()
       const targetRadius = targetNode.getRadius()
       edgeItem.trimPoints(
-        sourceNode.atAnchor(),
-        targetNode.atAnchor(),
+        sourceNode.getOrigin(),
+        targetNode.getOrigin(),
         sourceRadius,
         targetRadius
       )

@@ -35,7 +35,7 @@ module.exports = function (keyword) {
     // Invalidate nodes in order to remove extra.
     stratumModel.staleAll(this.graph)
     stratumModel.freezeLayout(this.graph)
-    this.refreshCounts()
+    this.refreshLayout()
     // Mark that we are loading again.
     this.loading = true
     io.stream.sendStratumBuildJob(this.path, this.context)
