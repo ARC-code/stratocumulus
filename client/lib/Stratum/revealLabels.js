@@ -15,7 +15,7 @@ module.exports = function () {
     const nodeItem = node.component
     const dilation = viewport.measureDilation(nodeItem)
 
-    if (dilation > 0.05 && dilation < 2) {
+    if (dilation > 0.05 && dilation < 10) {
       nodeItem.addClass('readable')
     } else {
       nodeItem.removeClass('readable')
