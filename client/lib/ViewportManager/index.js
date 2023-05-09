@@ -19,7 +19,8 @@ const ViewportManager = function () {
   this.viewport.focusable()
 
   // Give viewport focus after click. When in focus, can emit keyboard events.
-  this.viewport.on('idle', () => {
+  this.viewport.tappable()
+  this.viewport.on('tap', () => {
     this.viewport.focus()
   })
 }
