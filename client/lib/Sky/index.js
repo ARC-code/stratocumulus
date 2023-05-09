@@ -22,9 +22,7 @@ const Sky = function (viewport) {
 
   // Setup space for strata.
   // TODO use tapspace FractalLoader to handle planes.
-  this.space = tapspace.createSpace()
   this.viewport = viewport
-  this.viewport.addChild(this.space)
 }
 
 module.exports = Sky

@@ -33,7 +33,7 @@ module.exports = function (path, context, label, bgColor, position, scale) {
 
   // Place into space DOM. Stratum (0,0,0) will match with the position.
   // TODO use FractalLoader for placing the content.
-  this.space.addChild(stratum.space, position)
+  this.viewport.addChild(stratum.space, position)
   stratum.space.setScale(scale, position)
 
   // Keep track of what strata we have built.
