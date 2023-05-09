@@ -61,18 +61,21 @@ exports.start = function () {
     // Make viewport interactive as the space has content.
     viewportManager.enableNavigation()
 
-    // Begin to show/hide labels after zoom
+    // Begin to manage visibility and loading of things after navigation.
+    // - show/hide labels
+    // - detect current stratum
+    // - open/close nodes.
     viewport.on('idle', () => {
-      sky.refreshLabels()
+      sky.refreshSpaces()
     })
 
     // Also, show/hide labels after the first.
-    sky.refreshLabels()
+    sky.refreshSpaces()
   })
 
   // Once the first stratum has been rendered completely, so something.
   firstStratum.once('final', () => {
-    sky.refreshLabels()
+    sky.refreshSpaces()
     // TODO release time slider
     // TODO Take a snapshot or add a breadcrumb
   })

@@ -1,5 +1,4 @@
-const tapspace = require('tapspace')
-// Styles
+// Import styles
 require('./stratum.css')
 
 const Sky = function (viewport) {
@@ -32,5 +31,5 @@ const proto = Sky.prototype
 proto.createStratum = require('./createStratum')
 proto.emphasizeDecades = require('./emphasizeDecades')
 proto.filterByKeyword = require('./filterByKeyword')
-proto.refreshLabels = require('./refreshLabels')
+proto.refreshSpaces = require('./refreshSpaces')
 proto.removeStratum = require('./removeStratum')
