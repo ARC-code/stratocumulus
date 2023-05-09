@@ -35,6 +35,11 @@ const Stratum = function (path, context, label, bgColor) {
   // Create container for the stratum
   const stratumPlane = tapspace.createPlane()
   stratumPlane.addClass('stratum-plane')
+  // Allow fast filtering of strata from all other components.
+  stratumPlane.isStratum = true
+  // Allow references from component to Stratum
+  stratumPlane.stratumPath = path
+
   const nodePlane = tapspace.createPlane()
   nodePlane.addClass('stratum-plane-nodes')
   const edgePlane = tapspace.createPlane()
