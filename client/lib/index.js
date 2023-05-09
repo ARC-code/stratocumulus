@@ -62,14 +62,17 @@ exports.start = function () {
     viewportManager.enableNavigation()
 
     // Begin to show/hide labels after zoom
-    sky.refreshLabels()
     viewport.on('idle', () => {
       sky.refreshLabels()
     })
+
+    // Also, show/hide labels after the first.
+    sky.refreshLabels()
   })
 
   // Once the first stratum has been rendered completely, so something.
   firstStratum.once('final', () => {
+    sky.refreshLabels()
     // TODO release time slider
     // TODO Take a snapshot or add a breadcrumb
   })
