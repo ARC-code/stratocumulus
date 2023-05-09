@@ -64,7 +64,6 @@ proto.isStratumNode = true
 proto.disableFaceting = require('./disableFaceting')
 proto.enableFaceting = require('./enableFaceting')
 proto.enableFocusing = require('./enableFocusing')
-// proto.getElement // for adding the node to space
 proto.getOrigin = require('./getOrigin')
 proto.getRadius = require('./getRadius')
 proto.getScale = require('./getScale')
