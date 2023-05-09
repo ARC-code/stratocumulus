@@ -61,13 +61,13 @@ const proto = StratumNode.prototype
 proto.isStratumNode = true
 
 // Methods
-// proto.getElement // for adding the node to space
 proto.disableFaceting = require('./disableFaceting')
 proto.enableFaceting = require('./enableFaceting')
 proto.enableFocusing = require('./enableFocusing')
+// proto.getElement // for adding the node to space
 proto.getOrigin = require('./getOrigin')
 proto.getRadius = require('./getRadius')
-// proto.getScale // get current or intented scale? for matching.
+proto.getScale = require('./getScale')
 proto.makeFaceted = require('./makeFaceted')
 proto.remove = require('./remove')
 proto.translateTo = require('./translateTo')

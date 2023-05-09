@@ -80,6 +80,7 @@ const Stratum = function (path, context, label, bgColor) {
   this.contextLabel = null
 
   // Cache the graph so that it is not lost if the stratum gets removed.
+  // TODO Is this just premature optimization?
   graphCache.store(path, this.graph)
 }
 
@@ -95,6 +96,7 @@ proto.enableFaceting = require('./enableFaceting')
 proto.filterByKeyword = require('./filterByKeyword')
 proto.load = require('./load')
 proto.getSpace = require('./getSpace')
+proto.openNode = require('./openNode')
 proto.prune = require('./prune')
 proto.refreshLayout = require('./refreshLayout')
 proto.remove = require('./remove')
