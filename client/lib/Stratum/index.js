@@ -1,6 +1,7 @@
 const stratumModel = require('./model')
 const emitter = require('component-emitter')
 const tapspace = require('tapspace')
+const graphCache = require('../graphCache')
 
 const Stratum = function (path, context, label, bgColor) {
   // A tree graph laid on a plane.
@@ -72,6 +73,9 @@ const Stratum = function (path, context, label, bgColor) {
   this.renderedEdges = {}
   // Context label element provides information about the filtering context
   this.contextLabel = null
+
+  // Cache the graph so that it is not lost if the stratum gets removed.
+  graphCache.store(path, this.graph)
 }
 
 module.exports = Stratum
