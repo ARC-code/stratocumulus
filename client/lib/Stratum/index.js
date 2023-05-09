@@ -91,6 +91,7 @@ const proto = Stratum.prototype
 emitter(proto)
 
 // Methods
+proto.closeNode = require('./closeNode')
 proto.emphasizeDecades = require('./emphasizeDecades')
 proto.enableFaceting = require('./enableFaceting')
 proto.filterByKeyword = require('./filterByKeyword')
