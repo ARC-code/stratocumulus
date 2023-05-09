@@ -102,7 +102,10 @@ proto.openNode = require('./openNode')
 proto.prune = require('./prune')
 proto.refreshLayout = require('./refreshLayout')
 proto.remove = require('./remove')
+// TODO proto.removeEdges
 proto.render = require('./render')
+// TODO proto.renderNodes
+// TODO proto.renderEdges
 proto.renderContextLabel = require('./renderContextLabel')
 proto.revealLabels = require('./revealLabels')
 // TODO setLabel? The large label below the stratum.

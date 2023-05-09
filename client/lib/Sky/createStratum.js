@@ -63,5 +63,10 @@ module.exports = function (path, context, label, bgColor, position, scale) {
     }, 0)
   })
 
+  // TODO MAYBE
+  // stratum.on('layoutchange', (ev) => {
+  //   // Reposition also the substrata
+  // })
+
   return stratum
 }
