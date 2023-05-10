@@ -31,6 +31,11 @@ module.exports = function (path, context, label, bgColor, position, scale) {
   // Build
   const stratum = new Stratum(path, context, label, bgColor)
 
+  // Init current stratum if this is the first.
+  if (!this.currentStratumPath) {
+    this.currentStratumPath = path
+  }
+
   // Place into space DOM. Stratum (0,0,0) will match with the position.
   // TODO use FractalLoader for placing the content.
   this.viewport.addChild(stratum.space, position)

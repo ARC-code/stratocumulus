@@ -15,9 +15,8 @@ const Sky = function (viewport) {
   // Current navigational path.
   // array of stratumId
   this.strataTrail = []
-  // The index of the current stratum.
-  // TODO how to benefit from currently focused stratum?
-  this.currentStratum = 0
+  // The current stratumPath.
+  this.currentStratumPath = null
 
   // Setup space for strata.
   // TODO use tapspace FractalLoader to handle planes.
