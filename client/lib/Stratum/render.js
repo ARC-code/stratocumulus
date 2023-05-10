@@ -49,6 +49,9 @@ module.exports = function (final = false) {
   })
 
   if (final) {
+    // Re-compute bounding circle
+    // TODO also do a couple of times before final.
+    this.boundingCircle = this.nodePlane.getBoundingSphere()
     // Enable faceting
     this.enableFaceting()
     // Display context label

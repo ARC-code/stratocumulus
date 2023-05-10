@@ -78,6 +78,10 @@ const Stratum = function (path, context, label, bgColor) {
   this.renderedEdges = {}
   // Context label element provides information about the filtering context
   this.contextLabel = null
+  // Maintain latent stratum bounding circle.
+  // Update when necessary.
+  const circle = { x: 0, y: 0, z: 0, r: 500 }
+  this.boundingCircle = new tapspace.geometry.Sphere(this.space, circle)
 
   // Cache the graph so that it is not lost if the stratum gets removed.
   // TODO Is this just premature optimization?
@@ -96,6 +100,7 @@ proto.emphasizeDecades = require('./emphasizeDecades')
 proto.enableFaceting = require('./enableFaceting')
 proto.filterByKeyword = require('./filterByKeyword')
 proto.load = require('./load')
+proto.getBoundingCircle = require('./getBoundingCircle')
 proto.getOrigin = require('./getOrigin')
 proto.getSpace = require('./getSpace')
 proto.openNode = require('./openNode')
