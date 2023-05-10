@@ -1,3 +1,4 @@
+const emitter = require('component-emitter')
 // Import styles
 require('./stratum.css')
 
@@ -25,6 +26,9 @@ const Sky = function (viewport) {
 
 module.exports = Sky
 const proto = Sky.prototype
+
+// Inherit
+emitter(proto)
 
 // Methods
 proto.createStratum = require('./createStratum')
