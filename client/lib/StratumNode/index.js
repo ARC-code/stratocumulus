@@ -51,6 +51,8 @@ const StratumNode = function (key, attrs, space) {
   this.space = space
   this.space.addChild(newItem)
   this.component = newItem
+  // TODO this.graph = graph
+  this.tempIsFacetable = attrs.isFacetable
 
   this.updateCount(attrs)
   this.enableFocusing()
@@ -67,6 +69,8 @@ proto.enableFocusing = require('./enableFocusing')
 proto.getOrigin = require('./getOrigin')
 proto.getRadius = require('./getRadius')
 proto.getScale = require('./getScale')
+proto.isFacetable = require('./isFacetable')
+proto.isFaceted = require('./isFaceted')
 proto.makeFaceted = require('./makeFaceted')
 proto.remove = require('./remove')
 proto.translateTo = require('./translateTo')
