@@ -1,7 +1,7 @@
 const tapspace = require('tapspace')
 const layoutGraph = require('./layout')
 const StratumNode = require('../StratumNode')
-const CorporaCard = require('../CorporaCard')
+const ArtifactCard = require('../ArtifactCard')
 
 module.exports = function (final = false) {
   // Render the graph. If elements already exist, update.
@@ -32,7 +32,7 @@ module.exports = function (final = false) {
       if (isDataCard) {
         // console.log('DataCard detected')
         // console.log(key, attrs)
-        stratumNode = new CorporaCard(key, attrs, this.nodePlane)
+        stratumNode = new ArtifactCard(key, attrs, this.nodePlane)
       } else {
         stratumNode = new StratumNode(key, attrs, this.nodePlane)
       }

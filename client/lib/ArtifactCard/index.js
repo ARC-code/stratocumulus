@@ -3,7 +3,7 @@ const generateDataPlaneCardContent = require('./generateDataPlaneCardContent')
 const getArtifactId = require('./getArtifactId')
 require('./style.css')
 
-const CorporaCard = function (key, attrs, space) {
+const ArtifactCard = function (key, attrs, space) {
   // DataCard is a card-like element in space.
   //
   // Parameters:
@@ -39,8 +39,8 @@ const CorporaCard = function (key, attrs, space) {
   this.component.scaleBy(0.4, this.component.atCenter())
 }
 
-module.exports = CorporaCard
-const proto = CorporaCard.prototype
+module.exports = ArtifactCard
+const proto = ArtifactCard.prototype
 
 proto.translateTo = require('./translateTo')
 proto.getOrigin = require('./getOrigin')
