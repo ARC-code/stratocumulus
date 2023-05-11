@@ -51,8 +51,9 @@ const StratumNode = function (key, attrs, space) {
   this.space = space
   this.space.addChild(newItem)
   this.component = newItem
-  // TODO this.graph = graph
-  this.tempIsFacetable = attrs.isFacetable
+
+  // Cache attributes. The real up-to-date attributes are in the graph model.
+  this.attributesCache = attrs
 
   this.updateCount(attrs)
   this.enableFocusing()

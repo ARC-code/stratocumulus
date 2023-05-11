@@ -4,5 +4,5 @@ module.exports = function () {
   // Return
   //   a boolean
   //
-  return this.tempIsFacetable
+  return this.attributesCache.isFacetable
 }
