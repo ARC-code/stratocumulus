@@ -1,6 +1,10 @@
 module.exports = function (key) {
   // Facet the graph by opening a node.
   //
+  // Parameters:
+  //   key
+  //     a node key
+  //
 
   const stratumNode = this.renderedNodes[key]
   const attrs = this.graph.getNodeAttributes(key)

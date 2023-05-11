@@ -30,8 +30,6 @@ const Stratum = function (path, context, label, bgColor) {
   //     a new stratum.
   //
 
-  // Build valid html-friendly id. TODO remove id if unused.
-  const divId = path.replaceAll('/', 'X')
   // Create container for the stratum
   const stratumPlane = tapspace.createPlane()
   stratumPlane.addClass('stratum-plane')
@@ -48,8 +46,6 @@ const Stratum = function (path, context, label, bgColor) {
   stratumPlane.addChild(edgePlane)
   stratumPlane.addChild(nodePlane)
 
-  // space element id
-  this.id = divId
   // stratum identifier: path
   this.path = path
   // space component
@@ -79,7 +75,7 @@ const Stratum = function (path, context, label, bgColor) {
   // Context label element provides information about the filtering context
   this.contextLabel = null
   // Maintain latent stratum bounding circle.
-  // Update when necessary.
+  // Recomputing can be intensive. Update only when necessary, e.g. at final.
   const circle = { x: 0, y: 0, z: 0, r: 500 }
   this.boundingCircle = new tapspace.geometry.Sphere(this.space, circle)
 

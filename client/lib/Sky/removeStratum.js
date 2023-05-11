@@ -2,6 +2,10 @@ module.exports = function (path) {
   // Unregister stratum.
   // Forget stratum and remove it from DOM.
   //
+  // Parameters:
+  //   path
+  //     a stratum path
+  //
 
   // Find stratum object.
   const stratum = this.strata[path]
@@ -13,7 +17,7 @@ module.exports = function (path) {
   }
 
   // Remove from DOM and stop listeners.
-  // TODO remove via FractalLoader
+  // TODO remove automatically via FractalLoader
   stratum.remove()
   // Forget
   delete this.strata[path]
