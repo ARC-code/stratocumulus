@@ -48,6 +48,7 @@ const StratumNode = function (key, attrs, space) {
     this.ontap(ev)
   ))
 
+  this.key = key
   this.space = space
   this.space.addChild(newItem)
   this.component = newItem
