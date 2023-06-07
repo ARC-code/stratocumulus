@@ -1,7 +1,7 @@
 // Mock of the stream module for offline-development
 
 const Emitter = require('component-emitter')
-const fixture = require('./streamMockFixture')
+const fixture = {} // require('./streamMockFixture')
 
 // Use only one stream; the singleton pattern.
 let graphStream = null
