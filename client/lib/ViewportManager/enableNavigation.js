@@ -1,4 +1,4 @@
-const ZoomControl = require('./ZoomControl')
+const tapspace = require('tapspace')
 
 module.exports = function () {
   // Enable viewport navigation
@@ -14,21 +14,14 @@ module.exports = function () {
   this.viewport.pannable().zoomable()
 
   // Add basic zoom control
-  const zoomControl = new ZoomControl({
+  const zoomControl = new tapspace.components.ZoomControl({
     scaleStep: 1.5
   })
   this.viewport.addControl(zoomControl)
 
   // Position to bottom right corner
-  const positionZoomControl = () => {
-    zoomControl.match({
-      source: zoomControl.atBottomLeft(),
-      target: this.viewport.atBottomLeft().offset(10, -70)
-    })
-  }
-
-  // Run at least once. Reposition on viewport resize.
-  positionZoomControl()
-  const resizeCapturer = this.viewport.capturer('resize')
-  resizeCapturer.on('resize', positionZoomControl)
+  zoomControl.match({
+    source: zoomControl.atBottomLeft(),
+    target: this.viewport.atBottomLeft().offset(10, -70)
+  })
 }

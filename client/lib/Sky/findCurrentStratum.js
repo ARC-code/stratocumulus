@@ -6,7 +6,7 @@ module.exports = function () {
   //   a string, stratumPath of the stratum in which the user probably
   //   .. perceives to be located.
   //
-  const spaces = this.viewport.getHyperspace().getChildren()
+  const spaces = this.viewport.getSpaces()
   const camera = this.viewport.atCamera()
   const viewCenter = this.viewport.atCenter()
   const viewWidth = this.viewport.getWidth().getRaw()

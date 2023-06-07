@@ -5,12 +5,6 @@
 }
 
 /* TEMP Patch tapspace */
-.affine-hyperspace {
-  transform-style: flat !important;
-}
-.affine-space {
-  transform-style: flat !important;
-}
 .edge {
   /* tapspace edges use only border-top */
   border-top: 1px solid rgb(160, 160, 160) !important;
