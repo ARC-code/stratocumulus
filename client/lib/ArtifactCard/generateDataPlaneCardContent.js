@@ -14,7 +14,7 @@ const archiveUrls = {}
 
 // For keeping track of the default thumbnails for artifacts based on the federation they belong to
 const federationThumbnails = {}
-let thumbnailsLoaded = false
+// let thumbnailsLoaded = false
 
 // For mapping an agent's role to a legible label
 const agentRoleMapping = {
@@ -55,7 +55,8 @@ const agentRoleMapping = {
   WDE: 'Wood engraver',
   WDC: 'Wood cutter'
 }
-const agentRoleRegex = new RegExp('(\\([^\\)]*\\))$')
+// Capture a group of parentheses and its contents at the end of a string.
+const agentRoleRegex = /(\([^)]*\))$/
 
 // window.onload = function(event) {
 //   const viewport = document.getElementById('viewport')
