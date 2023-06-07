@@ -44,9 +44,9 @@ const StratumNode = function (key, attrs, space) {
   // Make interactive for navigational tap.
   newItem.tappable({ preventDefault: false })
   this.ontap = () => {}
-  newItem.on('tap', (ev) => (
+  newItem.on('tap', (ev) => {
     this.ontap(ev)
-  ))
+  })
 
   this.key = key
   this.space = space
