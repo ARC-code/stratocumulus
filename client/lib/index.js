@@ -33,22 +33,12 @@ exports.start = function () {
 
   // Init stratum loader and begin loading the first stratum
   const sky = new Sky(viewport)
-
   // Begin from the root stratum path '/'
-  const firstPoint = viewport.atCenter()
-  const firstScale = viewport.getScale()
-  const firstStratum = sky.createStratum(
-    '/', // Path
-    {}, // Context
-    'ARC', // Label
-    '#444444', // Color
-    firstPoint, // Position
-    firstScale // Scale
-  )
+  sky.init('/')
 
   // Once the first stratum has some rendered content,
   // make the viewport interactive and begin refreshing labels.
-  firstStratum.once('first', () => {
+  sky.once('first', () => {
     // Make viewport interactive as the space has content.
     viewportManager.enableNavigation()
 

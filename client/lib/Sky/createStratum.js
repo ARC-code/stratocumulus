@@ -1,6 +1,6 @@
 const Stratum = require('../Stratum')
 
-module.exports = function (path, context, label, bgColor, position, scale) {
+module.exports = function (path, context, label, bgColor) {
   // Create and start one stratum.
   //
   // Parameters:
@@ -12,10 +12,6 @@ module.exports = function (path, context, label, bgColor, position, scale) {
   //     string, label for the root node
   //   bgColor
   //     string, css color for the root node
-  //   position
-  //     tapspace Point, the position of the root node.
-  //   scale
-  //     tapspace Scale, the scale of the stratum
   //
   // Return:
   //   a stratum. If a stratum with the path already exists, the existing
@@ -36,42 +32,9 @@ module.exports = function (path, context, label, bgColor, position, scale) {
     this.currentStratumPath = path
   }
 
-  // Place into space DOM. Stratum (0,0,0) will match with the position.
-  // TODO use FractalLoader for placing the content.
-  this.viewport.addChild(stratum.space, position)
-  stratum.space.setScale(scale, position)
-
   // Keep track of what strata we have built.
   this.strata[path] = stratum
   this.strataTrail.push(stratum.path)
-  this.currentStratum = this.strataTrail.length - 1
-
-  // Begin loading and rendering
-  stratum.load()
-
-  stratum.on('stratumrequest', (ev) => {
-    // This event tells us that an interaction within the stratum
-    // requested a substratum to be built and rendered.
-
-    // Stratum build might be heavy. To avoid blocking click interaction
-    // too long, place the build last in the event loop. Thus timeout 0.
-    setTimeout(() => {
-      // Note the recursive nature of the call.
-      this.createStratum(
-        ev.path,
-        ev.context,
-        ev.label,
-        ev.bgColor,
-        ev.position,
-        ev.scale.scaleBy(0.1)
-      )
-    }, 0)
-  })
-
-  // TODO MAYBE
-  // stratum.on('layoutchange', (ev) => {
-  //   // Reposition also the substrata
-  // })
 
   return stratum
 }
