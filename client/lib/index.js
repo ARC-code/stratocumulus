@@ -57,19 +57,19 @@ exports.start = function () {
     // - detect current stratum
     // - open/close nodes.
     viewport.on('idle', () => {
-      sky.refreshSpaces()
+      sky.revealLabels()
     })
 
     // Also, show/hide labels after the first.
-    sky.refreshSpaces()
+    sky.revealLabels()
   })
 
-  // Once the first stratum has been rendered completely, so something.
-  firstStratum.once('final', () => {
-    sky.refreshSpaces()
-    // TODO release time slider
-    // TODO Take a snapshot or add a breadcrumb
-  })
+  // // Once the first stratum has been rendered completely, do something.
+  // firstStratum.once('final', () => {
+  //   sky.revealLabels()
+  //   // TODO release time slider
+  //   // TODO Take a snapshot or add a breadcrumb
+  // })
 
   // Connect search bar
   toolbar.on('search', (ev) => {
