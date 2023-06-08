@@ -13,11 +13,6 @@ module.exports = function (final = false) {
   //     boolean, set true to update edges
   //
   const stratumOrigin = this.space.at(0, 0)
-  // const path = this.path
-  // const graph = this.graph
-
-  // const edgeGroup = stratumSpace.edgeGroup
-  // const nodeGroup = stratumSpace.nodeGroup
 
   const layoutPositions = layoutGraph(this.graph, this.context)
 
