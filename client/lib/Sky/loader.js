@@ -40,19 +40,35 @@ module.exports = (sky) => {
     }
   })
 
+  // The TreeLoader does not handle context data,
+  // thus we cache it for open events.
+  const contextCache = {
+    '/': {
+      path: '/',
+      label: 'ARC',
+      bgColor: '#444444',
+      context: {}
+    }
+  }
+
   // Generator
   loader.on('open', (stratumPath) => {
     // TODO use passed context object
-    let context, label, color
-    if (stratumPath === '/') {
-      context = {}
-      label = 'ARC'
-      color = '#444444'
+
+    let context, label, bgColor
+    if (contextCache[stratumPath]) {
+      const cached = contextCache[stratumPath]
+      context = cached.context
+      label = cached.label
+      bgColor = cached.bgColor
+      // Consume
+      delete contextCache[stratumPath]
     } else {
-      // TODO
+      // DEBUG
+      throw new Error('Missing stratum context')
     }
 
-    const stratum = sky.createStratum(stratumPath, context, label, color)
+    const stratum = sky.createStratum(stratumPath, context, label, bgColor)
     // Begin loading and rendering
     stratum.load()
 
@@ -62,10 +78,17 @@ module.exports = (sky) => {
       const parentPath = stratumPath
       const childPath = ev.path
 
+      // Pass to next open
+      contextCache[childPath] = {
+        path: childPath,
+        label: ev.label,
+        bgColor: ev.bgColor,
+        context: ev.context
+      }
+
       // HACK TODO allow opening child without setting demand.
       loader.demand[parentPath] = 2
       loader.openChild(parentPath, childPath)
-      // TODO pass context: ev.path, ev.context, ev.label, ev.bgColor
     })
 
     // TODO MAYBE
