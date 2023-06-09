@@ -5,28 +5,18 @@ module.exports = function () {
   //
 
   // Construct click handler once for all the nodes.
-  const onTap = (event) => {
-    const targetItem = event.component
-    const targetKey = targetItem.nodeKey
-
-    this.openNode(targetKey)
-
-    // Zoom closer to the node
-    const viewport = this.space.getViewport()
-    const goalScale = targetItem.getScale().scaleBy(0.62)
-    viewport.animateOnce({ duration: '1.5s' })
-    viewport.translateTo(targetItem.atCenter())
-    viewport.setScale(goalScale, targetItem.atCenter())
+  const onRequest = (ev) => {
+    this.openNode(ev.nodeKey)
   }
 
   const nodeKeys = Object.keys(this.renderedNodes)
-
   const facetableKeys = nodeKeys.filter(nodeKey => {
     return this.graph.getNodeAttribute(nodeKey, 'isFacetable')
   })
 
   facetableKeys.forEach(nodeKey => {
     const stratumNode = this.renderedNodes[nodeKey]
-    stratumNode.enableFaceting(onTap)
+    stratumNode.enableFaceting()
+    stratumNode.on('openingrequest', onRequest)
   })
 }

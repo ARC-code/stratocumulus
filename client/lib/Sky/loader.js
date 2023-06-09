@@ -14,7 +14,8 @@ module.exports = (sky) => {
       if (sky.strata[parentId]) {
         const parentStratum = sky.strata[parentId]
         const childNode = parentStratum.getNode(childId)
-        return childNode.getBasis().scaleBy(0.1, childNode.getOrigin())
+        const childBasis = childNode.component.getBasis()
+        return childBasis.scaleBy(0.1, childNode.getOrigin())
       }
       return null
     },
@@ -60,6 +61,9 @@ module.exports = (sky) => {
       // requested a substratum to be built and rendered.
       const parentPath = stratumPath
       const childPath = ev.path
+
+      // HACK TODO allow opening child without setting demand.
+      loader.demand[parentPath] = 2
       loader.openChild(parentPath, childPath)
       // TODO pass context: ev.path, ev.context, ev.label, ev.bgColor
     })

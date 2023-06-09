@@ -1,8 +1,5 @@
-module.exports = function (onTap) {
-  // Prevent duplicate interaction setup
-  if (!this.facetingEnabled) {
-    this.facetingEnabled = true
-    // Replace tap handler
-    this.ontap = onTap
-  }
+module.exports = function () {
+  // Allow the node to request opening upon tap.
+  //
+  this.tapToOpen = true
 }
