@@ -109,9 +109,43 @@ module.exports = (sky) => {
     loader.open(stratumPath, stratum.getSpace())
   })
 
+  loader.on('close', (ev) => {
+    console.log('space closed', ev)
+    const stratumPath = ev.id
+    sky.removeStratum(stratumPath)
+  })
+
   // Driver for TreeLoader
   sky.viewport.on('idle', () => {
-    // console.log('driver run')
+    console.log('driver run')
+
+    const spaces = sky.viewport.getSpaces()
+
+    // Remove all too small spaces immediately.
+    // Do this to avoid singular inversions.
+    const singulars = sky.viewport.findSingular()
+    singulars.forEach(space => {
+      const spaceId = space.stratumPath
+      loader.removeSpace(spaceId)
+    })
+
+    // DEBUG
+    // const numNodes = spaces.length - singulars.length
+    // const metersEl = document.getElementById('meters')
+    // metersEl.innerHTML = '# of nodes: ' + numNodes
+
+    // Find closest, our current location.
+    const nearestMetrics = sky.viewport.measureNearest(spaces, 1)
+    const nearestSpaces = nearestMetrics.map(ne => ne.target)
+
+    // Expand and prune the tree.
+    const nearestIds = nearestSpaces.map(space => space.stratumPath)
+    loader.closeNeighbors(nearestIds, 2)
+
+    console.log('currently nearest stratum:', nearestIds[0])
+
+    // Prevent viewport from getting too far from the current nodes.
+    sky.viewport.limitTo(nearestSpaces)
   })
 
   return loader
