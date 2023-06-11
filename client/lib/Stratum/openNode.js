@@ -33,7 +33,7 @@ module.exports = function (key) {
   this.emit('stratumrequest', {
     path: facetPath,
     context: subContext,
-    label: attrs.label, // Pass the node label it forward.
+    label: attrs.label, // Pass the node label forward.
     bgColor: 'todo' // TODO
   })
 }

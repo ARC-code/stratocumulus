@@ -14,7 +14,7 @@ const Sky = function (viewport) {
   // Current known set of stratum objects.
   // stratumPath -> Stratum
   this.strata = {}
-  // Current navigational path.
+  // Current navigational location.
   // array of stratumId
   this.strataTrail = []
   // The current stratumPath.
@@ -40,5 +40,9 @@ proto.emphasizeDecades = require('./emphasizeDecades')
 proto.filterByKeyword = require('./filterByKeyword')
 proto.findCurrentStratum = require('./findCurrentStratum')
 proto.getOrigin = require('./getOrigin')
+proto.getSubcontext = require('./getSubcontext')
+proto.getSubstratumPaths = require('./getSubstratumPaths')
+proto.getSupercontext = require('./getSupercontext')
+proto.getSuperstratumPath = require('./getSuperstratumPath')
 proto.revealLabels = require('./revealLabels')
 proto.removeStratum = require('./removeStratum')

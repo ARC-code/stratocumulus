@@ -62,7 +62,10 @@ const Stratum = function (path, context, label, bgColor) {
   this.imageSrc = null
   // Initial node color?
   this.bgColor = bgColor
-  // Navigation context
+  // Navigation context. Contains all the filtering settings
+  // that define the content of the stratum.
+  // For example, stratum "/arc/federations/63a0" may have context:
+  //   { f_federations.id: "63a0", r_years: "1000to2000" }
   this.context = Object.assign({}, context)
   // Alive when loading or loaded.
   this.alive = false
@@ -99,8 +102,6 @@ proto.getBoundingCircle = require('./getBoundingCircle')
 proto.getNode = require('./getNode')
 proto.getOrigin = require('./getOrigin')
 proto.getSpace = require('./getSpace')
-proto.getSubstratumPaths = require('./getSubstratumPaths')
-proto.getSuperstratumPath = require('./getSuperstratumPath')
 proto.findNodeNear = require('./findNodeNear')
 proto.openNode = require('./openNode')
 proto.prune = require('./prune')

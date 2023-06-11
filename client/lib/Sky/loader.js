@@ -23,8 +23,7 @@ module.exports = (sky) => {
     tracker: function (parentId, parentSpace) {
       // Get IDs of the children of the parent component.
       if (sky.strata[parentId]) {
-        const superstratum = sky.strata[parentId]
-        return superstratum.getSubstratumPaths()
+        return sky.getSubstratumPaths(parentId)
       }
       return []
     },
@@ -33,8 +32,7 @@ module.exports = (sky) => {
       // Find parent id.
       // If no parent and the child is the root node, return null.
       if (sky.strata[childId]) {
-        const substratum = sky.strata[childId]
-        return substratum.getSuperstratumPath()
+        return sky.getSuperstratumPath(childId)
       }
       return null
     }
@@ -83,7 +81,7 @@ module.exports = (sky) => {
         path: childPath,
         label: ev.label,
         bgColor: ev.bgColor,
-        context: ev.context
+        context: sky.getSubcontext(parentPath, childPath)
       }
 
       // HACK TODO allow opening child without setting demand.
@@ -113,7 +111,7 @@ module.exports = (sky) => {
 
   // Driver for TreeLoader
   sky.viewport.on('idle', () => {
-    console.log('driver run')
+    // console.log('driver run')
   })
 
   return loader
