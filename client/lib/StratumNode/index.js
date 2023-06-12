@@ -58,7 +58,7 @@ const StratumNode = function (key, attrs, space) {
         nodeKey: this.key,
         item: this.component
       })
-      this.component.addClass('faceted-node')
+      this.open()
     }
   })
 
@@ -83,11 +83,13 @@ emitter(proto)
 // Methods
 proto.disableFaceting = require('./disableFaceting')
 proto.enableFaceting = require('./enableFaceting')
+proto.close = require('./close')
 proto.getOrigin = require('./getOrigin')
 proto.getRadius = require('./getRadius')
 proto.getScale = require('./getScale')
 proto.isFacetable = require('./isFacetable')
 proto.isFaceted = require('./isFaceted')
+proto.open = require('./open')
 proto.remove = require('./remove')
 proto.translateTo = require('./translateTo')
 proto.updateCount = require('./updateCount')

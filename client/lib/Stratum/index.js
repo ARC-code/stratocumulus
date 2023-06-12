@@ -14,7 +14,7 @@ const Stratum = function (path, context, label, bgColor) {
   //   path
   //     string, the stratum id
   //   context
-  //     object, tells where the user came from.
+  //     object, defines the faceting and filtering context of the stratum.
   //   label
   //     string
   //   bgColor

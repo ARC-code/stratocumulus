@@ -13,9 +13,9 @@ module.exports = (sky) => {
       // If there is no position for the child, null.
       if (sky.strata[parentId]) {
         const parentStratum = sky.strata[parentId]
-        const childNode = parentStratum.getNode(childId)
-        const childBasis = childNode.component.getBasis()
-        return childBasis.scaleBy(0.1, childNode.getOrigin())
+        const facetNode = parentStratum.getNode(childId)
+        const childBasis = facetNode.component.getBasis()
+        return childBasis.scaleBy(0.1, facetNode.getOrigin())
       }
       return null
     },
@@ -111,6 +111,18 @@ module.exports = (sky) => {
 
   loader.on('close', (ev) => {
     console.log('space closed', ev)
+
+    // Close the containing node
+    const superPath = sky.getSuperstratumPath(ev.id)
+    const superStratum = sky.strata[superPath]
+    if (superStratum) {
+      const superNode = superStratum.getNode(ev.id)
+      if (superNode) {
+        superNode.close()
+      }
+    }
+
+    // Remove the contained stratum.
     const stratumPath = ev.id
     sky.removeStratum(stratumPath)
   })
