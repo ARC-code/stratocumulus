@@ -44,7 +44,6 @@ module.exports = (sky) => {
     '/': {
       path: '/',
       label: 'ARC',
-      bgColor: '#444444',
       context: {}
     }
   }
@@ -53,12 +52,11 @@ module.exports = (sky) => {
   loader.on('open', (stratumPath) => {
     // TODO use passed context object
 
-    let context, label, bgColor
+    let context, label
     if (contextCache[stratumPath]) {
       const cached = contextCache[stratumPath]
       context = cached.context
       label = cached.label
-      bgColor = cached.bgColor
       // Consume
       delete contextCache[stratumPath]
     } else {
@@ -66,7 +64,7 @@ module.exports = (sky) => {
       throw new Error('Missing stratum context')
     }
 
-    const stratum = sky.createStratum(stratumPath, context, label, bgColor)
+    const stratum = sky.createStratum(stratumPath, context, label)
     // Begin loading and rendering
     stratum.load()
 
@@ -80,7 +78,6 @@ module.exports = (sky) => {
       contextCache[childPath] = {
         path: childPath,
         label: ev.label,
-        bgColor: ev.bgColor,
         context: sky.getSubcontext(parentPath, childPath)
       }
 

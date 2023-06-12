@@ -13,7 +13,6 @@ module.exports = function (key) {
   // about or control other strata.
   this.emit('stratumrequest', {
     path: key,
-    label: attrs.label, // Pass the node label forward.
-    bgColor: 'todo' // TODO?
+    label: attrs.label // Pass the node label forward.
   })
 }

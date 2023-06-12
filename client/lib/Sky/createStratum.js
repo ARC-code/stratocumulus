@@ -1,6 +1,6 @@
 const Stratum = require('../Stratum')
 
-module.exports = function (path, context, label, bgColor) {
+module.exports = function (path, context, label) {
   // Create and start one stratum.
   //
   // Parameters:
@@ -10,8 +10,6 @@ module.exports = function (path, context, label, bgColor) {
   //     object
   //   label
   //     string, label for the root node
-  //   bgColor
-  //     string, css color for the root node
   //
   // Return:
   //   a stratum. If a stratum with the path already exists, the existing
@@ -25,7 +23,7 @@ module.exports = function (path, context, label, bgColor) {
   }
 
   // Build
-  const stratum = new Stratum(path, context, label, bgColor)
+  const stratum = new Stratum(path, context, label)
 
   // Init current stratum if this is the first.
   if (!this.currentStratumPath) {
