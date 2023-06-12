@@ -53,11 +53,7 @@ const Stratum = function (path, context, label) {
   // graph model
   this.graph = stratumModel.createGraph()
   //
-  this.layout = null
-  //
   this.label = label
-  //
-  this.imageSrc = null
   // Navigation context. Contains all the filtering settings
   // that define the content of the stratum.
   // For example, stratum "/arc/federations/63a0" may have context:
@@ -71,7 +67,7 @@ const Stratum = function (path, context, label) {
   this.renderedNodes = {}
   // Keep track of rendered edges. edgeKey -> StratumEdge
   this.renderedEdges = {}
-  // Context label element provides information about the filtering context
+  // Context label element displays information about the filtering context
   this.contextLabel = null
   // Maintain latent stratum bounding circle.
   // Recomputing can be intensive. Update only when necessary, e.g. at final.
