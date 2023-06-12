@@ -3,7 +3,7 @@ const emitter = require('component-emitter')
 const tapspace = require('tapspace')
 const graphCache = require('../graphCache')
 
-const Stratum = function (path, context, label) {
+const Stratum = function (path, superpath, context, label) {
   // A tree graph laid on a plane.
   // The stratum is not yet added to the document.
   // Append stratum.space to a parent space in order to do that.
@@ -13,6 +13,8 @@ const Stratum = function (path, context, label) {
   // Parameters:
   //   path
   //     string, the stratum id
+  //   superpath
+  //     string, the superstratum id or null.
   //   context
   //     object, defines the faceting and filtering context of the stratum.
   //   label
@@ -46,6 +48,8 @@ const Stratum = function (path, context, label) {
 
   // stratum identifier: path
   this.path = path
+  // The parent stratum, if any.
+  this.superpath = superpath
   // space component
   this.space = stratumPlane
   this.nodePlane = nodePlane

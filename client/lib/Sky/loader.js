@@ -43,6 +43,7 @@ module.exports = (sky) => {
   const contextCache = {
     '/': {
       path: '/',
+      superpath: null,
       label: 'ARC',
       context: {}
     }
@@ -52,21 +53,28 @@ module.exports = (sky) => {
   loader.on('open', (stratumPath) => {
     // TODO use passed context object
 
-    let context, label
+    let context, label, parentPath
     if (contextCache[stratumPath]) {
       const cached = contextCache[stratumPath]
       context = cached.context
       label = cached.label
-      // Consume
-      delete contextCache[stratumPath]
+      parentPath = cached.superpath
+      // Consume. TODO how to build context for parent?
+      // delete contextCache[stratumPath]
     } else {
       // DEBUG
       throw new Error('Missing stratum context')
     }
 
-    const stratum = sky.createStratum(stratumPath, context, label)
+    const stratum = sky.createStratum(stratumPath, parentPath, context, label)
+
     // Begin loading and rendering
     stratum.load()
+
+    // TODO
+    // stratum.once('final', () => {
+    //   // Position the stratum so that the node matches substratum.
+    // })
 
     stratum.on('stratumrequest', (ev) => {
       // This event tells us that an interaction within the stratum
@@ -77,6 +85,7 @@ module.exports = (sky) => {
       // Pass to next open
       contextCache[childPath] = {
         path: childPath,
+        superpath: parentPath,
         label: ev.label,
         context: sky.getSubcontext(parentPath, childPath)
       }
@@ -126,8 +135,6 @@ module.exports = (sky) => {
 
   // Driver for TreeLoader
   sky.viewport.on('idle', () => {
-    console.log('driver run')
-
     const spaces = sky.viewport.getSpaces()
 
     // Remove all too small spaces immediately.
@@ -147,9 +154,13 @@ module.exports = (sky) => {
     const nearestMetrics = sky.viewport.measureNearest(spaces, 1)
     const nearestSpaces = nearestMetrics.map(ne => ne.target)
 
-    // Expand and prune the tree.
+    // Prune the tree.
     const nearestIds = nearestSpaces.map(space => space.stratumPath)
     loader.closeNeighbors(nearestIds, 2)
+
+    // TODO refactor TreeLoader so that demand is not needed.
+    loader.demand[nearestIds[0]] = 2
+    loader.openParent(nearestIds[0])
 
     console.log('currently nearest stratum:', nearestIds[0])
 

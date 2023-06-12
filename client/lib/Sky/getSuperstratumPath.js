@@ -9,15 +9,6 @@ module.exports = function (subPath) {
   //   a string
   //
 
-  const stratum = this.strata[subPath]
-
-  if (stratum.path === '/') {
-    // Root has no parent
-    return null
-  }
-
-  console.log(stratum.path, stratum.context)
-
   // There are two cases where superstratum path is needed.
   // a) user arrived from the root, navigated deeper, and returns back up.
   // b) user arrived to a substratum, and navigates up.
@@ -28,17 +19,15 @@ module.exports = function (subPath) {
   // Therefore in b) we pick just some order, e.g. alphabetic.
   //
 
-  // Handle case a)
-  const trailIndex = this.strataTrail.indexOf(subPath)
-  if (trailIndex > 0) {
-    // Previous
-    return this.strataTrail[trailIndex - 1]
+  const stratum = this.strata[subPath]
+
+  // If parent is known
+  if (stratum.superpath) {
+    return stratum.superpath
   }
 
-  if (trailIndex < 0) {
-    // TODO pick parent from context.
-  }
+  // TODO form possible parents from context
+  // (stratum.context)
 
-  // Else trailIndex 0, i.e.
-  return '/'
+  return null
 }

@@ -1,11 +1,13 @@
 const Stratum = require('../Stratum')
 
-module.exports = function (path, context, label) {
+module.exports = function (path, superpath, context, label) {
   // Create and start one stratum.
   //
   // Parameters:
   //   path
   //     string, identifies the stratum
+  //   superpath
+  //     string, the superstratum path
   //   context
   //     object
   //   label
@@ -23,7 +25,7 @@ module.exports = function (path, context, label) {
   }
 
   // Build
-  const stratum = new Stratum(path, context, label)
+  const stratum = new Stratum(path, superpath, context, label)
 
   // Init current stratum if this is the first.
   if (!this.currentStratumPath) {
@@ -32,7 +34,6 @@ module.exports = function (path, context, label) {
 
   // Keep track of what strata we have built.
   this.strata[path] = stratum
-  this.strataTrail.push(stratum.path)
 
   return stratum
 }
