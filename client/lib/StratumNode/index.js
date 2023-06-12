@@ -31,6 +31,9 @@ const StratumNode = function (key, attrs, space) {
   const newItem = tapspace.createItem('')
   newItem.addClass('stratum-node')
 
+  // DEBUG
+  newItem.element.title = 'id:' + key
+
   // Render in this pixel size
   newItem.setSize(256, 256)
   // Gravity at node center
