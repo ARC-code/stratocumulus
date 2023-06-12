@@ -1,42 +1,10 @@
-const tapspace = require('tapspace')
-
-module.exports = (sky) => {
-  // Use tapspace TreeLoader for loading and unloading of fractal spaces.
+module.exports = (sky, loader) => {
+  // Driver for TreeLoader. Driver is an idle handler.
   //
-
-  const loader = new tapspace.loaders.TreeLoader({
-    viewport: sky.viewport,
-
-    mapper: function (parentId, parentSpace, childId) {
-      // Position the child relative to the parent.
-      // In other words, find a basis for the child.
-      // If there is no position for the child, null.
-      if (sky.strata[parentId]) {
-        const parentStratum = sky.strata[parentId]
-        const facetNode = parentStratum.getNode(childId)
-        const childBasis = facetNode.component.getBasis()
-        return childBasis.scaleBy(0.1, facetNode.getOrigin())
-      }
-      return null
-    },
-
-    tracker: function (parentId, parentSpace) {
-      // Get IDs of the children of the parent component.
-      if (sky.strata[parentId]) {
-        return sky.getSubstratumPaths(parentId)
-      }
-      return []
-    },
-
-    backtracker: function (childId, childSpace) {
-      // Find parent id.
-      // If no parent and the child is the root node, return null.
-      if (sky.strata[childId]) {
-        return sky.getSuperstratumPath(childId)
-      }
-      return null
-    }
-  })
+  // Parameters:
+  //   sky
+  //   loader
+  //
 
   // The TreeLoader does not handle context data,
   // thus we cache it for open events.
@@ -132,41 +100,4 @@ module.exports = (sky) => {
     const stratumPath = ev.id
     sky.removeStratum(stratumPath)
   })
-
-  // Driver for TreeLoader
-  sky.viewport.on('idle', () => {
-    const spaces = sky.viewport.getSpaces()
-
-    // Remove all too small spaces immediately.
-    // Do this to avoid singular inversions.
-    const singulars = sky.viewport.findSingular()
-    singulars.forEach(space => {
-      const spaceId = space.stratumPath
-      loader.removeSpace(spaceId)
-    })
-
-    // DEBUG
-    // const numNodes = spaces.length - singulars.length
-    // const metersEl = document.getElementById('meters')
-    // metersEl.innerHTML = '# of nodes: ' + numNodes
-
-    // Find closest, our current location.
-    const nearestMetrics = sky.viewport.measureNearest(spaces, 1)
-    const nearestSpaces = nearestMetrics.map(ne => ne.target)
-
-    // Prune the tree.
-    const nearestIds = nearestSpaces.map(space => space.stratumPath)
-    loader.closeNeighbors(nearestIds, 2)
-
-    // TODO refactor TreeLoader so that demand is not needed.
-    loader.demand[nearestIds[0]] = 2
-    loader.openParent(nearestIds[0])
-
-    console.log('currently nearest stratum:', nearestIds[0])
-
-    // Prevent viewport from getting too far from the current nodes.
-    sky.viewport.limitTo(nearestSpaces)
-  })
-
-  return loader
 }
