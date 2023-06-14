@@ -102,6 +102,7 @@ proto.getSpace = require('./getSpace')
 proto.findNodeNear = require('./findNodeNear')
 proto.openNode = require('./openNode')
 proto.prune = require('./prune')
+proto.recomputeBoundingCircle = require('./recomputeBoundingCircle')
 proto.refreshLayout = require('./refreshLayout')
 proto.remove = require('./remove')
 // TODO proto.removeEdges
