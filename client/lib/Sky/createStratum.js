@@ -27,11 +27,6 @@ module.exports = function (path, superpath, context, label) {
   // Build
   const stratum = new Stratum(path, superpath, context, label)
 
-  // Init current stratum if this is the first.
-  if (!this.currentStratumPath) {
-    this.currentStratumPath = path
-  }
-
   // Keep track of what strata we have built.
   this.strata[path] = stratum
 

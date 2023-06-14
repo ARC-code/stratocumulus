@@ -14,8 +14,6 @@ const Sky = function (viewport) {
   // Current known set of stratum objects.
   // stratumPath -> Stratum
   this.strata = {}
-  // The current stratumPath.
-  this.currentStratumPath = null
 
   // Setup space for strata.
   // TODO use tapspace FractalLoader to handle planes.
