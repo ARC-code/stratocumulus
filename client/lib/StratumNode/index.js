@@ -28,14 +28,15 @@ const StratumNode = function (key, attrs, space) {
   // HACK cache node labels for stratum context labels
   labelCache.store(attrs.facetParam, attrs.facetValue, attrs.label)
 
-  const newItem = tapspace.createItem('')
+  const radiusPx = 128
+  const newItem = tapspace.createNode(radiusPx)
   newItem.addClass('stratum-node')
 
   // DEBUG
   newItem.element.title = 'id:' + key
 
   // Render in this pixel size
-  newItem.setSize(256, 256)
+  // newItem.setSize(256, 256)
   // Gravity at node center
   newItem.setAnchor(newItem.atCenter())
   // Disable interaction with node content.
