@@ -1,3 +1,5 @@
+const findCurrentStratum = require('./findCurrentStratum')
+
 module.exports = (sky, loader) => {
   // Driver for TreeLoader. Driver is an idle handler.
   //
