@@ -30,7 +30,6 @@ emitter(proto)
 
 // Methods
 proto.init = require('./init')
-proto.createStratum = require('./createStratum')
 proto.emphasizeDecades = require('./emphasizeDecades')
 proto.filterByKeyword = require('./filterByKeyword')
 proto.getOrigin = require('./getOrigin')

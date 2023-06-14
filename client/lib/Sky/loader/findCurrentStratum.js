@@ -13,6 +13,9 @@ module.exports = (sky) => {
   // The current stratum must have viewport center inside it.
   const pin = sky.viewport.atCenter()
   const pinnedStrata = strata.filter(stratum => {
+    if (!stratum.space.getViewport()) {
+      throw new Error('Disconnected space detected: ' + stratum.path)
+    }
     return stratum.boundingCircle.detectCollision(pin)
   })
 

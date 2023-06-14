@@ -8,36 +8,59 @@ module.exports = (sky, loader) => {
   //   loader
   //
   sky.viewport.on('idle', () => {
-    const spaces = sky.viewport.getSpaces()
-
+    console.log('sky.strata:', Object.keys(sky.strata).join(', '))
+    console.log('loader.spaces:', Object.keys(loader.spaces).join(', '))
     // Remove all too small spaces immediately.
     // Do this to avoid singular inversions.
     const singulars = sky.viewport.findSingular()
     singulars.forEach(space => {
-      const spaceId = space.stratumPath
+      const spaceId = space.stratum.path
       loader.removeSpace(spaceId)
     })
 
-    // DEBUG
-    // const numNodes = spaces.length - singulars.length
-    // const metersEl = document.getElementById('meters')
-    // metersEl.innerHTML = '# of nodes: ' + numNodes
+    // Find closest stratum, our current location.
+    const currentStratum = findCurrentStratum(sky)
+    if (!currentStratum) {
+      console.warn('No current stratum found.')
+      return
+    }
+    const currentStratumPath = currentStratum.path
+    console.log('currently nearest stratum:', currentStratumPath)
 
-    // Find closest, our current location.
-    const nearestMetrics = sky.viewport.measureNearest(spaces, 1)
-    const nearestSpaces = nearestMetrics.map(ne => ne.target)
-
-    // Prune the tree.
-    const nearestIds = nearestSpaces.map(space => space.stratumPath)
-    loader.closeNeighbors(nearestIds, 2)
-
+    // Prune the spaces, i.e. strata.
+    // Close all sub and superstrata a couple of steps away.
+    loader.closeNeighbors(currentStratumPath, 1)
+    // Expand the parent. If not yet open.
     // TODO refactor TreeLoader so that demand is not needed.
-    loader.demand[nearestIds[0]] = 2
-    loader.openParent(nearestIds[0])
+    loader.demand[currentStratumPath] = 2
+    loader.openParent(currentStratumPath)
 
-    console.log('currently nearest stratum:', nearestIds[0])
+    // On the current stratum, find a few nearest openable nodes.
+    const stratumNodes = currentStratum.getNodes()
+    const nodeItems = stratumNodes.map(node => node.component)
+    const nearestItemMetrics = sky.viewport.measureNearest(nodeItems, 2)
+    const reachableItemMetrics = nearestItemMetrics.filter(metric => {
+      return metric.areaRatio > 0.1
+    })
+    const reachableItems = reachableItemMetrics.map(metric => metric.target)
+    const reachableNodeKeys = reachableItems.map(item => item.nodeKey)
+    const reachableNodes = reachableNodeKeys.map(key => currentStratum.getNode(key))
+    const reachableFacetableNodes = reachableNodes.filter(n => n.isFacetable())
+    const reachableFacetableNodeKeys = reachableFacetableNodes.map(n => n.key)
 
-    // Prevent viewport from getting too far from the current nodes.
-    sky.viewport.limitTo(nearestSpaces)
+    // Open the nearest nodes
+    // console.log('reachable nodes: ', reachableNodeKeys.join(','))
+    // console.log('reachable facetable nodes: ', reachableFacetableNodeKeys.join(','))
+    reachableFacetableNodeKeys.forEach((nodeKey) => {
+      const parentPath = currentStratumPath
+      const subcontext = sky.getSubcontext(parentPath, nodeKey)
+      loader.openChild(currentStratumPath, nodeKey, subcontext)
+    })
+
+    // Prevent viewport from getting too far from content.
+    // if (currentSpace) {
+    //   const spaces = sky.viewport.getSpaces()
+    //   sky.viewport.limitTo(spaces)
+    // }
   })
 }

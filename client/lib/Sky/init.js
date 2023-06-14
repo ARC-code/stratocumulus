@@ -5,6 +5,9 @@ module.exports = function (firstPath) {
   // TODO should this be part of loader or should we make loader here?
 
   const firstBasis = this.viewport.getBasisAt(this.viewport.atCenter())
-  // TODO pass context? label, color, filtering context...
-  this.treeLoader.init(firstPath, firstBasis)
+
+  // TODO allow preset context when user arrives to a substratum.
+  const firstContext = {}
+
+  this.treeLoader.init(firstPath, firstBasis, firstContext)
 }
