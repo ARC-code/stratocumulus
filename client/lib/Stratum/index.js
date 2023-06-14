@@ -35,8 +35,12 @@ const Stratum = function (path, superpath, context, label) {
   stratumPlane.addClass('stratum-plane')
   // Allow fast filtering of strata from all other components.
   stratumPlane.isStratum = true
-  // Allow references from component to Stratum
-  stratumPlane.stratumPath = path
+  // Allow references from component to Stratum.
+  // This is a circular reference which usually is a bad thing.
+  // However, the stratum and its plane are tightly coupled and
+  // we need the ability to reference them to both directions,
+  // so the circular reference here is better than some additional index.
+  stratumPlane.stratum = this
 
   const nodePlane = tapspace.createPlane()
   nodePlane.addClass('stratum-plane-nodes')

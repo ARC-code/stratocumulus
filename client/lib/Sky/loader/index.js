@@ -31,19 +31,14 @@ module.exports = function (sky) {
 
     tracker: function (parentId, parentSpace) {
       // Get IDs of the children of the parent component.
-      if (sky.strata[parentId]) {
-        return sky.getSubstratumPaths(parentId)
-      }
-      return []
+      const parentStratum = parentSpace.stratum
+      return parentStratum.graph.nodes()
     },
 
     backtracker: function (childId, childSpace) {
       // Find parent id.
       // If no parent and the child is the root node, return null.
-      if (sky.strata[childId]) {
-        return sky.getSuperstratumPath(childId)
-      }
-      return null
+      return childSpace.stratum.superpath
     }
   })
 
