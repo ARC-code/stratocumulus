@@ -58,8 +58,8 @@ const StratumNode = function (key, attrs, space) {
   newItem.on('tap', (ev) => {
     if (this.tapToZoom) {
       const viewport = this.component.getViewport()
-      viewport.translateTo(this.component.atCenter())
-      viewport.scaleBy(0.62, this.component.atCenter())
+      viewport.animateOnce({ duration: 500 })
+      viewport.zoomToFill(this.component, 0.3)
     }
 
     if (this.tapToOpen) {
