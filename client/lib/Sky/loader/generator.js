@@ -14,32 +14,23 @@ module.exports = (sky, loader) => {
     console.log('space open', ev)
     const stratumPath = ev.id
 
-    const superStratumPath = ev.parentId || null
+    const superstratumPath = ev.parentId || null
+    const substratumPath = ev.childId || null
     const context = ev.data
     // const context = {}
     const label = 'todo'
 
+    // DEBUG
     if (sky.strata[stratumPath]) {
       console.warn('Attempted to recreate existing stratum: ' + stratumPath)
       return
     }
 
-    const stratum = new Stratum(stratumPath, superStratumPath, context, label)
-
-    // Make Sky inform other processes that it is now non-empty.
-    // Useful to make viewport interactive.
-    if (loader.countSpaces() === 0) {
-      // Wait to ensure stratum is in space.
-      setTimeout(() => {
-        stratum.once('first', () => {
-          sky.emit('first')
-        })
-      }, 0)
-    }
+    const stratum = new Stratum(stratumPath, superstratumPath, context, label)
 
     // Add stratum to space via the loader.
-    loader.addSpace(stratumPath, stratum.getSpace())
-    if (loader.spaces[stratumPath]) {
+    const spaceAdded = loader.addSpace(stratumPath, stratum.getSpace())
+    if (spaceAdded) {
       sky.strata[stratumPath] = stratum
     } else {
       console.warn('Could not add space', stratumPath)
@@ -49,7 +40,8 @@ module.exports = (sky, loader) => {
     // Begin loading and rendering
     stratum.load()
 
-    // Ensure superstratum node looks opened.
+    // If a substratum is opened, ensure that
+    // the associated superstratum node looks opened.
     if (ev.parentId) {
       const superStratum = sky.strata[ev.parentId]
       if (superStratum) {
@@ -59,7 +51,7 @@ module.exports = (sky, loader) => {
         }
       }
     }
-    // If the parent is opened, then ensure that it has the child open.
+    // If a superstratum is opened, ensure that its child node looks opened.
     if (ev.childId) {
       const superNode = stratum.getNode(ev.childId)
       if (superNode) {
@@ -67,6 +59,7 @@ module.exports = (sky, loader) => {
       }
     }
 
+    // Begin listening strata and nodes.
     stratum.on('stratumrequest', (ev) => {
       // This event tells us that an interaction within the stratum
       // requested a substratum to be built and rendered.
@@ -76,10 +69,19 @@ module.exports = (sky, loader) => {
       // Pass to next open
       const subcontext = sky.getSubcontext(parentPath, childPath)
 
-      // HACK TODO allow opening child without setting demand.
-      loader.demand[parentPath] = 2
       loader.openChild(parentPath, childPath, subcontext)
     })
+
+    // The first stratum and first content should
+    // enable the viewport interaction.
+    if (ev.first) {
+      // Wait to ensure stratum is in space.
+      setTimeout(() => {
+        stratum.once('first', () => {
+          sky.emit('first')
+        })
+      }, 0)
+    }
 
     // TODO MAYBE
     // stratum.once('final', () => {
@@ -94,14 +96,10 @@ module.exports = (sky, loader) => {
     // })
   })
 
-  loader.on('replace', (ev) => {
-    console.log('space replaced', ev)
-  })
-
   loader.on('close', (ev) => {
     console.log('space closing', ev)
 
-    // Close the containing node
+    // Make the associated node look closed.
     const superPath = ev.space.stratum.superpath
     const superStratum = sky.strata[superPath]
     if (superStratum) {
@@ -114,5 +112,8 @@ module.exports = (sky, loader) => {
     // Remove the contained stratum.
     const stratumPath = ev.id
     sky.removeStratum(stratumPath)
+
+    // Finally, close the space.
+    loader.removeSpace(ev.id)
   })
 }

@@ -29,6 +29,11 @@ module.exports = function (sky) {
       return null
     },
 
+    backmapper: function (childId, childSpace, parentId) {
+      // Dummy backmapper
+      return null
+    },
+
     tracker: function (parentId, parentSpace) {
       // Get IDs of the children of the parent component.
       const parentStratum = parentSpace.stratum

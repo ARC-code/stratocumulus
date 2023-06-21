@@ -10,6 +10,7 @@ module.exports = (sky, loader) => {
   sky.viewport.on('idle', () => {
     console.log('sky.strata:', Object.keys(sky.strata).join(', '))
     console.log('loader.spaces:', Object.keys(loader.spaces).join(', '))
+
     // Remove all too small spaces immediately.
     // Do this to avoid singular inversions.
     const singulars = sky.viewport.findSingular()
@@ -31,8 +32,6 @@ module.exports = (sky, loader) => {
     // Close all sub and superstrata a couple of steps away.
     loader.closeNeighbors(currentStratumPath, 1)
     // Expand the parent. If not yet open.
-    // TODO refactor TreeLoader so that demand is not needed.
-    loader.demand[currentStratumPath] = 2
     loader.openParent(currentStratumPath)
 
     // On the current stratum, find a few nearest openable nodes.
