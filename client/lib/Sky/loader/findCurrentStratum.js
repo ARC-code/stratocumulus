@@ -20,9 +20,9 @@ module.exports = (sky) => {
   })
 
   // The current stratum must be visually large.
+  const viewportArea = sky.viewport.getBoundingBox().getArea().getRaw()
   const reachableStrata = pinnedStrata.filter(stratum => {
     const area = stratum.boundingCircle.getArea().transitRaw(sky.viewport)
-    const viewportArea = sky.viewport.getBoundingBox().getArea().getRaw()
     const areaRatio = area / viewportArea
     return areaRatio > 0.2
   })
@@ -42,6 +42,7 @@ module.exports = (sky) => {
     minStratum: null
   })
 
+  // Note minStratum may be null.
   const currentStratum = smallest.minStratum
 
   return currentStratum

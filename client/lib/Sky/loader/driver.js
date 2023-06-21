@@ -1,4 +1,5 @@
 const findCurrentStratum = require('./findCurrentStratum')
+const findCurrentNode = require('./findCurrentNode')
 
 module.exports = (sky, loader) => {
   // Driver for TreeLoader. Driver is an idle handler.
@@ -35,26 +36,13 @@ module.exports = (sky, loader) => {
     loader.openParent(currentStratumPath)
 
     // On the current stratum, find a few nearest openable nodes.
-    const stratumNodes = currentStratum.getNodes()
-    const nodeItems = stratumNodes.map(node => node.component)
-    const nearestItemMetrics = sky.viewport.measureNearest(nodeItems, 2)
-    const reachableItemMetrics = nearestItemMetrics.filter(metric => {
-      return metric.areaRatio > 0.1
-    })
-    const reachableItems = reachableItemMetrics.map(metric => metric.target)
-    const reachableNodeKeys = reachableItems.map(item => item.nodeKey)
-    const reachableNodes = reachableNodeKeys.map(key => currentStratum.getNode(key))
-    const reachableFacetableNodes = reachableNodes.filter(n => n.isFacetable())
-    const reachableFacetableNodeKeys = reachableFacetableNodes.map(n => n.key)
-
-    // Open the nearest nodes
-    // console.log('reachable nodes: ', reachableNodeKeys.join(','))
-    // console.log('reachable facetable nodes: ', reachableFacetableNodeKeys.join(','))
-    reachableFacetableNodeKeys.forEach((nodeKey) => {
-      const parentPath = currentStratumPath
-      const subcontext = sky.getSubcontext(parentPath, nodeKey)
-      loader.openChild(currentStratumPath, nodeKey, subcontext)
-    })
+    const currentNode = findCurrentNode(sky, currentStratum)
+    // If current node available, open it.
+    if (currentNode) {
+      const currentNodeKey = currentNode.key
+      const subcontext = sky.getSubcontext(currentStratumPath, currentNodeKey)
+      loader.openChild(currentStratumPath, currentNodeKey, subcontext)
+    }
 
     // Prevent viewport from getting too far from content.
     // if (currentSpace) {
