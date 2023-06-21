@@ -32,6 +32,11 @@ const StratumNode = function (key, attrs, space) {
   const newItem = tapspace.createNode(radiusPx)
   newItem.addClass('stratum-node')
 
+  // HACK to gray out nodes we are inside.
+  if (attrs.kind !== 'root' && attrs.kind !== 'grouping' && !attrs.isFacetable) {
+    newItem.addClass('context-node')
+  }
+
   // DEBUG
   newItem.element.title = 'id:' + key
 

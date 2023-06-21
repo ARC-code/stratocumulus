@@ -68,7 +68,8 @@
 .node.node-genres {
   background: linear-gradient(#2ca25f, #006d2c);
 }
-.node.empty-node {
+.node.empty-node,
+.context-node .node {
   background: linear-gradient(#969696, #666666);
 }
 
