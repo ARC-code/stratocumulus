@@ -15,6 +15,11 @@ module.exports = function (subPath, superPath) {
 
   const subContext = stratum.context
 
+  if (superPath === null) {
+    // substratum is already a root.
+    return {}
+  }
+
   // Facet parameter and value are encoded into the stratum path. Extract.
   const parts = superPath.split('/').filter(str => str.length > 0)
   if (parts.length !== 3) {

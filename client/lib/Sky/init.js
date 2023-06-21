@@ -9,5 +9,5 @@ module.exports = function (firstPath) {
   // TODO allow preset context when user arrives to a substratum.
   const firstContext = {}
 
-  this.treeLoader.init(firstPath, firstBasis, firstContext)
+  this.loader.init(firstPath, firstBasis, firstContext)
 }

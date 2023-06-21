@@ -2,7 +2,10 @@ module.exports = (sky) => {
   // Find the current stratum. Can be null.
   //
 
-  const strata = Object.values(sky.strata).filter(stratum => stratum.alive)
+  // The current stratum must be alive and in the space.
+  const strata = Object.values(sky.strata).filter(stratum => {
+    return stratum.alive && sky.loader.spaces[stratum.path]
+  })
 
   if (strata.length === 0) {
     return null

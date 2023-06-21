@@ -1,4 +1,5 @@
 const Stratum = require('../../Stratum')
+const contextToSuperpath = require('./contextToSuperpath')
 
 module.exports = (sky, loader) => {
   // Driver for TreeLoader. Driver is an idle handler.
@@ -13,11 +14,7 @@ module.exports = (sky, loader) => {
     // TODO use passed context object
     console.log('space open', ev)
     const stratumPath = ev.id
-
-    const superstratumPath = ev.parentId || null
-    const substratumPath = ev.childId || null
-    const context = ev.data
-    // const context = {}
+    const context = ev.data // filtering context for this stratum
     const label = 'todo'
 
     // DEBUG
@@ -26,15 +23,31 @@ module.exports = (sky, loader) => {
       return
     }
 
+    // Find superstratum path because stratum creation needs it.
+    let superstratumPath
+    if (ev.parentId) {
+      // Simple case: a superstratum opened this stratum.
+      superstratumPath = ev.parentId
+    } else if (ev.childId) {
+      // Complex case: a substratum opened this stratum.
+      // Substratum knows only its superstratum (= this stratum), no further.
+      // Use the context to determine the superstratum for this stratum.
+      superstratumPath = contextToSuperpath(context)
+    } else {
+      // Root stratum
+      superstratumPath = null
+    }
+
+    // Create
     const stratum = new Stratum(stratumPath, superstratumPath, context, label)
+    sky.strata[stratumPath] = stratum
 
     // Add stratum to space via the loader.
     const spaceAdded = loader.addSpace(stratumPath, stratum.getSpace())
-    if (spaceAdded) {
-      sky.strata[stratumPath] = stratum
-    } else {
+    if (!spaceAdded) {
+      // Likely no mapping found yet in case of a superstratum.
+      // Postpone addition to final event.
       console.warn('Could not add space', stratumPath)
-      return
     }
 
     // Begin loading and rendering
@@ -83,10 +96,22 @@ module.exports = (sky, loader) => {
       }, 0)
     }
 
-    // TODO MAYBE
-    // stratum.once('final', () => {
-    //   // Position the stratum so that the node matches substratum.
-    // })
+    if (ev.childId) {
+      stratum.once('final', () => {
+        console.log('superstratum loading final:', stratumPath)
+        // Position the stratum so that the node matches substratum.
+        if (loader.spaces[stratumPath]) {
+          // Already in space. OK.
+          return
+        }
+
+        const spaceAdded = loader.addSpace(stratumPath, stratum.getSpace())
+        if (!spaceAdded) {
+          // Likely no mapping found yet in case of a superstratum
+          console.warn('Could not add space at final:', stratumPath)
+        }
+      })
+    }
 
     // TODO MAYBE
     // stratum.on('layoutchange', (ev) => {

@@ -32,8 +32,12 @@ module.exports = (sky, loader) => {
     // Prune the spaces, i.e. strata.
     // Close all sub and superstrata a couple of steps away.
     loader.closeNeighbors(currentStratumPath, 1)
-    // Expand the parent. If not yet open.
-    loader.openParent(currentStratumPath)
+
+    // Expand the parent. If not yet at root and if parent not yet open.
+    if (currentStratum.superpath) {
+      const supercontext = sky.getSupercontext(currentStratumPath, currentStratum.superpath)
+      loader.openParent(currentStratumPath, supercontext)
+    }
 
     // On the current stratum, find a few nearest openable nodes.
     const currentNode = findCurrentNode(sky, currentStratum)

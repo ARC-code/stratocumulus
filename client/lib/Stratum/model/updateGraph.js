@@ -34,6 +34,7 @@ module.exports = function (graph, subgraph) {
       graph.setAttribute('structure', subgraph.structure)
       structureKind = subgraph.structure
     } else {
+      console.warn('Invalid subgraph:', subgraph)
       throw new Error('Unexpected missing subgraph structure property')
     }
   } else {

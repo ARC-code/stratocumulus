@@ -19,7 +19,7 @@ const Sky = function (viewport) {
   // TODO use tapspace FractalLoader to handle planes.
   this.viewport = viewport
 
-  this.treeLoader = loader(this)
+  this.loader = loader(this)
 }
 
 module.exports = Sky
