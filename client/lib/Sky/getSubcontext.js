@@ -8,6 +8,11 @@ module.exports = function (superPath, subPath) {
   // Return:
   //   a StratumContext
   //
+  if (superPath === null) {
+    // Sub path is root.
+    return {}
+  }
+
   const stratum = this.strata[superPath]
   if (!stratum) {
     throw new Error('Cannot retrieve context for substratum: unknown parent')

@@ -1,12 +1,15 @@
 module.exports = (context) => {
-  // Just pick one of the id values and convert it to path.
+  // Get a stratum path from the context of a substratum.
+  // Practically just pics one of the f_xxx.id faceting parameters
+  // and converts it to a stratum path.
   //
   // Parameters:
   //   context
   //     an object
   //
   // Return
-  //   a string, a stratum path
+  //   a string, the superstratum path
+  //   null, if the stratum is already a root.
   //
   const facetParams = Object.keys(context)
   const idParams = facetParams.filter(paramName => {
@@ -15,7 +18,7 @@ module.exports = (context) => {
 
   if (idParams.length === 0) {
     // Root
-    return '/'
+    return null
   }
 
   const superparam = idParams[0]

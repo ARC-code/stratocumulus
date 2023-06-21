@@ -105,6 +105,12 @@ module.exports = (sky, loader) => {
           return
         }
 
+        // Ensure the child node looks opened.
+        const superNode = stratum.getNode(ev.childId)
+        if (superNode) {
+          superNode.open()
+        }
+
         const spaceAdded = loader.addSpace(stratumPath, stratum.getSpace())
         if (!spaceAdded) {
           // Likely no mapping found yet in case of a superstratum

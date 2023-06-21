@@ -14,7 +14,7 @@ const Stratum = function (path, superpath, context, label) {
   //   path
   //     string, the stratum id
   //   superpath
-  //     string, the superstratum id or null.
+  //     string, the superstratum id or null if this is root stratum.
   //   context
   //     object, defines the faceting and filtering context of the stratum.
   //   label

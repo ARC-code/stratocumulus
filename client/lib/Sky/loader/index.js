@@ -24,7 +24,9 @@ module.exports = function (sky) {
           throw new Error('Unknown facet node: ' + childId)
         }
         const childBasis = facetNode.component.getBasis()
-        return childBasis.scaleBy(0.1, facetNode.getOrigin())
+        const scaledBasis = childBasis.scaleBy(0.1, facetNode.getOrigin())
+        // TODO no need to change basis once getMatchedOuter is fixed.
+        return scaledBasis.changeBasis(parentStratum.getSpace())
       }
       return null
     },
