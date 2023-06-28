@@ -43,13 +43,15 @@ module.exports = function (final = false) {
     stratumNode.updateCount(attrs)
   })
 
+  // Re-compute bounding circle at each render.
+  this.recomputeBoundingCircle()
+  // TODO Re-position the stratum w.r.t. its superstratum node.
+  // TODO Display and re-position the context label.
+
   if (final) {
-    // Re-compute bounding circle
-    // TODO also do a couple of times before final.
-    this.boundingCircle = this.nodePlane.getBoundingCircle()
     // Enable faceting
     this.enableFaceting()
-    // Display context label
+    // Display the context label
     this.renderContextLabel()
     // Draw edges
     this.graph.forEachEdge((edgeKey, edgeAttrs, sourceKey, targetKey) => {
