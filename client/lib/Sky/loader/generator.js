@@ -32,7 +32,7 @@ module.exports = (sky, loader) => {
       // Complex case: a substratum opened this stratum.
       // Substratum knows only its superstratum (= this stratum), no further.
       // Use the context to determine the superstratum for this stratum.
-      superstratumPath = contextToSuperpath(context)
+      superstratumPath = contextToSuperpath(stratumPath, context)
     } else {
       // Root stratum
       superstratumPath = null
