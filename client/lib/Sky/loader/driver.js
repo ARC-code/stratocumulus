@@ -23,7 +23,7 @@ module.exports = (sky, loader) => {
     // Find closest stratum, our current location.
     const currentStratum = findCurrentStratum(sky)
     if (!currentStratum) {
-      console.warn('No current stratum found.')
+      console.log('currently nearest stratum: -')
       return
     }
     const currentStratumPath = currentStratum.path

@@ -13,13 +13,13 @@ module.exports = function (superPath, subPath) {
     return {}
   }
 
-  const stratum = this.strata[superPath]
-  if (!stratum) {
+  const superStratum = this.strata[superPath]
+  if (!superStratum) {
     throw new Error('Cannot retrieve context for substratum: unknown parent')
   }
 
-  const superContext = stratum.context
-  const subNodeAttrs = stratum.graph.getNodeAttributes(subPath)
+  const superContext = superStratum.context
+  const subNodeAttrs = superStratum.graph.getNodeAttributes(subPath)
 
   if (!subNodeAttrs) {
     throw new Error('Cannot retrieve context for substratum: unknown node')

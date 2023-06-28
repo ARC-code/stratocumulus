@@ -1,9 +1,13 @@
 module.exports = function (subPath, superPath) {
   // Get faceting context for superstratum.
+  // Basically takes the substratum context, removes subpath from the context
+  // and returns the reduced context as the superstratum context.
   //
   // Parameters:
   //   subPath
+  //     a substratum path. This stratum exists.
   //   superPath
+  //     a superstratum path. This stratum does not yet exist.
   //
   // Return
   //   a StratumContext
@@ -15,7 +19,7 @@ module.exports = function (subPath, superPath) {
 
   const subContext = stratum.context
 
-  if (superPath === null) {
+  if (superPath === null || subPath === '/') {
     // substratum is already a root.
     return {}
   }

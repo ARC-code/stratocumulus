@@ -3,8 +3,10 @@ module.exports = function () {
   // according to their apparent size.
   //
 
-  // Reveal or close labels of each stratum
-  Object.values(this.strata).forEach(stratum => {
+  // Reveal or close labels of each loaded stratum
+  const strata = Object.values(this.loader.spaces).map(space => space.stratum)
+
+  strata.forEach(stratum => {
     stratum.revealLabels()
   })
 }
