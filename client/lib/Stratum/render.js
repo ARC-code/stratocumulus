@@ -43,12 +43,12 @@ module.exports = function (final = false) {
     stratumNode.updateCount(attrs)
   })
 
-  // Re-compute bounding circle at each render.
-  this.recomputeBoundingCircle()
   // TODO Re-position the stratum w.r.t. its superstratum node.
   // TODO Display and re-position the context label.
 
   if (final) {
+    // Re-compute bounding circle at each render.
+    this.recomputeBoundingCircle()
     // Enable faceting
     this.enableFaceting()
     // Display the context label

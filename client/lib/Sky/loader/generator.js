@@ -96,11 +96,11 @@ module.exports = (sky, loader) => {
       }, 0)
     }
 
-    if (ev.childId) {
-      stratum.once('final', () => {
-        console.log('superstratum loading final:', stratumPath)
-        // Position the stratum so that the node matches substratum.
-        if (loader.spaces[stratumPath]) {
+    stratum.once('final', () => {
+      console.log('stratum loading final:', stratumPath)
+      if (ev.childId) {
+        // Add the stratum to space if not yet added.
+        if (loader.hasSpace(stratumPath)) {
           // Already in space. OK.
           return
         }
@@ -116,8 +116,8 @@ module.exports = (sky, loader) => {
           // Likely no mapping found yet in case of a superstratum
           console.warn('Could not add space at final:', stratumPath)
         }
-      })
-    }
+      }
+    })
 
     // TODO MAYBE
     // stratum.on('layoutchange', (ev) => {

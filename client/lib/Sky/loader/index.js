@@ -24,7 +24,9 @@ module.exports = function (sky) {
           throw new Error('Unknown facet node: ' + childId)
         }
         const childBasis = facetNode.component.getBasis()
-        return childBasis.scaleBy(0.2, facetNode.getOrigin())
+        // TODO instead of hard-coded scaling, rely that nodes have
+        // constant size and scale the stratum internally to fit the size.
+        return childBasis.scaleBy(0.15, facetNode.getOrigin())
       }
       return null
     },
