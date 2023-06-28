@@ -11,10 +11,9 @@ module.exports = (sky, loader) => {
 
   // Generator
   loader.on('open', (ev) => {
-    // TODO use passed context object
     console.log('space open', ev)
     const stratumPath = ev.id
-    const context = ev.data // filtering context for this stratum
+    const context = ev.data.context // filtering context for this stratum
     const label = 'todo'
 
     // DEBUG
@@ -80,9 +79,11 @@ module.exports = (sky, loader) => {
       const childPath = ev.path
 
       // Pass to next open
-      const subcontext = sky.getSubcontext(parentPath, childPath)
+      const eventData = {
+        context: sky.getSubcontext(parentPath, childPath)
+      }
 
-      loader.openChild(parentPath, childPath, subcontext)
+      loader.openChild(parentPath, childPath, eventData)
     })
 
     // The first stratum and first content should
