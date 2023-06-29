@@ -142,8 +142,13 @@ module.exports = (sky, loader) => {
     }
 
     // Remove the contained stratum.
-    const stratumPath = ev.id
-    sky.removeStratum(stratumPath)
+    const closingStratum = sky.strata[ev.id]
+    if (closingStratum) {
+      // Remove from DOM and stop listeners.
+      stratum.remove()
+      // Forget
+      delete sky.strata[ev.id]
+    }
 
     // Finally, close the space.
     loader.removeSpace(ev.id)
