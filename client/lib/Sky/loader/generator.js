@@ -14,7 +14,6 @@ module.exports = (sky, loader) => {
     console.log('space open', ev)
     const stratumPath = ev.id
     const context = ev.data.context // filtering context for this stratum
-    const label = 'todo'
 
     // DEBUG
     if (sky.strata[stratumPath]) {
@@ -38,7 +37,7 @@ module.exports = (sky, loader) => {
     }
 
     // Create
-    const stratum = new Stratum(stratumPath, superstratumPath, context, label)
+    const stratum = new Stratum(stratumPath, superstratumPath, context)
     sky.strata[stratumPath] = stratum
 
     // Add stratum to space via the loader.
