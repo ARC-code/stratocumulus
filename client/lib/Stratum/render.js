@@ -3,6 +3,8 @@ const layoutGraph = require('./layout')
 const StratumNode = require('../StratumNode')
 const ArtifactCard = require('../ArtifactCard')
 
+const RENDER_SIZE = 2560
+
 module.exports = function (final = false) {
   // Render the graph. If elements already exist, update.
   // This method is idempotent, thus you can call this method multiple times
@@ -37,18 +39,30 @@ module.exports = function (final = false) {
 
     // Update position according to the layout.
     const nPosition = layoutPositions[key]
-    const nPoint = stratumOrigin.offset(nPosition.x, nPosition.y)
+    const nodePlaneOrigin = stratumOrigin.changeBasis(this.nodePlane)
+    const nPoint = nodePlaneOrigin.offset(nPosition.x, nPosition.y)
     stratumNode.translateTo(nPoint)
     // Update size and scale according to attributes.
     stratumNode.updateCount(attrs)
   })
 
+  // Re-compute bounding circle at each render.
+  this.recomputeBoundingCircle()
   // TODO Re-position the stratum w.r.t. its superstratum node.
+  const circleOrigin = this.boundingCircle.atCenter()
+  const circleRadius = this.boundingCircle.getRadius()
+  const circleBottom = circleOrigin.polarOffset(circleRadius, Math.PI / 2)
+  const targetOrigin = this.space.at(0, 0)
+  const targetBottom = this.space.at(0, 0.618 * (RENDER_SIZE / 2))
+  this.nodePlane.match({
+    source: [circleOrigin, circleBottom],
+    target: [targetOrigin, targetBottom],
+    estimator: 'TS'
+  })
+
   // TODO Display and re-position the context label.
 
   if (final) {
-    // Re-compute bounding circle at each render.
-    this.recomputeBoundingCircle()
     // Enable faceting
     this.enableFaceting()
     // Display the context label

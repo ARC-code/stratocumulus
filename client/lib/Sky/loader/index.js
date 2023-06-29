@@ -26,7 +26,7 @@ module.exports = function (sky) {
         const childBasis = facetNode.component.getBasis()
         // TODO instead of hard-coded scaling, rely that nodes have
         // constant size and scale the stratum internally to fit the size.
-        return childBasis.scaleBy(0.15, facetNode.getOrigin())
+        return childBasis.scaleBy(0.1, facetNode.getOrigin())
       }
       return null
     },
