@@ -9,7 +9,7 @@ module.exports = (sky, loader) => {
   //   loader
   //
   sky.viewport.on('idle', () => {
-    console.log('sky.strata:', Object.keys(sky.strata).join(', '))
+    // console.log('sky.strata:', Object.keys(sky.strata).join(', '))
     console.log('loader.spaces:', Object.keys(loader.spaces).join(', '))
 
     // Remove all too small spaces immediately.
@@ -17,6 +17,8 @@ module.exports = (sky, loader) => {
     const singulars = sky.viewport.findSingular()
     singulars.forEach(space => {
       const spaceId = space.stratum.path
+      space.stratum.remove()
+      delete sky.strata[spaceId]
       loader.removeSpace(spaceId)
     })
 
@@ -34,25 +36,30 @@ module.exports = (sky, loader) => {
     loader.closeNeighbors(currentStratumPath, 1)
 
     // Expand the parent. If not yet at root and if parent not yet open.
-    if (currentStratum.superpath) {
+    const superpath = currentStratum.getSuperpath()
+    if (superpath) {
       const eventData = {
-        context: sky.getSupercontext(currentStratumPath, currentStratum.superpath)
+        path: superpath,
+        trail: currentStratum.getSupertrail(),
+        context: currentStratum.getSupercontext()
       }
       loader.openParent(currentStratumPath, eventData)
     }
 
-    // On the current stratum, find a few nearest openable nodes.
+    // On the current stratum, find the nearest openable node.
     const currentNode = findCurrentNode(sky, currentStratum)
     // If current node available, open it.
     if (currentNode) {
-      const currentNodeKey = currentNode.key
+      const subpath = currentNode.key
       const eventData = {
-        context: sky.getSubcontext(currentStratumPath, currentNodeKey)
+        path: subpath,
+        trail: currentStratum.getSubtrail(),
+        context: currentStratum.getSubcontext(subpath)
       }
-      loader.openChild(currentStratumPath, currentNodeKey, eventData)
+      loader.openChild(currentStratumPath, subpath, eventData)
     }
 
-    // Prevent viewport from getting too far from content.
+    // TODO Prevent viewport from getting too far from content.
     // if (currentSpace) {
     //   const spaces = sky.viewport.getSpaces()
     //   sky.viewport.limitTo(spaces)

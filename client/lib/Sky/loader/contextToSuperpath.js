@@ -10,6 +10,8 @@ module.exports = (path, context, trail) => {
   //     a substratum path
   //   context
   //     an object, the substratum context
+  //   trail
+  //     an array of stratum paths
   //
   // Return
   //   a string, the superstratum path

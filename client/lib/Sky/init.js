@@ -6,6 +6,8 @@ module.exports = function (firstPath) {
 
   // TODO allow preset context when user arrives directly to a substratum.
   const eventData = {
+    path: firstPath,
+    trail: [],
     context: {}
   }
 

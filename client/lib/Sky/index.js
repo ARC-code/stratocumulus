@@ -4,7 +4,9 @@ const loader = require('./loader')
 require('./stratum.css')
 
 const Sky = function (viewport) {
-  // Sky, Atmosphere, StratumManager...
+  // Sky manages stratum objects and their loading.
+  //
+  // Alternative names: Atmosphere, StratumManager
   //
   // Parameters:
   //   viewport
@@ -13,10 +15,9 @@ const Sky = function (viewport) {
 
   // Current known set of stratum objects.
   // stratumPath -> Stratum
+  // TODO remove or clarify overlap with the loader.
   this.strata = {}
 
-  // Setup space for strata.
-  // TODO use tapspace FractalLoader to handle planes.
   this.viewport = viewport
 
   this.loader = loader(this)
@@ -33,6 +34,4 @@ proto.init = require('./init')
 proto.emphasizeDecades = require('./emphasizeDecades')
 proto.filterByKeyword = require('./filterByKeyword')
 proto.getOrigin = require('./getOrigin')
-proto.getSubcontext = require('./getSubcontext')
-proto.getSupercontext = require('./getSupercontext')
 proto.revealLabels = require('./revealLabels')

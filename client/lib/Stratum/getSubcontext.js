@@ -1,25 +1,16 @@
-module.exports = function (superPath, subPath) {
-  // Get faceting context for substratum.
+module.exports = function (subpath) {
+  // Get faceting context for a substratum.
   //
   // Parameters:
-  //   superPath
-  //   subPath
+  //   subpath
+  //     a string, the substratum path
   //
   // Return:
   //   a StratumContext
   //
-  if (superPath === null) {
-    // Sub path is root.
-    return {}
-  }
 
-  const superStratum = this.strata[superPath]
-  if (!superStratum) {
-    throw new Error('Cannot retrieve context for substratum: unknown parent')
-  }
-
-  const superContext = superStratum.context
-  const subNodeAttrs = superStratum.graph.getNodeAttributes(subPath)
+  const superContext = this.context
+  const subNodeAttrs = this.graph.getNodeAttributes(subpath)
 
   if (!subNodeAttrs) {
     throw new Error('Cannot retrieve context for substratum: unknown node')

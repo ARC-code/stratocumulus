@@ -3,7 +3,16 @@ const emitter = require('component-emitter')
 const tapspace = require('tapspace')
 const graphCache = require('../graphCache')
 
-const Stratum = function (path, superpath, context) {
+const isTrailUnique = (arr) => {
+  // Useful for validating trail
+  const dict = arr.reduce((acc, x) => {
+    acc[x] = true
+    return acc
+  }, {})
+  return Object.keys(dict).length === arr.length
+}
+
+const Stratum = function (path, trail, context) {
   // A tree graph laid on a plane.
   // The stratum is not yet added to the document.
   // Append stratum.space to a parent space in order to do that.
@@ -13,8 +22,9 @@ const Stratum = function (path, superpath, context) {
   // Parameters:
   //   path
   //     string, the stratum id
-  //   superpath
-  //     string, the superstratum id or null if this is root stratum.
+  //   trail
+  //     array of string, a list of superstrata paths where the parent stratum
+  //     .. is the last element. If the stratum is the root, trail is empty.
   //   context
   //     object, defines the faceting and filtering context of the stratum.
   //
@@ -27,6 +37,23 @@ const Stratum = function (path, superpath, context) {
   //     when the stratum would like one of its nodes to be opened as
   //     a new stratum.
   //
+
+  // DEBUG validate arguments
+  if (typeof path !== 'string' || path.length < 1) {
+    throw new Error('Invalid stratum path: ' + path)
+  }
+  if (!Array.isArray(trail)) {
+    throw new Error('Invalid stratum trail: ' + trail)
+  }
+  if (!isTrailUnique(trail)) {
+    throw new Error('Duplicate stratum paths in trail: ' + trail)
+  }
+  if (trail.indexOf(path) >= 0) {
+    throw new Error('Self-recursive stratum trail: ' + trail)
+  }
+  if (typeof context !== 'object') {
+    throw new Error('Invalid stratum context: ' + context)
+  }
 
   // Create container for the stratum
   const stratumPlane = tapspace.createPlane()
@@ -50,8 +77,8 @@ const Stratum = function (path, superpath, context) {
 
   // stratum identifier: path
   this.path = path
-  // The parent stratum, if any.
-  this.superpath = superpath
+  // The parent strata paths, if any.
+  this.trail = trail
   // space component
   this.space = stratumPlane
   this.nodePlane = nodePlane
@@ -80,6 +107,7 @@ const Stratum = function (path, superpath, context) {
 
   // Cache the graph so that it is not lost if the stratum gets removed.
   // TODO Is this just premature optimization?
+  // TODO implement on the io level
   graphCache.store(path, this.graph)
 }
 
@@ -99,6 +127,12 @@ proto.getNode = require('./getNode')
 proto.getNodes = require('./getNodes')
 proto.getOrigin = require('./getOrigin')
 proto.getSpace = require('./getSpace')
+proto.getSubcontext = require('./getSubcontext')
+proto.getSubpaths = require('./getSubpaths')
+proto.getSubtrail = require('./getSubtrail')
+proto.getSupercontext = require('./getSupercontext')
+proto.getSuperpath = require('./getSuperpath')
+proto.getSupertrail = require('./getSupertrail')
 proto.findNodeNear = require('./findNodeNear')
 proto.openNode = require('./openNode')
 proto.prune = require('./prune')

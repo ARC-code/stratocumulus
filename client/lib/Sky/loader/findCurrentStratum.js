@@ -4,13 +4,14 @@ module.exports = (sky) => {
 
   // The current stratum must be alive and in the space.
   const strata = Object.values(sky.strata).filter(stratum => {
-    return stratum.alive && sky.loader.spaces[stratum.path]
+    return stratum.alive && sky.loader.hasSpace(stratum.path)
   })
 
   if (strata.length === 0) {
     return null
   }
 
+  // Update bounds
   strata.forEach(stratum => stratum.recomputeBoundingCircle())
 
   // The current stratum must have viewport center inside it.

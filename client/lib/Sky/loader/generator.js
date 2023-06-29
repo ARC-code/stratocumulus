@@ -1,8 +1,8 @@
 const Stratum = require('../../Stratum')
-const contextToSuperpath = require('./contextToSuperpath')
 
 module.exports = (sky, loader) => {
-  // Driver for TreeLoader. Driver is an idle handler.
+  // Generator for TreeLoader. Generator defines how the loaded spaces
+  // are constructed and destructed.
   //
   // Parameters:
   //   sky
@@ -11,48 +11,35 @@ module.exports = (sky, loader) => {
 
   // Generator
   loader.on('open', (ev) => {
-    console.log('space open', ev)
-    const stratumPath = ev.id
+    console.log('space opening:', ev)
+
+    const path = ev.id
+    const trail = ev.data.trail
     const context = ev.data.context // filtering context for this stratum
 
     // DEBUG
-    if (sky.strata[stratumPath]) {
-      console.warn('Attempted to recreate existing stratum: ' + stratumPath)
+    if (sky.strata[path]) {
+      console.warn('Attempted to recreate existing stratum: ' + path)
       return
     }
 
-    // Find superstratum path because stratum creation needs it.
-    let superstratumPath
-    if (ev.parentId) {
-      // Simple case: a superstratum opened this stratum.
-      superstratumPath = ev.parentId
-    } else if (ev.childId) {
-      // Complex case: a substratum opened this stratum.
-      // Substratum knows only its superstratum (= this stratum), no further.
-      // Use the context to determine the superstratum for this stratum.
-      superstratumPath = contextToSuperpath(stratumPath, context)
-    } else {
-      // Root stratum
-      superstratumPath = null
-    }
-
     // Create
-    const stratum = new Stratum(stratumPath, superstratumPath, context)
-    sky.strata[stratumPath] = stratum
+    const stratum = new Stratum(path, trail, context)
+    sky.strata[path] = stratum
 
     // Add stratum to space via the loader.
-    const spaceAdded = loader.addSpace(stratumPath, stratum.getSpace())
+    const spaceAdded = loader.addSpace(path, stratum.getSpace())
     if (!spaceAdded) {
       // Likely no mapping found yet in case of a superstratum.
       // Postpone addition to final event.
-      console.warn('Could not add space', stratumPath)
+      console.warn('Could not add space', path)
     }
 
     // Begin loading and rendering
     stratum.load()
 
-    // If a substratum is opened, ensure that
-    // the associated superstratum node looks opened.
+    // If this stratum was opened by a superstratum,
+    // ensure that the associated superstratum node looks opened.
     if (ev.parentId) {
       const superStratum = sky.strata[ev.parentId]
       if (superStratum) {
@@ -62,7 +49,8 @@ module.exports = (sky, loader) => {
         }
       }
     }
-    // If a superstratum is opened, ensure that its child node looks opened.
+    // If this stratum was openend by a substratum,
+    // ensure that the associated node looks opened.
     if (ev.childId) {
       const superNode = stratum.getNode(ev.childId)
       if (superNode) {
@@ -74,15 +62,16 @@ module.exports = (sky, loader) => {
     stratum.on('stratumrequest', (ev) => {
       // This event tells us that an interaction within the stratum
       // requested a substratum to be built and rendered.
-      const parentPath = stratumPath
       const childPath = ev.path
 
       // Pass to next open
       const eventData = {
-        context: sky.getSubcontext(parentPath, childPath)
+        path: childPath,
+        trail: stratum.getSubtrail(),
+        context: stratum.getSubcontext(childPath)
       }
 
-      loader.openChild(parentPath, childPath, eventData)
+      loader.openChild(path, childPath, eventData)
     })
 
     // The first stratum and first content should
@@ -97,10 +86,10 @@ module.exports = (sky, loader) => {
     }
 
     stratum.once('final', () => {
-      console.log('stratum loading final:', stratumPath)
+      console.log('stratum loading final:', path)
       if (ev.childId) {
         // Add the stratum to space if not yet added.
-        if (loader.hasSpace(stratumPath)) {
+        if (loader.hasSpace(path)) {
           // Already in space. OK.
           return
         }
@@ -111,10 +100,10 @@ module.exports = (sky, loader) => {
           superNode.open()
         }
 
-        const spaceAdded = loader.addSpace(stratumPath, stratum.getSpace())
+        const spaceAdded = loader.addSpace(path, stratum.getSpace())
         if (!spaceAdded) {
           // Likely no mapping found yet in case of a superstratum
-          console.warn('Could not add space at final:', stratumPath)
+          console.warn('Could not add space at final:', path)
         }
       }
     })
@@ -128,10 +117,10 @@ module.exports = (sky, loader) => {
   })
 
   loader.on('close', (ev) => {
-    console.log('space closing', ev)
+    console.log('space closing:', ev)
 
     // Make the associated node look closed.
-    const superPath = ev.space.stratum.superpath
+    const superPath = ev.space.stratum.getSuperpath()
     const superStratum = sky.strata[superPath]
     if (superStratum) {
       const superNode = superStratum.getNode(ev.id)
@@ -144,7 +133,7 @@ module.exports = (sky, loader) => {
     const closingStratum = sky.strata[ev.id]
     if (closingStratum) {
       // Remove from DOM and stop listeners.
-      stratum.remove()
+      closingStratum.remove()
       // Forget
       delete sky.strata[ev.id]
     }
