@@ -59,7 +59,7 @@ module.exports = (sky, loader) => {
     }
 
     // Begin listening strata and nodes.
-    stratum.on('stratumrequest', (ev) => {
+    stratum.on('substratumrequest', (ev) => {
       // This event tells us that an interaction within the stratum
       // requested a substratum to be built and rendered.
       const childPath = ev.path
