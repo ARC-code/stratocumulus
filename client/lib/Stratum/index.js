@@ -151,5 +151,3 @@ proto.render = require('./render')
 // TODO proto.renderEdges
 proto.renderContextLabel = require('./renderContextLabel')
 proto.revealLabels = require('./revealLabels')
-// TODO setLabel? The large label below the stratum.
-// TODO Or render the label automatically when the context is modified?

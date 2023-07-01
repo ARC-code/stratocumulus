@@ -6,8 +6,6 @@ require('./stratum.css')
 const Sky = function (viewport) {
   // Sky manages stratum objects and their loading.
   //
-  // Alternative names: Atmosphere, StratumManager
-  //
   // Parameters:
   //   viewport
   //     a tapspace.components.Viewport
@@ -15,7 +13,7 @@ const Sky = function (viewport) {
 
   // Current known set of stratum objects.
   // stratumPath -> Stratum
-  // TODO remove or clarify overlap with the loader.
+  // TODO remove or clarify overlap with the loader.spaces.
   this.strata = {}
 
   this.viewport = viewport

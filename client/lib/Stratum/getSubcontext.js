@@ -24,7 +24,7 @@ module.exports = function (subpath) {
   // Build the faceting context for the substratum.
   // The node narrows the context by its facetParam and facetValue
   // TODO maybe avoid split-join logic. Join and split in the io module?
-  // Assume '__' in value corresponds to AND operator.
+  // The '__' in value corresponds to AND operator.
   if (subContext[facetParam]) {
     const currentValues = subContext[facetParam].split('__')
 
