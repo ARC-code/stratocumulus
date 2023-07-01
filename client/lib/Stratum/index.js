@@ -79,32 +79,35 @@ const Stratum = function (path, trail, context) {
   this.path = path
   // The parent strata paths, if any.
   this.trail = trail
-  // space component
-  this.space = stratumPlane
-  this.nodePlane = nodePlane
-  this.edgePlane = edgePlane
-  // graph model
-  this.graph = stratumModel.createGraph()
   // Navigation context. Contains all the filtering settings
   // that define the content of the stratum.
   // For example, stratum "/arc/federations/63a0" may have context:
   //   { f_federations.id: "63a0", r_years: "1000to2000" }
   this.context = Object.assign({}, context)
+
   // Alive when loading or loaded.
   this.alive = false
   // Keep track if still loading
   this.loading = false
+
+  // Space components
+  this.space = stratumPlane
+  this.nodePlane = nodePlane
+  this.edgePlane = edgePlane
   // Keep track of rendered nodes. nodeKey -> StratumNode
   this.renderedNodes = {}
   // Keep track of rendered edges. edgeKey -> StratumEdge
   this.renderedEdges = {}
   // Context label element displays information about the filtering context
   this.contextLabel = null
+
   // Maintain latent stratum bounding circle.
   // Recomputing can be intensive. Update only when necessary, e.g. at final.
   const circle = { x: 0, y: 0, z: 0, r: 500 }
   this.boundingCircle = new tapspace.geometry.Circle(this.space, circle)
 
+  // graph model
+  this.graph = stratumModel.createGraph()
   // Cache the graph so that it is not lost if the stratum gets removed.
   // TODO Is this just premature optimization?
   // TODO implement on the io level
