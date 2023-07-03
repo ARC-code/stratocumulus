@@ -1,7 +1,7 @@
 const Context = require('../../lib/Context')
 
 const units = {
-  add: require('./add.test'),
+  append: require('./append.test'),
   constructor: require('./constructor.test'),
   getQueryString: require('./getQueryString.test'),
   merge: require('./merge.test'),

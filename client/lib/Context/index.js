@@ -47,7 +47,7 @@ const Context = function (keys, values) {
 module.exports = Context
 const proto = Context.prototype
 
-proto.add = require('./add')
+proto.append = require('./append')
 proto.getQueryString = require('./getQueryString')
 proto.merge = require('./merge')
 proto.plain = require('./plain')
