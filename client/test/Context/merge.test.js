@@ -1,6 +1,6 @@
 module.exports = (test, Context) => {
   test('Context:merge', (t) => {
-    const empty = new Context({})
+    const empty = new Context([], [])
 
     t.deepEqual(
       empty.merge(empty).plain(),
@@ -8,8 +8,8 @@ module.exports = (test, Context) => {
       'trivial empty merge'
     )
 
-    const ctxa = new Context({ 'f_genres.id': 'ABC', 'f_disciplines.id': 'E' })
-    const ctxb = new Context({ 'f_genres.id': 'BCD' })
+    const ctxa = new Context(['f_genres.id', 'f_disciplines.id'], ['ABC', 'E'])
+    const ctxb = new Context(['f_genres.id'], ['BCD'])
 
     t.deepEqual(
       ctxa.merge(ctxb).plain(),
@@ -24,8 +24,8 @@ module.exports = (test, Context) => {
     )
 
     // Cause accidental null value
-    const ctxc = new Context({ 'f_genres.id': 'temp' })
-    ctxc.ctx['f_genres.id'] = null
+    const ctxc = new Context(['f_genres.id'], ['temp'])
+    ctxc.values[0] = null
 
     t.deepEqual(
       ctxb.merge(ctxc).plain(),

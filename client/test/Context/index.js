@@ -2,6 +2,7 @@ const Context = require('../../lib/Context')
 
 const units = {
   add: require('./add.test'),
+  constructor: require('./constructor.test'),
   getQueryString: require('./getQueryString.test'),
   merge: require('./merge.test'),
   remove: require('./remove.test')

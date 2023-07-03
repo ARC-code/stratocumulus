@@ -11,51 +11,60 @@ module.exports = function (ctx) {
   //   a Context
   //
 
-  const ctxa = this.ctx
-  const ctxb = ctx.plain()
+  const aKeys = this.keys
+  const aValues = this.values
+  const bKeys = ctx.keys
+  const bValues = ctx.values
 
-  const keysa = Object.keys(ctxa)
-  const keysb = Object.keys(ctxb)
+  // Results
+  const rKeys = []
+  const rValues = []
 
-  const result = {}
-
-  keysa.forEach(ka => {
-    if (ctxb[ka]) {
-      // B has same parameter
-      if (ctxa[ka] && ctxa[ka].length > 0) {
-        if (ctxb[ka].length > 0 && ctxa[ka] !== ctxb[ka]) {
+  aKeys.forEach((aKey, ai) => {
+    const bi = bKeys.indexOf(aKey)
+    if (bi >= 0) {
+      // B has same parameter.
+      if (aValues[ai] && aValues[ai].length > 0) {
+        if (bValues[bi] && bValues[bi].length > 0 &&
+            aValues[ai] !== bValues[bi]) {
           // A and B valid and not equal.
-          result[ka] = ctxa[ka] + '__' + ctxb[ka]
+          rKeys.push(aKey)
+          rValues.push(aValues[ai] + '__' + bValues[bi])
         } else {
           // B empty or equal, use just A
-          result[ka] = ctxa[ka]
+          rKeys.push(aKey)
+          rValues.push(aValues[ai])
         }
       } else {
-        if (ctxb[ka].length > 0) {
+        if (bValues[bi].length > 0) {
           // A empty, B not empty, use just B
-          result[ka] = ctxb[ka]
+          rKeys.push(aKey)
+          rValues.push(bValues[bi])
         }
       }
     } else {
       // B does not have the parameter.
-      if (ctxa[ka] && ctxa[ka].length > 0) {
+      if (aValues[ai] && aValues[ai].length > 0) {
         // A not empty, use just A.
-        result[ka] = ctxa[ka]
+        rKeys.push(aKey)
+        rValues.push(aValues[ai])
       }
     }
   })
 
-  keysb.forEach(kb => {
+  bKeys.forEach((bKey, bi) => {
     // Skip if same key cuz already merged.
-    if (!ctxa[kb]) {
-      // Copy
-      if (ctxb[kb] && ctxb[kb].length > 0) {
+    const ai = aKeys.indexOf(bKey)
+    if (ai < 0) {
+      // No key in A. Copy B.
+      if (bValues[bi] && bValues[bi].length > 0) {
         // B not empty, just use B
-        result[kb] = ctxb[kb]
+        rKeys.push(bKey)
+        rValues.push(bValues[bi])
       }
     }
   })
 
   const Context = this.constructor
-  return new Context(result)
+  return new Context(rKeys, rValues)
 }

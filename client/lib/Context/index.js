@@ -1,29 +1,47 @@
 
-const Context = function (obj) {
-  // @Context(obj)
+const Context = function (keys, values) {
+  // @Context(keys, values)
   //
   // Class and methods for handling Corpora context objects.
+  // Keeps the keys and values in the correct order.
   // Immutable.
   //
   // Parameters:
-  //   obj
-  //     a valid Corpora context object
+  //   keys
+  //     array of string
+  //   values
+  //     array of string
   //
 
   // Default
-  if (typeof obj === 'undefined') {
-    obj = {}
+  if (typeof keys === 'undefined') {
+    keys = []
+    values = []
   }
 
   // Validate
-  if (!obj || typeof obj !== 'object') {
-    throw new Error('Invalid context objext: ' + obj)
+  if (!keys || !Array.isArray(keys)) {
+    throw new Error('Invalid context keys: ' + keys)
   }
-  if (!Object.values(obj).every(v => typeof v === 'string' && v.length > 0)) {
-    throw new Error('Invalid context object values: ' + obj)
+  if (!values || !Array.isArray(values)) {
+    throw new Error('Invalid context values: ' + values)
+  }
+  if (!keys.every(k => typeof k === 'string' && k.length > 0)) {
+    throw new Error('Invalid context keys: ' + keys)
+  }
+  if (!values.every(v => typeof v === 'string' && v.length > 0)) {
+    throw new Error('Invalid context values: ' + values)
+  }
+  const duplicate = keys.find((k, i) => {
+    const ki = keys.indexOf(k)
+    return ki !== i
+  })
+  if (duplicate) {
+    throw new Error('Duplicate context key: ' + duplicate)
   }
 
-  this.ctx = obj
+  this.keys = keys
+  this.values = values
 }
 
 module.exports = Context

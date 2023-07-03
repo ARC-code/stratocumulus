@@ -20,20 +20,23 @@ module.exports = function (key, value) {
     throw new Error('Invalid context value: ' + value)
   }
 
-  const ctx = Object.assign({}, this.ctx)
+  const keys = this.keys.slice(0)
+  const values = this.values.slice(0)
 
-  if (ctx[key]) {
+  const i = keys.indexOf(key)
+  if (i >= 0) {
     // Key already exists.
-    const origValue = ctx[key]
+    const origValue = values[i]
     if (origValue !== value) {
       // Merge
-      ctx[key] = origValue + '__' + value
+      values[i] = origValue + '__' + value
     }
   } else {
     // Add new key
-    ctx[key] = value
+    keys.push(key)
+    values.push(value)
   }
 
   const Context = this.constructor
-  return new Context(ctx)
+  return new Context(keys, values)
 }

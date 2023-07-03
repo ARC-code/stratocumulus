@@ -3,5 +3,11 @@ module.exports = function () {
   //
   // Get plain context object.
   //
-  return this.ctx
+  // Return
+  //   an object
+  //
+  return this.keys.reduce((acc, k, i) => {
+    acc[k] = this.values[i]
+    return acc
+  }, {})
 }

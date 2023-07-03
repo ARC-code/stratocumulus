@@ -1,6 +1,6 @@
 module.exports = (test, Context) => {
   test('Context:add', (t) => {
-    const empty = new Context({})
+    const empty = new Context([], [])
 
     t.deepEqual(
       empty.add('foo', 'bar').plain(),
@@ -8,7 +8,7 @@ module.exports = (test, Context) => {
       'trivial empty add'
     )
 
-    const ctxa = new Context({ 'f_genres.id': 'ABC' })
+    const ctxa = new Context(['f_genres.id'], ['ABC'])
 
     t.deepEqual(
       ctxa.add('f_genres.id', 'BCD').plain(),

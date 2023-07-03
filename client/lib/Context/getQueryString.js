@@ -7,8 +7,8 @@ module.exports = function () {
   //   a string
   //
 
-  const parts = Object.keys(this.ctx).map((key) => {
-    return key + '=' + this.ctx[key]
+  const parts = this.keys.map((key, i) => {
+    return key + '=' + this.values[i]
   })
 
   return parts.join('&')

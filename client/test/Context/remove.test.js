@@ -1,6 +1,6 @@
 module.exports = (test, Context) => {
   test('Context:remove', (t) => {
-    const empty = new Context({})
+    const empty = new Context([], [])
 
     t.deepEqual(
       empty.remove('foo', 'bar').plain(),
@@ -8,7 +8,7 @@ module.exports = (test, Context) => {
       'trivial empty remove'
     )
 
-    const ctxa = new Context({ 'f_genres.id': 'ABC' })
+    const ctxa = new Context(['f_genres.id'], ['ABC'])
 
     t.deepEqual(
       ctxa.remove('f_genres.id', 'BCD').plain(),
@@ -22,7 +22,7 @@ module.exports = (test, Context) => {
       'should remove empty key'
     )
 
-    const ctxb = new Context({ 'f_genres.id': 'ABC__BCD' })
+    const ctxb = new Context(['f_genres.id'], ['ABC__BCD'])
 
     t.deepEqual(
       ctxb.remove('f_genres.id', 'ABC').plain(),

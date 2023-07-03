@@ -1,6 +1,6 @@
 module.exports = (test, Context) => {
   test('Context:getQueryString', (t) => {
-    const empty = new Context({})
+    const empty = new Context([], [])
 
     t.equal(
       empty.getQueryString(),
@@ -8,7 +8,7 @@ module.exports = (test, Context) => {
       'trivial empty query string'
     )
 
-    const ctx = new Context({ 'f_genres.id': 'ABC', 'f_disciplines.id': 'E' })
+    const ctx = new Context(['f_genres.id', 'f_disciplines.id'], ['ABC', 'E'])
 
     t.equal(
       ctx.getQueryString(),
