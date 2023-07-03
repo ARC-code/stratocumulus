@@ -1,4 +1,6 @@
 module.exports = function (key, value) {
+  // @Context:add(key, value)
+  //
   // Add a context parameter. Creates a new Context.
   //
   // Parameters:

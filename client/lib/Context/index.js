@@ -1,5 +1,7 @@
 
 const Context = function (obj) {
+  // @Context(obj)
+  //
   // Class and methods for handling Corpora context objects.
   // Immutable.
   //

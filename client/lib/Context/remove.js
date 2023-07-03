@@ -1,4 +1,6 @@
 module.exports = function (key, value) {
+  // @Context:remove(key[, value])
+  //
   // Remove a context parameter. Creates a new Context.
   //
   // Parameters:

@@ -1,4 +1,6 @@
 module.exports = function (ctx) {
+  // @Context:merge(ctx)
+  //
   // Merge with another context.
   //
   // Parameters:
