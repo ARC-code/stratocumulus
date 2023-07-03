@@ -12,6 +12,10 @@ module.exports = (test, Context) => {
       new Context(['a', 'b', 'a'], ['x', 'xx', 'xxx'])
     }, 'should detect duplicate key')
 
+    t.throws(() => {
+      new Context(['a', 'b', 'a'], ['x', 'xx'])
+    }, 'should detect conflicting lengths')
+
     t.end()
   })
 }

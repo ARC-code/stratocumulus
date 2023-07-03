@@ -18,6 +18,9 @@ const Context = function (keys, values) {
     keys = []
     values = []
   }
+  if (typeof values === 'undefined') {
+    values = []
+  }
 
   // Validate
   if (!keys || !Array.isArray(keys)) {
@@ -25,6 +28,9 @@ const Context = function (keys, values) {
   }
   if (!values || !Array.isArray(values)) {
     throw new Error('Invalid context values: ' + values)
+  }
+  if (keys.length !== values.length) {
+    throw new Error('Invalid context: conflicting number of keys and values')
   }
   if (!keys.every(k => typeof k === 'string' && k.length > 0)) {
     throw new Error('Invalid context keys: ' + keys)
