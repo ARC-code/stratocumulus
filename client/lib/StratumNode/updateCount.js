@@ -26,7 +26,7 @@ module.exports = function (attrs) {
   this.component.setScale(0.6 * nSize / sizing.maxNodeSize)
 
   // Just render again and replace
-  this.component.html(nodeTemplate('', attrs))
+  this.component.html(nodeTemplate(attrs))
 
   // TODO need to reset anchor?
 
