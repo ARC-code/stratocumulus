@@ -46,6 +46,7 @@ const Context = function (keys, values) {
 
 module.exports = Context
 const proto = Context.prototype
+proto.isContext = true
 
 // Class functions
 Context.fromContextObject = require('./fromContextObject')(Context)
