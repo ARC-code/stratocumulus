@@ -8,6 +8,7 @@ const units = {
   fromQueryString: require('./fromQueryString.test'),
   merge: require('./merge.test'),
   remove: require('./remove.test'),
+  removeLastFacet: require('./removeLastFacet.test'),
   toQueryString: require('./toQueryString.test'),
   toStratumPath: require('./toStratumPath.test')
 }
