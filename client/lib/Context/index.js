@@ -54,6 +54,7 @@ Context.fromQueryString = require('./fromQueryString')(Context)
 
 // Methods
 proto.append = require('./append')
+proto.copy = require('./copy')
 proto.merge = require('./merge')
 proto.remove = require('./remove')
 proto.toContextObject = require('./toContextObject')
