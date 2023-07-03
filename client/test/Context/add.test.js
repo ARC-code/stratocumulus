@@ -23,7 +23,7 @@ module.exports = (test, Context) => {
     )
 
     t.throws(() => {
-      ctxa.add('_genres.id', '')
+      ctxa.add('f_genres.id', '')
     }, 'should detect empty')
 
     t.end()

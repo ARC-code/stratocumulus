@@ -30,3 +30,4 @@ const proto = Context.prototype
 proto.add = require('./add')
 proto.merge = require('./merge')
 proto.plain = require('./plain')
+proto.remove = require('./remove')

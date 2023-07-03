@@ -2,7 +2,8 @@ const Context = require('../../lib/Context')
 
 const units = {
   add: require('./add.test'),
-  merge: require('./merge.test')
+  merge: require('./merge.test'),
+  remove: require('./remove.test')
 }
 
 module.exports = (test) => {
