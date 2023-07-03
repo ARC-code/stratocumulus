@@ -21,7 +21,7 @@ const Stratum = function (path, trail, context) {
   //
   // Parameters:
   //   path
-  //     string, the stratum id
+  //     string, the stratum id. Must be unique among strata.
   //   trail
   //     array of string, a list of superstrata paths where the parent stratum
   //     .. is the last element. If the stratum is the root, trail is empty.
@@ -137,6 +137,7 @@ proto.getSupercontext = require('./getSupercontext')
 proto.getSuperpath = require('./getSuperpath')
 proto.getSupertrail = require('./getSupertrail')
 proto.getUniquePath = require('./getUniquePath')
+proto.getUniqueSubpath = require('./getUniqueSubpath')
 proto.getUniqueSubpaths = require('./getUniqueSubpaths')
 proto.getUniqueSuperpath = require('./getUniqueSuperpath')
 proto.findNodeNear = require('./findNodeNear')
