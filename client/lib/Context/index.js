@@ -8,6 +8,11 @@ const Context = function (obj) {
   //     a valid Corpora context object
   //
 
+  // Default
+  if (typeof obj === 'undefined') {
+    obj = {}
+  }
+
   // Validate
   if (!obj || typeof obj !== 'object') {
     throw new Error('Invalid context objext: ' + obj)
@@ -22,5 +27,6 @@ const Context = function (obj) {
 module.exports = Context
 const proto = Context.prototype
 
+proto.add = require('./add')
 proto.merge = require('./merge')
 proto.plain = require('./plain')

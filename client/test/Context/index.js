@@ -1,6 +1,7 @@
 const Context = require('../../lib/Context')
 
 const units = {
+  add: require('./add.test'),
   merge: require('./merge.test')
 }
 
