@@ -48,6 +48,7 @@ module.exports = function (graph, subgraph) {
   if (structureKind === 'stratum_graph') {
     if ('nodes' in subgraph) {
       subgraph.nodes.forEach(n => {
+        // Add new nodes to graph.
         const nodeKey = n.id
         if (graph.hasNode(nodeKey)) {
           // Update existing node.

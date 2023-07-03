@@ -9,7 +9,7 @@ const StratumNode = function (key, attrs, space) {
   //
   // Parameters:
   //   key
-  //     string, graph node key
+  //     string, graph node key, e.g. "/arc/genres" or "/arc/genres/1234"
   //   attrs
   //     object, graph node attributes
   //   space
@@ -72,6 +72,7 @@ const StratumNode = function (key, attrs, space) {
   })
 
   this.key = key
+
   this.space = space // TODO move out
   this.space.addChild(newItem) // TODO move out
   this.component = newItem

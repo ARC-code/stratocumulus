@@ -12,7 +12,6 @@ module.exports = function (key) {
   // the sky-level, so that individual stratum does not need to know
   // about or control other strata.
   this.emit('substratumrequest', {
-    path: key,
-    label: attrs.label // Pass the node label forward.
+    path: key
   })
 }
