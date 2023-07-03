@@ -45,6 +45,8 @@ const buildLabelElement = (attrs) => {
 }
 
 module.exports = (attrs) => {
+  // Stratum node template
+  //
   const nodeEl = buildNodeElement(attrs)
   const labelEl = buildLabelElement(attrs)
 
