@@ -48,7 +48,7 @@ module.exports = Context
 const proto = Context.prototype
 
 proto.append = require('./append')
-proto.getQueryString = require('./getQueryString')
+proto.toQueryString = require('./toQueryString')
 proto.merge = require('./merge')
 proto.remove = require('./remove')
 proto.toContextObject = require('./toContextObject')

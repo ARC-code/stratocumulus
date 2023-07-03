@@ -1,5 +1,5 @@
 module.exports = function () {
-  // @Context:getQueryString()
+  // @Context:toQueryString()
   //
   // Get the context as a query string, e.g. "f_genres.id=123&r_years=100to400"
   //
