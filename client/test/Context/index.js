@@ -8,7 +8,8 @@ const units = {
   fromQueryString: require('./fromQueryString.test'),
   merge: require('./merge.test'),
   remove: require('./remove.test'),
-  toQueryString: require('./toQueryString.test')
+  toQueryString: require('./toQueryString.test'),
+  toStratumPath: require('./toStratumPath.test')
 }
 
 module.exports = (test) => {
