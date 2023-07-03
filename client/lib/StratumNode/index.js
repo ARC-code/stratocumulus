@@ -1,6 +1,5 @@
 const tapspace = require('tapspace')
 const labelCache = require('../labelCache')
-const emitter = require('component-emitter')
 
 const StratumNode = function (key, attrs, space) {
   // A node in a stratum. Stratum maintains set of nodes.
@@ -63,10 +62,13 @@ const StratumNode = function (key, attrs, space) {
     }
 
     if (this.tapToOpen) {
-      this.emit('openingrequest', {
-        nodeKey: this.key,
-        item: this.component
+      // Send event to be handled in Stratum
+      const openingRequest = new window.CustomEvent('openingrequest', {
+        bubbles: true,
+        detail: this.key
       })
+      this.component.element.dispatchEvent(openingRequest)
+      // Make look open
       this.open()
     }
   })
@@ -86,9 +88,6 @@ const StratumNode = function (key, attrs, space) {
 module.exports = StratumNode
 const proto = StratumNode.prototype
 proto.isStratumNode = true
-
-// Inherit
-emitter(proto)
 
 // Methods
 proto.disableFaceting = require('./disableFaceting')
