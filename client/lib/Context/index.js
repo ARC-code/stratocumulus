@@ -47,8 +47,13 @@ const Context = function (keys, values) {
 module.exports = Context
 const proto = Context.prototype
 
+// Class functions
+Context.fromContextObject = require('./fromContextObject')(Context)
+Context.fromQueryString = require('./fromQueryString')(Context)
+
+// Methods
 proto.append = require('./append')
-proto.toQueryString = require('./toQueryString')
 proto.merge = require('./merge')
 proto.remove = require('./remove')
 proto.toContextObject = require('./toContextObject')
+proto.toQueryString = require('./toQueryString')
