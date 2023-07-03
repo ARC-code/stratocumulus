@@ -1,7 +1,8 @@
 module.exports = function () {
-  // @Context:plain()
+  // @Context:toContextObject()
   //
-  // Get plain context object.
+  // Get as a plain context object.
+  // Note that a plain object does not maintain the key order.
   //
   // Return
   //   an object

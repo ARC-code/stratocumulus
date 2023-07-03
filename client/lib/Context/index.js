@@ -50,5 +50,5 @@ const proto = Context.prototype
 proto.append = require('./append')
 proto.getQueryString = require('./getQueryString')
 proto.merge = require('./merge')
-proto.plain = require('./plain')
 proto.remove = require('./remove')
+proto.toContextObject = require('./toContextObject')

@@ -3,7 +3,7 @@ module.exports = (test, Context) => {
     const empty = new Context()
 
     t.deepEqual(
-      empty.plain(),
+      empty.toContextObject(),
       {},
       'trivial empty context'
     )

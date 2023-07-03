@@ -3,7 +3,7 @@ module.exports = (test, Context) => {
     const empty = new Context([], [])
 
     t.deepEqual(
-      empty.merge(empty).plain(),
+      empty.merge(empty).toContextObject(),
       {},
       'trivial empty merge'
     )
@@ -12,13 +12,13 @@ module.exports = (test, Context) => {
     const ctxb = new Context(['f_genres.id'], ['BCD'])
 
     t.deepEqual(
-      ctxa.merge(ctxb).plain(),
+      ctxa.merge(ctxb).toContextObject(),
       { 'f_genres.id': 'ABC__BCD', 'f_disciplines.id': 'E' },
       'merge values'
     )
 
     t.deepEqual(
-      ctxa.merge(ctxa).plain(),
+      ctxa.merge(ctxa).toContextObject(),
       { 'f_genres.id': 'ABC', 'f_disciplines.id': 'E' },
       'do not merge identical values'
     )
@@ -28,7 +28,7 @@ module.exports = (test, Context) => {
     ctxc.values[0] = null
 
     t.deepEqual(
-      ctxb.merge(ctxc).plain(),
+      ctxb.merge(ctxc).toContextObject(),
       { 'f_genres.id': 'BCD' },
       'do not merge nullish values'
     )
