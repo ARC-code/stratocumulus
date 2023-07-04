@@ -127,7 +127,7 @@ exports.sendStratumBuildJob = function (path, context) {
   console.log('Outgoing request: ' + msg)
 
   const http = new window.XMLHttpRequest()
-  let requestUrl = `/build_stratum?path=${path}`
+  let requestUrl = `/build_stratum?path=${encodeURIComponent(path)}`
   Object.keys(ctx).forEach(key => {
     requestUrl += `&${key}=${ctx[key]}`
   })
