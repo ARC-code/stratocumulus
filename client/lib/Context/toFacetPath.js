@@ -1,11 +1,11 @@
 module.exports = function () {
-  // @Context:toStratumPath()
+  // @Context:toFacetPath()
   //
-  // Build a stratum path from the context e.g. "/?f_genres.id=123".
-  // Stratum paths begin with slash and contain only faceting queries.
+  // Build a local URL path and facet query from the context.
+  // A facet path begins with a slash and contain only faceting queries.
   //
   // Return
-  //   a string
+  //   a string, for example "/?f_genres.id=123"
   //
 
   if (this.keys.length === 0) {

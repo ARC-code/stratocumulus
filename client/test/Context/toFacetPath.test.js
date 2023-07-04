@@ -1,11 +1,11 @@
 module.exports = (test, Context) => {
-  test('Context:toStratumPath', (t) => {
+  test('Context:toFacetPath', (t) => {
     const empty = new Context([])
 
     t.equal(
-      empty.toStratumPath(),
+      empty.toFacetPath(),
       '/',
-      'should be root stratum path'
+      'should be root facet path'
     )
 
     const ctx = new Context(
@@ -14,7 +14,7 @@ module.exports = (test, Context) => {
     )
 
     t.equal(
-      ctx.toStratumPath(),
+      ctx.toFacetPath(),
       '/?f_genres.id=ABC&f_disciplines.id=E',
       'should include only facet parameters'
     )

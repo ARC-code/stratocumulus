@@ -9,8 +9,8 @@ const units = {
   merge: require('./merge.test'),
   remove: require('./remove.test'),
   removeLastFacet: require('./removeLastFacet.test'),
-  toQueryString: require('./toQueryString.test'),
-  toStratumPath: require('./toStratumPath.test')
+  toFacetPath: require('./toFacetPath.test'),
+  toQueryString: require('./toQueryString.test')
 }
 
 module.exports = (test) => {
