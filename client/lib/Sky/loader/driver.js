@@ -9,8 +9,9 @@ module.exports = (sky, loader) => {
   //   loader
   //
   sky.viewport.on('idle', () => {
+    // DEBUG
     // console.log('sky.strata:', Object.keys(sky.strata).join(', '))
-    console.log('loader.spaces:', Object.keys(loader.spaces).join(', '))
+    // console.log('loader.spaces:', Object.keys(loader.spaces).join(', '))
 
     // Remove all too small spaces immediately.
     // Do this to avoid singular inversions.

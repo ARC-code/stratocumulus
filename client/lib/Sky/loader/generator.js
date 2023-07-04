@@ -11,7 +11,8 @@ module.exports = (sky, loader) => {
 
   // Generator
   loader.on('open', (ev) => {
-    console.log('space opening:', ev)
+    // DEBUG
+    // console.log('space opening:', ev)
 
     const path = ev.id
     const context = ev.data.context // filtering context for this stratum
@@ -78,8 +79,8 @@ module.exports = (sky, loader) => {
       }, 0)
     }
 
+    // Backtracked parent can be rendered only after final.
     stratum.once('final', () => {
-      console.log('stratum loading final:', path)
       if (ev.childId) {
         // Add the stratum to space if not yet added.
         if (loader.hasSpace(path)) {
@@ -110,7 +111,8 @@ module.exports = (sky, loader) => {
   })
 
   loader.on('close', (ev) => {
-    console.log('space closing:', ev)
+    // DEBUG
+    // console.log('space closing:', ev)
 
     // Make the associated node look closed.
     const path = ev.id
