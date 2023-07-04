@@ -1,8 +1,10 @@
 module.exports = function () {
   // @Context:removeLastFacet()
   //
-  // Remove the last faceting parameter, if any. Creates a new Context.
-  // Useful for building superstratum context.
+  // Remove the last faceting parameter, if any.
+  // Faceting parameters are keys beginning with 'f_'
+  // Useful for building broader context step by step.
+  // Creates a new Context.
   //
   // Return
   //   a Context.
@@ -21,12 +23,13 @@ module.exports = function () {
     // No faceting parameters found.
     return this.copy()
   }
-  const lastKey = this.keys[last]
 
-  // Find last value of the parameter.
-  const value = this.values[last]
-  const parts = value.split('__')
-  const lastValue = parts[parts.length - 1]
+  const keys = this.keys.slice(0)
+  const values = this.values.slice(0)
 
-  return this.remove(lastKey, lastValue)
+  keys.splice(last, 1)
+  values.splice(last, 1)
+
+  const Context = this.constructor
+  return new Context(keys, values)
 }

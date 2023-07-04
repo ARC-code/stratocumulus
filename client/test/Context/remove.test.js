@@ -22,7 +22,7 @@ module.exports = (test, Context) => {
       'should remove empty key'
     )
 
-    const ctxb = new Context(['f_genres.id'], ['ABC__BCD'])
+    const ctxb = new Context(['f_genres.id', 'f_genres.id'], ['ABC', 'BCD'])
 
     t.deepEqual(
       ctxb.remove('f_genres.id', 'ABC').toContextObject(),

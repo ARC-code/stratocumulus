@@ -12,6 +12,14 @@ module.exports = (test, Context) => {
       'should handle simple object'
     )
 
+    t.deepEqual(
+      Context.fromContextObject({
+        'f_genres.id': 'ABC__BCD'
+      }).toContextObject(),
+      { 'f_genres.id': 'ABC__BCD' },
+      'should handle joined values'
+    )
+
     t.end()
   })
 }

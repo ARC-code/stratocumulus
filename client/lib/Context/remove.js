@@ -17,40 +17,32 @@ module.exports = function (key, value) {
     throw new Error('Invalid context key: ' + key)
   }
 
-  const keys = this.keys.slice(0)
-  const values = this.values.slice(0)
-
   const Context = this.constructor
-  const i = keys.indexOf(key)
+  const matchValue = typeof value !== 'undefined'
 
-  if (i < 0) {
-    // No such key. Just return a copy.
-    return new Context(keys, values)
+  // If value is defined, validate.
+  if (matchValue) {
+    if (typeof value !== 'string' || value.length === 0) {
+      throw new Error('Invalid context value: ' + value)
+    }
   }
 
-  if (typeof value === 'undefined') {
-    // Remove all values of the key
-    keys.splice(i, 1)
-    values.splice(i, 1)
-    return new Context(keys, values)
-  }
-
-  // Value is defined. Validate.
-  if (typeof value !== 'string' || value.length === 0) {
-    throw new Error('Invalid context value: ' + value)
-  }
-
-  const origValue = values[i]
-  const valueParts = origValue.split('__')
-  // Remove given value, maintain order.
-  const newValue = valueParts.filter(p => p !== value).join('__')
-  if (newValue.length > 0) {
-    // Replace value
-    values[i] = newValue
-  } else {
-    // Empty value. Remove also key.
-    keys.splice(i, 1)
-    values.splice(i, 1)
+  const keys = []
+  const values = []
+  const len = this.keys.length
+  for (let i = 0; i < len; i += 1) {
+    if (this.keys[i] === key) {
+      // Same key, maybe skip.
+      if (matchValue && this.values[i] !== value) {
+        // Same key but different value, thus keep.
+        keys.push(this.keys[i])
+        values.push(this.values[i])
+      }
+    } else {
+      // Different key, thus keep.
+      keys.push(this.keys[i])
+      values.push(this.values[i])
+    }
   }
 
   return new Context(keys, values)

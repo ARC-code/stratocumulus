@@ -17,8 +17,8 @@ module.exports = (test, Context) => {
     )
 
     const ctxb = new Context(
-      ['f_genres.id', 'r_years', 'f_disciplines.id'],
-      ['ABC', '200to400', 'BCD__EFG']
+      ['f_genres.id', 'r_years', 'f_disciplines.id', 'f_disciplines.id'],
+      ['ABC', '200to400', 'BCD', 'EFG']
     )
 
     t.deepEqual(
@@ -29,6 +29,17 @@ module.exports = (test, Context) => {
         'f_disciplines.id': 'BCD'
       },
       'should remove only last facet value'
+    )
+
+    const ctxc = ctxb.append('f_genres.id', 'BCD')
+    t.deepEqual(
+      ctxc.removeLastFacet().toContextObject(),
+      {
+        'f_genres.id': 'ABC',
+        'r_years': '200to400',
+        'f_disciplines.id': 'BCD__EFG'
+      },
+      'should remove only the last appended facet value'
     )
 
     t.end()

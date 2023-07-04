@@ -17,21 +17,17 @@ module.exports = (test, Context) => {
       'merge values'
     )
 
-    t.deepEqual(
-      ctxa.merge(ctxa).toContextObject(),
-      { 'f_genres.id': 'ABC', 'f_disciplines.id': 'E' },
-      'do not merge identical values'
-    )
+    t.throws(() => {
+      ctxa.merge(ctxa)
+    }, 'detect duplicate values')
 
     // Cause accidental null value
     const ctxc = new Context(['f_genres.id'], ['temp'])
     ctxc.values[0] = null
 
-    t.deepEqual(
-      ctxb.merge(ctxc).toContextObject(),
-      { 'f_genres.id': 'BCD' },
-      'do not merge nullish values'
-    )
+    t.throws(() => {
+      ctxb.merge(ctxc)
+    }, 'detect nullish values')
 
     t.end()
   })

@@ -8,9 +8,13 @@ module.exports = (test, Context) => {
       'trivial empty context'
     )
 
-    t.throws(() => {
+    t.doesNotThrow(() => {
       new Context(['a', 'b', 'a'], ['x', 'xx', 'xxx'])
-    }, 'should detect duplicate key')
+    }, 'should allow duplicate key')
+
+    t.throws(() => {
+      new Context(['a', 'b', 'a'], ['x', 'xx', 'x'])
+    }, 'should detect duplicate key-value')
 
     t.throws(() => {
       new Context(['a', 'b', 'a'], ['x', 'xx'])

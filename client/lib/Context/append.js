@@ -23,19 +23,19 @@ module.exports = function (key, value) {
   const keys = this.keys.slice(0)
   const values = this.values.slice(0)
 
+  // Prevent duplicate key-value
   const i = keys.indexOf(key)
   if (i >= 0) {
     // Key already exists.
     const origValue = values[i]
-    if (origValue !== value) {
-      // Merge
-      values[i] = origValue + '__' + value
+    if (origValue === value) {
+      throw new Error('Duplicate context key-value pair: ' + key)
     }
-  } else {
-    // Add new key
-    keys.push(key)
-    values.push(value)
   }
+
+  // Add the key
+  keys.push(key)
+  values.push(value)
 
   const Context = this.constructor
   return new Context(keys, values)

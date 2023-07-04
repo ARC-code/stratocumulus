@@ -40,10 +40,10 @@ const Context = function (keys, values) {
   }
   const duplicate = keys.find((k, i) => {
     const ki = keys.indexOf(k)
-    return ki !== i
+    return ki !== i && values[ki] === values[i]
   })
   if (duplicate) {
-    throw new Error('Duplicate context key: ' + duplicate)
+    throw new Error('Duplicate context key-value pair: ' + duplicate)
   }
 
   this.keys = keys

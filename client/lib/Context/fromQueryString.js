@@ -31,19 +31,8 @@ module.exports = (Context) => {
         throw new Error('Invalid query string: ' + query)
       }
 
-      const key = parts[0]
-      const value = parts[1]
-
-      // Merge keys if multiple values.
-      const i = keys.indexOf(key)
-      if (i < 0) {
-        // First instance of the key.
-        keys.push(key)
-        values.push(value)
-      } else {
-        // Merge values
-        values[i] = values[i] + '__' + value
-      }
+      keys.push(parts[0])
+      values.push(parts[1])
     })
 
     // Keys and values are being validated inside the constructor.
