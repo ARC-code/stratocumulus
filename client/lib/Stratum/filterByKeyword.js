@@ -39,7 +39,7 @@ module.exports = function (keyword) {
     this.refreshLayout()
     // Mark that we are loading again.
     this.loading = true
-    io.stream.sendStratumBuildJob(this.path, this.context.toContextObject())
+    io.stream.sendStratumBuildJob(this.path, this.context)
     // Unfreeze and remove all the stale.
     this.once('final', () => {
       stratumModel.pruneStale(this.graph)

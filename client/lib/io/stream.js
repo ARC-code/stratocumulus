@@ -113,21 +113,23 @@ exports.sendStratumBuildJob = function (path, context) {
   //   path
   //     string, the stratum path
   //   context
-  //     object to be converted into url query attributes ?key=value&...
+  //     a Context
   //
 
   if (!graphStream) {
     throw new Error('No stream available.')
   }
 
+  const ctx = context.toContextObject()
+
   // DEBUG
-  const msg = `get '${path}' with context ${JSON.stringify(context)}`
+  const msg = `get '${path}' with context ${JSON.stringify(ctx)}`
   console.log('Outgoing request: ' + msg)
 
   const http = new window.XMLHttpRequest()
   let requestUrl = `/build_stratum?path=${path}`
-  Object.keys(context).forEach(key => {
-    requestUrl += `&${key}=${context[key]}`
+  Object.keys(ctx).forEach(key => {
+    requestUrl += `&${key}=${ctx[key]}`
   })
   http.open('GET', requestUrl)
   http.send()
