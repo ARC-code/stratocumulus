@@ -88,7 +88,7 @@ module.exports = (sky, loader) => {
         }
 
         // Ensure the child node looks opened.
-        const superNode = stratum.getNode(ev.childId)
+        const superNode = stratum.getFacetNode(ev.childId)
         if (superNode) {
           superNode.open()
         }
