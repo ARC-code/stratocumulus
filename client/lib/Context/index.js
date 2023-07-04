@@ -56,6 +56,7 @@ proto.isContext = true
 
 // Class functions
 Context.fromContextObject = require('./fromContextObject')(Context)
+Context.fromFacetPath = require('./fromFacetPath')(Context)
 Context.fromQueryString = require('./fromQueryString')(Context)
 
 // Methods

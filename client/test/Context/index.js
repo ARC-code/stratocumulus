@@ -5,6 +5,7 @@ const units = {
   constructor: require('./constructor.test'),
   copy: require('./copy.test'),
   fromContextObject: require('./fromContextObject.test'),
+  fromFacetPath: require('./fromFacetPath.test'),
   fromQueryString: require('./fromQueryString.test'),
   merge: require('./merge.test'),
   remove: require('./remove.test'),
