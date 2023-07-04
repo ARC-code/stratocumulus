@@ -30,7 +30,7 @@ module.exports = function () {
   // Render or update the large text label
   // that tells the user how the stratum was formed.
 
-  const context = this.context
+  const context = this.context.toContextObject()
   const bbox = this.space.getBoundingBox() // TODO use .boundingCircle
 
   // console.log('context', context)

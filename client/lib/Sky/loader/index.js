@@ -12,14 +12,14 @@ module.exports = function (sky) {
   const loader = new tapspace.loaders.TreeLoader({
     viewport: sky.viewport,
 
-    mapper: function (parentId, parentSpace, childId) {
+    mapper: function (parentPath, parentSpace, childPath) {
       // Position the child relative to the parent.
       // In other words, find a basis for the child.
       // If there is no position for the child, null.
       const parentStratum = parentSpace.stratum
-      const facetNode = parentStratum.getNode(childId)
+      const facetNode = parentStratum.getFacetNode(childPath)
       if (!facetNode) {
-        console.warn('Unknown or non-existing facet node: ' + childId)
+        console.warn('Unknown or non-existing facet node: ' + childPath)
         return null
       }
       const childBasis = facetNode.component.getBasis()
@@ -27,17 +27,17 @@ module.exports = function (sky) {
       return childBasis.scaleBy(0.1, facetNode.getOrigin())
     },
 
-    backmapper: function (childId, childSpace, parentId) {
+    backmapper: function (childPath, childSpace, parentPath) {
       // Dummy backmapper
       return null
     },
 
-    tracker: function (parentId, parentSpace) {
+    tracker: function (parentPath, parentSpace) {
       // Get IDs of the children of the parent component.
       return parentSpace.stratum.getSubpaths()
     },
 
-    backtracker: function (childId, childSpace) {
+    backtracker: function (childPath, childSpace) {
       // Find parent id.
       // If no parent and the child is the root node, return null.
       return childSpace.stratum.getSuperpath()

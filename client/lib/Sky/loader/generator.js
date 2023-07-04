@@ -14,7 +14,6 @@ module.exports = (sky, loader) => {
     console.log('space opening:', ev)
 
     const path = ev.id
-    const trail = ev.data.trail
     const context = ev.data.context // filtering context for this stratum
 
     // DEBUG
@@ -24,7 +23,7 @@ module.exports = (sky, loader) => {
     }
 
     // Create
-    const stratum = new Stratum(path, trail, context)
+    const stratum = new Stratum(context)
     sky.strata[path] = stratum
 
     // Add stratum to space via the loader.
@@ -43,7 +42,7 @@ module.exports = (sky, loader) => {
     if (ev.parentId) {
       const superStratum = sky.strata[ev.parentId]
       if (superStratum) {
-        const superNode = superStratum.getNode(ev.id)
+        const superNode = superStratum.getFacetNode(path)
         if (superNode) {
           superNode.open()
         }
@@ -52,7 +51,7 @@ module.exports = (sky, loader) => {
     // If this stratum was openend by a substratum,
     // ensure that the associated node looks opened.
     if (ev.childId) {
-      const superNode = stratum.getNode(ev.childId)
+      const superNode = stratum.getFacetNode(ev.childId)
       if (superNode) {
         superNode.open()
       }
@@ -62,15 +61,9 @@ module.exports = (sky, loader) => {
     stratum.on('substratumrequest', (ev) => {
       // This event tells us that an interaction within the stratum
       // requested a substratum to be built and rendered.
-      const childPath = ev.path
-
+      const childPath = ev.context.getFacetPath()
       // Pass to next open
-      const eventData = {
-        path: childPath,
-        trail: stratum.getSubtrail(),
-        context: stratum.getSubcontext(childPath)
-      }
-
+      const eventData = { context: ev.context }
       loader.openChild(path, childPath, eventData)
     })
 
@@ -120,25 +113,26 @@ module.exports = (sky, loader) => {
     console.log('space closing:', ev)
 
     // Make the associated node look closed.
+    const path = ev.id
     const superPath = ev.space.stratum.getSuperpath()
     const superStratum = sky.strata[superPath]
     if (superStratum) {
-      const superNode = superStratum.getNode(ev.id)
+      const superNode = superStratum.getFacetNode(path)
       if (superNode) {
         superNode.close()
       }
     }
 
     // Remove the contained stratum.
-    const closingStratum = sky.strata[ev.id]
+    const closingStratum = sky.strata[path]
     if (closingStratum) {
       // Remove from DOM and stop listeners.
       closingStratum.remove()
       // Forget
-      delete sky.strata[ev.id]
+      delete sky.strata[path]
     }
 
     // Finally, close the space.
-    loader.removeSpace(ev.id)
+    loader.removeSpace(path)
   })
 }

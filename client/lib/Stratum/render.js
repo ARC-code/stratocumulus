@@ -34,7 +34,19 @@ module.exports = function (final = false) {
         stratumNode = new StratumNode(key, attrs, this.nodePlane)
       }
 
+      // Build index of rendered nodes.
       this.renderedNodes[key] = stratumNode
+
+      // Build facet node index.
+      if (!isDataCard && attrs.isFacetable) {
+        const facetParam = attrs.facetParam
+        const facetValue = attrs.facetValue
+        if (facetParam && facetValue) {
+          const facetContext = this.context.append(facetParam, facetValue)
+          const facetPath = facetContext.toFacetPath()
+          this.facetNodeIndex[facetPath] = key
+        }
+      }
     }
 
     // Update position according to the layout.

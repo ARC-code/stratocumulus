@@ -16,7 +16,8 @@ module.exports = function (keyword) {
   }
 
   // Update the filtering context for further queries.
-  this.context.q = keyword
+  this.context.remove('q')
+  this.context.append('q', keyword)
 
   const beginBuildJob = () => {
     // Send a new build job with the updated context.
@@ -38,7 +39,7 @@ module.exports = function (keyword) {
     this.refreshLayout()
     // Mark that we are loading again.
     this.loading = true
-    io.stream.sendStratumBuildJob(this.path, this.context)
+    io.stream.sendStratumBuildJob(this.path, this.context.toContextObject())
     // Unfreeze and remove all the stale.
     this.once('final', () => {
       stratumModel.pruneStale(this.graph)

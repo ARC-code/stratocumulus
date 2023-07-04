@@ -1,3 +1,5 @@
+const Context = require('../Context')
+
 module.exports = function (firstPath) {
   // Initialize the Sky: begin loading the first stratum.
   //
@@ -5,11 +7,8 @@ module.exports = function (firstPath) {
   const firstBasis = this.viewport.getBasisAt(this.viewport.atCenter())
 
   // TODO allow preset context when user arrives directly to a substratum.
-  const eventData = {
-    path: firstPath,
-    trail: [],
-    context: {}
-  }
+  // TODO context: Context.fromQueryString(query)
+  const eventData = { context: new Context() }
 
   this.loader.init(firstPath, firstBasis, eventData)
 }

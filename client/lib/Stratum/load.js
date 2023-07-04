@@ -53,5 +53,5 @@ module.exports = function () {
   })
 
   // Inform the server we are ready to receive the stratum.
-  io.stream.sendStratumBuildJob(this.path, this.context)
+  io.stream.sendStratumBuildJob(this.path, this.context.toContextObject())
 }

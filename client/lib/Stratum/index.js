@@ -3,16 +3,9 @@ const emitter = require('component-emitter')
 const tapspace = require('tapspace')
 const graphCache = require('../graphCache')
 
-const isTrailUnique = (arr) => {
-  // Useful for validating trail
-  const dict = arr.reduce((acc, x) => {
-    acc[x] = true
-    return acc
-  }, {})
-  return Object.keys(dict).length === arr.length
-}
-
-const Stratum = function (path, trail, context) {
+const Stratum = function (context) {
+  // @Stratum
+  //
   // A tree graph laid on a plane.
   // The stratum is not yet added to the document.
   // Append stratum.space to a parent space in order to do that.
@@ -20,13 +13,9 @@ const Stratum = function (path, trail, context) {
   // Stratum inherits Emitter
   //
   // Parameters:
-  //   path
-  //     string, the stratum id. Must be unique among strata.
-  //   trail
-  //     array of string, a list of superstrata paths where the parent stratum
-  //     .. is the last element. If the stratum is the root, trail is empty.
   //   context
-  //     object, defines the faceting and filtering context of the stratum.
+  //     a Context. The context gives identity to the stratum and
+  //     .. defines the faceting and filtering of its content.
   //
   // Stratum emits:
   //   first
@@ -39,19 +28,7 @@ const Stratum = function (path, trail, context) {
   //
 
   // DEBUG validate arguments
-  if (typeof path !== 'string' || path.length < 1) {
-    throw new Error('Invalid stratum path: ' + path)
-  }
-  if (!Array.isArray(trail)) {
-    throw new Error('Invalid stratum trail: ' + trail)
-  }
-  if (!isTrailUnique(trail)) {
-    throw new Error('Duplicate stratum paths in trail: ' + trail)
-  }
-  if (trail.indexOf(path) >= 0) {
-    throw new Error('Self-recursive stratum trail: ' + trail)
-  }
-  if (typeof context !== 'object') {
+  if (!context || !context.isContext) {
     throw new Error('Invalid stratum context: ' + context)
   }
 
@@ -75,15 +52,9 @@ const Stratum = function (path, trail, context) {
   stratumPlane.addChild(edgePlane)
   stratumPlane.addChild(nodePlane)
 
-  // stratum identifier: path
-  this.path = path
-  // The parent strata paths, if any.
-  this.trail = trail
-  // Navigation context. Contains all the filtering settings
-  // that define the content of the stratum.
-  // For example, stratum "/arc/federations/63a0" may have context:
-  //   { f_federations.id: "63a0", r_years: "1000to2000" }
-  this.context = Object.assign({}, context)
+  // The faceting context.
+  this.path = context.toFacetPath()
+  this.context = context
 
   // Alive when loading or loaded.
   this.alive = false
@@ -101,6 +72,11 @@ const Stratum = function (path, trail, context) {
   // Context label element displays information about the filtering context
   this.contextLabel = null
 
+  // Maintain index of facet paths to node keys.
+  // Otherwise finding nodes by facet path is very tedious.
+  // facetPath -> nodeKey
+  this.facetNodeIndex = {}
+
   // Maintain latent stratum bounding circle.
   // Recomputing can be intensive. Update only when necessary, e.g. at final.
   const circle = { x: 0, y: 0, z: 0, r: 500 }
@@ -111,7 +87,7 @@ const Stratum = function (path, trail, context) {
   // Cache the graph so that it is not lost if the stratum gets removed.
   // TODO Is this just premature optimization?
   // TODO implement on the io level
-  graphCache.store(path, this.graph)
+  graphCache.store(this.path, this.graph)
 }
 
 module.exports = Stratum
@@ -126,6 +102,7 @@ proto.enableFaceting = require('./enableFaceting')
 proto.filterByKeyword = require('./filterByKeyword')
 proto.load = require('./load')
 proto.getBoundingCircle = require('./getBoundingCircle')
+proto.getFacetNode = require('./getFacetNode')
 proto.getNode = require('./getNode')
 proto.getNodes = require('./getNodes')
 proto.getOrigin = require('./getOrigin')

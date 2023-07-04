@@ -16,9 +16,19 @@ module.exports = function () {
 
   this.space.element.addEventListener('openingrequest', (ev) => {
     const nodeKey = ev.detail
+    const nodeAttrs = this.graph.getNodeAttributes(nodeKey)
+
+    const facetParam = nodeAttrs.facetParam
+    const facetValue = nodeAttrs.facetValue
+
+    // Skip non-facetable nodes.
+    if (!facetParam || !facetValue) {
+      return
+    }
 
     this.emit('substratumrequest', {
-      path: nodeKey
+      context: this.context.append(facetParam, facetValue),
+      nodeKey: nodeKey
     })
   })
 }

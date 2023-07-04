@@ -36,13 +36,8 @@ module.exports = (sky, loader) => {
     loader.closeNeighbors(currentStratumPath, 1)
 
     // Expand the parent. If not yet at root and if parent not yet open.
-    const superpath = currentStratum.getSuperpath()
-    if (superpath) {
-      const eventData = {
-        path: superpath,
-        trail: currentStratum.getSupertrail(),
-        context: currentStratum.getSupercontext()
-      }
+    if (currentStratumPath !== '/') {
+      const eventData = { context: currentStratum.getSupercontext() }
       loader.openParent(currentStratumPath, eventData)
     }
 
@@ -50,19 +45,14 @@ module.exports = (sky, loader) => {
     const currentNode = findCurrentNode(sky, currentStratum)
     // If current node available, open it.
     if (currentNode) {
-      const subpath = currentNode.key
-      const eventData = {
-        path: subpath,
-        trail: currentStratum.getSubtrail(),
-        context: currentStratum.getSubcontext(subpath)
-      }
+      const subcontext = currentStratum.getSubcontext(currentNode.key)
+      const subpath = subcontext.toFacetPath()
+      const eventData = { context: subcontext }
       loader.openChild(currentStratumPath, subpath, eventData)
     }
 
     // TODO Prevent viewport from getting too far from content.
-    // if (currentSpace) {
-    //   const spaces = sky.viewport.getSpaces()
-    //   sky.viewport.limitTo(spaces)
-    // }
+    // const spaces = sky.viewport.getSpaces()
+    // sky.viewport.limitTo(spaces)
   })
 }

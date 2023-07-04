@@ -1,16 +1,17 @@
 module.exports = function () {
   // Get the path of the superstratum.
-  // Basically returns the last item of the trail. Null if trail is empty.
+  // Null if the stratum is root.
   //
   // Return
   //   a string, a StratumPath. Null if this is the root stratum.
   //
-  const len = this.trail.length
 
-  if (len < 1) {
+  if (this.path === '/') {
     return null
   }
 
-  // The last element.
-  return this.trail[len - 1]
+  const superctx = this.getSupercontext()
+
+  // TODO do we a method for this really? Could caller use context directly?
+  return superctx.toFacetPath()
 }

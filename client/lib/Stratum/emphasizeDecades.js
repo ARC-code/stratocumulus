@@ -20,7 +20,8 @@ module.exports = function (beginYear, endYear) {
   }
 
   // Update the filtering context for further queries
-  this.context.r_years = beginYear + 'to' + endYear
+  this.context.remove('r_years')
+  this.context.append('r_years', beginYear + 'to' + endYear)
 
   // Refresh the graph nodes based on the year range.
   this.graph.updateEachNodeAttributes((nodeKey, nodeAttrs) => {
