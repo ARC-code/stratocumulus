@@ -10,7 +10,7 @@ const StratumNode = function (key, attrs, space) {
   //   key
   //     string, graph node key, e.g. "/arc/genres" or "/arc/genres/1234"
   //   attrs
-  //     object, graph node attributes
+  //     object, the initial graph node attributes.
   //   space
   //     a tapspace.components.Space or Plane.
   //
