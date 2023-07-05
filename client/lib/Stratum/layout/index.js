@@ -8,6 +8,7 @@ const graphologyLayout = require('graphology-layout')
 // const findNodeByContext = require('../model/findNodeByContext')
 // const treepack = require('./treepack')
 const normalizeSizes = require('./normalizeSizes')
+const rotatePositions = require('./rotatePositions')
 // const tapspace = require('tapspace')
 
 module.exports = function (graph, context) {
@@ -27,11 +28,13 @@ module.exports = function (graph, context) {
   normalizeSizes(graph)
 
   // graphologyLayout.circlepack.assign(graph, {
-  const positions = graphologyLayout.circlepack(graph, {
+  let positions = graphologyLayout.circlepack(graph, {
     hierarchyAttributes: ['parent'],
     center: 0,
     scale: 1.1
   })
+
+  positions = rotatePositions(positions, { x: 0, y: 0 }, -Math.PI / 2)
 
   // const positions = treepack(graph)
 
