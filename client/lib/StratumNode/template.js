@@ -41,7 +41,7 @@ const buildLabelElement = (attrs) => {
   const labelCount = `<div class="node-label-count">${localCount}</div>`
   const renderLabel = attrs.kind !== 'grouping'
   const labelContent = attrs.label + (renderLabel ? labelCount : '')
-  return `<span class="${classNames}">${labelContent}</span>`
+  return `<div class="${classNames}">${labelContent}</div>`
 }
 
 module.exports = (attrs) => {
