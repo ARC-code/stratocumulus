@@ -4,6 +4,7 @@ const labelCache = require('../labelCache')
 
 const StratumNode = function (key, attrs, space) {
   // A node in a stratum. Stratum maintains set of nodes.
+  // A slave component, causes only visual side-effects, model-ignorant.
   //
   // StratumNode inherits Emitter
   //
