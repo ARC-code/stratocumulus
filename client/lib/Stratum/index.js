@@ -22,7 +22,7 @@ const Stratum = function (context) {
   //     when the first node has been loaded and rendered.
   //   final
   //     when all subgraphs of the stratum has been loaded and rendered.
-  //   stratumrequest
+  //   substratumrequest
   //     when the stratum would like one of its nodes to be opened as
   //     a new stratum.
   //
@@ -100,7 +100,6 @@ emitter(proto)
 proto.emphasizeDecades = require('./emphasizeDecades')
 proto.enableFaceting = require('./enableFaceting')
 proto.filterByKeyword = require('./filterByKeyword')
-proto.load = require('./load')
 proto.getBoundingCircle = require('./getBoundingCircle')
 proto.getFacetNode = require('./getFacetNode')
 proto.getNodes = require('./getNodes')
@@ -110,7 +109,7 @@ proto.getSubcontext = require('./getSubcontext')
 proto.getSubpaths = require('./getSubpaths')
 proto.getSupercontext = require('./getSupercontext')
 proto.getSuperpath = require('./getSuperpath')
-proto.findNodeNear = require('./findNodeNear')
+proto.load = require('./load')
 proto.prune = require('./prune')
 proto.recomputeBoundingCircle = require('./recomputeBoundingCircle')
 proto.refreshLayout = require('./refreshLayout')

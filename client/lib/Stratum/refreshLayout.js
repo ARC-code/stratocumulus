@@ -1,7 +1,7 @@
 const layoutGraph = require('./layout')
 
 module.exports = function () {
-  // Refresh the layout
+  // Refresh the graph layout.
   //
   if (!this.alive) {
     // Already removed, no need to refresh.
