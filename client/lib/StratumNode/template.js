@@ -28,7 +28,7 @@ const buildNodeElement = (attrs) => {
 }
 
 const buildLabelClassNames = (attrs) => {
-  let classNames = 'label'
+  let classNames = 'node-label'
   if (attrs.isFacetable) {
     classNames += ' facetable'
   }

@@ -24,9 +24,10 @@ const StratumNode = function (key, attrs, space) {
   // this.labelElement
   // this.countElement
 
-  // HACK cache node labels for stratum context labels
+  // HACK cache node labels for substratum context labels
   labelCache.store(attrs.facetParam, attrs.facetValue, attrs.label)
 
+  // Constant rendering size 256x256
   const radiusPx = 128
   const newItem = tapspace.createNode(radiusPx)
   newItem.addClass('stratum-node')
@@ -36,11 +37,6 @@ const StratumNode = function (key, attrs, space) {
     newItem.addClass('context-node')
   }
 
-  // DEBUG
-  newItem.element.title = 'id:' + key
-
-  // Render in this pixel size
-  // newItem.setSize(256, 256)
   // Gravity at node center
   newItem.setAnchor(newItem.atCenter())
   // Disable interaction with node content.
@@ -90,9 +86,9 @@ const proto = StratumNode.prototype
 proto.isStratumNode = true
 
 // Methods
+proto.close = require('./close')
 proto.disableFaceting = require('./disableFaceting')
 proto.enableFaceting = require('./enableFaceting')
-proto.close = require('./close')
 proto.getOrigin = require('./getOrigin')
 proto.getRadius = require('./getRadius')
 proto.getScale = require('./getScale')
