@@ -33,7 +33,7 @@ module.exports = function (attrs) {
   // const newSize = { w: nSize, h: nSize }
   // nElem.affine.resizeTo(newSize, nElem.affine.atCenter())
 
-  // const roundElement = nElem.querySelector('.node')
+  // const roundElement = nElem.querySelector('.node-shape')
   // const countElement = nElem.querySelector('.node-label-count')
   //
 

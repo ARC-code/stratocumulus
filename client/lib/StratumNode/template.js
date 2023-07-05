@@ -1,5 +1,5 @@
 const buildClassNames = (attrs) => {
-  let classNames = 'node'
+  let classNames = 'node-shape'
   if (attrs.isFacetable) {
     classNames += ' facetable'
   }
