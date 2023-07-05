@@ -1,9 +1,8 @@
+require('./stratum.css')
 const stratumModel = require('./model')
 const emitter = require('component-emitter')
 const tapspace = require('tapspace')
 const graphCache = require('../graphCache')
-// Import styles
-require('./stratum.css')
 
 const Stratum = function (context) {
   // @Stratum
