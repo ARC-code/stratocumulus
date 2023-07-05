@@ -2,7 +2,7 @@
   position: absolute;
   z-index: 1000;
   /* Make to look like circle */
-  border: 2px solid rgb(160, 160, 160);
+  border: 3px solid rgb(160, 160, 160);
   border-radius: 50%;
   /* Avoid offset from border width */
   box-sizing: border-box;
@@ -61,9 +61,26 @@
 .facetable.node-shape:hover {
   border-color: white;
 }
-.stratum-node.faceted-node .facetable.node-shape {
-  background: #444444; /* match with background to visually hide edges below */
+.stratum-node.faceted-node .node-shape {
+  background: #444444; /* match with sky bg to visually hide edges below */
+}
+.stratum-node.faceted-node .node-shape:hover {
+  border-color: rgb(160, 160, 160);
 }
 .stratum-node.faceted-node .node-label {
   left: 270px;
+}
+
+/* Loading animation */
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.stratum-node.loading .node-shape {
+  border: 3px dashed rgb(160, 160, 160);
+  animation: rotation 60s infinite linear;
 }

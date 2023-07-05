@@ -66,8 +66,9 @@ const StratumNode = function (key, attrs, space) {
         detail: this.key
       })
       this.component.element.dispatchEvent(openingRequest)
-      // Make look open
+      // Make look open and loading
       this.open()
+      this.setLoadingAnimation(true)
     }
   })
 
@@ -98,5 +99,6 @@ proto.isFacetable = require('./isFacetable')
 proto.isFaceted = require('./isFaceted')
 proto.open = require('./open')
 proto.remove = require('./remove')
+proto.setLoadingAnimation = require('./setLoadingAnimation')
 proto.translateTo = require('./translateTo')
 proto.updateCount = require('./updateCount')

@@ -40,12 +40,14 @@ module.exports = (sky, loader) => {
 
     // If this stratum was opened by a superstratum,
     // ensure that the associated superstratum node looks opened.
+    // Also start loading animation on the node.
     if (ev.parentId) {
       const superStratum = sky.strata[ev.parentId]
       if (superStratum) {
         const superNode = superStratum.getFacetNode(path)
         if (superNode) {
           superNode.open()
+          superNode.setLoadingAnimation(true)
         }
       }
     }
@@ -55,6 +57,7 @@ module.exports = (sky, loader) => {
       const superNode = stratum.getFacetNode(ev.childId)
       if (superNode) {
         superNode.open()
+        superNode.setLoadingAnimation(true)
       }
     }
 
@@ -70,23 +73,37 @@ module.exports = (sky, loader) => {
 
     // Backtracked parent can be rendered only after final.
     stratum.once('final', () => {
+      // Add the stratum to space if not yet added.
       if (ev.childId) {
-        // Add the stratum to space if not yet added.
         if (loader.hasSpace(path)) {
           // Already in space. OK.
           return
         }
-
-        // Ensure the child node looks opened.
-        const superNode = stratum.getFacetNode(ev.childId)
-        if (superNode) {
-          superNode.open()
-        }
-
         const spaceAdded = loader.addSpace(path, stratum.getSpace())
         if (!spaceAdded) {
           // Likely no mapping found yet in case of a superstratum
           console.warn('Could not add space at final:', path)
+        }
+
+        // Ensure the child node looks opened.
+        // Also stop loading animation, if any.
+        const superNode = stratum.getFacetNode(ev.childId)
+        if (superNode) {
+          superNode.open()
+          superNode.setLoadingAnimation(false)
+        }
+      }
+
+      // Ensure the node in the parent stratum looks opened.
+      // Also stop loading animation, if any.
+      if (ev.parentId) {
+        const superStratum = sky.strata[ev.parentId]
+        if (superStratum) {
+          const superNode = superStratum.getFacetNode(path)
+          if (superNode) {
+            superNode.open()
+            superNode.setLoadingAnimation(false)
+          }
         }
       }
     })
