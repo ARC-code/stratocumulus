@@ -1,5 +1,7 @@
 const tapspace = require('tapspace')
 const labelCache = require('../labelCache')
+// Import styles
+require('./stratumNode.css')
 
 const StratumNode = function (key, attrs, space) {
   // A node in a stratum. Stratum maintains set of nodes.

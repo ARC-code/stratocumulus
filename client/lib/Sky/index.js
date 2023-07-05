@@ -1,7 +1,7 @@
 const emitter = require('component-emitter')
 const loader = require('./loader')
 // Import styles
-require('./stratum.css')
+require('./sky.css')
 
 const Sky = function (viewport) {
   // Sky manages stratum objects and their loading.
