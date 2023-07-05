@@ -19,7 +19,7 @@ module.exports = (sky, loader) => {
 
     // DEBUG
     if (sky.strata[path]) {
-      console.warn('Attempted to recreate existing stratum: ' + path)
+      console.warn('Attempted to recreate existing stratum: ' + path, ev)
       return
     }
 
@@ -31,7 +31,7 @@ module.exports = (sky, loader) => {
     const spaceAdded = loader.addSpace(path, stratum.getSpace())
     if (!spaceAdded) {
       // Likely no mapping found yet in case of a superstratum.
-      // Postpone addition to final event.
+      // This is ok. Postpone addition to final event.
       console.warn('Could not add space', path)
     }
 
@@ -68,17 +68,6 @@ module.exports = (sky, loader) => {
       loader.openChild(path, childPath, eventData)
     })
 
-    // The first stratum and first content should
-    // enable the viewport interaction.
-    if (ev.first) {
-      // Wait to ensure stratum is in space.
-      setTimeout(() => {
-        stratum.once('first', () => {
-          sky.emit('first')
-        })
-      }, 0)
-    }
-
     // Backtracked parent can be rendered only after final.
     stratum.once('final', () => {
       if (ev.childId) {
@@ -108,6 +97,18 @@ module.exports = (sky, loader) => {
     //   const parentPath = path
     //   loader.remapChildren(parentPath)
     // })
+  })
+
+  // The first stratum and first content should
+  // enable the viewport interaction.
+  loader.once('opened', (ev) => {
+    const stratum = ev.space.stratum
+    // Wait to ensure stratum is in space.
+    setTimeout(() => {
+      stratum.once('first', () => {
+        sky.emit('first')
+      })
+    }, 0)
   })
 
   loader.on('close', (ev) => {

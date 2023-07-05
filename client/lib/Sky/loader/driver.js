@@ -25,35 +25,33 @@ module.exports = (sky, loader) => {
 
     // Find closest stratum, our current location.
     const currentStratum = findCurrentStratum(sky)
-    if (!currentStratum) {
-      console.log('currently nearest stratum: -')
-      return
-    }
-    const currentStratumPath = currentStratum.path
-    console.log('currently nearest stratum:', currentStratumPath)
+    if (currentStratum) {
+      const currentStratumPath = currentStratum.path
+      console.log('currently nearest stratum:', currentStratumPath)
 
-    // Prune the spaces, i.e. strata.
-    // Close all sub and superstrata a couple of steps away.
-    loader.closeNeighbors(currentStratumPath, 1)
+      // Prune the spaces, i.e. strata.
+      // Close all sub and superstrata a couple of steps away.
+      loader.closeNeighbors(currentStratumPath, 1)
 
-    // Expand the parent. If not yet at root and if parent not yet open.
-    if (currentStratumPath !== '/') {
-      const eventData = { context: currentStratum.getSupercontext() }
-      loader.openParent(currentStratumPath, eventData)
-    }
+      // Expand the parent. If not yet at root and if parent not yet open.
+      if (currentStratumPath !== '/') {
+        const eventData = { context: currentStratum.getSupercontext() }
+        loader.openParent(currentStratumPath, eventData)
+      }
 
-    // On the current stratum, find the nearest openable node.
-    const currentNode = findCurrentNode(sky, currentStratum)
-    // If current node available, open it.
-    if (currentNode) {
-      const subcontext = currentStratum.getSubcontext(currentNode.key)
-      const subpath = subcontext.toFacetPath()
-      const eventData = { context: subcontext }
-      loader.openChild(currentStratumPath, subpath, eventData)
+      // On the current stratum, find the nearest openable node.
+      const currentNode = findCurrentNode(sky, currentStratum)
+      // If current node available, open it.
+      if (currentNode) {
+        const subcontext = currentStratum.getSubcontext(currentNode.key)
+        const subpath = subcontext.toFacetPath()
+        const eventData = { context: subcontext }
+        loader.openChild(currentStratumPath, subpath, eventData)
+      }
     }
 
-    // TODO Prevent viewport from getting too far from content.
+    // Prevent viewport from getting too far from content.
     // const spaces = sky.viewport.getSpaces()
-    // sky.viewport.limitTo(spaces)
+    // sky.viewport.limitTo(spaces, { maxAreaRatio: 10 })
   })
 }
