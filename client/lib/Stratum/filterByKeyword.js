@@ -34,7 +34,7 @@ module.exports = function (keyword) {
 
     // Invalidate nodes in order to remove extra.
     stratumModel.staleAll(this.graph)
-    this.refreshLayout()
+    this.refreshNodeSizes()
     // Mark that we are loading again.
     this.loading = true
     io.stream.sendStratumBuildJob(this.path, this.context)
@@ -42,7 +42,7 @@ module.exports = function (keyword) {
     this.once('final', () => {
       stratumModel.pruneStale(this.graph)
       this.prune()
-      this.refreshLayout()
+      this.refreshNodeSizes()
     })
   }
 
