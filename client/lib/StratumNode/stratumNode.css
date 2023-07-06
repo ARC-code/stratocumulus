@@ -36,6 +36,11 @@
 .stratum-node.readable .node-label {
   display: block;
 }
+.stratum-node:hover .node-label {
+  font-size: 120px;
+  top: -40px;
+  display: block;
+}
 
 /* Kind-specific styling */
 .node-shape.node-disciplines {
