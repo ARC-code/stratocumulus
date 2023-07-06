@@ -39,6 +39,9 @@ exports.start = function () {
   // Once the first stratum has some rendered content,
   // make the viewport interactive and begin refreshing labels.
   sky.once('first', () => {
+    // TODO estimated fit to content
+    viewport.scaleBy(2, viewport.atCenter())
+
     // Make viewport interactive as the space has content.
     viewportManager.enableNavigation()
 
