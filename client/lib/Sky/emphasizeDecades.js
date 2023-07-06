@@ -10,5 +10,7 @@ module.exports = function (beginYear, endYear) {
 
   for (const path in this.strata) {
     this.strata[path].emphasizeDecades(beginYear, endYear)
+    // Layout might change, thus reposition the children.
+    this.loader.remapChildren(path)
   }
 }

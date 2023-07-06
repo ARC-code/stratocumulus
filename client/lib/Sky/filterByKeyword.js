@@ -10,5 +10,7 @@ module.exports = function (keyword) {
   for (const path in this.strata) {
     const stratum = this.strata[path]
     stratum.filterByKeyword(keyword)
+    // Layout might change, thus reposition the children.
+    this.loader.remapChildren(path)
   }
 }
