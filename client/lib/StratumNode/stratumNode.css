@@ -30,7 +30,6 @@
   transition: left 0.5s ease;
 }
 .node-label .node-label-count {
-  float: left;
   font-size: 50%;
 }
 
