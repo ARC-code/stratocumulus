@@ -114,6 +114,7 @@ proto.load = require('./load')
 proto.prune = require('./prune')
 proto.recomputeBoundingCircle = require('./recomputeBoundingCircle')
 proto.refreshLayout = require('./refreshLayout')
+proto.refreshNodeSizes = require('./refreshNodeSizes')
 proto.remove = require('./remove')
 // TODO proto.removeEdges
 proto.render = require('./render')
