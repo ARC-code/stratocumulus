@@ -6,15 +6,6 @@ const Toolbar = require('./Toolbar')
 const ViewportManager = require('./ViewportManager')
 const clientVersion = require('./version')
 
-// TEMP, patch tapspace
-tapspace.interaction.WheelZoom = require('./WheelZoom')
-tapspace.interaction.KeyboardZoom = require('./KeyboardZoom')
-tapspace.components.BasisComponent.prototype.isPlanar = () => true
-tapspace.components.TransformerComponent.prototype.isPlanar = () => true
-tapspace.components.Hyperspace.prototype.isPlanar = () => true
-tapspace.components.Plane.prototype.isPlanar = () => true
-tapspace.components.Space.prototype.isPlanar = () => true
-
 exports.start = function () {
   // DEBUG message to help dev to differentiate between:
   // - app bundle is ok but we are offline (ok message, no UI action)
@@ -42,37 +33,36 @@ exports.start = function () {
 
   // Init stratum loader and begin loading the first stratum
   const sky = new Sky(viewport)
-
   // Begin from the root stratum path '/'
-  const firstPoint = viewport.atCenter()
-  const firstScale = viewport.getScale()
-  const firstStratum = sky.createStratum(
-    '/', // Path
-    {}, // Context
-    'ARC', // Label
-    '#444444', // Color
-    firstPoint, // Position
-    firstScale // Scale
-  )
+  sky.init('/')
 
   // Once the first stratum has some rendered content,
   // make the viewport interactive and begin refreshing labels.
-  firstStratum.once('first', () => {
+  sky.once('first', () => {
+    // TODO estimated fit to content
+    viewport.scaleBy(2, viewport.atCenter())
+
     // Make viewport interactive as the space has content.
     viewportManager.enableNavigation()
 
-    // Begin to show/hide labels after zoom
-    sky.refreshLabels()
+    // Begin to manage visibility and loading of things after navigation.
+    // - show/hide labels
+    // - detect current stratum
+    // - open/close nodes.
     viewport.on('idle', () => {
-      sky.refreshLabels()
+      sky.revealLabels()
     })
+
+    // Also, show/hide labels after the first.
+    sky.revealLabels()
   })
 
-  // Once the first stratum has been rendered completely, so something.
-  firstStratum.once('final', () => {
-    // TODO release time slider
-    // TODO Take a snapshot or add a breadcrumb
-  })
+  // // Once the first stratum has been rendered completely, do something.
+  // firstStratum.once('final', () => {
+  //   sky.revealLabels()
+  //   // TODO release time slider
+  //   // TODO Take a snapshot or add a breadcrumb
+  // })
 
   // Connect search bar
   toolbar.on('search', (ev) => {

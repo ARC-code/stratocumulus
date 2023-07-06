@@ -11,6 +11,11 @@ module.exports = function () {
   const viewport = this.space.getViewport()
   const nodes = Object.values(this.renderedNodes)
 
+  if (!viewport) {
+    // Not yet in DOM
+    return
+  }
+
   nodes.forEach((node) => {
     const nodeItem = node.component
     const dilation = viewport.measureDilation(nodeItem)

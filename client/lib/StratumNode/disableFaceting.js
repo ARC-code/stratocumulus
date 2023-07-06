@@ -1,8 +1,5 @@
 module.exports = function () {
-  // Disable further faceting and instead move viewport closer.
+  // Disable opening of the node.
   //
-  if (this.facetingEnabled) {
-    this.facetingEnabled = false
-    this.enableFocusing()
-  }
+  this.tapToOpen = false
 }

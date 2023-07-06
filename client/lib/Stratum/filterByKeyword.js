@@ -16,7 +16,7 @@ module.exports = function (keyword) {
   }
 
   // Update the filtering context for further queries.
-  this.context.q = keyword
+  this.context = this.context.remove('q').append('q', keyword)
 
   const beginBuildJob = () => {
     // Send a new build job with the updated context.
@@ -34,17 +34,15 @@ module.exports = function (keyword) {
 
     // Invalidate nodes in order to remove extra.
     stratumModel.staleAll(this.graph)
-    stratumModel.freezeLayout(this.graph)
-    this.refreshLayout()
+    this.refreshNodeSizes()
     // Mark that we are loading again.
     this.loading = true
     io.stream.sendStratumBuildJob(this.path, this.context)
-    // Unfreeze and remove all the stale.
+    // Remove all the stale.
     this.once('final', () => {
       stratumModel.pruneStale(this.graph)
-      stratumModel.unfreezeLayout(this.graph)
       this.prune()
-      this.refreshLayout()
+      this.refreshNodeSizes()
     })
   }
 

@@ -1,21 +1,24 @@
+require('./stratumNode.css')
 const tapspace = require('tapspace')
 const labelCache = require('../labelCache')
 
 const StratumNode = function (key, attrs, space) {
   // A node in a stratum. Stratum maintains set of nodes.
+  // A slave component, causes only visual side-effects, model-ignorant.
   //
   // StratumNode inherits Emitter
   //
   // Parameters:
   //   key
-  //     string, graph node key
+  //     string, graph node key, e.g. "/arc/genres" or "/arc/genres/1234"
   //   attrs
-  //     object, graph node attributes
+  //     object, the initial graph node attributes.
   //   space
   //     a tapspace.components.Space or Plane.
   //
   // Emits:
-  //   open
+  //   openingrequest `{ nodeKey: <string>, item: <Component> }`
+  //     when the user interacts with the node in order to open something.
   //
 
   // References to sub-node elements.
@@ -23,14 +26,19 @@ const StratumNode = function (key, attrs, space) {
   // this.labelElement
   // this.countElement
 
-  // HACK cache node labels for stratum context labels
+  // HACK cache node labels for substratum context labels
   labelCache.store(attrs.facetParam, attrs.facetValue, attrs.label)
 
-  const newItem = tapspace.createItem('')
+  // Constant rendering size 256x256
+  const radiusPx = 128
+  const newItem = tapspace.createNode(radiusPx)
   newItem.addClass('stratum-node')
 
-  // Render in this pixel size
-  newItem.setSize(256, 256)
+  // HACK to gray out nodes we are inside.
+  if (attrs.kind !== 'root' && attrs.kind !== 'grouping' && !attrs.isFacetable) {
+    newItem.addClass('context-node')
+  }
+
   // Gravity at node center
   newItem.setAnchor(newItem.atCenter())
   // Disable interaction with node content.
@@ -39,21 +47,41 @@ const StratumNode = function (key, attrs, space) {
   // Make it easy to find node attributes via tapspace component.
   newItem.nodeKey = key
 
-  // Track if the item is interactive for faceting.
-  this.facetingEnabled = false
-  // Make interactive for navigational tap.
+  // Interactive attributes for the node
+  this.tapToZoom = true
+  this.tapToOpen = false
+  // Setup interaction
   newItem.tappable({ preventDefault: false })
-  this.ontap = () => {}
-  newItem.on('tap', (ev) => (
-    this.ontap(ev)
-  ))
+  newItem.on('tap', (ev) => {
+    if (this.tapToZoom) {
+      const viewport = this.component.getViewport()
+      viewport.animateOnce({ duration: 500 })
+      viewport.zoomToFill(this.component, 0.3)
+    }
 
-  this.space = space
-  this.space.addChild(newItem)
+    if (this.tapToOpen) {
+      // Send event to be handled in Stratum
+      const openingRequest = new window.CustomEvent('openingrequest', {
+        bubbles: true,
+        detail: this.key
+      })
+      this.component.element.dispatchEvent(openingRequest)
+      // Make look open and loading
+      this.open()
+      this.setLoadingAnimation(true)
+    }
+  })
+
+  this.key = key
+
+  this.space = space // TODO move out
+  this.space.addChild(newItem) // TODO move out
   this.component = newItem
 
+  // Cache attributes. The real up-to-date attributes are in the graph model.
+  this.attributesCache = attrs
+
   this.updateCount(attrs)
-  this.enableFocusing()
 }
 
 module.exports = StratumNode
@@ -61,14 +89,16 @@ const proto = StratumNode.prototype
 proto.isStratumNode = true
 
 // Methods
-// proto.getElement // for adding the node to space
+proto.close = require('./close')
 proto.disableFaceting = require('./disableFaceting')
 proto.enableFaceting = require('./enableFaceting')
-proto.enableFocusing = require('./enableFocusing')
 proto.getOrigin = require('./getOrigin')
 proto.getRadius = require('./getRadius')
-// proto.getScale // get current or intented scale? for matching.
-proto.makeFaceted = require('./makeFaceted')
+proto.getScale = require('./getScale')
+proto.isFacetable = require('./isFacetable')
+proto.isFaceted = require('./isFaceted')
+proto.open = require('./open')
 proto.remove = require('./remove')
+proto.setLoadingAnimation = require('./setLoadingAnimation')
 proto.translateTo = require('./translateTo')
 proto.updateCount = require('./updateCount')

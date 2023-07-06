@@ -1,9 +1,9 @@
-const tapspace = require('tapspace')
-// Styles
-require('./stratum.css')
+require('./sky.css')
+const emitter = require('component-emitter')
+const loader = require('./loader')
 
 const Sky = function (viewport) {
-  // Sky, Atmosphere, StratumManager...
+  // Sky manages stratum objects and their loading.
   //
   // Parameters:
   //   viewport
@@ -12,27 +12,23 @@ const Sky = function (viewport) {
 
   // Current known set of stratum objects.
   // stratumPath -> Stratum
+  // TODO remove or clarify overlap with the loader.spaces.
   this.strata = {}
-  // Current navigational path.
-  // array of stratumId
-  this.strataTrail = []
-  // The index of the current stratum.
-  // TODO how to benefit from currently focused stratum?
-  this.currentStratum = 0
 
-  // Setup space for strata.
-  // TODO use tapspace FractalLoader to handle planes.
-  this.space = tapspace.createSpace()
   this.viewport = viewport
-  this.viewport.addChild(this.space)
+
+  this.loader = loader(this)
 }
 
 module.exports = Sky
 const proto = Sky.prototype
 
+// Inherit
+emitter(proto)
+
 // Methods
-proto.createStratum = require('./createStratum')
+proto.init = require('./init')
 proto.emphasizeDecades = require('./emphasizeDecades')
 proto.filterByKeyword = require('./filterByKeyword')
-proto.refreshLabels = require('./refreshLabels')
-proto.removeStratum = require('./removeStratum')
+proto.getOrigin = require('./getOrigin')
+proto.revealLabels = require('./revealLabels')

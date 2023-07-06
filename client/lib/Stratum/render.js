@@ -1,7 +1,9 @@
 const tapspace = require('tapspace')
 const layoutGraph = require('./layout')
 const StratumNode = require('../StratumNode')
-const CorporaCard = require('../CorporaCard')
+const ArtifactCard = require('../ArtifactCard')
+
+const RENDER_SIZE = 2560
 
 module.exports = function (final = false) {
   // Render the graph. If elements already exist, update.
@@ -13,11 +15,6 @@ module.exports = function (final = false) {
   //     boolean, set true to update edges
   //
   const stratumOrigin = this.space.at(0, 0)
-  // const path = this.path
-  // const graph = this.graph
-
-  // const edgeGroup = stratumSpace.edgeGroup
-  // const nodeGroup = stratumSpace.nodeGroup
 
   const layoutPositions = layoutGraph(this.graph, this.context)
 
@@ -32,26 +29,55 @@ module.exports = function (final = false) {
       if (isDataCard) {
         // console.log('DataCard detected')
         // console.log(key, attrs)
-        stratumNode = new CorporaCard(key, attrs, this.nodePlane)
+        stratumNode = new ArtifactCard(key, attrs, this.nodePlane)
       } else {
         stratumNode = new StratumNode(key, attrs, this.nodePlane)
       }
 
+      // Build index of rendered nodes.
       this.renderedNodes[key] = stratumNode
+
+      // Build facet node index.
+      if (!isDataCard && attrs.isFacetable) {
+        const facetParam = attrs.facetParam
+        const facetValue = attrs.facetValue
+        if (facetParam && facetValue) {
+          const facetContext = this.context.append(facetParam, facetValue)
+          const facetPath = facetContext.toFacetPath()
+          this.facetNodeIndex[facetPath] = key
+        }
+      }
     }
 
     // Update position according to the layout.
     const nPosition = layoutPositions[key]
-    const nPoint = stratumOrigin.offset(nPosition.x, nPosition.y)
+    const nodePlaneOrigin = stratumOrigin.changeBasis(this.nodePlane)
+    const nPoint = nodePlaneOrigin.offset(nPosition.x, nPosition.y)
     stratumNode.translateTo(nPoint)
     // Update size and scale according to attributes.
     stratumNode.updateCount(attrs)
   })
 
+  // Re-compute bounding circle at each render.
+  this.recomputeBoundingCircle()
+  // TODO Re-position the stratum w.r.t. its superstratum node.
+  const circleOrigin = this.boundingCircle.atCenter()
+  const circleRadius = this.boundingCircle.getRadius()
+  const circleBottom = circleOrigin.polarOffset(circleRadius, Math.PI / 2)
+  const targetOrigin = this.space.at(0, 0)
+  const targetBottom = this.space.at(0, 0.618 * (RENDER_SIZE / 2))
+  this.nodePlane.match({
+    source: [circleOrigin, circleBottom],
+    target: [targetOrigin, targetBottom],
+    estimator: 'TS'
+  })
+
+  // TODO Display and re-position the context label.
+
   if (final) {
     // Enable faceting
     this.enableFaceting()
-    // Display context label
+    // Display the context label
     this.renderContextLabel()
     // Draw edges
     this.graph.forEachEdge((edgeKey, edgeAttrs, sourceKey, targetKey) => {

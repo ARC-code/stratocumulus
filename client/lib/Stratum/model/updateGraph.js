@@ -34,6 +34,7 @@ module.exports = function (graph, subgraph) {
       graph.setAttribute('structure', subgraph.structure)
       structureKind = subgraph.structure
     } else {
+      console.warn('Invalid subgraph:', subgraph)
       throw new Error('Unexpected missing subgraph structure property')
     }
   } else {
@@ -47,10 +48,12 @@ module.exports = function (graph, subgraph) {
   if (structureKind === 'stratum_graph') {
     if ('nodes' in subgraph) {
       subgraph.nodes.forEach(n => {
-        if (graph.hasNode(n.id)) {
+        // Add new nodes to graph.
+        const nodeKey = n.id
+        if (graph.hasNode(nodeKey)) {
           // Update existing node.
           // Server might send same node multiple times with additional data.
-          graph.updateNodeAttributes(n.id, attrs => {
+          graph.updateNodeAttributes(nodeKey, attrs => {
             const nextNodeAttrs = mergeNodeAttributes(attrs, n)
             if (attrs.stale) {
               // If node was stale, it indicates ongoing filtering
@@ -62,7 +65,7 @@ module.exports = function (graph, subgraph) {
         } else {
           // Construct a new node
           const newNodeAttrs = mergeNodeAttributes({
-            id: n.id,
+            id: nodeKey,
             label: n.label,
             value: 0,
             decades: {},
@@ -74,7 +77,7 @@ module.exports = function (graph, subgraph) {
             facetValue: null,
             stale: false // for cache invalidation during filtering
           }, n)
-          graph.addNode(n.id, newNodeAttrs)
+          graph.addNode(nodeKey, newNodeAttrs)
         }
       })
     }
@@ -96,10 +99,11 @@ module.exports = function (graph, subgraph) {
       subgraph.nodes.forEach(n => {
         // Include only card artifacts.
         if (n.kind && n.kind === 'artifact') {
-          if (graph.hasNode(n.id)) {
+          const nodeKey = n.id
+          if (graph.hasNode(nodeKey)) {
             // Update existing card node.
             // Server might send same node multiple times with additional data.
-            graph.updateNodeAttributes(n.id, attrs => {
+            graph.updateNodeAttributes(nodeKey, attrs => {
               const nextNodeAttrs = mergeNodeAttributes(attrs, n)
               if (attrs.stale) {
                 // If node was stale, it indicates ongoing filtering
@@ -112,7 +116,7 @@ module.exports = function (graph, subgraph) {
             // Construct a new card node
             const newNodeAttrs = mergeNodeAttributes({
               // Default values.
-              id: n.id,
+              id: nodeKey,
               label: n.label,
               kind: 'grouping',
               value: 0,
@@ -127,7 +131,7 @@ module.exports = function (graph, subgraph) {
             }, n)
             // Use some made-up value for cards
             newNodeAttrs.value = 100
-            graph.addNode(n.id, newNodeAttrs)
+            graph.addNode(nodeKey, newNodeAttrs)
           }
         }
       })

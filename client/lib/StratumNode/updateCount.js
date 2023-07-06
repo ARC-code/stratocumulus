@@ -1,4 +1,4 @@
-const nodeTemplate = require('./nodeTemplate')
+const template = require('./template')
 const sizing = require('../config').sizing
 
 module.exports = function (attrs) {
@@ -26,14 +26,14 @@ module.exports = function (attrs) {
   this.component.setScale(0.6 * nSize / sizing.maxNodeSize)
 
   // Just render again and replace
-  this.component.html(nodeTemplate('', attrs))
+  this.component.html(template(attrs))
 
   // TODO need to reset anchor?
 
   // const newSize = { w: nSize, h: nSize }
   // nElem.affine.resizeTo(newSize, nElem.affine.atCenter())
 
-  // const roundElement = nElem.querySelector('.node')
+  // const roundElement = nElem.querySelector('.node-shape')
   // const countElement = nElem.querySelector('.node-label-count')
   //
 

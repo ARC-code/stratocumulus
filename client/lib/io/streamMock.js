@@ -1,7 +1,7 @@
 // Mock of the stream module for offline-development
 
 const Emitter = require('component-emitter')
-const fixture = require('./streamMockFixture')
+const fixture = {} // require('./streamMockFixture')
 
 // Use only one stream; the singleton pattern.
 let graphStream = null
@@ -58,8 +58,10 @@ exports.sendStratumBuildJob = function (path, context) {
     throw new Error('No stream available.')
   }
 
+  const ctx = context.toContextObject()
+
   // DEBUG
-  const msg = `get '${path}' with context ${JSON.stringify(context)}`
+  const msg = `get '${path}' with context ${JSON.stringify(ctx)}`
   console.log('Outgoing request: ' + msg)
 
   setTimeout(() => {
