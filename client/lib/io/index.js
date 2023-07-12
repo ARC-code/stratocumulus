@@ -5,5 +5,8 @@
 // updated backend APIs.
 //
 
+const GraphStore = require('./GraphStore')
+
 exports.corpora = require('./corpora')
 exports.stream = require('./stream')
+exports.graphStore = new GraphStore()

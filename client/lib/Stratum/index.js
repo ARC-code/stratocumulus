@@ -1,8 +1,7 @@
 require('./stratum.css')
-const stratumModel = require('./model')
 const emitter = require('component-emitter')
 const tapspace = require('tapspace')
-const graphCache = require('../graphCache')
+const io = require('../io')
 
 const Stratum = function (context) {
   // @Stratum
@@ -83,12 +82,8 @@ const Stratum = function (context) {
   const circle = { x: 0, y: 0, z: 0, r: 500 }
   this.boundingCircle = new tapspace.geometry.Circle(this.space, circle)
 
-  // graph model
-  this.graph = stratumModel.createGraph()
-  // Cache the graph so that it is not lost if the stratum gets removed.
-  // TODO Is this just premature optimization?
-  // TODO implement on the io level
-  graphCache.store(this.path, this.graph)
+  // Read-only graph model
+  this.graph = io.graphStore.get(this.path, this.context)
 }
 
 module.exports = Stratum

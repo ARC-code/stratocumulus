@@ -34,8 +34,10 @@ module.exports = function (graph, subgraph) {
       graph.setAttribute('structure', subgraph.structure)
       structureKind = subgraph.structure
     } else {
-      console.warn('Invalid subgraph:', subgraph)
-      throw new Error('Unexpected missing subgraph structure property')
+      console.warn('Missing subgraph structure property:', subgraph)
+      subgraph.structure = 'stratum_graph'
+      graph.setAttribute('structure', 'stratum_graph')
+      structureKind = 'stratum_graph'
     }
   } else {
     if (subgraph.structure && subgraph.structure !== structureKind) {

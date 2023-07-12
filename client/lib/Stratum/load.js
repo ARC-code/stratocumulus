@@ -1,5 +1,4 @@
 const io = require('../io')
-const stratumModel = require('./model')
 
 module.exports = function () {
   // Begin constructing stratum from the back-end.
@@ -22,29 +21,26 @@ module.exports = function () {
   this.loading = true
 
   // Begin listen events for the path.
-  io.stream.on(this.path, (subgraph) => {
+  io.graphStore.on(this.path, (ev) => {
     // Insert the subgraph received from the server.
     if (!this.alive) {
       // Stratum was removed during fetch.
       return
     }
 
-    const wasEmpty = (this.graph.order === 0)
-    stratumModel.updateGraph(this.graph, subgraph)
-
-    // Determine if final message for graph
-    const isFinal = ('stage' in subgraph && subgraph.stage === 'final')
+    // Replace the graph
+    this.graph = io.graphStore.get(ev.path)
 
     // Render the graph and do the layout
-    this.render(isFinal)
+    this.render(ev.final)
 
     // Emit 'first' at the first node.
-    if (wasEmpty && this.graph.order > 0) {
+    if (ev.first) {
       this.emit('first')
     }
 
     // Emit 'final' event if last message
-    if (isFinal) {
+    if (ev.final) {
       // Register that loading is now finished.
       this.loading = false
       // Signal e.g. viewport that the graph is rendered.
@@ -53,5 +49,5 @@ module.exports = function () {
   })
 
   // Inform the server we are ready to receive the stratum.
-  io.stream.sendStratumBuildJob(this.path, this.context)
+  io.graphStore.fetch(this.path, this.context)
 }
