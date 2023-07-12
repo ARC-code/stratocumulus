@@ -86,7 +86,7 @@ module.exports = function (final = false) {
       if (!edgeItem) {
         // No such edge yet rendered. Create
         edgeItem = tapspace.createEdge('gray')
-        edgeItem.addClass('edge')
+        edgeItem.addClass('stratum-edge')
         edgeItem.edgeKey = edgeKey
         // or model.edgeKey
         // and consider sourceKey, targetKey

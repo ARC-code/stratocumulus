@@ -3,10 +3,3 @@
   height: 100%;
   z-index: 100;
 }
-
-/* TEMP Patch tapspace */
-.edge {
-  /* tapspace edges use only border-top */
-  border-top: 1px solid rgb(160, 160, 160) !important;
-}
-/* TEMP Patch ends */

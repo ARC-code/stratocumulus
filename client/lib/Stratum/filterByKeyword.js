@@ -34,6 +34,8 @@ module.exports = function (keyword) {
       return
     }
 
+    // Hide edges
+    this.space.addClass('stratum-loading')
     // Invalidate nodes in order to remove extra.
     this.refreshNodeSizes()
     // Mark that we are loading again.
@@ -42,6 +44,7 @@ module.exports = function (keyword) {
     io.graphStore.fetch(this.path, this.context)
     // Remove all the stale.
     this.once('final', () => {
+      this.space.removeClass('stratum-loading')
       this.prune()
       this.refreshNodeSizes()
     })
