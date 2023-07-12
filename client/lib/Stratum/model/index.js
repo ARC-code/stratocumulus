@@ -6,7 +6,6 @@
 //
 
 exports.createGraph = require('./createGraph')
-exports.findNodeByContext = require('./findNodeByContext')
 exports.getCardinality = require('./getCardinality')
 exports.pruneStale = require('./pruneStale')
 exports.staleAll = require('./staleAll')
