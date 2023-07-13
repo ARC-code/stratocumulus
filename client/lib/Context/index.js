@@ -1,4 +1,3 @@
-
 const Context = function (keys, values) {
   // @Context(keys, values)
   //
@@ -62,6 +61,7 @@ Context.fromQueryString = require('./fromQueryString')(Context)
 // Methods
 proto.append = require('./append')
 proto.copy = require('./copy')
+proto.getLastFacet = require('./getLastFacet')
 proto.merge = require('./merge')
 proto.remove = require('./remove')
 proto.removeLastFacet = require('./removeLastFacet')

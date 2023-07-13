@@ -7,6 +7,7 @@ const units = {
   fromContextObject: require('./fromContextObject.test'),
   fromFacetPath: require('./fromFacetPath.test'),
   fromQueryString: require('./fromQueryString.test'),
+  getLastFacet: require('./getLastFacet.test'),
   merge: require('./merge.test'),
   remove: require('./remove.test'),
   removeLastFacet: require('./removeLastFacet.test'),
