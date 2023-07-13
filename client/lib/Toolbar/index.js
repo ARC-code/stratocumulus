@@ -20,7 +20,6 @@ const Toolbar = function () {
 
   this.contextForm = new ContextForm()
   this.element.appendChild(this.contextForm.getElement())
-  this.contextForm.setContext(new Context()) // init
 
   // Forward context events
   this.contextForm.on('change', (ev) => {
