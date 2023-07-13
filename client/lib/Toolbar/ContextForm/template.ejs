@@ -1,1 +1,16 @@
-<span>Hello</span> <span>World</span>
+<h5>Documents:</h5>
+<ul class="facet-list" aria-label="Facets">
+  <li><a href="#">All</a></li>
+<% facets.forEach((facet) => { %>
+  <li title="<%= facet.title %>"><a href="#"><%= facet.label %></a></li>
+<% }) %>
+</ul>
+
+<% if (filters.length > 0) { %>
+<h5>Filtered by:</h5>
+<ul class="filter-list">
+<% filters.forEach((filter) => { %>
+  <li title="<%= filter.title %>"><%= filter.typeLabel %> | <%= filter.label %> | X</li>
+<% }) %>
+</ul>
+<% } %>
