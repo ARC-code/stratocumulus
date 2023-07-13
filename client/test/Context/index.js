@@ -12,6 +12,7 @@ const units = {
   removeLastFacet: require('./removeLastFacet.test'),
   toArray: require('./toArray.test'),
   toFacetPath: require('./toFacetPath.test'),
+  toNodeKey: require('./toNodeKey.test'),
   toQueryString: require('./toQueryString.test')
 }
 

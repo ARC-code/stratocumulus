@@ -1,3 +1,5 @@
+const findLastFacetIndex = require('./model/findLastFacetIndex')
+
 module.exports = function () {
   // @Context:removeLastFacet()
   //
@@ -11,13 +13,7 @@ module.exports = function () {
   //
 
   // Find last faceting parameter.
-  const len = this.keys.length
-  let last = -1
-  for (let i = 0; i < len; i += 1) {
-    if (this.keys[i].startsWith('f_')) {
-      last = i
-    }
-  }
+  const last = findLastFacetIndex(this.keys)
 
   if (last < 0) {
     // No faceting parameters found.
