@@ -1,5 +1,6 @@
 const io = require('./io')
 const tapspace = require('tapspace')
+const Context = require('./Context')
 const Sky = require('./Sky')
 const TimeSlider = require('./TimeSlider')
 const Toolbar = require('./Toolbar')
@@ -13,6 +14,9 @@ exports.start = function () {
   // - app bundle is cached (ok message, old versions)
   console.log('stratocumulus-client v' + clientVersion)
   console.log('tapspace.js v' + tapspace.version)
+
+  // Global filtering context
+  let context = new Context()
 
   // Open SSE stream
   io.stream.connect()
@@ -65,6 +69,7 @@ exports.start = function () {
   // })
 
   // Navigation changes current context.
+  // TODO rename to 'navigation'
   sky.on('contextchange', (ev) => {
     const currentContext = ev.context
     console.log('context changed', ev.context.toContextObject())
@@ -74,12 +79,31 @@ exports.start = function () {
   // Connect search bar
   toolbar.on('search', (ev) => {
     // Filter strata by search query
+    // TODO update strata based on the global filtering context object.
     sky.filterByKeyword(ev.query)
+    // Update context
+    context = context.remove('q').append('q', ev.query)
+    // Feed to context form
+    toolbar.contextForm.setContext(context)
+  })
+
+  toolbar.on('clear', (ev) => {
+    // Update context
+    context = context.remove(ev.parameter)
+    // Feed to context form
+    toolbar.contextForm.setContext(context)
+    // TODO clear sky context
   })
 
   // Connect time range slider
   slider.on('change', (ev) => {
     // Update strata based on the year range
+    // TODO update strata based on the global filtering context object.
     sky.emphasizeDecades(ev.rangeStart, ev.rangeEnd)
+    // Update context
+    const rangeValue = ev.rangeStart + 'to' + ev.rangeEnd
+    context = context.remove('r_years').append('r_years', rangeValue)
+    // Feed to context form
+    toolbar.contextForm.setContext(context)
   })
 }

@@ -4,6 +4,10 @@ const emitter = require('component-emitter')
 const SearchForm = function () {
   // A search bar and a submit button
   //
+  // Emits
+  //   submit
+  //     when a non-empty search keyword is submitted
+  //
 
   const form = document.createElement('form')
   form.className = 'search-box'
@@ -23,9 +27,12 @@ const SearchForm = function () {
     ev.preventDefault()
 
     const query = form.querySelector('.search-text').value.trim()
-    this.emit('submit', {
-      query: query
-    })
+
+    if (query.length > 0) {
+      this.emit('submit', {
+        query: query
+      })
+    }
   })
 }
 

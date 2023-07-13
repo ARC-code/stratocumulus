@@ -7,6 +7,10 @@ const Context = require('../Context')
 const Toolbar = function () {
   // A component for search and information tools.
   //
+  // Emits:
+  //   search { query }
+  //   clear { parameter }
+  //
   this.element = document.createElement('div')
   this.element.className = 'toolbar-box'
 
@@ -22,8 +26,8 @@ const Toolbar = function () {
   this.element.appendChild(this.contextForm.getElement())
 
   // Forward context events
-  this.contextForm.on('change', (ev) => {
-    this.emit('contextchange', ev)
+  this.contextForm.on('clear', (ev) => {
+    this.emit('clear', ev)
   })
 }
 

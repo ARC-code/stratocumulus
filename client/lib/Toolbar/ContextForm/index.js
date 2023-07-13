@@ -9,6 +9,9 @@ const ContextForm = function () {
   // It emits events when the context is modified through it.
   // It provides methods to update the context it is currently viewing.
   //
+  // Emits:
+  //   clear { parameter }
+  //
 
   this.ctx = new Context()
 
@@ -17,6 +20,22 @@ const ContextForm = function () {
   this.element.className = 'context-box'
   // Create content
   this.render()
+
+  // Bind once. Delegate via root element.
+  this.element.addEventListener('click', (ev) => {
+    const dataset = ev.target.dataset
+    if (!dataset.facetParam) {
+      // Clicked outside active elements.
+      return
+    }
+
+    if (dataset.action === 'remove') {
+      const param = dataset.facetParam
+      this.emit('clear', {
+        parameter: dataset.facetParam
+      })
+    }
+  })
 }
 
 module.exports = ContextForm
