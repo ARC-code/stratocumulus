@@ -1,3 +1,4 @@
+require('./searchform.css')
 const emitter = require('component-emitter')
 
 const SearchForm = function () {

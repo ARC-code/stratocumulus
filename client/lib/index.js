@@ -24,7 +24,7 @@ exports.start = function () {
   // Setup search tools
   const toolbar = new Toolbar()
   const toolbarControl = tapspace.createControl(toolbar.getElement())
-  toolbarControl.setSize(250, 60)
+  toolbarControl.setSize(256, 60)
   viewport.addControl(toolbarControl, viewport.at(10, 12))
 
   // Setup year range slider
