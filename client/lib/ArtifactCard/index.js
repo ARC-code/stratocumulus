@@ -45,6 +45,7 @@ const proto = ArtifactCard.prototype
 proto.translateTo = require('./translateTo')
 proto.getOrigin = require('./getOrigin')
 proto.getRadius = require('./getRadius')
+proto.isFacetable = require('./isFacetable')
 
 // TODO make it unnecessary to implement every StratumNode method.
 proto.updateCount = () => {}
