@@ -20,7 +20,9 @@ module.exports = function (path, context) {
   // Start loading.
   stream.sendStratumBuildJob(path, context)
 
-  // TODO prevent re-listening if already listening
+  // Start listening the stream.
+  // Prevent duplicated listening by removing other listeners beforehand.
+  stream.off(path)
   stream.on(path, (subgraph) => {
     // Get the graph to update. Create if not yet existing.
     let graph = this.graphs[path]
