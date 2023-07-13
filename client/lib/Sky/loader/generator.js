@@ -1,4 +1,5 @@
 const Stratum = require('../../Stratum')
+const io = require('../../io')
 
 module.exports = (sky, loader) => {
   // Generator for TreeLoader. Generator defines how the loaded spaces
@@ -26,6 +27,28 @@ module.exports = (sky, loader) => {
     // Create
     const stratum = new Stratum(context)
     sky.strata[path] = stratum
+
+    // Populate with a single node. This node will be upgraded later.
+    // TODO smells hacky
+    if (ev.childId && stratum.graph.order === 0) {
+      const subStratum = sky.strata[ev.childId]
+      if (subStratum) {
+        const lastFacet = subStratum.context.getLastFacet()
+        const nodeKey = subStratum.context.toNodeKey()
+        const label = io.labelStore.read(lastFacet.parameter, lastFacet.value)
+        io.graphStore.provide(path, {
+          id: nodeKey,
+          kind: lastFacet.kind, // TODO do not use parameter-based kind, sketcy
+          label: label || '', // will be replaced in load
+          is_facetable: true,
+          facet_param: lastFacet.parameter,
+          facet_value: lastFacet.value
+        })
+      }
+    }
+
+    // Attempt to render.
+    stratum.render()
 
     // Add stratum to space via the loader.
     const spaceAdded = loader.addSpace(path, stratum.getSpace())
@@ -75,14 +98,14 @@ module.exports = (sky, loader) => {
     stratum.once('final', () => {
       // Add the stratum to space if not yet added.
       if (ev.childId) {
-        if (loader.hasSpace(path)) {
-          // Already in space. OK.
-          return
-        }
-        const spaceAdded = loader.addSpace(path, stratum.getSpace())
-        if (!spaceAdded) {
-          // Likely no mapping found yet in case of a superstratum
-          console.warn('Could not add space at final:', path)
+        if (!loader.hasSpace(path)) {
+          // Add if not yet added.
+          const spaceAdded = loader.addSpace(path, stratum.getSpace())
+          if (!spaceAdded) {
+            // Likely no mapping found yet in case of a superstratum
+            console.warn('Could not add space at final:', path)
+            return
+          }
         }
 
         // Ensure the child node looks opened.
