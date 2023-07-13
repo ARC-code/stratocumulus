@@ -35,7 +35,7 @@ module.exports = (sky, loader) => {
       console.warn('Could not add space', path)
     }
 
-    // Begin loading and rendering
+    // Begin loading (and rendering at each incoming event)
     stratum.load()
 
     // If this stratum was opened by a superstratum,
@@ -62,12 +62,12 @@ module.exports = (sky, loader) => {
     }
 
     // Begin listening strata and nodes.
-    stratum.on('substratumrequest', (ev) => {
+    stratum.on('substratumrequest', (rev) => {
       // This event tells us that an interaction within the stratum
       // requested a substratum to be built and rendered.
-      const childPath = ev.context.toFacetPath()
+      const childPath = rev.context.toFacetPath()
       // Pass to next open
-      const eventData = { context: ev.context }
+      const eventData = { context: rev.context }
       loader.openChild(path, childPath, eventData)
     })
 

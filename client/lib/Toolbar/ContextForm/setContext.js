@@ -1,6 +1,3 @@
-const template = require('./template.ejs')
-const io = require('../../io')
-
 module.exports = function (newContext) {
   // @ContextForm:setContext(newContext)
   //

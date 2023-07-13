@@ -2,7 +2,6 @@ require('./toolbar.css')
 const emitter = require('component-emitter')
 const SearchForm = require('./SearchForm')
 const ContextForm = require('./ContextForm')
-const Context = require('../Context')
 
 const Toolbar = function () {
   // A component for search and information tools.

@@ -22,7 +22,7 @@ module.exports = function () {
   const labeledArray = contextArray.map((item) => {
     let label = ''
     let typeLabel = ''
-    let title = item.parameter + '=' + item.value
+    const title = item.parameter + '=' + item.value
 
     switch (item.type) {
       case 'f':
