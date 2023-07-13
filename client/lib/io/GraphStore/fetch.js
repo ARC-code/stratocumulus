@@ -17,14 +17,12 @@ module.exports = function (path, context) {
 
   // Not yet loading. Do we have the graph already?
   if (this.graphs[path]) {
-    const cachedPath = path
-    const cachedGraph = this.graphs[path]
     const first = true
     const final = true
     setTimeout(() => {
-      this.emit(cachedPath, { path, context, first, final })
+      this.emit(path, { path, context, first, final })
     }, 0)
-    
+
     return
   }
 

@@ -19,6 +19,9 @@ module.exports = (nodeAttrs, newAttrs) => {
   if ('value' in newAttrs) {
     changeSet.value = newAttrs.value
   }
+  if ('label' in newAttrs) {
+    changeSet.label = newAttrs.label
+  }
   if ('decades' in newAttrs) {
     changeSet.decades = newAttrs.decades
   }

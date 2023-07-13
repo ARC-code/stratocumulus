@@ -36,3 +36,4 @@ emitter(proto)
 
 proto.fetch = require('./fetch')
 proto.get = require('./get')
+proto.provide = require('./provide')
