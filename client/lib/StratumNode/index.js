@@ -1,6 +1,5 @@
 require('./stratumNode.css')
 const tapspace = require('tapspace')
-const labelCache = require('../labelCache')
 
 const StratumNode = function (key, attrs, space) {
   // A node in a stratum. Stratum maintains set of nodes.
@@ -25,9 +24,6 @@ const StratumNode = function (key, attrs, space) {
   // this.circleElement
   // this.labelElement
   // this.countElement
-
-  // HACK cache node labels for substratum context labels
-  labelCache.store(attrs.facetParam, attrs.facetValue, attrs.label)
 
   // Constant rendering size 256x256
   const radiusPx = 128

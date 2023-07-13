@@ -1,5 +1,5 @@
 const tapspace = require('tapspace')
-const labelCache = require('../labelCache')
+const io = require('../io')
 
 const makeLabelText = (context) => {
   const base = 'Everything filtered by'
@@ -12,7 +12,7 @@ const makeLabelText = (context) => {
     // Check if any labels for the facet param and value
     for (let j = 0; j < fValues.length; j += 1) {
       const fValue = fValues[j]
-      const label = labelCache.read(fParam, fValue)
+      const label = io.labelStore.read(fParam, fValue)
       if (label) {
         validLabels.push(label)
       }

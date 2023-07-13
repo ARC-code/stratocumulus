@@ -1,9 +1,13 @@
 const emitter = require('component-emitter')
 
-const GraphStore = function () {
+const GraphStore = function (labelStore) {
   // @GraphStore
   //
   // Emits path events.
+  //
+  // Parameters:
+  //   labelStore
+  //     a LabelStore. Graph store is responsible of populating the label store
   //
 
   // Store graphs here. Structure:
@@ -19,6 +23,9 @@ const GraphStore = function () {
   // initial -> partial -> complete
   // complete -> filtering -> complete
   // partial -> filtering -> partial
+
+  // Populate label store using node labels
+  this.labelStore = labelStore
 }
 
 module.exports = GraphStore

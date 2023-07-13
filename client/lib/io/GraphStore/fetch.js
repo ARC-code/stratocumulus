@@ -36,6 +36,13 @@ module.exports = function (path, context) {
     updateGraph(graph, subgraph)
     const stillEmpty = (graph.order === 0)
 
+    // Populate the label store using the facet nodes.
+    subgraph.nodes.forEach(n => {
+      if (n.facet_param && n.facet_value && n.label) {
+        this.labelStore.write(n.facet_param, n.facet_value, n.label)
+      }
+    })
+
     // Detect when has some content.
     // Implies that the graph has content to render.
     const wasFirst = wasEmpty && !stillEmpty
