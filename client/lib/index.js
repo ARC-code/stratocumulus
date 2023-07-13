@@ -64,6 +64,13 @@ exports.start = function () {
   //   // TODO Take a snapshot or add a breadcrumb
   // })
 
+  // Navigation changes current context.
+  sky.on('contextchange', (ev) => {
+    const currentContext = ev.context
+    console.log('context changed', ev.context.toContextObject())
+    toolbar.contextForm.setContext(currentContext)
+  })
+
   // Connect search bar
   toolbar.on('search', (ev) => {
     // Filter strata by search query

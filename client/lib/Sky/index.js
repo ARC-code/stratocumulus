@@ -9,6 +9,10 @@ const Sky = function (viewport) {
   //   viewport
   //     a tapspace.components.Viewport
   //
+  // Emits:
+  //   contextchange
+  //     when current stratum changes
+  //
 
   // Current known set of stratum objects.
   // stratumPath -> Stratum

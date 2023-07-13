@@ -8,6 +8,10 @@ module.exports = (sky, loader) => {
   //   sky
   //   loader
   //
+
+  // Detect when current stratum changes.
+  let previousStratumPath = null
+
   sky.viewport.on('idle', () => {
     // DEBUG
     // console.log('sky.strata:', Object.keys(sky.strata).join(', '))
@@ -47,6 +51,14 @@ module.exports = (sky, loader) => {
         const subpath = subcontext.toFacetPath()
         const eventData = { context: subcontext }
         loader.openChild(currentStratumPath, subpath, eventData)
+      }
+
+      // Detect change of context.
+      if (previousStratumPath !== currentStratumPath) {
+        previousStratumPath = currentStratumPath
+        sky.emit('contextchange', {
+          context: currentStratum.context.copy()
+        })
       }
     }
 

@@ -1,6 +1,7 @@
+require('./toolbar.css')
 const emitter = require('component-emitter')
 const SearchForm = require('./SearchForm')
-require('./toolbar.css')
+const ContextForm = require('./ContextForm')
 
 const Toolbar = function () {
   // A component for search and information tools.
@@ -9,12 +10,19 @@ const Toolbar = function () {
   this.element.className = 'toolbar-box'
 
   this.searchForm = new SearchForm()
-
   this.element.appendChild(this.searchForm.getElement())
 
   // Forward search events
   this.searchForm.on('submit', (ev) => {
     this.emit('search', ev)
+  })
+
+  this.contextForm = new ContextForm()
+  this.element.appendChild(this.contextForm.getElement())
+
+  // Forward context events
+  this.contextForm.on('change', (ev) => {
+    this.emit('contextchange', ev)
   })
 }
 
