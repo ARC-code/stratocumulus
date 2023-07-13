@@ -1,7 +1,7 @@
 const tapspace = require('tapspace')
 const layoutGraph = require('./layout')
 const StratumNode = require('../StratumNode')
-const ArtifactCard = require('../ArtifactCard')
+const ArtifactNode = require('../ArtifactNode')
 
 const RENDER_SIZE = 2560
 
@@ -29,7 +29,7 @@ module.exports = function (final = false) {
       if (isDataCard) {
         // console.log('DataCard detected')
         // console.log(key, attrs)
-        stratumNode = new ArtifactCard(key, attrs, this.nodePlane)
+        stratumNode = new ArtifactNode(key, attrs, this.nodePlane)
       } else {
         stratumNode = new StratumNode(key, attrs, this.nodePlane)
       }
