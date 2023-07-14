@@ -2,7 +2,10 @@ const findCurrentStratum = require('./findCurrentStratum')
 const findCurrentNode = require('./findCurrentNode')
 
 module.exports = (sky, loader) => {
-  // Driver for TreeLoader. Driver is an idle handler.
+  // Driver for TreeLoader.
+  // Driver is a handler ran at each viewport idle event.
+  // Driver is responsible of triggering semantic zooming effects.
+  // Driver initiates the loading of sub- and superstrata.
   //
   // Parameters:
   //   sky
@@ -61,6 +64,13 @@ module.exports = (sky, loader) => {
         })
       }
     }
+
+    // Reveal and hide node labels at each idle.
+    Object.values(loader.spaces).forEach((space) => {
+      if (space.stratum) {
+        space.stratum.revealLabels()
+      }
+    })
 
     // Prevent viewport from getting too far from content.
     // const spaces = sky.viewport.getSpaces()

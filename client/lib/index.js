@@ -48,12 +48,6 @@ exports.start = function () {
 
     // Make viewport interactive as the space has content.
     viewportManager.enableNavigation()
-
-    // Begin to manage visibility of labels after navigation.
-    // - show/hide labels
-    viewport.on('idle', () => {
-      sky.revealLabels()
-    })
   })
 
   // Navigation changes current context.
