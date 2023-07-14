@@ -16,7 +16,7 @@ module.exports = function (keyword) {
 
   // Prevent unnecessary filtering.
   const prevKeyword = this.context.getValue('q')
-  if (prevKeyword === keyword || (!prevKeyword && !keyword)) {
+  if (prevKeyword === keyword) {
     // Filtered already.
     return
   }

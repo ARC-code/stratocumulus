@@ -17,14 +17,35 @@ module.exports = function (path, context) {
 
   // Not yet loading. Do we have the graph already?
   if (this.graphs[path]) {
-    const first = true
-    const final = true
-    setTimeout(() => {
-      this.emit(path, { path, context, first, final })
-    }, 0)
+    if (context.hasParameter('q')) {
+      const keyword = context.getValue('q')
+      // Do we have this keyword already cached?
+      const graph = this.graphs[path]
+      if (graph.hasAttribute('cachedKeywords')) {
+        const cachedKeywords = graph.getAttribute('cachedKeywords')
+        if (cachedKeywords && cachedKeywords.includes(keyword)) {
+          // The keyword query is already cached.
+          const first = true
+          const final = true
+          setTimeout(() => {
+            this.emit(path, { path, context, first, final })
+          }, 0)
 
-    return
+          return
+        }
+      }
+    } else {
+      // Complete graph exists. No keyword filters. TODO
+      const first = true
+      const final = true
+      setTimeout(() => {
+        this.emit(path, { path, context, first, final })
+      }, 0)
+
+      return
+    }
   }
+  // Assert: the graph is not cached OR its filter is not cached.
 
   // Mark that the graph is loading.
   this.loading[path] = true
