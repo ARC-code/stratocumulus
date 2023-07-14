@@ -14,6 +14,13 @@ module.exports = function (keyword) {
     return
   }
 
+  // Prevent unnecessary filtering.
+  const prevKeyword = this.context.getValue('q')
+  if (prevKeyword === keyword || (!prevKeyword && !keyword)) {
+    // Filtered already.
+    return
+  }
+
   // Update the filtering context for further queries.
   this.context = this.context.remove('q')
   if (keyword.length > 0) {

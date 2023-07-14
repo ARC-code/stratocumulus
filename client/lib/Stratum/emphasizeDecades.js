@@ -19,6 +19,17 @@ module.exports = function (beginYear, endYear) {
     endYear = trueEnd
   }
 
+  // Prevent unnecessary filtering
+  const prevRange = this.context.getRangeValue('r_years')
+  if (
+    prevRange &&
+    prevRange.rangeStart === beginYear &&
+    prevRange.rangeEnd === endYear
+  ) {
+    // Already filtered
+    return
+  }
+
   // Update the filtering context for further queries
   this.context = this.context
     .remove('r_years')
