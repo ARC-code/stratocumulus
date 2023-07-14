@@ -32,12 +32,13 @@ module.exports = function (key, value) {
   const len = this.keys.length
   for (let i = 0; i < len; i += 1) {
     if (this.keys[i] === key) {
-      // Same key, maybe skip.
+      // Same key, maybe remove value.
       if (matchValue && this.values[i] !== value) {
         // Same key but different value, thus keep.
         keys.push(this.keys[i])
         values.push(this.values[i])
       }
+      // else remove the key by skipping.
     } else {
       // Different key, thus keep.
       keys.push(this.keys[i])

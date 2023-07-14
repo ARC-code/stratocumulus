@@ -26,7 +26,12 @@ const Toolbar = function () {
 
   // Forward context events
   this.contextForm.on('clear', (ev) => {
-    this.emit('clear', ev)
+    if (ev.parameter === 'q') {
+      this.emit('filter/keyword/clear')
+    }
+    if (ev.parameter === 'r_years') {
+      this.emit('filter/years/clear')
+    }
   })
 }
 

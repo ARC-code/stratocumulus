@@ -24,5 +24,10 @@ module.exports = (state, action) => {
     return state.remove('r_years').append('r_years', value)
   }
 
+  // Year range
+  if (action.type === 'filter/years/clear') {
+    return state.remove('r_years').append('r_years', '400to2100')
+  }
+
   return state
 }

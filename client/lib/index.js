@@ -63,9 +63,14 @@ exports.start = function () {
       keyword: ev.query
     })
   })
-  toolbar.on('clear', (ev) => {
+  toolbar.on('filter/keyword/clear', (ev) => {
     io.contextStore.dispatch({
       type: 'filter/keyword/clear'
+    })
+  })
+  toolbar.on('filter/years/clear', (ev) => {
+    io.contextStore.dispatch({
+      type: 'filter/years/clear'
     })
   })
 
