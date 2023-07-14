@@ -8,6 +8,8 @@ const units = {
   fromFacetPath: require('./fromFacetPath.test'),
   fromQueryString: require('./fromQueryString.test'),
   getLastFacet: require('./getLastFacet.test'),
+  getValue: require('./getValue.test'),
+  hasParameter: require('./hasParameter.test'),
   merge: require('./merge.test'),
   remove: require('./remove.test'),
   removeLastFacet: require('./removeLastFacet.test'),
