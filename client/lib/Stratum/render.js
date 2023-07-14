@@ -28,10 +28,13 @@ module.exports = function (final = false) {
       if (isDataCard) {
         // console.log('DataCard detected')
         // console.log(key, attrs)
-        stratumNode = new ArtifactNode(key, attrs, this.nodePlane)
+        stratumNode = new ArtifactNode(key, attrs)
       } else {
-        stratumNode = new StratumNode(key, attrs, this.nodePlane)
+        stratumNode = new StratumNode(key, attrs)
       }
+
+      this.nodePlane.addChild(stratumNode.component)
+      stratumNode.render(attrs)
 
       // Build index of rendered nodes.
       this.renderedNodes[key] = stratumNode
@@ -54,7 +57,7 @@ module.exports = function (final = false) {
     const nPoint = nodePlaneOrigin.offset(nPosition.x, nPosition.y)
     stratumNode.translateTo(nPoint)
     // Update size and scale according to attributes.
-    stratumNode.updateCount(attrs)
+    stratumNode.render(attrs)
   })
 
   // Re-compute bounding circle at each render.

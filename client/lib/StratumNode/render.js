@@ -2,11 +2,12 @@ const template = require('./template')
 const sizing = require('../config').sizing
 
 module.exports = function (attrs) {
-  // StratumNode:updateCount(attrs)
+  // StratumNode:render(attrs)
   //
   // Parameters:
   //   attrs
   //     graph model node attributes
+  //
 
   let nSize = sizing.minNodeSize
   if ('size' in attrs) {
@@ -27,25 +28,4 @@ module.exports = function (attrs) {
 
   // Just render again and replace
   this.component.html(template(attrs))
-
-  // TODO need to reset anchor?
-
-  // const newSize = { w: nSize, h: nSize }
-  // nElem.affine.resizeTo(newSize, nElem.affine.atCenter())
-
-  // const roundElement = nElem.querySelector('.node-shape')
-  // const countElement = nElem.querySelector('.node-label-count')
-  //
-
-  // // Update the label count. Some nodes do not have counts.
-  // // Stale nodes have unknown count.
-  // if (countElement) {
-  //   if (nodeIsStale) {
-  //     // Still waiting for valid count
-  //     countElement.innerText = '***'
-  //   } else {
-  //     // Add thousands separator for readability
-  //     countElement.innerText = nodeValue.toLocaleString('en-US')
-  //   }
-  // }
 }

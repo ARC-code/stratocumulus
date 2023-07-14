@@ -1,9 +1,9 @@
+require('./artifactnode.css')
 const tapspace = require('tapspace')
 const generateDataPlaneCardContent = require('./generateDataPlaneCardContent')
 const getArtifactId = require('./getArtifactId')
-require('./style.css')
 
-const ArtifactNode = function (key, attrs, space) {
+const ArtifactNode = function (key, attrs) {
   // DataCard is a card-like element in space.
   //
   // Parameters:
@@ -11,8 +11,6 @@ const ArtifactNode = function (key, attrs, space) {
   //     a string, node key
   //   attrs
   //     node attributes
-  //   space
-  //     a parent space
   //
 
   const artifactId = getArtifactId(attrs)
@@ -31,21 +29,14 @@ const ArtifactNode = function (key, attrs, space) {
 
   // Begin fetching content for the card.
   generateDataPlaneCardContent(artifactId, this.element)
-
-  this.space = space
-  this.space.addChild(this.component)
-
-  // Make quite small
-  this.component.scaleBy(0.4, this.component.atCenter())
 }
 
 module.exports = ArtifactNode
 const proto = ArtifactNode.prototype
 
+// TODO make it unnecessary to implement every StratumNode method.
 proto.translateTo = require('./translateTo')
 proto.getOrigin = require('./getOrigin')
 proto.getRadius = require('./getRadius')
 proto.isFacetable = require('./isFacetable')
-
-// TODO make it unnecessary to implement every StratumNode method.
-proto.updateCount = () => {}
+proto.render = require('./render')

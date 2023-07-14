@@ -15,7 +15,7 @@ module.exports = function () {
 
     if (stratumNode) {
       // Update size and scale according to attributes.
-      stratumNode.updateCount(attrs)
+      stratumNode.render(attrs)
     }
   })
 

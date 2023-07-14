@@ -1,7 +1,7 @@
 require('./stratumNode.css')
 const tapspace = require('tapspace')
 
-const StratumNode = function (key, attrs, space) {
+const StratumNode = function (key, attrs) {
   // A node in a stratum. Stratum maintains set of nodes.
   // A slave component, causes only visual side-effects, model-ignorant.
   //
@@ -12,15 +12,13 @@ const StratumNode = function (key, attrs, space) {
   //     string, graph node key, e.g. "/arc/genres" or "/arc/genres/1234"
   //   attrs
   //     object, the initial graph node attributes.
-  //   space
-  //     a tapspace.components.Space or Plane.
   //
   // Emits:
   //   openingrequest `{ nodeKey: <string>, item: <Component> }`
   //     when the user interacts with the node in order to open something.
   //
 
-  // References to sub-node elements.
+  // TODO References to sub-node elements. Can be done only after rendering...
   // this.circleElement
   // this.labelElement
   // this.countElement
@@ -69,15 +67,11 @@ const StratumNode = function (key, attrs, space) {
   })
 
   this.key = key
-
-  this.space = space // TODO move out
-  this.space.addChild(newItem) // TODO move out
   this.component = newItem
 
   // Cache attributes. The real up-to-date attributes are in the graph model.
+  // TODO needed?
   this.attributesCache = attrs
-
-  this.updateCount(attrs)
 }
 
 module.exports = StratumNode
@@ -95,6 +89,6 @@ proto.isFacetable = require('./isFacetable')
 proto.isFaceted = require('./isFaceted')
 proto.open = require('./open')
 proto.remove = require('./remove')
+proto.render = require('./render')
 proto.setLoadingAnimation = require('./setLoadingAnimation')
 proto.translateTo = require('./translateTo')
-proto.updateCount = require('./updateCount')

@@ -28,7 +28,7 @@ module.exports = function () {
     stratumNode.translateTo(nPoint)
 
     // Update size and scale according to attributes.
-    stratumNode.updateCount(attrs)
+    stratumNode.render(attrs)
   })
 
   this.graph.forEachEdge((edgeKey, edgeAttrs, sourceKey, targetKey) => {
