@@ -59,7 +59,9 @@ module.exports = (sky, loader) => {
       // Detect change of context.
       if (previousStratumPath !== currentStratumPath) {
         previousStratumPath = currentStratumPath
-        sky.emit('contextchange', {
+        sky.emit('navigation', {
+          previousPath: previousStratumPath,
+          currentPath: currentStratumPath,
           context: currentStratum.context.copy()
         })
       }

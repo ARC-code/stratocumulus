@@ -52,9 +52,9 @@ exports.start = function () {
 
   // Navigation changes current context.
   // TODO rename to 'navigation'
-  sky.on('contextchange', (ev) => {
+  sky.on('navigation', (ev) => {
     const currentContext = ev.context
-    console.log('context changed', ev.context.toContextObject())
+    console.log('navigation event', ev.context.toContextObject())
     toolbar.contextForm.setContext(currentContext)
   })
 
