@@ -34,6 +34,11 @@ module.exports = function () {
     // Render the graph and do the layout
     this.render(ev.final)
 
+    // Reveal labels as the layout and sizes may have changed.
+    if (ev.first || ev.final || Math.random() > 0.66) {
+      this.revealLabels()
+    }
+
     // Emit 'first' at the first node.
     if (ev.first) {
       this.emit('first')
