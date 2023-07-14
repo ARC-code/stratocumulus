@@ -1,4 +1,5 @@
 const emitter = require('component-emitter')
+const roundDecade = require('./roundDecade')
 const template = require('./template.ejs')
 // Import styles
 require('./timeslider.css')
@@ -6,7 +7,7 @@ require('./timeslider.css')
 require('toolcool-range-slider/dist/plugins/tcrs-marks.min.js')
 require('toolcool-range-slider')
 
-const THROTTLE_DELAY = 1500 // ms
+const THROTTLE_DELAY = 200 // ms
 
 const TimeSlider = function () {
   // A year-range slider.
@@ -33,12 +34,10 @@ const TimeSlider = function () {
   // Setup time slider
   this.slider.addEventListener('change', (evt) => {
     clearTimeout(this.timer)
-
     this.timer = setTimeout(() => {
-      const rangeStart = this.slider.value1
-      const rangeEnd = this.slider.value2
-      // DEBUG
-      console.log(`Time range set: ${rangeStart}–${rangeEnd}`)
+      // Slider values to decades
+      const rangeStart = roundDecade(this.slider.value1)
+      const rangeEnd = roundDecade(this.slider.value2)
       // Signal the range has changed.
       this.emit('change', { rangeStart, rangeEnd })
     }, THROTTLE_DELAY)
@@ -53,3 +52,4 @@ emitter(proto)
 
 // Methods
 proto.getElement = require('./getElement')
+proto.setRange = require('./setRange')

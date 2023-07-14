@@ -90,16 +90,18 @@ exports.start = function () {
     // Refresh context widget
     toolbar.contextForm.setContext(context)
 
-    // Filter Sky by keyword
     if (context.hasParameter('q')) {
+      // Filter Sky by keyword
       const query = context.getValue('q')
       sky.filterByKeyword(query)
     }
 
-    // Filter Sky by years
     if (context.hasParameter('r_years')) {
+      // Filter Sky by years
       const range = context.getRangeValue('r_years')
       sky.emphasizeDecades(range.rangeStart, range.rangeEnd)
+      // Set slider.
+      slider.setRange(range)
     }
   })
 }
