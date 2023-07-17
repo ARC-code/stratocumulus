@@ -3,24 +3,21 @@ const io = require('../io')
 
 const makeLabelText = (context) => {
   const base = 'Everything filtered by'
-  const facetParams = Object.keys(context)
+  const facetContext = context.filter(key => {
+    return key.startsWith('f')
+  })
+  // TODO print also filtering
+  // const filteringContext = context.filter(key => {
+  //   return key.startsWith('q') || key.startsWith('r')
+  // })
 
-  const validLabels = []
-  for (let i = 0; i < facetParams.length; i += 1) {
-    const fParam = facetParams[i]
-    const fValues = context[fParam].split('__')
-    // Check if any labels for the facet param and value
-    for (let j = 0; j < fValues.length; j += 1) {
-      const fValue = fValues[j]
-      const label = io.labelStore.read(fParam, fValue)
-      if (label) {
-        validLabels.push(label)
-      }
-    }
-  }
+  const labels = facetContext.map((facetParam, facetValue) => {
+    const label = io.labelStore.read(facetParam, facetValue)
+    return label || facetParam
+  })
 
-  if (validLabels.length > 0) {
-    return base + '<br>' + validLabels.join(', ')
+  if (labels.length > 0) {
+    return base + '<br>' + labels.join(', ')
   }
   // Else
   return 'Everything'
@@ -30,14 +27,11 @@ module.exports = function () {
   // Render or update the large text label
   // that tells the user how the stratum was formed.
 
-  const context = this.context.toContextObject()
   const bbox = this.space.getBoundingBox() // TODO use .boundingCircle
-
-  // console.log('context', context)
 
   // Prevent duplicate context label creation
   if (!this.contextLabel) {
-    const labelText = makeLabelText(context)
+    const labelText = makeLabelText(this.context)
     const labelItem = tapspace.createItem(labelText)
     labelItem.setSize(600, 50)
     labelItem.addClass('stratum-context-label')
