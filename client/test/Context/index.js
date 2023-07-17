@@ -15,6 +15,7 @@ const units = {
   remove: require('./remove.test'),
   removeLastFacet: require('./removeLastFacet.test'),
   toArray: require('./toArray.test'),
+  toCacheKey: require('./toCacheKey.test'),
   toFacetPath: require('./toFacetPath.test'),
   toNodeKey: require('./toNodeKey.test'),
   toQueryString: require('./toQueryString.test')
