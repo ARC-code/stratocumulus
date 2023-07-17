@@ -52,6 +52,10 @@ module.exports = function (graph, subgraph) {
       subgraph.nodes.forEach(n => {
         // Add new nodes to graph.
         const nodeKey = n.id
+        if (!n.is_facetable && n.kind !== 'root' && n.kind !== 'grouping') {
+          // Skip non-facetable facet node i.e. node in the context.
+          return
+        }
         if (graph.hasNode(nodeKey)) {
           // Update existing node.
           // Server might send same node multiple times with additional data.
@@ -90,9 +94,12 @@ module.exports = function (graph, subgraph) {
           // Mark cached edge as fresh.
           graph.updateEdgeAttribute(edge.from, edge.to, 'stale', () => false)
         } else {
-          graph.addEdge(edge.from, edge.to, {
-            stale: false // for cache invalidation during filtering
-          })
+          // Create new edge. Skip edges to skipped nodes e.g. context nodes.
+          if (graph.hasNode(edge.from) && graph.hasNode(edge.to)) {
+            graph.addEdge(edge.from, edge.to, {
+              stale: false // for cache invalidation during filtering
+            })
+          }
         }
       })
     }
