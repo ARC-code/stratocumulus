@@ -75,12 +75,12 @@ module.exports = function (final = false) {
   })
 
   // TODO Display and re-position the context label.
+  // Display the context label
+  this.renderContextLabel()
 
   if (final) {
     // Enable faceting
     this.enableFaceting()
-    // Display the context label
-    this.renderContextLabel()
     // Draw edges
     this.graph.forEachEdge((edgeKey, edgeAttrs, sourceKey, targetKey) => {
       let edgeItem = this.renderedEdges[edgeKey]
