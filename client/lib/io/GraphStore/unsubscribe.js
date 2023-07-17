@@ -8,7 +8,7 @@ module.exports = function (context, handler) {
   //     optional function
   //
 
-  const path = context.toFacetPath()
+  const path = context.toCacheKey()
 
   if (typeof handler === 'function') {
     this.off(path, handler)

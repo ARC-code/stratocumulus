@@ -7,7 +7,7 @@ module.exports = function (context, nodeAttrs) {
   // If the node already exists, do nothing.
   //
 
-  const path = context.toFacetPath()
+  const path = context.toCacheKey()
 
   let graph = this.graphs[path]
 

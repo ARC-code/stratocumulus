@@ -7,8 +7,7 @@ module.exports = function (context) {
   // Listen events "updated".
   //
 
-  // TODO create path from context
-  const path = context.toFacetPath()
+  const path = context.toCacheKey()
 
   if (this.loading[path]) {
     // Already loading. Prevent duplicate build jobs.

@@ -9,7 +9,7 @@ module.exports = function (context) {
   //   a graphology Graph.
   //
 
-  const path = context.toFacetPath()
+  const path = context.toCacheKey()
 
   const graph = this.graphs[path]
 
