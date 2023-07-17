@@ -26,6 +26,7 @@ exports.start = function () {
   const toolbarControl = tapspace.createControl(toolbar.getElement())
   toolbarControl.setSize(250, 60)
   viewport.addControl(toolbarControl, viewport.at(10, 12))
+  toolbar.configure()
 
   // Setup year range slider
   const slider = new TimeSlider()
@@ -67,7 +68,8 @@ exports.start = function () {
   // Connect search bar
   toolbar.on('search', (ev) => {
     // Filter strata by search query
-    sky.filterByKeyword(ev.query)
+    //sky.filterByKeyword(ev.query)
+    sky.filterByKeyword(ev)
   })
 
   // Connect time range slider

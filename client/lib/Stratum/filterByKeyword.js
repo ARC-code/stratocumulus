@@ -16,7 +16,10 @@ module.exports = function (keyword) {
   }
 
   // Update the filtering context for further queries.
-  this.context = this.context.remove('q').append('q', keyword)
+  // this.context = this.context.remove('q').append('q', keyword)
+  for (let param in keyword) {
+    this.context = this.context.remove(param).append(param, keyword[param])
+  }
 
   const beginBuildJob = () => {
     // Send a new build job with the updated context.

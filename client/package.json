@@ -41,7 +41,8 @@
     "graphology-layout-forceatlas2": "^0.10.1",
     "graphology-layout-noverlap": "^0.4.2",
     "tapspace": "^2.0.0-alpha.16",
-    "toolcool-range-slider": "^4.0.20"
+    "toolcool-range-slider": "^4.0.20",
+    "@tarekraafat/autocomplete.js": "10.2.7"
   },
   "devDependencies": {
     "css-loader": "^6.7.2",
