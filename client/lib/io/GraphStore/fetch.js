@@ -17,33 +17,14 @@ module.exports = function (path, context) {
 
   // Not yet loading. Do we have the graph already?
   if (this.graphs[path]) {
-    if (context.hasParameter('q')) {
-      const keyword = context.getValue('q')
-      // Do we have this keyword already cached?
-      const graph = this.graphs[path]
-      if (graph.hasAttribute('cachedKeywords')) {
-        const cachedKeywords = graph.getAttribute('cachedKeywords')
-        if (cachedKeywords && cachedKeywords.includes(keyword)) {
-          // The keyword query is already cached.
-          const first = true
-          const final = true
-          setTimeout(() => {
-            this.emit(path, { path, context, first, final })
-          }, 0)
+    // Complete cached graph exists.
+    const first = true
+    const final = true
+    setTimeout(() => {
+      this.emit(path, { path, context, first, final })
+    }, 0)
 
-          return
-        }
-      }
-    } else {
-      // Complete graph exists. No keyword filters. TODO
-      const first = true
-      const final = true
-      setTimeout(() => {
-        this.emit(path, { path, context, first, final })
-      }, 0)
-
-      return
-    }
+    return
   }
   // Assert: the graph is not cached OR its filter is not cached.
 
@@ -62,18 +43,6 @@ module.exports = function (path, context) {
     if (!graph) {
       graph = new graphology.Graph()
       this.graphs[path] = graph
-    }
-
-    // Mark the filtering context to nodes in order to know
-    // which were included by the filter.
-    if (context.hasParameter('q') && context.getValue('q').length > 0) {
-      const keywords = [context.getValue('q')]
-
-      subgraph.nodes.forEach(n => {
-        n.keywords = keywords // Joined in mergeNodeAttributes.
-      })
-      // Mark also the subgraph. Joined in updateGraph.
-      subgraph.cachedKeywords = keywords
     }
 
     // Update the model and detect if had its first content.

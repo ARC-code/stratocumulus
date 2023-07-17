@@ -16,10 +16,7 @@ module.exports = function (path, context) {
   }
 
   // TODO if context has r_years query, filter the graph.
-  // Use graphology export-import
-
-  // TODO if context has q keyword query, filter the graph.
-  // Use graphology export-import
+  // Use graphology export-import?
 
   return graph
 }

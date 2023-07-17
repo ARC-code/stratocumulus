@@ -1,5 +1,4 @@
 const mergeNodeAttributes = require('./mergeNodeAttributes')
-const mergeArraysUnique = require('./mergeArraysUnique')
 
 module.exports = function (graph, subgraph) {
   // Update the graph object with a subgraph received from the server.
@@ -48,17 +47,6 @@ module.exports = function (graph, subgraph) {
     }
   }
 
-  // Update cachedKeywords log
-  if (subgraph.cachedKeywords) {
-    if (graph.hasAttribute('cachedKeywords')) {
-      const keywords = graph.getAttribute('cachedKeywords')
-      const joined = mergeArraysUnique(keywords, subgraph.cachedKeywords)
-      graph.setAttribute('cachedKeywords', joined)
-    } else {
-      graph.setAttribute('cachedKeywords', subgraph.cachedKeywords)
-    }
-  }
-
   if (structureKind === 'stratum_graph') {
     if ('nodes' in subgraph) {
       subgraph.nodes.forEach(n => {
@@ -89,8 +77,7 @@ module.exports = function (graph, subgraph) {
             isFacetable: false,
             facetParam: null,
             facetValue: null,
-            stale: false, // for cache invalidation during filtering
-            keywords: []
+            stale: false // for cache invalidation during filtering
           }, n)
           graph.addNode(nodeKey, newNodeAttrs)
         }
@@ -142,8 +129,7 @@ module.exports = function (graph, subgraph) {
               isFacetable: false,
               facetParam: null,
               facetValue: null,
-              stale: false, // for cache invalidation during filtering
-              keywords: []
+              stale: false // for cache invalidation during filtering
             }, n)
             // Use some made-up value for cards
             newNodeAttrs.value = 100
