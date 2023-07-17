@@ -3,7 +3,8 @@ const emitter = require('component-emitter')
 const GraphStore = function (labelStore) {
   // @GraphStore
   //
-  // Emits path events.
+  // Emits:
+  //   path { path, context, first, final }
   //
   // Parameters:
   //   labelStore
@@ -36,4 +37,6 @@ emitter(proto)
 
 proto.fetch = require('./fetch')
 proto.get = require('./get')
+proto.unsubscribe = require('./unsubscribe')
+proto.subscribe = require('./subscribe')
 proto.provide = require('./provide')

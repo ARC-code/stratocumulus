@@ -12,7 +12,7 @@ module.exports = function () {
   this.alive = false
 
   // Stop listening further stream events.
-  io.graphStore.off(this.path)
+  io.graphStore.unsubscribe(this.context)
   // Stop all listeners
   this.off()
   // Remove from sky.

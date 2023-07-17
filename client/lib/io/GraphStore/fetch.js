@@ -2,12 +2,13 @@ const stream = require('../stream')
 const graphology = require('graphology')
 const updateGraph = require('./model/updateGraph')
 
-module.exports = function (path, context) {
+module.exports = function (context) {
   // Start fetching a graph with the given context.
   // Listen events "updated".
   //
 
   // TODO create path from context
+  const path = context.toFacetPath()
 
   if (this.loading[path]) {
     // Already loading. Prevent duplicate build jobs.

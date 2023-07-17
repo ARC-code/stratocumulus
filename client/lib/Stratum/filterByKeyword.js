@@ -48,7 +48,7 @@ module.exports = function (keyword) {
     // Mark that we are loading again.
     this.loading = true
     // Begin loading filtered.
-    io.graphStore.fetch(this.path, this.context)
+    io.graphStore.fetch(this.context)
     // Remove all the stale.
     this.once('final', () => {
       this.space.removeClass('stratum-loading')

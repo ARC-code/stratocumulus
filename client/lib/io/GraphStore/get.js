@@ -1,13 +1,15 @@
 const graphology = require('graphology')
 
-module.exports = function (path, context) {
-  // Get current local graph of given facet path.
+module.exports = function (context) {
+  // Get current local graph for the given context.
   // Return empty graph if not yet available.
   // The returned graph is meant for read-only use.
   //
   // Return
   //   a graphology Graph.
   //
+
+  const path = context.toFacetPath()
 
   const graph = this.graphs[path]
 

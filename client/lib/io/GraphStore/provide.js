@@ -1,11 +1,13 @@
 const graphology = require('graphology')
 const addNode = require('./model/addNode')
 
-module.exports = function (path, nodeAttrs) {
+module.exports = function (context, nodeAttrs) {
   // Provide the graph a single node.
   // Useful to initiate the graph with a single node.
   // If the node already exists, do nothing.
   //
+
+  const path = context.toFacetPath()
 
   let graph = this.graphs[path]
 

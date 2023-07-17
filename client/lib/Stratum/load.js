@@ -21,7 +21,7 @@ module.exports = function () {
   this.loading = true
 
   // Begin listen events for the path.
-  io.graphStore.on(this.path, (ev) => {
+  io.graphStore.subscribe(this.context, (ev) => {
     // Insert the subgraph received from the server.
     if (!this.alive) {
       // Stratum was removed during fetch.
@@ -29,7 +29,7 @@ module.exports = function () {
     }
 
     // Replace the graph
-    this.graph = io.graphStore.get(ev.path)
+    this.graph = io.graphStore.get(ev.context)
 
     // Render the graph and do the layout
     this.render(ev.final)
@@ -54,5 +54,5 @@ module.exports = function () {
   })
 
   // Inform the server we are ready to receive the stratum.
-  io.graphStore.fetch(this.path, this.context)
+  io.graphStore.fetch(this.context)
 }

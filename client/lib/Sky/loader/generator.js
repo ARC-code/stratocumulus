@@ -36,7 +36,7 @@ module.exports = (sky, loader) => {
         const lastFacet = subStratum.context.getLastFacet()
         const nodeKey = subStratum.context.toNodeKey()
         const label = io.labelStore.read(lastFacet.parameter, lastFacet.value)
-        io.graphStore.provide(path, {
+        io.graphStore.provide(context, {
           id: nodeKey,
           kind: lastFacet.kind, // TODO do not use parameter-based kind, sketcy
           label: label || '', // will be replaced in load

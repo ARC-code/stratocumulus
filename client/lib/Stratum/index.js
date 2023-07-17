@@ -83,7 +83,7 @@ const Stratum = function (context) {
   this.boundingCircle = new tapspace.geometry.Circle(this.space, circle)
 
   // Read-only graph model
-  this.graph = io.graphStore.get(this.path, this.context)
+  this.graph = io.graphStore.get(this.context)
 }
 
 module.exports = Stratum
