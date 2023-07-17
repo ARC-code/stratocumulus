@@ -4,6 +4,7 @@ const units = {
   append: require('./append.test'),
   constructor: require('./constructor.test'),
   copy: require('./copy.test'),
+  filter: require('./filter.test'),
   fromContextObject: require('./fromContextObject.test'),
   fromFacetPath: require('./fromFacetPath.test'),
   fromQueryString: require('./fromQueryString.test'),
