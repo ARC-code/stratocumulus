@@ -64,6 +64,18 @@ module.exports = function (path, context) {
       this.graphs[path] = graph
     }
 
+    // Mark the filtering context to nodes in order to know
+    // which were included by the filter.
+    if (context.hasParameter('q') && context.getValue('q').length > 0) {
+      const keywords = [context.getValue('q')]
+
+      subgraph.nodes.forEach(n => {
+        n.keywords = keywords // Joined in mergeNodeAttributes.
+      })
+      // Mark also the subgraph. Joined in updateGraph.
+      subgraph.cachedKeywords = keywords
+    }
+
     // Update the model and detect if had its first content.
     const wasEmpty = (graph.order === 0)
     updateGraph(graph, subgraph)

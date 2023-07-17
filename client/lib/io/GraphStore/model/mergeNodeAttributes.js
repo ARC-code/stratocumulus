@@ -40,6 +40,16 @@ module.exports = (nodeAttrs, newAttrs) => {
   if ('facet_value' in newAttrs) {
     changeSet.facetValue = newAttrs.facet_value
   }
+  if ('keywords' in newAttrs) {
+    // Join arrays of cached keywords.
+    if ('keywords' in nodeAttrs) {
+      changeSet.keywords = nodeAttrs.keywords.concat(newAttrs.keywords)
+    } else {
+      changeSet.keywords = newAttrs.keywords
+    }
+  }
 
-  return Object.assign({}, nodeAttrs, changeSet)
+  const mergedAttrs = Object.assign({}, nodeAttrs, changeSet)
+
+  return mergedAttrs
 }
