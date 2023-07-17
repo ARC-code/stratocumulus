@@ -28,9 +28,18 @@ const StratumNode = function (key, attrs) {
   const newItem = tapspace.createNode(radiusPx)
   newItem.addClass('stratum-node')
 
-  // HACK to gray out nodes we are inside.
   if (attrs.kind !== 'root' && attrs.kind !== 'grouping' && !attrs.isFacetable) {
+    // Gray out nodes we are inside. TODO hide from user.
     newItem.addClass('context-node')
+  }
+  //
+  if (attrs.kind === 'grouping') {
+    // Style structure nodes.
+    newItem.addClass('grouping-node')
+  }
+  if (attrs.kind === 'root') {
+    // Style root nodes.
+    newItem.addClass('root-node')
   }
 
   // Gravity at node center

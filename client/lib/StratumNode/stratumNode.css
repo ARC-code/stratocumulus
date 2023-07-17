@@ -16,6 +16,7 @@
   user-select: none;
 }
 
+/* Label */
 .node-label {
   position: absolute;
   top: 60px;
@@ -31,6 +32,14 @@
 }
 .node-label .node-label-count {
   font-size: 50%;
+}
+.root-node .node-label,
+.grouping-node .node-label {
+  position: relative;
+  top: 0px;
+  left: 0px;
+  padding-top: 1.4em;
+  text-align: center;
 }
 
 .stratum-node.readable .node-label {
