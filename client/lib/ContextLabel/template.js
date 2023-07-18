@@ -6,7 +6,6 @@ module.exports = (context) => {
   // Return
   //   a string
   //
-  const base = 'Documents within'
   const facetContext = context.filter(key => {
     return key.startsWith('f')
   })
@@ -20,10 +19,19 @@ module.exports = (context) => {
     return label || facetParam
   })
 
-  if (labels.length > 0) {
-    // TODO replace last comma with 'and'.
-    return base + '<br>' + labels.join(', ')
+  const len = labels.length
+
+  if (len === 0) {
+    return 'All documents'
   }
-  // Else
-  return 'All documents'
+  const base = 'Documents within<br>'
+
+  // Single facet.
+  if (len === 1) {
+    return base + labels[0]
+  }
+
+  // Many facets. Join by commas and 'and'
+  const commas = labels.slice(0, len - 1).join(', ')
+  return base + commas + ' and ' + labels[len - 1]
 }
