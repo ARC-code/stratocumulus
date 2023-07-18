@@ -2,7 +2,7 @@ const tapspace = require('tapspace')
 const io = require('../io')
 
 const makeLabelText = (context) => {
-  const base = 'Everything filtered by'
+  const base = 'Documents within'
   const facetContext = context.filter(key => {
     return key.startsWith('f')
   })
@@ -17,10 +17,11 @@ const makeLabelText = (context) => {
   })
 
   if (labels.length > 0) {
+    // TODO replace last comma with 'and'.
     return base + '<br>' + labels.join(', ')
   }
   // Else
-  return 'Everything'
+  return 'All documents'
 }
 
 module.exports = function () {
