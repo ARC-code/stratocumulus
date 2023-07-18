@@ -48,7 +48,7 @@ module.exports = (sky, loader) => {
     }
 
     // Attempt to render.
-    stratum.render()
+    stratum.render(false, 1)
 
     // Add stratum to space via the loader.
     const spaceAdded = loader.addSpace(path, stratum.getSpace())

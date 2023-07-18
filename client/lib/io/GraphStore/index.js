@@ -4,7 +4,18 @@ const GraphStore = function (labelStore) {
   // @GraphStore
   //
   // Emits:
-  //   path { path, context, first, final }
+  //   path
+  //     event with object
+  //       path
+  //         a string
+  //       context
+  //         a Context
+  //       first
+  //         a boolean
+  //       final
+  //         a boolean
+  //       updateCount
+  //         an integer, number of updates during this load.
   //
   // Parameters:
   //   labelStore
@@ -12,13 +23,18 @@ const GraphStore = function (labelStore) {
   //
 
   // Store graphs here. Structure:
-  // stratumPath -> a graphology Graph
+  // cacheKey -> a graphology Graph
   this.graphs = {}
 
   // Track graph loading state to prevent duplicate loading.
   // TODO MAYBE separately track populating and filtering kind of loading.
   // TODO MAYBE store this to graph attributes instead.
   this.loading = {}
+
+  // Keep track of how many updates it took before final. Reset at reload.
+  // Useful for layout adjustment timing.
+  // cacheKey -> integer
+  this.updates = {}
 
   // Graphs have states:
   // initial -> partial -> complete

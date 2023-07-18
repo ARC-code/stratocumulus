@@ -58,7 +58,7 @@ const Stratum = function (context) {
 
   // Alive when loading or loaded.
   this.alive = false
-  // Keep track if still loading
+  // Keep track if still loading.
   this.loading = false
 
   // Space components

@@ -21,6 +21,8 @@ module.exports = function () {
   this.loading = true
 
   // Begin listen events for the path.
+  // TODO refactor loading out of stratum.
+  // TODO Too much back-n-forth overlap with GraphStore and Sky loader.
   io.graphStore.subscribe(this.context, (ev) => {
     // Insert the subgraph received from the server.
     if (!this.alive) {
@@ -32,7 +34,7 @@ module.exports = function () {
     this.graph = io.graphStore.get(ev.context)
 
     // Render the graph and do the layout
-    this.render(ev.final)
+    this.render(ev.final, ev.updateCount)
 
     // Reveal labels as the layout and sizes may have changed.
     if (ev.first || ev.final || Math.random() > 0.66) {
