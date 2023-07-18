@@ -104,8 +104,9 @@ module.exports = function (final = false, updateCount = 0) {
 
       // Ensure both exists and are affine
       if (sourceNode && targetNode) {
-        const sourceRadius = sourceNode.getRadius()
-        const targetRadius = targetNode.getRadius()
+        const scaler = 0.95 // ensure edge end goes under the node border.
+        const sourceRadius = sourceNode.getRadius().scaleBy(scaler)
+        const targetRadius = targetNode.getRadius().scaleBy(scaler)
         edgeItem.trimPoints(
           sourceNode.getOrigin(), // OPTIMIZE save a fn call by direct at()
           targetNode.getOrigin(),
