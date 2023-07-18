@@ -3,8 +3,6 @@ const layoutGraph = require('./layout')
 const StratumNode = require('../StratumNode')
 const ArtifactNode = require('../ArtifactNode')
 
-const RENDER_SIZE = 2560
-
 module.exports = function (final = false, updateCount = 0) {
   // Render the graph. If elements already exist, update.
   // This method is idempotent, thus you can call this method multiple times
@@ -14,7 +12,7 @@ module.exports = function (final = false, updateCount = 0) {
   //   final
   //     boolean, set true to update edges
   //
-  const stratumOrigin = this.space.at(0, 0)
+  const stratumOrigin = this.getOrigin()
 
   const layoutPositions = layoutGraph(this.graph, this.context)
 
@@ -63,12 +61,12 @@ module.exports = function (final = false, updateCount = 0) {
   // Re-compute bounding circle at each render.
   this.recomputeBoundingCircle()
   // Re-position the stratum w.r.t. its superstratum node.
-  if (updateCount < 5) {
+  if (updateCount < 5 || Math.random() > 0.66) {
     const circleOrigin = this.boundingCircle.atCenter()
     const circleRadius = this.boundingCircle.getRadius()
     const circleBottom = circleOrigin.polarOffset(circleRadius, Math.PI / 2)
-    const targetOrigin = this.space.at(0, 0)
-    const targetBottom = this.space.at(0, 0.618 * (RENDER_SIZE / 2))
+    const targetOrigin = stratumOrigin
+    const targetBottom = stratumOrigin.offset(0, this.renderSize / 4)
     this.nodePlane.match({
       source: [circleOrigin, circleBottom],
       target: [targetOrigin, targetBottom],

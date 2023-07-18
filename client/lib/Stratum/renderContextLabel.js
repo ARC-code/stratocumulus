@@ -17,11 +17,11 @@ module.exports = function () {
   const bbox = new tapspace.geometry.Box(this.space, {
     a: 1,
     b: 0,
-    x: -1000,
-    y: -1000,
+    x: 0,
+    y: 0,
     z: 0,
-    w: 2000, // note full width 2560
-    h: 2000,
+    w: this.renderSize,
+    h: this.renderSize,
     d: 0
   })
   this.contextLabel.alignToBox(bbox)

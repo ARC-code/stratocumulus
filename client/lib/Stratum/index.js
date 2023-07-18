@@ -3,6 +3,8 @@ const emitter = require('component-emitter')
 const tapspace = require('tapspace')
 const io = require('../io')
 
+const RENDER_SIZE = 2560
+
 const Stratum = function (context) {
   // @Stratum
   //
@@ -77,9 +79,12 @@ const Stratum = function (context) {
   // facetPath -> nodeKey
   this.facetNodeIndex = {}
 
+  // Rendering size in pixels.
+  this.renderSize = RENDER_SIZE
   // Maintain latent stratum bounding circle.
   // Recomputing can be intensive. Update only when necessary, e.g. at final.
-  const circle = { x: 0, y: 0, z: 0, r: 500 }
+  const radius = RENDER_SIZE / 2
+  const circle = { x: radius, y: radius, z: 0, r: radius / 2 }
   this.boundingCircle = new tapspace.geometry.Circle(this.space, circle)
 
   // Read-only graph model

@@ -10,7 +10,7 @@ module.exports = function () {
 
   // Compute layout
   const layoutPositions = layoutGraph(this.graph, this.context)
-  const stratumOrigin = this.space.at(0, 0)
+  const stratumOrigin = this.getOrigin()
 
   // Map each node in graph model to a visible tapspace item.
   this.graph.forEachNode((key, attrs) => {

@@ -24,7 +24,7 @@ module.exports = function (sky) {
       }
       const childBasis = facetNode.component.getBasis()
       // Nodes have constant rendering size that is 10th of stratum size.
-      return childBasis.scaleBy(0.1, facetNode.getOrigin())
+      return childBasis.scaleBy(0.1, facetNode.component.at(0, 0))
     },
 
     backmapper: function (childPath, childSpace, parentPath) {
