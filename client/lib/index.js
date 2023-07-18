@@ -87,8 +87,12 @@ exports.start = function () {
   io.contextStore.subscribe(() => {
     const context = io.contextStore.getState()
 
-    // Refresh context widget
+    // Refresh context widget.
     toolbar.contextForm.setContext(context)
+
+    // Move to current stratum.
+    const facetPath = context.toFacetPath()
+    sky.navigateTo(facetPath)
 
     if (context.hasParameter('q')) {
       // Filter Sky by keyword
