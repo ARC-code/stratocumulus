@@ -1,28 +1,5 @@
 const tapspace = require('tapspace')
-const io = require('../io')
-
-const makeLabelText = (context) => {
-  const base = 'Documents within'
-  const facetContext = context.filter(key => {
-    return key.startsWith('f')
-  })
-  // TODO print also filtering
-  // const filteringContext = context.filter(key => {
-  //   return key.startsWith('q') || key.startsWith('r')
-  // })
-
-  const labels = facetContext.map((facetParam, facetValue) => {
-    const label = io.labelStore.read(facetParam, facetValue)
-    return label || facetParam
-  })
-
-  if (labels.length > 0) {
-    // TODO replace last comma with 'and'.
-    return base + '<br>' + labels.join(', ')
-  }
-  // Else
-  return 'All documents'
-}
+const ContextLabel = require('../ContextLabel')
 
 module.exports = function () {
   // Render or update the large text label
@@ -30,32 +7,22 @@ module.exports = function () {
 
   if (this.contextLabel) {
     // Update label.
-    this.contextLabel.html(makeLabelText(this.context))
+    this.contextLabel.update(this.context)
   } else {
     // Create label.
-    const labelText = makeLabelText(this.context)
-    const labelItem = tapspace.createItem(labelText)
-    labelItem.setSize(600, 50)
-    labelItem.addClass('stratum-context-label')
-    this.space.addChild(labelItem)
-    this.contextLabel = labelItem
+    this.contextLabel = new ContextLabel(this.context)
+    this.space.addChild(this.contextLabel.component) // TODO label.setParent?
   }
 
-  // Position the label
-  const bbox = this.nodePlane.getBoundingBox()
-  // Move below the stratum.
-  this.contextLabel.match({
-    source: this.contextLabel.atTopMid(),
-    target: bbox.atNorm(0.5, 1.05)
+  const bbox = new tapspace.geometry.Box(this.space, {
+    a: 1,
+    b: 0,
+    x: -1000,
+    y: -1000,
+    z: 0,
+    w: 2000, // note full width 2560
+    h: 2000,
+    d: 0
   })
-  // Scale so that it matches the stratum width.
-  // If the space is empty, the width goes to zero and then scaling does
-  // not work anymore. Thus prevent.
-  const bboxWidth = bbox.getWidth()
-  // TODO use something like tapspace.geometry.Box:isEmpty ?
-  if (bboxWidth.getRaw() > 0) {
-    this.contextLabel.scaleToWidth(bboxWidth, this.contextLabel.atTopMid())
-  }
-  // Else the box is empty, so we just match the space scale,
-  // and that is already so.
+  this.contextLabel.alignToBox(bbox)
 }
