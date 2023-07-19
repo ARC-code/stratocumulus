@@ -27,6 +27,8 @@ const Stratum = function (context) {
   //   substratumrequest
   //     when the stratum would like one of its nodes to be opened as
   //     a new stratum.
+  //   layout
+  //     when the stratum layout changes
   //
 
   // DEBUG validate arguments

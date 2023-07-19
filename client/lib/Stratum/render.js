@@ -116,4 +116,8 @@ module.exports = function (final = false, updateCount = 0) {
       }
     })
   }
+
+  // Signal that node positions might have changed,
+  // so that possible substrata can be repositioned.
+  this.emit('layout')
 }

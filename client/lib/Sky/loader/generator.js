@@ -131,12 +131,11 @@ module.exports = (sky, loader) => {
       }
     })
 
-    // TODO MAYBE
-    // stratum.on('layoutchange', (ev) => {
-    //   // Reposition also the substrata
-    //   const parentPath = path
-    //   loader.remapChildren(parentPath)
-    // })
+    // When stratum layout changes, reposition the substrata
+    stratum.on('layout', (ev) => {
+      console.log('layout')
+      loader.remapChildren(path)
+    })
   })
 
   // The first stratum and first content should
