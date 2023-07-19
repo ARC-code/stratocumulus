@@ -12,7 +12,6 @@ module.exports = function (context) {
 
   if (this.loading[key]) {
     // Already loading. Prevent duplicate build jobs.
-    // TODO check if the context is stricter.
     return
   }
 
@@ -39,7 +38,9 @@ module.exports = function (context) {
   this.updates[key] = 0
 
   // Start loading.
-  stream.sendStratumBuildJob(path, context)
+  // Get all years to prevent caching only subset of time ranges.
+  const buildContext = context.remove('r_years')
+  stream.sendStratumBuildJob(path, buildContext)
 
   // Start listening the stream.
   // Prevent duplicated listening by removing other listeners beforehand.
