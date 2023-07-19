@@ -28,7 +28,7 @@ module.exports = (context) => {
     } else {
       // Many facets. Join by commas and 'and'
       const commas = labels.slice(0, labelCount - 1).join(', ')
-      facetLabel += commas + ' and ' + labels[labelCount - 1]
+      facetLabel += commas + ', and ' + labels[labelCount - 1]
     }
   }
 
@@ -37,8 +37,10 @@ module.exports = (context) => {
   const keywordContext = context.getValue('q')
   const timeContext = context.getRangeValue('r_years')
   if (timeContext) {
+    const y0 = timeContext.rangeStart
+    const y1 = timeContext.rangeEnd
     filterLabel += '<span class="time-range-context">' +
-      'from year ' + timeContext.rangeStart + ' to ' + timeContext.rangeEnd +
+      'between ' + y0 + '–' + y1 + ' AD' +
       '</span>'
   }
   if (keywordContext) {
