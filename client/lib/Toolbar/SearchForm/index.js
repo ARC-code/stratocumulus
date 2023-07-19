@@ -1,5 +1,6 @@
 require('./searchform.css')
 const autoComplete = require('@tarekraafat/autocomplete.js')
+require('@tarekraafat/autocomplete.js/dist/css/autoComplete.css')
 const emitter = require('component-emitter')
 
 const SearchForm = function () {
