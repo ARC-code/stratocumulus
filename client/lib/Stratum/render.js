@@ -13,6 +13,7 @@ module.exports = function (final = false, updateCount = 0) {
   //     boolean, set true to update edges
   //
   const stratumOrigin = this.getOrigin()
+  const nodePlaneOrigin = this.nodePlane.at(0, 0)
 
   const layoutPositions = layoutGraph(this.graph, this.context)
 
@@ -51,7 +52,6 @@ module.exports = function (final = false, updateCount = 0) {
 
     // Update position according to the layout.
     const nPosition = layoutPositions[key]
-    const nodePlaneOrigin = stratumOrigin.changeBasis(this.nodePlane)
     const nPoint = nodePlaneOrigin.offset(nPosition.x, nPosition.y)
     stratumNode.translateTo(nPoint)
     // Update size and scale according to attributes.
@@ -62,14 +62,15 @@ module.exports = function (final = false, updateCount = 0) {
   this.recomputeBoundingCircle()
   // Re-position the stratum w.r.t. its superstratum node.
   if (updateCount < 5 || Math.random() > 0.66) {
-    const circleOrigin = this.boundingCircle.atCenter()
+    const circleCenter = this.boundingCircle.atCenter()
     const circleRadius = this.boundingCircle.getRadius()
-    const circleBottom = circleOrigin.polarOffset(circleRadius, Math.PI / 2)
-    const targetOrigin = stratumOrigin
-    const targetBottom = stratumOrigin.offset(0, this.renderSize / 4)
+    const circleTop = circleCenter.polarOffset(circleRadius, -Math.PI / 2)
+    const circleBottom = circleCenter.polarOffset(circleRadius, Math.PI / 2)
+    const targetTop = this.space.at(1280, 0)
+    const targetBottom = this.space.at(1280, 0.8 * 2560)
     this.nodePlane.match({
-      source: [circleOrigin, circleBottom],
-      target: [targetOrigin, targetBottom],
+      source: [circleTop, circleBottom],
+      target: [targetTop, targetBottom],
       estimator: 'TS'
     })
   }
