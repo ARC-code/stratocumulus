@@ -15,8 +15,17 @@ module.exports = function () {
   const cacheKeys = []
   const cacheValues = []
 
+  // Facets first
   this.keys.forEach((key, i) => {
-    if (key.startsWith('f_') || key.startsWith('q')) {
+    if (key.startsWith('f_')) {
+      cacheKeys.push(key)
+      cacheValues.push(this.values[i])
+    }
+  })
+
+  // Queries second
+  this.keys.forEach((key, i) => {
+    if (key.startsWith('q')) {
       cacheKeys.push(key)
       cacheValues.push(this.values[i])
     }

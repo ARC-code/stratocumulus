@@ -19,6 +19,17 @@ module.exports = (test, Context) => {
       'should include only cached parameters'
     )
 
+    const ctxa = new Context(
+      ['q', 'f_genres.id'],
+      ['keyword', 'ABC']
+    )
+
+    t.equal(
+      ctxa.toCacheKey(),
+      '/?f_genres.id=ABC&q=keyword',
+      'should sort queries last'
+    )
+
     t.end()
   })
 }
