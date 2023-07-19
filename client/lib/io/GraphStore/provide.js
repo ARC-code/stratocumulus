@@ -7,13 +7,13 @@ module.exports = function (context, nodeAttrs) {
   // If the node already exists, do nothing.
   //
 
-  const path = context.toCacheKey()
+  const key = context.toCacheKey()
 
-  let graph = this.graphs[path]
+  let graph = this.graphs[key]
 
   if (!graph) {
     graph = new graphology.Graph()
-    this.graphs[path] = graph
+    this.graphs[key] = graph
   }
 
   addNode(graph, nodeAttrs)

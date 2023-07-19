@@ -9,9 +9,8 @@ module.exports = function (context) {
   //   a graphology Graph.
   //
 
-  const path = context.toCacheKey()
-
-  const graph = this.graphs[path]
+  const key = context.toCacheKey()
+  const graph = this.graphs[key]
 
   if (!graph) {
     return new graphology.Graph()

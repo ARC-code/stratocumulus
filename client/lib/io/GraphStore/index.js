@@ -6,8 +6,10 @@ const GraphStore = function (labelStore) {
   // Emits:
   //   path
   //     event with object
+  //       cacheKey
+  //         a string, a cache key
   //       path
-  //         a string
+  //         a string, a facet path
   //       context
   //         a Context
   //       first

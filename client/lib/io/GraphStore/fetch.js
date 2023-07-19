@@ -7,22 +7,27 @@ module.exports = function (context) {
   // Listens stream events.
   //
 
-  const path = context.toCacheKey()
+  const key = context.toCacheKey()
+  const path = context.toFacetPath()
 
-  if (this.loading[path]) {
+  if (this.loading[key]) {
     // Already loading. Prevent duplicate build jobs.
     // TODO check if the context is stricter.
     return
   }
 
   // Not yet loading. Do we have the graph already?
-  if (this.graphs[path]) {
+  if (this.graphs[key]) {
     // Complete cached graph exists.
-    const first = true
-    const final = true
-    const updateCount = 0
     setTimeout(() => {
-      this.emit(path, { path, context, first, final, updateCount })
+      this.emit(path, {
+        cacheKey: key,
+        path,
+        context,
+        first: true,
+        final: true,
+        updateCount: 0
+      })
     }, 0)
 
     return
@@ -30,21 +35,21 @@ module.exports = function (context) {
   // Assert: the graph is not cached OR its filter is not cached.
 
   // Mark that the graph is loading.
-  this.loading[path] = true
-  this.updates[path] = 0
+  this.loading[key] = true
+  this.updates[key] = 0
 
   // Start loading.
   stream.sendStratumBuildJob(path, context)
 
   // Start listening the stream.
   // Prevent duplicated listening by removing other listeners beforehand.
-  stream.off(path)
-  stream.on(path, (subgraph) => {
+  stream.off(key)
+  stream.on(key, (subgraph) => {
     // Get the graph to update. Create if not yet existing.
-    let graph = this.graphs[path]
+    let graph = this.graphs[key]
     if (!graph) {
       graph = new graphology.Graph()
-      this.graphs[path] = graph
+      this.graphs[key] = graph
     }
 
     // Update the model and detect if had its first content.
@@ -67,20 +72,21 @@ module.exports = function (context) {
     const isFinal = ('stage' in subgraph && subgraph.stage === 'final')
 
     // Track number of graph updates.
-    this.updates[path] += 1
+    this.updates[key] += 1
 
     // Mark that loading is finished.
     // Note: do not reset update counter here. Maybe useful.
     if (isFinal) {
-      delete this.loading[path]
+      delete this.loading[key]
     }
 
     this.emit(path, {
+      cacheKey: key,
       path: path,
       context: context,
       first: wasFirst,
       final: isFinal,
-      updateCount: this.updates[path]
+      updateCount: this.updates[key]
     })
   })
 }

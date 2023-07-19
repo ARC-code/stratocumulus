@@ -7,6 +7,6 @@ module.exports = function (context, handler) {
   //   handler
   //     a function
   //
-  const path = context.toCacheKey()
+  const path = context.toFacetPath()
   this.on(path, handler)
 }
