@@ -9,17 +9,17 @@ module.exports = function () {
     return
   }
 
-  // Map each node in graph model to a visible tapspace item.
+  normalizeSizes(this.graph)
+
+  // Render nodes again.
   this.graph.forEachNode((key, attrs) => {
     const stratumNode = this.renderedNodes[key]
 
     if (stratumNode) {
       // Update size and scale according to attributes.
-      stratumNode.updateCount(attrs)
+      stratumNode.render(attrs)
     }
   })
-
-  normalizeSizes(this.graph)
 
   this.graph.forEachEdge((edgeKey, edgeAttrs, sourceKey, targetKey) => {
     const edgeItem = this.renderedEdges[edgeKey]
@@ -35,6 +35,7 @@ module.exports = function () {
 
     // Ensure both exists and are affine
     if (sourceNode && targetNode) {
+      // Move edge to position
       const sourceRadius = sourceNode.getRadius()
       const targetRadius = targetNode.getRadius()
       edgeItem.trimPoints(
@@ -43,6 +44,13 @@ module.exports = function () {
         sourceRadius,
         targetRadius
       )
+
+      // Allow node-size dependent edge styling.
+      if (targetNode.component.hasClass('empty-node')) {
+        edgeItem.addClass('empty-edge')
+      } else {
+        edgeItem.removeClass('empty-edge')
+      }
     }
     // else no such nodes exist. Skip edge.
   })

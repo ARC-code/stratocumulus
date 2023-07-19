@@ -1,8 +1,9 @@
 require('./stratum.css')
-const stratumModel = require('./model')
 const emitter = require('component-emitter')
 const tapspace = require('tapspace')
-const graphCache = require('../graphCache')
+const io = require('../io')
+
+const RENDER_SIZE = 2560
 
 const Stratum = function (context) {
   // @Stratum
@@ -26,6 +27,8 @@ const Stratum = function (context) {
   //   substratumrequest
   //     when the stratum would like one of its nodes to be opened as
   //     a new stratum.
+  //   layout
+  //     when the stratum layout changes
   //
 
   // DEBUG validate arguments
@@ -59,7 +62,7 @@ const Stratum = function (context) {
 
   // Alive when loading or loaded.
   this.alive = false
-  // Keep track if still loading
+  // Keep track if still loading.
   this.loading = false
 
   // Space components
@@ -78,17 +81,16 @@ const Stratum = function (context) {
   // facetPath -> nodeKey
   this.facetNodeIndex = {}
 
+  // Rendering size in pixels.
+  this.renderSize = RENDER_SIZE
   // Maintain latent stratum bounding circle.
   // Recomputing can be intensive. Update only when necessary, e.g. at final.
-  const circle = { x: 0, y: 0, z: 0, r: 500 }
+  const radius = RENDER_SIZE / 2
+  const circle = { x: radius, y: radius, z: 0, r: radius / 2 }
   this.boundingCircle = new tapspace.geometry.Circle(this.space, circle)
 
-  // graph model
-  this.graph = stratumModel.createGraph()
-  // Cache the graph so that it is not lost if the stratum gets removed.
-  // TODO Is this just premature optimization?
-  // TODO implement on the io level
-  graphCache.store(this.path, this.graph)
+  // Read-only graph model
+  this.graph = io.graphStore.get(this.context)
 }
 
 module.exports = Stratum
@@ -113,12 +115,8 @@ proto.getSuperpath = require('./getSuperpath')
 proto.load = require('./load')
 proto.prune = require('./prune')
 proto.recomputeBoundingCircle = require('./recomputeBoundingCircle')
-proto.refreshLayout = require('./refreshLayout')
 proto.refreshNodeSizes = require('./refreshNodeSizes')
 proto.remove = require('./remove')
-// TODO proto.removeEdges
 proto.render = require('./render')
-// TODO proto.renderNodes
-// TODO proto.renderEdges
 proto.renderContextLabel = require('./renderContextLabel')
 proto.revealLabels = require('./revealLabels')

@@ -1,5 +1,4 @@
 const io = require('../io')
-const stratumModel = require('./model')
 
 module.exports = function (keyword) {
   // Filter the stratum by a free-form text query.
@@ -15,10 +14,17 @@ module.exports = function (keyword) {
     return
   }
 
+  // Prevent unnecessary filtering.
+  const prevKeyword = this.context.getValue('q')
+  if (prevKeyword === keyword || (!prevKeyword && !keyword)) {
+    // Filtered already.
+    return
+  }
+
   // Update the filtering context for further queries.
-  // this.context = this.context.remove('q').append('q', keyword)
-  for (let param in keyword) {
-    this.context = this.context.remove(param).append(param, keyword[param])
+  this.context = this.context.remove('q')
+  if (keyword.length > 0) {
+    this.context = this.context.append('q', keyword)
   }
 
   const beginBuildJob = () => {
@@ -35,15 +41,17 @@ module.exports = function (keyword) {
       return
     }
 
+    // Hide edges
+    this.space.addClass('stratum-loading')
     // Invalidate nodes in order to remove extra.
-    stratumModel.staleAll(this.graph)
     this.refreshNodeSizes()
     // Mark that we are loading again.
     this.loading = true
-    io.stream.sendStratumBuildJob(this.path, this.context)
+    // Begin loading filtered.
+    io.graphStore.fetch(this.context)
     // Remove all the stale.
     this.once('final', () => {
-      stratumModel.pruneStale(this.graph)
+      this.space.removeClass('stratum-loading')
       this.prune()
       this.refreshNodeSizes()
     })

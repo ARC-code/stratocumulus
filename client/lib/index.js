@@ -1,5 +1,5 @@
-const io = require('./io')
 const tapspace = require('tapspace')
+const io = require('./io')
 const Sky = require('./Sky')
 const TimeSlider = require('./TimeSlider')
 const Toolbar = require('./Toolbar')
@@ -24,7 +24,7 @@ exports.start = function () {
   // Setup search tools
   const toolbar = new Toolbar()
   const toolbarControl = tapspace.createControl(toolbar.getElement())
-  toolbarControl.setSize(250, 60)
+  toolbarControl.setSize(256, 60)
   viewport.addControl(toolbarControl, viewport.at(10, 12))
   toolbar.configure()
 
@@ -40,41 +40,72 @@ exports.start = function () {
   // Once the first stratum has some rendered content,
   // make the viewport interactive and begin refreshing labels.
   sky.once('first', () => {
-    // TODO estimated fit to content
-    viewport.scaleBy(2, viewport.atCenter())
-
+    // Fit to content
+    const bbox = viewport.hyperspace.getBoundingBox()
+    viewport.zoomToFill(bbox, 0.9)
+    viewport.hyperspace.commit() // TODO not needed. Repair in tapspace.
     // Make viewport interactive as the space has content.
     viewportManager.enableNavigation()
-
-    // Begin to manage visibility and loading of things after navigation.
-    // - show/hide labels
-    // - detect current stratum
-    // - open/close nodes.
-    viewport.on('idle', () => {
-      sky.revealLabels()
-    })
-
-    // Also, show/hide labels after the first.
-    sky.revealLabels()
   })
 
-  // // Once the first stratum has been rendered completely, do something.
-  // firstStratum.once('final', () => {
-  //   sky.revealLabels()
-  //   // TODO release time slider
-  //   // TODO Take a snapshot or add a breadcrumb
-  // })
+  // Navigation changes current context.
+  sky.on('navigation', (ev) => {
+    console.log('navigation event', ev.context.toFacetPath())
+    io.contextStore.dispatch({
+      type: 'navigation',
+      path: ev.context.toFacetPath()
+    })
+  })
 
   // Connect search bar
   toolbar.on('search', (ev) => {
     // Filter strata by search query
-    //sky.filterByKeyword(ev.query)
-    sky.filterByKeyword(ev)
+    io.contextStore.dispatch({
+      type: 'filter/keyword',
+      keyword: ev.q || ''
+    })
+  })
+  toolbar.on('filter/keyword/clear', (ev) => {
+    io.contextStore.dispatch({
+      type: 'filter/keyword/clear'
+    })
+  })
+  toolbar.on('filter/years/clear', (ev) => {
+    io.contextStore.dispatch({
+      type: 'filter/years/clear'
+    })
   })
 
   // Connect time range slider
   slider.on('change', (ev) => {
-    // Update strata based on the year range
-    sky.emphasizeDecades(ev.rangeStart, ev.rangeEnd)
+    io.contextStore.dispatch({
+      type: 'filter/years',
+      rangeStart: ev.rangeStart,
+      rangeEnd: ev.rangeEnd
+    })
+  })
+
+  // Propagate context changes to the components.
+  io.contextStore.subscribe(() => {
+    const context = io.contextStore.getState()
+
+    // Refresh context widget.
+    toolbar.contextForm.setContext(context)
+
+    // Move to current stratum.
+    const facetPath = context.toFacetPath()
+    sky.navigateTo(facetPath)
+
+    // Filter Sky by keyword
+    const query = context.getValue('q') || ''
+    sky.filterByKeyword(query)
+
+    if (context.hasParameter('r_years')) {
+      // Filter Sky by years
+      const range = context.getRangeValue('r_years')
+      sky.emphasizeDecades(range.rangeStart, range.rangeEnd)
+      // Set slider.
+      slider.setRange(range)
+    }
   })
 }

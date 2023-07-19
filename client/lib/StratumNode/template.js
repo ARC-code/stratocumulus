@@ -47,8 +47,16 @@ const buildLabelElement = (attrs) => {
 module.exports = (attrs) => {
   // Stratum node template
   //
-  const nodeHtml = buildNodeElement(attrs)
-  const labelHtml = buildLabelElement(attrs)
-  const contentHtml = nodeHtml + '\n' + labelHtml
-  return contentHtml
+
+  if (attrs.kind !== 'grouping' && attrs.kind !== 'root') {
+    const nodeHtml = buildNodeElement(attrs)
+    const labelHtml = buildLabelElement(attrs)
+    const contentHtml = nodeHtml + '\n' + labelHtml
+    return contentHtml
+  }
+
+  if (attrs.kind === 'grouping' || attrs.kind === 'root') {
+    const labelHtml = buildLabelElement(attrs)
+    return labelHtml
+  }
 }

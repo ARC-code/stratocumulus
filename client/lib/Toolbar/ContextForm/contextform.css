@@ -1,0 +1,65 @@
+.context-box {
+  padding: 1em 0.2em 0.2em 0.2em;
+}
+
+.context-box h5 {
+  color: white;
+  padding: 0;
+  margin: 0;
+}
+
+.context-box .facet-list {
+  display: inline-block;
+  list-style: none;
+  margin: 0.4em 0 0.6em 0;
+  padding: 0.4em 0.4em 0.1em 0.4em;
+  color: white;
+  background: #333;
+  border-color: white;
+  border-radius: 0.5em;
+}
+.context-box .facet-list li {
+  display: inline-block;
+  margin-left: 1em;
+  margin-bottom: 0.3em;
+}
+.context-box .facet-list li:first-child {
+  margin-left: 0;
+}
+.context-box .facet-list li:before {
+  content: '>';
+  position: relative;
+  left: -0.5em;
+}
+.context-box .facet-list li:first-child:before {
+  content: none;
+}
+.context-box .facet-list a {
+  color: white;
+}
+.context-box .facet-list a:hover {
+  color: gray;
+}
+
+.context-box .filter-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.4em 0 0.6em 0;
+}
+.context-box .filter-list li {
+  /* pill-like item */
+  display: inline-block;
+  margin-right: 1em;
+  margin-bottom: 0.3em;
+}
+.context-box .filter-list li .pill {
+  display: inline-block;
+  padding: 0.3em;
+  color: white;
+  background: #333;
+  border-color: white;
+  border-radius: 0.5em;
+}
+.context-box .filter-list li a.filter-item-remove {
+  color: gray;
+}

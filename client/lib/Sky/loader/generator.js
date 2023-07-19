@@ -1,4 +1,5 @@
 const Stratum = require('../../Stratum')
+const io = require('../../io')
 
 module.exports = (sky, loader) => {
   // Generator for TreeLoader. Generator defines how the loaded spaces
@@ -27,6 +28,28 @@ module.exports = (sky, loader) => {
     const stratum = new Stratum(context)
     sky.strata[path] = stratum
 
+    // Populate with a single node. This node will be upgraded later.
+    // TODO smells hacky
+    if (ev.childId && stratum.graph.order === 0) {
+      const subStratum = sky.strata[ev.childId]
+      if (subStratum) {
+        const lastFacet = subStratum.context.getLastFacet()
+        const nodeKey = subStratum.context.toNodeKey()
+        const label = io.labelStore.read(lastFacet.parameter, lastFacet.value)
+        io.graphStore.provide(context, {
+          id: nodeKey,
+          kind: lastFacet.kind, // TODO do not use parameter-based kind, sketcy
+          label: label || '', // will be replaced in load
+          is_facetable: true,
+          facet_param: lastFacet.parameter,
+          facet_value: lastFacet.value
+        })
+      }
+    }
+
+    // Attempt to render.
+    stratum.render(false, 1)
+
     // Add stratum to space via the loader.
     const spaceAdded = loader.addSpace(path, stratum.getSpace())
     if (!spaceAdded) {
@@ -35,7 +58,7 @@ module.exports = (sky, loader) => {
       console.warn('Could not add space', path)
     }
 
-    // Begin loading and rendering
+    // Begin loading (and rendering at each incoming event)
     stratum.load()
 
     // If this stratum was opened by a superstratum,
@@ -46,7 +69,7 @@ module.exports = (sky, loader) => {
       if (superStratum) {
         const superNode = superStratum.getFacetNode(path)
         if (superNode) {
-          superNode.open()
+          superNode.makeOpened()
           superNode.setLoadingAnimation(true)
         }
       }
@@ -56,18 +79,18 @@ module.exports = (sky, loader) => {
     if (ev.childId) {
       const superNode = stratum.getFacetNode(ev.childId)
       if (superNode) {
-        superNode.open()
+        superNode.makeOpened()
         superNode.setLoadingAnimation(true)
       }
     }
 
     // Begin listening strata and nodes.
-    stratum.on('substratumrequest', (ev) => {
+    stratum.on('substratumrequest', (rev) => {
       // This event tells us that an interaction within the stratum
       // requested a substratum to be built and rendered.
-      const childPath = ev.context.toFacetPath()
+      const childPath = rev.context.toFacetPath()
       // Pass to next open
-      const eventData = { context: ev.context }
+      const eventData = { context: rev.context }
       loader.openChild(path, childPath, eventData)
     })
 
@@ -75,21 +98,21 @@ module.exports = (sky, loader) => {
     stratum.once('final', () => {
       // Add the stratum to space if not yet added.
       if (ev.childId) {
-        if (loader.hasSpace(path)) {
-          // Already in space. OK.
-          return
-        }
-        const spaceAdded = loader.addSpace(path, stratum.getSpace())
-        if (!spaceAdded) {
-          // Likely no mapping found yet in case of a superstratum
-          console.warn('Could not add space at final:', path)
+        if (!loader.hasSpace(path)) {
+          // Add if not yet added.
+          const spaceAdded = loader.addSpace(path, stratum.getSpace())
+          if (!spaceAdded) {
+            // Likely no mapping found yet in case of a superstratum
+            console.warn('Could not add space at final:', path)
+            return
+          }
         }
 
         // Ensure the child node looks opened.
         // Also stop loading animation, if any.
         const superNode = stratum.getFacetNode(ev.childId)
         if (superNode) {
-          superNode.open()
+          superNode.makeOpened()
           superNode.setLoadingAnimation(false)
         }
       }
@@ -101,19 +124,17 @@ module.exports = (sky, loader) => {
         if (superStratum) {
           const superNode = superStratum.getFacetNode(path)
           if (superNode) {
-            superNode.open()
+            superNode.makeOpened()
             superNode.setLoadingAnimation(false)
           }
         }
       }
     })
 
-    // TODO MAYBE
-    // stratum.on('layoutchange', (ev) => {
-    //   // Reposition also the substrata
-    //   const parentPath = path
-    //   loader.remapChildren(parentPath)
-    // })
+    // When stratum layout changes, reposition the substrata
+    stratum.on('layout', (ev) => {
+      loader.remapChildren(path)
+    })
   })
 
   // The first stratum and first content should
@@ -139,7 +160,7 @@ module.exports = (sky, loader) => {
     if (superStratum) {
       const superNode = superStratum.getFacetNode(path)
       if (superNode) {
-        superNode.close()
+        superNode.makeClosed()
       }
     }
 

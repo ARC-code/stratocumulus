@@ -1,0 +1,13 @@
+.stratum-context-label {
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 40px;
+  color: #AAA;
+}
+
+.stratum-context-label .keyword-context {
+  font-size: 32px;
+}
+.stratum-context-label .time-range-context {
+  font-size: 32px;
+}

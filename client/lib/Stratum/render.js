@@ -1,11 +1,9 @@
 const tapspace = require('tapspace')
 const layoutGraph = require('./layout')
 const StratumNode = require('../StratumNode')
-const ArtifactCard = require('../ArtifactCard')
+const ArtifactNode = require('../ArtifactNode')
 
-const RENDER_SIZE = 2560
-
-module.exports = function (final = false) {
+module.exports = function (final = false, updateCount = 0) {
   // Render the graph. If elements already exist, update.
   // This method is idempotent, thus you can call this method multiple times
   // for example once for every new substratum from the server.
@@ -14,7 +12,7 @@ module.exports = function (final = false) {
   //   final
   //     boolean, set true to update edges
   //
-  const stratumOrigin = this.space.at(0, 0)
+  const nodePlaneOrigin = this.nodePlane.at(0, 0)
 
   const layoutPositions = layoutGraph(this.graph, this.context)
 
@@ -24,15 +22,15 @@ module.exports = function (final = false) {
 
     if (!stratumNode) {
       // Node does not exist. Create.
-
       const isDataCard = (attrs.kind && attrs.kind === 'artifact')
       if (isDataCard) {
-        // console.log('DataCard detected')
-        // console.log(key, attrs)
-        stratumNode = new ArtifactCard(key, attrs, this.nodePlane)
+        stratumNode = new ArtifactNode(key, attrs)
       } else {
-        stratumNode = new StratumNode(key, attrs, this.nodePlane)
+        stratumNode = new StratumNode(key, attrs)
       }
+
+      this.nodePlane.addChild(stratumNode.component)
+      stratumNode.render(attrs)
 
       // Build index of rendered nodes.
       this.renderedNodes[key] = stratumNode
@@ -51,34 +49,36 @@ module.exports = function (final = false) {
 
     // Update position according to the layout.
     const nPosition = layoutPositions[key]
-    const nodePlaneOrigin = stratumOrigin.changeBasis(this.nodePlane)
     const nPoint = nodePlaneOrigin.offset(nPosition.x, nPosition.y)
     stratumNode.translateTo(nPoint)
     // Update size and scale according to attributes.
-    stratumNode.updateCount(attrs)
+    stratumNode.render(attrs)
   })
 
   // Re-compute bounding circle at each render.
   this.recomputeBoundingCircle()
-  // TODO Re-position the stratum w.r.t. its superstratum node.
-  const circleOrigin = this.boundingCircle.atCenter()
-  const circleRadius = this.boundingCircle.getRadius()
-  const circleBottom = circleOrigin.polarOffset(circleRadius, Math.PI / 2)
-  const targetOrigin = this.space.at(0, 0)
-  const targetBottom = this.space.at(0, 0.618 * (RENDER_SIZE / 2))
-  this.nodePlane.match({
-    source: [circleOrigin, circleBottom],
-    target: [targetOrigin, targetBottom],
-    estimator: 'TS'
-  })
+  // Re-position the stratum w.r.t. its superstratum node.
+  if (updateCount < 5 || Math.random() > 0.66) {
+    const circleCenter = this.boundingCircle.atCenter()
+    const circleRadius = this.boundingCircle.getRadius()
+    const circleTop = circleCenter.polarOffset(circleRadius, -Math.PI / 2)
+    const circleBottom = circleCenter.polarOffset(circleRadius, Math.PI / 2)
+    const targetTop = this.space.at(1280, 0)
+    const targetBottom = this.space.at(1280, 0.8 * 2560)
+    this.nodePlane.match({
+      source: [circleTop, circleBottom],
+      target: [targetTop, targetBottom],
+      estimator: 'TS'
+    })
+  }
 
-  // TODO Display and re-position the context label.
+  // Display and position the context label.
+  // Repeat at each render.
+  this.renderContextLabel()
 
   if (final) {
     // Enable faceting
     this.enableFaceting()
-    // Display the context label
-    this.renderContextLabel()
     // Draw edges
     this.graph.forEachEdge((edgeKey, edgeAttrs, sourceKey, targetKey) => {
       let edgeItem = this.renderedEdges[edgeKey]
@@ -86,7 +86,7 @@ module.exports = function (final = false) {
       if (!edgeItem) {
         // No such edge yet rendered. Create
         edgeItem = tapspace.createEdge('gray')
-        edgeItem.addClass('edge')
+        edgeItem.addClass('stratum-edge')
         edgeItem.edgeKey = edgeKey
         // or model.edgeKey
         // and consider sourceKey, targetKey
@@ -100,8 +100,9 @@ module.exports = function (final = false) {
 
       // Ensure both exists and are affine
       if (sourceNode && targetNode) {
-        const sourceRadius = sourceNode.getRadius()
-        const targetRadius = targetNode.getRadius()
+        const scaler = 0.95 // ensure edge end goes under the node border.
+        const sourceRadius = sourceNode.getRadius().scaleBy(scaler)
+        const targetRadius = targetNode.getRadius().scaleBy(scaler)
         edgeItem.trimPoints(
           sourceNode.getOrigin(), // OPTIMIZE save a fn call by direct at()
           targetNode.getOrigin(),
@@ -113,4 +114,8 @@ module.exports = function (final = false) {
       }
     })
   }
+
+  // Signal that node positions might have changed,
+  // so that possible substrata can be repositioned.
+  this.emit('layout')
 }

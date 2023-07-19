@@ -6,5 +6,6 @@ module.exports = function () {
   // Return
   //   a tapspace.geometry.Point
   //
-  return this.space.at(0, 0)
+  const d = this.renderSize / 2
+  return this.space.at(d, d)
 }

@@ -1,4 +1,3 @@
-
 const Context = function (keys, values) {
   // @Context(keys, values)
   //
@@ -62,9 +61,18 @@ Context.fromQueryString = require('./fromQueryString')(Context)
 // Methods
 proto.append = require('./append')
 proto.copy = require('./copy')
+proto.filter = require('./filter')
+proto.getLastFacet = require('./getLastFacet')
+proto.getRangeValue = require('./getRangeValue')
+proto.getValue = require('./getValue')
+proto.hasParameter = require('./hasParameter')
+proto.map = require('./map')
 proto.merge = require('./merge')
 proto.remove = require('./remove')
 proto.removeLastFacet = require('./removeLastFacet')
+proto.toArray = require('./toArray')
+proto.toCacheKey = require('./toCacheKey')
 proto.toContextObject = require('./toContextObject')
-proto.toQueryString = require('./toQueryString')
 proto.toFacetPath = require('./toFacetPath')
+proto.toNodeKey = require('./toNodeKey')
+proto.toQueryString = require('./toQueryString')

@@ -16,6 +16,7 @@
   user-select: none;
 }
 
+/* Label */
 .node-label {
   position: absolute;
   top: 60px;
@@ -31,6 +32,14 @@
 }
 .node-label .node-label-count {
   font-size: 50%;
+}
+.root-node .node-label,
+.grouping-node .node-label {
+  position: relative;
+  top: 0px;
+  left: 0px;
+  padding-top: 4.4rem;
+  text-align: center;
 }
 
 .stratum-node.readable .node-label {
@@ -52,7 +61,7 @@
 .node-shape.node-genres {
   background: linear-gradient(#2ca25f, #006d2c);
 }
-.node-shape.empty-node,
+.empty-node .node-shape,
 .context-node .node-shape {
   background: linear-gradient(#969696, #666666);
 }
@@ -67,12 +76,18 @@
 }
 .stratum-node.faceted-node .node-shape {
   background: #444444; /* match with sky bg to visually hide edges below */
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
 }
 .stratum-node.faceted-node .node-shape:hover {
   border-color: rgb(160, 160, 160);
 }
 .stratum-node.faceted-node .node-label {
   left: 270px;
+}
+.stratum-node.faceted-node:hover .node-label {
+  /* Default font-size to avoid flicker */
+  font-size: 60px;
+  top: 60px;
 }
 
 /* Loading animation */

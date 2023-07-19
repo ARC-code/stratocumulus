@@ -8,6 +8,11 @@ module.exports = (decades, beginYear, endYear) => {
   // - take average of the rest in range
   // - estimate: max + 2/3 * avg_rest
   //
+  // Alternative by @axelpale
+  // - sum of documents in range
+  // - find overlap constant manually, < 1
+  // - estimate: sum * overlap
+  //
   // Parameters:
   //   decades
   //     an object, decade -> document count
@@ -37,10 +42,11 @@ module.exports = (decades, beginYear, endYear) => {
   let numDocsInRange = 0
 
   for (let i = 0; i < numDecades; i += 1) {
-    const dec = decadeKeys[i]
+    const decKey = decadeKeys[i]
+    const decYear = parseInt(decKey)
 
-    if (beginYear <= dec && dec <= endYear) {
-      const decadeNumDocs = decades[dec]
+    if (beginYear <= decYear && decYear <= endYear) {
+      const decadeNumDocs = decades[decKey]
       maxNumInRange = Math.max(maxNumInRange, decadeNumDocs)
       numDecadesInRange += 1
       numDocsInRange += decadeNumDocs
@@ -52,11 +58,8 @@ module.exports = (decades, beginYear, endYear) => {
     return maxNumInRange
   }
 
-  // Estimate from maximum and average
-  const avgNumRestDocs = (
-    (numDocsInRange - maxNumInRange) / (numDecadesInRange - 1)
-  )
-  const estimate = maxNumInRange + avgNumRestDocs * 2 / 3
+  const overlap = 0.55
+  const estimate = numDocsInRange * overlap
 
   return Math.round(estimate)
 }

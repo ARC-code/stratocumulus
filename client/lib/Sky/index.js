@@ -9,6 +9,10 @@ const Sky = function (viewport) {
   //   viewport
   //     a tapspace.components.Viewport
   //
+  // Emits:
+  //   navigation
+  //     when there is a new current stratum.
+  //
 
   // Current known set of stratum objects.
   // stratumPath -> Stratum
@@ -30,5 +34,4 @@ emitter(proto)
 proto.init = require('./init')
 proto.emphasizeDecades = require('./emphasizeDecades')
 proto.filterByKeyword = require('./filterByKeyword')
-proto.getOrigin = require('./getOrigin')
-proto.revealLabels = require('./revealLabels')
+proto.navigateTo = require('./navigateTo')

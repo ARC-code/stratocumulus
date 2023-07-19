@@ -2,12 +2,19 @@ const findCurrentStratum = require('./findCurrentStratum')
 const findCurrentNode = require('./findCurrentNode')
 
 module.exports = (sky, loader) => {
-  // Driver for TreeLoader. Driver is an idle handler.
+  // Driver for TreeLoader.
+  // Driver is a handler ran at each viewport idle event.
+  // Driver is responsible of triggering semantic zooming effects.
+  // Driver initiates the loading of sub- and superstrata.
   //
   // Parameters:
   //   sky
   //   loader
   //
+
+  // Detect when current stratum changes.
+  let previousStratumPath = null
+
   sky.viewport.on('idle', () => {
     // DEBUG
     // console.log('sky.strata:', Object.keys(sky.strata).join(', '))
@@ -48,7 +55,24 @@ module.exports = (sky, loader) => {
         const eventData = { context: subcontext }
         loader.openChild(currentStratumPath, subpath, eventData)
       }
+
+      // Detect change of context.
+      if (previousStratumPath !== currentStratumPath) {
+        previousStratumPath = currentStratumPath
+        sky.emit('navigation', {
+          previousPath: previousStratumPath,
+          currentPath: currentStratumPath,
+          context: currentStratum.context.copy()
+        })
+      }
     }
+
+    // Reveal and hide node labels at each idle.
+    Object.values(loader.spaces).forEach((space) => {
+      if (space.stratum) {
+        space.stratum.revealLabels()
+      }
+    })
 
     // Prevent viewport from getting too far from content.
     // const spaces = sky.viewport.getSpaces()
