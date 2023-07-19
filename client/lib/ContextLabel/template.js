@@ -6,32 +6,49 @@ module.exports = (context) => {
   // Return
   //   a string
   //
+
+  // Print facets
   const facetContext = context.filter(key => {
     return key.startsWith('f')
   })
-  // TODO print also filtering
-  // const filteringContext = context.filter(key => {
-  //   return key.startsWith('q') || key.startsWith('r')
-  // })
-
   const labels = facetContext.map((facetParam, facetValue) => {
     const label = io.labelStore.read(facetParam, facetValue)
     return label || facetParam
   })
+  const labelCount = labels.length
 
-  const len = labels.length
-
-  if (len === 0) {
-    return 'All documents'
+  let facetLabel = 'All documents'
+  if (labelCount === 0) {
+    facetLabel = 'All documents'
+  } else {
+    facetLabel = 'Documents within<br>'
+    // Single facet.
+    if (labelCount === 1) {
+      facetLabel += labels[0]
+    } else {
+      // Many facets. Join by commas and 'and'
+      const commas = labels.slice(0, labelCount - 1).join(', ')
+      facetLabel += commas + ' and ' + labels[labelCount - 1]
+    }
   }
-  const base = 'Documents within<br>'
 
-  // Single facet.
-  if (len === 1) {
-    return base + labels[0]
+  // Print filters
+  let filterLabel = ''
+  const keywordContext = context.getValue('q')
+  const timeContext = context.getRangeValue('r_years')
+  if (timeContext) {
+    filterLabel += '<span class="time-range-context">' +
+      'from year ' + timeContext.rangeStart + ' to ' + timeContext.rangeEnd +
+      '</span>'
+  }
+  if (keywordContext) {
+    if (timeContext) {
+      filterLabel += '<br>'
+    }
+    filterLabel += '<span class="keyword-context">' +
+      'containing "' + keywordContext + '"' +
+      '</span>'
   }
 
-  // Many facets. Join by commas and 'and'
-  const commas = labels.slice(0, len - 1).join(', ')
-  return base + commas + ' and ' + labels[len - 1]
+  return facetLabel + '<br>' + filterLabel
 }

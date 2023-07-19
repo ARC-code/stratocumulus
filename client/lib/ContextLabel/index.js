@@ -9,7 +9,7 @@ const ContextLabel = function (context) {
   const labelText = template(context)
   const labelItem = tapspace.createItem(labelText)
 
-  labelItem.setSize(600, 50)
+  labelItem.setSize(600, 400)
   labelItem.addClass('stratum-context-label')
 
   this.component = labelItem

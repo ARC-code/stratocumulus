@@ -11,7 +11,7 @@ module.exports = function (bbox) {
   // Scale so that it matches the stratum width.
   // If the space is empty, the width goes to zero and then scaling does
   // not work anymore. Thus prevent.
-  const bboxWidth = bbox.getWidth().scaleBy(0.8)
+  const bboxWidth = bbox.getWidth().scaleBy(0.7)
   // TODO use something like tapspace.geometry.Box:isEmpty ?
   if (bboxWidth.getRaw() > 0) {
     this.component.scaleToWidth(bboxWidth, this.component.atTopMid())
