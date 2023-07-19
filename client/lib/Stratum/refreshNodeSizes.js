@@ -11,7 +11,7 @@ module.exports = function () {
 
   normalizeSizes(this.graph)
 
-  // Map each node in graph model to a visible tapspace item.
+  // Render nodes again.
   this.graph.forEachNode((key, attrs) => {
     const stratumNode = this.renderedNodes[key]
 

@@ -24,8 +24,6 @@ module.exports = function (final = false, updateCount = 0) {
       // Node does not exist. Create.
       const isDataCard = (attrs.kind && attrs.kind === 'artifact')
       if (isDataCard) {
-        // console.log('DataCard detected')
-        // console.log(key, attrs)
         stratumNode = new ArtifactNode(key, attrs)
       } else {
         stratumNode = new StratumNode(key, attrs)

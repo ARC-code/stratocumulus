@@ -118,7 +118,5 @@ proto.recomputeBoundingCircle = require('./recomputeBoundingCircle')
 proto.refreshNodeSizes = require('./refreshNodeSizes')
 proto.remove = require('./remove')
 proto.render = require('./render')
-// TODO proto.renderNodes
-// TODO proto.renderEdges
 proto.renderContextLabel = require('./renderContextLabel')
 proto.revealLabels = require('./revealLabels')
