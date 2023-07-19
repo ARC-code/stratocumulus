@@ -50,9 +50,11 @@ const StratumNode = function (key, attrs) {
   // Make it easy to find node attributes via tapspace component.
   newItem.nodeKey = key
 
+  // Faceting state.
+  this.isFacetable = attrs.isFacetable
+  this.isFaceted = false
   // Interactive attributes for the node
   this.tapToZoom = true
-  this.tapToOpen = false
   // Setup interaction
   newItem.tappable({ preventDefault: false })
   newItem.on('tap', (ev) => {
@@ -62,7 +64,7 @@ const StratumNode = function (key, attrs) {
       viewport.zoomToFill(this.component, 0.3)
     }
 
-    if (this.tapToOpen) {
+    if (this.isFacetable && !this.isFaceted) {
       // Send event to be handled in Stratum
       const openingRequest = new window.CustomEvent('openingrequest', {
         bubbles: true,
@@ -77,10 +79,6 @@ const StratumNode = function (key, attrs) {
 
   this.key = key
   this.component = newItem
-
-  // Cache attributes. The real up-to-date attributes are in the graph model.
-  // TODO needed?
-  this.attributesCache = attrs
 }
 
 module.exports = StratumNode
@@ -89,13 +87,9 @@ proto.isStratumNode = true
 
 // Methods
 proto.close = require('./close')
-proto.disableFaceting = require('./disableFaceting')
-proto.enableFaceting = require('./enableFaceting')
 proto.getOrigin = require('./getOrigin')
 proto.getRadius = require('./getRadius')
 proto.getScale = require('./getScale')
-proto.isFacetable = require('./isFacetable')
-proto.isFaceted = require('./isFaceted')
 proto.open = require('./open')
 proto.remove = require('./remove')
 proto.render = require('./render')

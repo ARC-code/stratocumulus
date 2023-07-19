@@ -12,7 +12,6 @@ module.exports = function (final = false, updateCount = 0) {
   //   final
   //     boolean, set true to update edges
   //
-  const stratumOrigin = this.getOrigin()
   const nodePlaneOrigin = this.nodePlane.at(0, 0)
 
   const layoutPositions = layoutGraph(this.graph, this.context)

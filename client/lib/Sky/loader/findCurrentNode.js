@@ -21,7 +21,7 @@ module.exports = (sky, stratum) => {
   })
 
   // The current node must be facetable.
-  const facetableNodes = reachableNodes.filter(n => n.isFacetable())
+  const facetableNodes = reachableNodes.filter(n => n.isFacetable)
 
   if (facetableNodes.length > 0) {
     return facetableNodes[0]
