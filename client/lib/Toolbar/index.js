@@ -20,6 +20,9 @@ const Toolbar = function () {
   this.searchForm.on('submit', (ev) => {
     this.emit('search', ev)
   })
+  
+  // For configuring search autocomplete after mounting
+  this.configure = () => { this.searchForm.configure() }
 
   this.contextForm = new ContextForm()
   this.element.appendChild(this.contextForm.getElement())
@@ -43,3 +46,4 @@ emitter(proto)
 
 // Methods
 proto.getElement = require('./getElement')
+

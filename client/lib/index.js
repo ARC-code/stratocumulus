@@ -26,6 +26,7 @@ exports.start = function () {
   const toolbarControl = tapspace.createControl(toolbar.getElement())
   toolbarControl.setSize(256, 60)
   viewport.addControl(toolbarControl, viewport.at(10, 12))
+  toolbar.configure()
 
   // Setup year range slider
   const slider = new TimeSlider()

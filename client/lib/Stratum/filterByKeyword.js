@@ -22,9 +22,9 @@ module.exports = function (keyword) {
   }
 
   // Update the filtering context for further queries.
-  this.context = this.context.remove('q')
-  if (keyword.length > 0) {
-    this.context = this.context.append('q', keyword)
+  for (let param in keyword) {
+    // TODO prevent adding empty values
+    this.context = this.context.remove(param).append(param, keyword[param])
   }
 
   const beginBuildJob = () => {
