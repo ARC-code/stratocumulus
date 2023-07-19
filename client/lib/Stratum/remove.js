@@ -1,9 +1,9 @@
 const io = require('../io')
 
 module.exports = function () {
-  // Destroy the stratum.
-  // TODO only unrender, cache the graph?
-
+  // Destroy the stratum. Stop loading and kill listeners.
+  // However, does not remove the stratum from the DOM.
+  //
   if (!this.alive) {
     // Already removed
     return
@@ -15,8 +15,5 @@ module.exports = function () {
   io.graphStore.unsubscribe(this.context)
   // Stop all listeners
   this.off()
-  // Remove from sky.
-  // TODO remove via FractalLoader
-  this.space.remove()
   // TODO remove each node individually?
 }
