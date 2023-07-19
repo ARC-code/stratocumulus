@@ -47,9 +47,8 @@ exports.start = function () {
   })
 
   // Navigation changes current context.
-  // TODO rename to 'navigation'
   sky.on('navigation', (ev) => {
-    console.log('navigation event', ev.context.toContextObject())
+    console.log('navigation event', ev.context.toFacetPath())
     io.contextStore.dispatch({
       type: 'navigation',
       path: ev.context.toFacetPath()
