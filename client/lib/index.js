@@ -95,11 +95,9 @@ exports.start = function () {
     const facetPath = context.toFacetPath()
     sky.navigateTo(facetPath)
 
-    if (context.hasParameter('q')) {
-      // Filter Sky by keyword
-      const query = context.getValue('q')
-      sky.filterByKeyword(query)
-    }
+    // Filter Sky by keyword
+    const query = context.getValue('q') || ''
+    sky.filterByKeyword(query)
 
     if (context.hasParameter('r_years')) {
       // Filter Sky by years
