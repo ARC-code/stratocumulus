@@ -43,6 +43,7 @@ exports.start = function () {
     // Fit to content
     const bbox = viewport.hyperspace.getBoundingBox()
     viewport.zoomToFill(bbox, 0.9)
+    viewport.hyperspace.commit() // TODO not needed. Repair in tapspace.
     // Make viewport interactive as the space has content.
     viewportManager.enableNavigation()
   })
