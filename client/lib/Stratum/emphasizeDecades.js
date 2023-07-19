@@ -55,4 +55,9 @@ module.exports = function (beginYear, endYear) {
 
   // Refresh the rendered node sizes.
   this.refreshNodeSizes()
+
+  // Update context label
+  if (this.contextLabel) {
+    this.contextLabel.update(this.context)
+  }
 }
