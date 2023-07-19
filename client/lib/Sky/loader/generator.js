@@ -133,7 +133,6 @@ module.exports = (sky, loader) => {
 
     // When stratum layout changes, reposition the substrata
     stratum.on('layout', (ev) => {
-      console.log('layout')
       loader.remapChildren(path)
     })
   })

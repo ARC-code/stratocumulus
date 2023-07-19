@@ -43,8 +43,8 @@ module.exports = function (context) {
 
   // Start listening the stream.
   // Prevent duplicated listening by removing other listeners beforehand.
-  stream.off(key)
-  stream.on(key, (subgraph) => {
+  stream.off(path)
+  stream.on(path, (subgraph) => {
     // Get the graph to update. Create if not yet existing.
     let graph = this.graphs[key]
     if (!graph) {
