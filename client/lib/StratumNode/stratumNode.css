@@ -84,6 +84,11 @@
 .stratum-node.faceted-node .node-label {
   left: 270px;
 }
+.stratum-node.faceted-node:hover .node-label {
+  /* Default font-size to avoid flicker */
+  font-size: 60px;
+  top: 60px;
+}
 
 /* Loading animation */
 @keyframes rotation {
