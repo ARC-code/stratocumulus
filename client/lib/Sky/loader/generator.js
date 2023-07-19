@@ -69,7 +69,7 @@ module.exports = (sky, loader) => {
       if (superStratum) {
         const superNode = superStratum.getFacetNode(path)
         if (superNode) {
-          superNode.open()
+          superNode.makeOpened()
           superNode.setLoadingAnimation(true)
         }
       }
@@ -79,7 +79,7 @@ module.exports = (sky, loader) => {
     if (ev.childId) {
       const superNode = stratum.getFacetNode(ev.childId)
       if (superNode) {
-        superNode.open()
+        superNode.makeOpened()
         superNode.setLoadingAnimation(true)
       }
     }
@@ -112,7 +112,7 @@ module.exports = (sky, loader) => {
         // Also stop loading animation, if any.
         const superNode = stratum.getFacetNode(ev.childId)
         if (superNode) {
-          superNode.open()
+          superNode.makeOpened()
           superNode.setLoadingAnimation(false)
         }
       }
@@ -124,7 +124,7 @@ module.exports = (sky, loader) => {
         if (superStratum) {
           const superNode = superStratum.getFacetNode(path)
           if (superNode) {
-            superNode.open()
+            superNode.makeOpened()
             superNode.setLoadingAnimation(false)
           }
         }
@@ -162,7 +162,7 @@ module.exports = (sky, loader) => {
     if (superStratum) {
       const superNode = superStratum.getFacetNode(path)
       if (superNode) {
-        superNode.close()
+        superNode.makeClosed()
       }
     }
 

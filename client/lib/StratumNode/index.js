@@ -72,7 +72,7 @@ const StratumNode = function (key, attrs) {
       })
       this.component.element.dispatchEvent(openingRequest)
       // Make look open and loading
-      this.open()
+      this.makeOpened()
       this.setLoadingAnimation(true)
     }
   })
@@ -86,11 +86,11 @@ const proto = StratumNode.prototype
 proto.isStratumNode = true
 
 // Methods
-proto.close = require('./close')
 proto.getOrigin = require('./getOrigin')
 proto.getRadius = require('./getRadius')
 proto.getScale = require('./getScale')
-proto.open = require('./open')
+proto.makeClosed = require('./makeClosed')
+proto.makeOpened = require('./makeOpened')
 proto.remove = require('./remove')
 proto.render = require('./render')
 proto.setLoadingAnimation = require('./setLoadingAnimation')
