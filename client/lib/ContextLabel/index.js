@@ -9,7 +9,11 @@ const ContextLabel = function (context) {
   const labelText = template(context)
   const labelItem = tapspace.createItem(labelText)
 
-  labelItem.setSize(600, 400)
+  // Set size according to number of rows.
+  const lines = labelText.split('<br>').length
+  const height = lines * 100
+
+  labelItem.setSize(600, height)
   labelItem.addClass('stratum-context-label')
 
   this.component = labelItem
