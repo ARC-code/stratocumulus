@@ -61,7 +61,7 @@ exports.start = function () {
     // Filter strata by search query
     io.contextStore.dispatch({
       type: 'filter/keyword',
-      keyword: ev.query
+      keyword: ev.q || ''
     })
   })
   toolbar.on('filter/keyword/clear', (ev) => {
