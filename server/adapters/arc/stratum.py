@@ -142,8 +142,8 @@ async def build_facets(channel, path, facets, connected_to, query_params={}):
                 query_prefix += '&' + format_get_params(query_params)
 
             facet_query = f"{query_prefix}&a_terms_{facet}={facet}.id,{facet}.label.raw"
-            #time_query_template = query_prefix + "&f_{facet}.id={{facet_id}}&a_histogram_decades=years__10&a_histogram_halfcenturies=years__50&a_histogram_centuries=years__100".format(facet=facet)
-            time_query_template = query_prefix + "&f_{facet}.id={{facet_id}}&a_histogram_decades=years__10".format(facet=facet)
+            # time_query_template = query_prefix + "&f_{facet}.id={{facet_id}}&a_histogram_decades=years__10&a_histogram_halfcenturies=years__50&a_histogram_centuries=years__100".format(facet=facet)
+            # time_query_template = query_prefix + "&f_{facet}.id={{facet_id}}&a_histogram_decades=years__10".format(facet=facet)
 
             queries.append(
                 perform_facet_query(
@@ -153,14 +153,14 @@ async def build_facets(channel, path, facets, connected_to, query_params={}):
                     facet,
                     connected_to,
                     facet_query,
-                    time_query_template
+                    # time_query_template
                 )
             )
 
         return await asyncio.gather(*queries, return_exceptions=True)
 
 
-async def perform_facet_query(session, channel, path, facet, connected_to, facet_query, time_query_template):
+async def perform_facet_query(session, channel, path, facet, connected_to, facet_query, time_query_template=None):
     try:
         async with session.get(facet_query) as resp:
             data = await resp.json()
@@ -174,38 +174,40 @@ async def perform_facet_query(session, channel, path, facet, connected_to, facet
                     node_parts = agg_key.split('|||')
                     facet_id = node_parts[0]
                     facet_label = node_parts[1]
-                    time_query = time_query_template.format(facet_id=facet_id)
 
-                    async with session.get(time_query) as time_resp:
-                        time_data = await time_resp.json()
-                        if 'meta' in time_data \
-                                and 'aggregations' in time_data['meta'] \
-                                and 'decades' in time_data['meta']['aggregations']: # and 'halfcenturies' in time_data['meta']['aggregations']: and 'centuries' in time_data['meta']['aggregations']:
+                    # TODO: clean up this commented-out time query code; leaving here for now just in case
+                    # time_query = time_query_template.format(facet_id=facet_id)
+                    # async with session.get(time_query) as time_resp:
+                    #    time_data = await time_resp.json()
+                    #    if 'meta' in time_data \
+                    #            and 'aggregations' in time_data['meta'] \
+                    #            and 'decades' in time_data['meta']['aggregations']: # and 'halfcenturies' in time_data['meta']['aggregations']: and 'centuries' in time_data['meta']['aggregations']:
 
-                            node_attrs = {
-                                'id': f"{connected_to}/{facet}/{facet_id}",
-                                'label': facet_label,
-                                'parent': f"{connected_to}/{facet}",
-                                'kind': facet,
-                                'value': agg_count,
-                                'decades': time_data['meta']['aggregations']['decades'],
-                                #'halfcenturies': time_data['meta']['aggregations']['halfcenturies'],
-                                #'centuries': time_data['meta']['aggregations']['centuries'],
-                                'is_facetable': True,
-                                'facet_param': f"f_{facet}.id",
-                                'facet_value': facet_id
-                            }
+                    node_attrs = {
+                        'id': f"{connected_to}/{facet}/{facet_id}",
+                        'label': facet_label,
+                        'parent': f"{connected_to}/{facet}",
+                        'kind': facet,
+                        'value': agg_count,
+                        'decades': {}, # leaving this key/value pair for now, but should eventually be removed
+                        # 'decades': time_data['meta']['aggregations']['decades'],
+                        # 'halfcenturies': time_data['meta']['aggregations']['halfcenturies'],
+                        # 'centuries': time_data['meta']['aggregations']['centuries'],
+                        'is_facetable': True,
+                        'facet_param': f"f_{facet}.id",
+                        'facet_value': facet_id
+                    }
 
-                            # check if node is facetable by seeing if the aggregate it
-                            # represents is less than the total amount of records
-                            if agg_count == total_results:
-                                del node_attrs['is_facetable']
+                    # check if node is facetable by seeing if the aggregate it
+                    # represents is less than the total amount of records
+                    if agg_count == total_results:
+                        del node_attrs['is_facetable']
 
-                            subgraphs.append(make_nedge(
-                                channel,
-                                path,
-                                node_attrs
-                            ))
+                    subgraphs.append(make_nedge(
+                        channel,
+                        path,
+                        node_attrs
+                    ))
 
             return subgraphs
     # This try/except block is for troubleshooting connection hanging problem on MacOS; not a permanent solution
