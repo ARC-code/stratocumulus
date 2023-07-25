@@ -32,25 +32,25 @@ module.exports = (context) => {
     }
   }
 
-  // Print filters
-  let filterLabel = ''
-  const keywordContext = context.getValue('q')
-  const timeContext = context.getRangeValue('r_years')
-  if (timeContext) {
-    const y0 = timeContext.rangeStart
-    const y1 = timeContext.rangeEnd
-    filterLabel += '<span class="time-range-context">' +
-      'between ' + y0 + '–' + y1 + ' AD' +
-      '</span>'
-  }
-  if (keywordContext) {
-    if (timeContext) {
-      filterLabel += '<br>'
-    }
-    filterLabel += '<span class="keyword-context">' +
-      'containing "' + keywordContext + '"' +
-      '</span>'
-  }
+  // // Print filters
+  // let filterLabel = ''
+  // const keywordContext = context.getValue('q')
+  // const timeContext = context.getRangeValue('r_years')
+  // if (timeContext) {
+  //   const y0 = timeContext.rangeStart
+  //   const y1 = timeContext.rangeEnd
+  //   filterLabel += '<span class="time-range-context">' +
+  //     'between ' + y0 + '–' + y1 + ' AD' +
+  //     '</span>'
+  // }
+  // if (keywordContext) {
+  //   if (timeContext) {
+  //     filterLabel += '<br>'
+  //   }
+  //   filterLabel += '<span class="keyword-context">' +
+  //     'containing "' + keywordContext + '"' +
+  //     '</span>'
+  // }
 
-  return facetLabel + '<br>' + filterLabel
+  return facetLabel // + '<br>' + filterLabel
 }
