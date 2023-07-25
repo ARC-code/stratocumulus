@@ -1,5 +1,7 @@
 const ReduxStore = function (initState, reducer) {
-  // ReduxStore is a Redux-like store for updating a Context object
+  // @ReduxStore
+  //
+  // This is a Redux-like store for updating a Context object
   // and reacting to its changes.
   //
   this.state = initState
