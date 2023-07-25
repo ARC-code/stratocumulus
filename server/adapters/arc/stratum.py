@@ -1,6 +1,7 @@
 import requests
 import asyncio
 import aiohttp
+import datetime
 import json
 import traceback
 from time import sleep
@@ -47,6 +48,14 @@ def build_stratum(channel, cache_key, context={}, wait=0):
         result_count = count_data['meta']['total']
         total_decades = count_data['meta']['aggregations']['decades']
 
+        # sanity clean-up for decades
+        this_year = datetime.date.today().year
+        decade_keys = list(total_decades.keys())
+        for decade_key in decade_keys:
+            decade = int(decade_key.split('.')[0])
+            if decade < 400 or decade > this_year:
+                del total_decades[decade_key]
+
     print(f"TOTAL RESULTS: {result_count}")
     if result_count < minimum_aggregated_records:
         print("NEED TO RENDER INDIVIDUAL RESULTS!")
@@ -59,8 +68,9 @@ def build_stratum(channel, cache_key, context={}, wait=0):
         'stage': 'initial',
         'structure': 'stratum_graph',
         'provenance': 'corpora',
+        'decades': total_decades,
         'nodes': [
-            {'id': '/arc', 'kind': 'root', 'label': 'ARC', 'fixed': True, 'value': result_count, 'decades': total_decades, 'parent': 'self'},
+            {'id': '/arc', 'kind': 'root', 'label': 'ARC', 'fixed': True, 'value': result_count, 'decades': {}, 'parent': 'self'},
             {'id': '/arc/federations', 'kind': 'grouping', 'label': 'Federations', 'value': 5000, 'parent': '/arc/federations'},
             {'id': '/arc/genres', 'kind': 'grouping', 'label': 'Genres', 'value': 5000, 'parent': '/arc/genres'},
             {'id': '/arc/disciplines', 'kind': 'grouping', 'label': 'Disciplines', 'value': 5000, 'parent': '/arc/disciplines'},
