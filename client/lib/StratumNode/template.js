@@ -1,8 +1,5 @@
 const buildClassNames = (attrs) => {
   let classNames = 'node-shape'
-  if (attrs.isFacetable) {
-    classNames += ' facetable'
-  }
   // Kind for coloring
   if (attrs.kind) {
     classNames += ' node-' + attrs.kind
@@ -29,9 +26,6 @@ const buildNodeElement = (attrs) => {
 
 const buildLabelClassNames = (attrs) => {
   let classNames = 'node-label'
-  if (attrs.isFacetable) {
-    classNames += ' facetable'
-  }
   return classNames
 }
 
