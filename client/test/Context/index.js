@@ -4,6 +4,7 @@ const units = {
   append: require('./append.test'),
   constructor: require('./constructor.test'),
   copy: require('./copy.test'),
+  each: require('./each.test'),
   equals: require('./equals.test'),
   filter: require('./filter.test'),
   fromContextObject: require('./fromContextObject.test'),

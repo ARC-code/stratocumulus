@@ -61,6 +61,7 @@ Context.fromQueryString = require('./fromQueryString')(Context)
 // Methods
 proto.append = require('./append')
 proto.copy = require('./copy')
+proto.each = require('./each')
 proto.equals = require('./equals')
 proto.filter = require('./filter')
 proto.getLastFacet = require('./getLastFacet')
