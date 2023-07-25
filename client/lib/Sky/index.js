@@ -32,6 +32,5 @@ emitter(proto)
 
 // Methods
 proto.init = require('./init')
-proto.emphasizeDecades = require('./emphasizeDecades')
-proto.filterByKeyword = require('./filterByKeyword')
+proto.filter = require('./filter')
 proto.navigateTo = require('./navigateTo')

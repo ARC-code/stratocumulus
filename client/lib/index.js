@@ -91,15 +91,15 @@ exports.start = function () {
     const facetPath = context.toFacetPath()
     sky.navigateTo(facetPath)
 
-    // Filter Sky by keyword
-    const query = context.getValue('q') || ''
-    sky.filterByKeyword(query)
+    // Filter strata
+    const filterContext = context.filter(key => {
+      return ['q', 'r_years', 'f_title', 'f_agents.label.raw'].includes(key)
+    })
+    sky.filter(filterContext)
 
+    // Set slider range.
     if (context.hasParameter('r_years')) {
-      // Filter Sky by years
       const range = context.getRangeValue('r_years')
-      sky.emphasizeDecades(range.rangeStart, range.rangeEnd)
-      // Set slider.
       slider.setRange(range)
     }
   })

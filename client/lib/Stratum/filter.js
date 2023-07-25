@@ -1,18 +1,22 @@
 const io = require('../io')
 
-module.exports = function (keyword) {
-  // Filter the stratum by a free-form text query.
+module.exports = function (context) {
+  // Filter the stratum by a filtering context.
   // This will send a new stratum build job.
   //
   // Parameters:
-  //   keyword
-  //     a string, a search phrase containing one or more words.
+  //   context
+  //     a Context. The context can include faceting parameters but
+  //     .. only filtering parameters have effect here.
   //
 
   // Safeguard
   if (!this.alive) {
     return
   }
+
+  // TODO support other filtering parameters beside q
+  const keyword = context.getValue('q')
 
   // Prevent unnecessary filtering.
   const prevKeyword = this.context.getValue('q')

@@ -100,9 +100,8 @@ const proto = Stratum.prototype
 emitter(proto)
 
 // Methods
-proto.emphasizeDecades = require('./emphasizeDecades')
 proto.enableFaceting = require('./enableFaceting')
-proto.filterByKeyword = require('./filterByKeyword')
+proto.filter = require('./filter')
 proto.getBoundingCircle = require('./getBoundingCircle')
 proto.getFacetNode = require('./getFacetNode')
 proto.getNodes = require('./getNodes')
