@@ -25,6 +25,8 @@ module.exports = (context) => {
     // Single facet.
     if (labelCount === 1) {
       facetLabel += labels[0]
+    } else if (labelCount === 2) {
+      facetLabel += labels[0] + ' and ' + labels[1]
     } else {
       // Many facets. Join by commas and 'and'
       const commas = labels.slice(0, labelCount - 1).join(', ')
