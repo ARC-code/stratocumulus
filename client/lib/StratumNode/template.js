@@ -24,18 +24,12 @@ const buildNodeElement = (attrs) => {
   return `<div class="${classNames}" ${dataAttrs}></div>`
 }
 
-const buildLabelClassNames = (attrs) => {
-  let classNames = 'node-label'
-  return classNames
-}
-
 const buildLabelElement = (attrs) => {
-  const classNames = buildLabelClassNames(attrs)
   const localCount = attrs.value.toLocaleString('en-US')
   const labelCount = `<div class="node-label-count">${localCount}</div>`
   const renderLabel = attrs.kind !== 'grouping'
   const labelContent = attrs.label + (renderLabel ? labelCount : '')
-  return `<div class="${classNames}">${labelContent}</div>`
+  return `<div class="node-label">${labelContent}</div>`
 }
 
 module.exports = (attrs) => {
