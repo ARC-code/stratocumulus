@@ -1,4 +1,4 @@
-const Context = require('../../Context')
+const Context = require('./Context')
 
 module.exports = (state, action) => {
   // Navigation

@@ -1,7 +1,6 @@
-const reducer = require('./reducer')
 const Context = require('../../Context')
 
-const ContextStore = function () {
+const ContextStore = function (reducer) {
   // ContextStore is a Redux-like store for updating a Context object
   // and reacting to its changes.
   //
