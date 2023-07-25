@@ -159,17 +159,22 @@ const SearchForm = function () {
       sender.autocompleteSelected = true
       const suggestion = event.detail.selection.value.suggestion
       const suggestionField = event.detail.selection.value.field
-      const searchParams = {}
+      sender.element.value = ''
 
+      // Send filtering actions towards the reducer.
+      // The reducer is responsible of handling the exact query parameters.
       if (suggestionField === 'title') {
-        searchParams[`f_${suggestionField}`] = suggestion
+        sender.emit('submit', {
+          type: 'filter/title',
+          title: suggestion
+        })
       } else if (suggestionField === 'agents') {
         // let [name, role] = sender.parseAgentString(suggestion)
-        searchParams[`f_${suggestionField}.label.raw`] = suggestion
+        sender.emit('submit', {
+          type: 'filter/person',
+          name: suggestion
+        })
       }
-
-      sender.element.value = ''
-      sender.emit('submit', searchParams)
     })
 
     // The event that gets fired when a user hits enter in the search box
@@ -177,7 +182,10 @@ const SearchForm = function () {
       if (sender.autocompleteSelected) {
         sender.autocompleteSelected = false
       } else if (event.key === 'Enter') {
-        sender.emit('submit', { q: sender.element.value })
+        sender.emit('submit', {
+          type: 'filter/keyword',
+          keyword: sender.element.value
+        })
       }
     })
   }

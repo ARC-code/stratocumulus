@@ -65,20 +65,10 @@ exports.start = function () {
   // Connect search bar
   toolbar.on('search', (ev) => {
     // Filter strata by search query
-    contextStore.dispatch({
-      type: 'filter/keyword',
-      keyword: ev.q || ''
-    })
+    contextStore.dispatch(ev)
   })
-  toolbar.on('filter/keyword/clear', (ev) => {
-    contextStore.dispatch({
-      type: 'filter/keyword/clear'
-    })
-  })
-  toolbar.on('filter/years/clear', (ev) => {
-    contextStore.dispatch({
-      type: 'filter/years/clear'
-    })
+  toolbar.on('clear', (ev) => {
+    contextStore.dispatch(ev)
   })
 
   // Connect time range slider

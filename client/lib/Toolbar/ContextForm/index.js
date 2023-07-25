@@ -30,8 +30,10 @@ const ContextForm = function () {
     }
 
     if (dataset.action === 'remove') {
-      const parameter = dataset.facetParam
-      this.emit('clear', { parameter })
+      this.emit('clear', {
+        type: 'filter/clear',
+        parameter: dataset.facetParam
+      })
     }
   })
 }
