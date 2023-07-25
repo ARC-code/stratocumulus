@@ -1,9 +1,11 @@
 const tapspace = require('tapspace')
 const io = require('./io')
+const Context = require('./Context')
 const Sky = require('./Sky')
 const TimeSlider = require('./TimeSlider')
 const Toolbar = require('./Toolbar')
 const ViewportManager = require('./ViewportManager')
+const ReduxStore = require('./ReduxStore')
 const contextReducer = require('./reducer')
 const clientVersion = require('./version')
 
@@ -17,8 +19,8 @@ exports.start = function () {
 
   // Open SSE stream
   io.stream.connect()
-  // Context state
-  const contextStore = new io.ContextStore(contextReducer)
+  // Context state management.
+  const contextStore = new ReduxStore(new Context(), contextReducer)
 
   // Setup tapspace viewport
   const viewportManager = new ViewportManager()
