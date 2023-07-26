@@ -1,8 +1,11 @@
+const config = require('../config')
+
 module.exports = function () {
   // @Context:toCacheKey()
   //
   // Build a cache key from the context.
-  // Excludes r_years parameter.
+  // Cache key has consistent order for the context parameters,
+  // putting the filtering keys last.
   //
   // Return
   //   a string, for example "/?f_genres.id=123"
@@ -14,20 +17,26 @@ module.exports = function () {
 
   const cacheKeys = []
   const cacheValues = []
+  const filterKeys = []
+  const filterValues = []
 
-  // Facets first
+  // Split
   this.keys.forEach((key, i) => {
-    if (key.startsWith('f_')) {
+    if (config.filterParameters.includes(key)) {
+      filterKeys.push(key)
+      filterValues.push(this.values[i])
+    } else if (config.facetParameters.includes(key)) {
       cacheKeys.push(key)
       cacheValues.push(this.values[i])
     }
   })
 
-  // Queries second
-  this.keys.forEach((key, i) => {
-    if (key.startsWith('q')) {
-      cacheKeys.push(key)
-      cacheValues.push(this.values[i])
+  // Append filters into paths in a consistent order.
+  config.filterParameters.forEach(param => {
+    const i = filterKeys.indexOf(param)
+    if (i >= 0) {
+      cacheKeys.push(filterKeys[i])
+      cacheValues.push(filterValues[i])
     }
   })
 

@@ -1,6 +1,9 @@
 const io = require('../io')
+const config = require('../config')
 
 module.exports = function (context) {
+  // @Stratum:filter(context)
+  //
   // Filter the stratum by a filtering context.
   // This will send a new stratum build job.
   //
@@ -15,20 +18,20 @@ module.exports = function (context) {
     return
   }
 
-  // TODO support other filtering parameters beside q
-  const keyword = context.getValue('q')
+  // Old context for comparison
+  const oldContext = this.context
+  // Replace filters
+  const filters = context.filter(key => {
+    return config.filterParameters.includes(key)
+  })
+  filters.each((key, value) => {
+    this.context = this.context.remove(key).append(key, value)
+  })
 
   // Prevent unnecessary filtering.
-  const prevKeyword = this.context.getValue('q')
-  if (prevKeyword === keyword || (!prevKeyword && !keyword)) {
+  if (this.context.equals(oldContext)) {
     // Filtered already.
     return
-  }
-
-  // Update the filtering context for further queries.
-  this.context = this.context.remove('q')
-  if (keyword.length > 0) {
-    this.context = this.context.append('q', keyword)
   }
 
   const beginBuildJob = () => {

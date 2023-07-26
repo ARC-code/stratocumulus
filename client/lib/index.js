@@ -1,5 +1,6 @@
 const tapspace = require('tapspace')
 const io = require('./io')
+const config = require('./config')
 const Context = require('./Context')
 const Sky = require('./Sky')
 const TimeSlider = require('./TimeSlider')
@@ -93,7 +94,7 @@ exports.start = function () {
 
     // Filter strata
     const filterContext = context.filter(key => {
-      return ['q', 'r_years', 'f_title', 'f_agents.label.raw'].includes(key)
+      return config.filterParameters.includes(key)
     })
     sky.filter(filterContext)
 
