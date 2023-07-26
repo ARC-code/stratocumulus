@@ -4,9 +4,7 @@ module.exports = (state, action) => {
   // Navigation
   if (action.type === 'navigation') {
     const facetContext = Context.fromFacetPath(action.path)
-    const filterContext = state.filter((key, value) => {
-      return key.startsWith('q') || key.startsWith('r')
-    })
+    const filterContext = state.getFilteringContext()
     return facetContext.merge(filterContext)
   }
 
