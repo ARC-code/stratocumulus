@@ -1,6 +1,5 @@
 const tapspace = require('tapspace')
 const io = require('./io')
-const config = require('./config')
 const Context = require('./Context')
 const Sky = require('./Sky')
 const TimeSlider = require('./TimeSlider')
@@ -93,10 +92,7 @@ exports.start = function () {
     sky.navigateTo(facetPath)
 
     // Filter strata
-    const filterContext = context.filter(key => {
-      return config.filterParameters.includes(key)
-    })
-    sky.filter(filterContext)
+    sky.filter(context)
 
     // Set slider range.
     if (context.hasParameter('r_years')) {
