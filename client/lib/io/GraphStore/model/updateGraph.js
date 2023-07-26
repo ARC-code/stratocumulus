@@ -13,14 +13,16 @@ module.exports = function (graph, subgraph) {
   //           id
   //           label
   //           value
-  //           decades
-  //             an object, decade -> integer
   //           fixed
   //           parent
   //           facet_param
   //           facet_value
   //       edges
   //         optional array of edge objects
+  //       decades
+  //         an object, decade -> integer
+  //       structure
+  //         a string, one of 'stratum_graph', 'data_plane'
   //
 
   // Determine if it is a stratum or a data plane.
@@ -129,7 +131,6 @@ module.exports = function (graph, subgraph) {
               label: n.label,
               kind: 'grouping',
               value: 0,
-              decades: {},
               size: 0,
               fixed: false,
               parent: null,

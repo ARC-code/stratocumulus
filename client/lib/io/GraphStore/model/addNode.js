@@ -18,7 +18,6 @@ module.exports = function (graph, nodeAttrs) {
     id: nodeKey,
     label: nodeAttrs.label,
     value: 0,
-    decades: {},
     size: 0,
     fixed: false,
     parent: null,
