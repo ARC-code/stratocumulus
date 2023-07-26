@@ -17,6 +17,6 @@ exports.facetParameters = [
 exports.filterParameters = [
   'f_title',
   'f_agents.label.raw',
-  'r_years',
-  'q'
+  'q',
+  'r_years'
 ]

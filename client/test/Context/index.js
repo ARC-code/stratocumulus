@@ -10,6 +10,7 @@ const units = {
   fromContextObject: require('./fromContextObject.test'),
   fromFacetPath: require('./fromFacetPath.test'),
   fromQueryString: require('./fromQueryString.test'),
+  getFilteringContext: require('./getFilteringContext.test'),
   getLastFacet: require('./getLastFacet.test'),
   getRangeValue: require('./getRangeValue.test'),
   getValue: require('./getValue.test'),
