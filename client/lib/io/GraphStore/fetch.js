@@ -38,9 +38,7 @@ module.exports = function (context) {
   this.updates[key] = 0
 
   // Start loading.
-  // Get all years to prevent caching only subset of time ranges.
-  const buildContext = context.remove('r_years')
-  stream.sendStratumBuildJob(path, buildContext)
+  stream.sendStratumBuildJob(path, context)
 
   // Start listening the stream.
   // Prevent duplicated listening by removing other listeners beforehand.
