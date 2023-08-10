@@ -36,6 +36,12 @@ module.exports = (sky, loader) => {
       const currentStratumPath = currentStratum.path
       console.log('currently nearest stratum:', currentStratumPath)
 
+      // Classify the stratum space as current. Clear others.
+      loader.getSpaces().forEach(space => {
+        space.removeClass('current-stratum')
+      })
+      currentStratum.getSpace().addClass('current-stratum')
+
       // Prune the spaces, i.e. strata.
       // Close all sub and superstrata a couple of steps away.
       loader.closeNeighbors(currentStratumPath, 1)
