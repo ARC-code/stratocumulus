@@ -20,13 +20,16 @@ module.exports = function (context) {
 
   // Old context for comparison
   const oldContext = this.context
-  // Replace filters
-  const filters = context.filter(key => {
+  // Pick filtering parameters from the given context.
+  const newFilters = context.filter(key => {
     return config.filterParameters.includes(key)
   })
-  filters.each((key, value) => {
-    this.context = this.context.remove(key).append(key, value)
+  // Strip any old filters from the old context.
+  const nakedContext = oldContext.filter(key => {
+    return !config.filterParameters.includes(key)
   })
+  // Add new filters, if any.
+  this.context = nakedContext.merge(newFilters)
 
   // Prevent unnecessary filtering.
   if (this.context.equals(oldContext)) {
