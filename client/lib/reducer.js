@@ -1,4 +1,5 @@
 const Context = require('./Context')
+const config = require('./config')
 
 module.exports = (state, action) => {
   // Context reducer.
@@ -49,7 +50,15 @@ module.exports = (state, action) => {
   // Clear a filter
   if (action.type === 'filter/clear') {
     const parameter = action.parameter
-    return state.remove(parameter)
+    if (parameter === 'r_years') {
+      // Use default range
+      const minDecade = config.decades.minDecade
+      const maxDecade = config.decades.maxDecade
+      const defaultRangeValue = minDecade + 'to' + maxDecade
+      return state.remove('r_years').append('r_years', defaultRangeValue)
+    } else {
+      return state.remove(parameter)
+    }
   }
 
   return state
