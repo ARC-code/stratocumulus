@@ -80,7 +80,7 @@ exports.start = function () {
     })
   })
 
-  // Propagate context changes to the components.
+  // Propagate context state changes to the components.
   contextStore.subscribe(() => {
     const context = contextStore.getState()
 

@@ -19,8 +19,6 @@ const SearchForm = function () {
   this.lastAutocompleteRequest = (new Date()).getTime()
   this.autocompleteSelected = false
 
-  // TODO These next two vars need to come from somewhere else
-  // (same ones found in ArtifactCard/generateDataPlaneCardContent.js)
   const corporaApiPrefix = window.stratocumulus.corporaApiPrefix
   const roleMapping = window.stratocumulus.agentRoleMapping
 
