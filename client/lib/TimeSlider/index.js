@@ -35,7 +35,7 @@ const TimeSlider = function () {
   this.timer = null
 
   // Setup time slider
-  this.slider.addEventListener('change', (evt) => {
+  this.slider.addEventListener('onMouseUp', (evt) => {
     clearTimeout(this.timer)
     this.timer = setTimeout(() => {
       // Slider values to decades
