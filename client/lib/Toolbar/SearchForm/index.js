@@ -1,5 +1,6 @@
 require('@tarekraafat/autocomplete.js/dist/css/autoComplete.css')
 require('./searchform.css')
+const Context = require('../../Context')
 const AutoComplete = require('@tarekraafat/autocomplete.js')
 const emitter = require('component-emitter')
 const fetch = window.fetch
@@ -56,10 +57,15 @@ const SearchForm = function () {
         src: async (query) => {
           const currentAutocompleteRequest = (new Date()).getTime()
 
-          // TODO: use current search params to build out this variable
-          const currentFilters = ''
+          // Apply the current context to filter the autocomplete results.
+          // See lib/Context/toQueryString for details.
+          let currentFilters = sender.ctx.toQueryString()
+          if (currentFilters.length > 0) {
+            currentFilters = '&' + currentFilters
+          }
 
-          const request = await fetch(`${corporaApiPrefix}ArcArtifact/suggest/?q=${query}${currentFilters}`)
+          const requestUrl = `${corporaApiPrefix}ArcArtifact/suggest/?q=${query}${currentFilters}`
+          const request = await fetch(requestUrl)
           const suggestions = await request.json()
           if (currentAutocompleteRequest < sender.lastAutocompleteRequest) {
             throw Error('Stale autocomplete response')
