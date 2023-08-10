@@ -10,5 +10,6 @@ module.exports = function (firstPath) {
   // TODO context: Context.fromQueryString(query)
   const eventData = { context: new Context() }
 
-  this.loader.init(firstPath, firstBasis, eventData)
+  const openingDepth = 0
+  this.loader.initSpace(firstPath, firstBasis, openingDepth, eventData)
 }

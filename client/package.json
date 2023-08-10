@@ -41,7 +41,7 @@
     "graphology-layout-force": "^0.2.4",
     "graphology-layout-forceatlas2": "^0.10.1",
     "graphology-layout-noverlap": "^0.4.2",
-    "tapspace": "^2.0.0-alpha.16",
+    "tapspace": "^2.0.0-alpha.17",
     "toolcool-range-slider": "^4.0.20"
   },
   "devDependencies": {
