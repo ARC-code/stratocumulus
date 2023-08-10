@@ -1,8 +1,8 @@
+require('./timeslider.css')
 const emitter = require('component-emitter')
 const roundDecade = require('./roundDecade')
 const template = require('./template.ejs')
-// Import styles
-require('./timeslider.css')
+const config = require('../config')
 // Run dependencies
 require('toolcool-range-slider/dist/plugins/tcrs-marks.min.js')
 require('toolcool-range-slider')
@@ -15,7 +15,10 @@ const TimeSlider = function () {
   this.element = document.createElement('div')
   this.element.className = 'time-slider-box'
 
-  this.element.innerHTML = template()
+  this.element.innerHTML = template({
+    minValue: config.decades.minDecade,
+    maxValue: config.decades.maxDecade
+  })
   this.slider = this.element.querySelector('.time-slider')
 
   // Adjust slider style.

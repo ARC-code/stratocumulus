@@ -2,6 +2,11 @@ const template = require('./template.ejs')
 const io = require('../../io')
 const toFilterLabel = require('./toFilterLabel')
 const toFilterTypeLabel = require('./toFilterTypeLabel')
+const config = require('../../config')
+
+const MIN_DECADE = config.decades.minDecade
+const MAX_DECADE = config.decades.maxDecade
+const DEFAULT_DECADE_RANGE = MIN_DECADE + 'to' + MAX_DECADE
 
 module.exports = function () {
   // @ContextForm:render()
@@ -14,7 +19,7 @@ module.exports = function () {
 
   // Remove default filters
   filterContext = filterContext.filter((key, value) => {
-    if (key === 'r_years' && value === '400to2100') {
+    if (key === 'r_years' && value === DEFAULT_DECADE_RANGE) {
       return false
     }
     if (key === 'q' && value.trim() === '') {

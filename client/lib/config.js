@@ -6,6 +6,11 @@ exports.sizing = {
   minValue: 10
 }
 
+exports.decades = {
+  minDecade: 400,
+  maxDecade: 2100
+}
+
 // Facet parameters are Corpora-parameters navigable by zooming.
 exports.facetParameters = [
   'f_federations.id',
