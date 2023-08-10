@@ -12,9 +12,17 @@ const SearchForm = function () {
   //     when a non-empty search keyword is submitted
   //
 
+  // Current context for SearchForm.
+  // The main context change listener at the app index is responsible
+  // to call SearchForm:setContext whenever the context changes.
+  this.ctx = new Context()
+
+  // Construct input element
   const textBox = document.createElement('input')
   textBox.id = 'strato-autocomplete'
   this.element = textBox
+
+  // Autocompletion
   this.autocomplete = null
   this.lastAutocompleteRequest = (new Date()).getTime()
   this.autocompleteSelected = false
@@ -168,3 +176,4 @@ emitter(proto)
 
 // Methods
 proto.getElement = require('./getElement')
+proto.setContext = require('./setContext')

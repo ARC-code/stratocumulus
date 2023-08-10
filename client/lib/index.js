@@ -10,10 +10,10 @@ const contextReducer = require('./reducer')
 const clientVersion = require('./version')
 
 exports.start = function () {
-  // DEBUG message to help dev to differentiate between:
-  // - app bundle is ok but we are offline (ok message, no UI action)
-  // - app bundle is broken (no message, no UI action)
-  // - app bundle is cached (ok message, old versions)
+  // DEBUG log messages to help developer to differentiate between:
+  // - app bundle is ok but we are offline (ok messages, no UI action)
+  // - app bundle is broken (no messages, no UI action)
+  // - app bundle is cached (ok messages, old versions)
   console.log('stratocumulus-client v' + clientVersion)
   console.log('tapspace.js v' + tapspace.version)
 
@@ -84,8 +84,8 @@ exports.start = function () {
   contextStore.subscribe(() => {
     const context = contextStore.getState()
 
-    // Refresh context widget.
-    toolbar.contextForm.setContext(context)
+    // Refresh context widget and search bar to reflect the new context.
+    toolbar.setContext(context)
 
     // Move to current stratum.
     const facetPath = context.toFacetPath()

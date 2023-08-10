@@ -41,3 +41,4 @@ emitter(proto)
 
 // Methods
 proto.getElement = require('./getElement')
+proto.setContext = require('./setContext')
