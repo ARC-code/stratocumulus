@@ -5,7 +5,7 @@
     <% filters.forEach((filter) => { %>
       <li title="<%= filter.title %>">
         <span class="pill"><%= filter.type %> | <%= filter.label %></span>
-        <a class="filter-item-remove" href="#" data-action="remove" data-facet-param="<%= filter.parameter %>" data-facet-value="<%= filter.value %>">remove</a>
+        <a class="filter-item-remove" href="#" data-action="remove" data-facet-param="<%= filter.parameter %>" data-facet-value="<%= filter.value %>">clear</a>
       </li>
     <% }) %>
   </ul>
