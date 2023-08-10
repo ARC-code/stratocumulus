@@ -175,6 +175,14 @@ const SearchForm = function () {
           name: suggestion
         })
       }
+      // TODO select a node
+      // } else if (suggestionField === 'node') { // or something
+      //   sender.emit('submit', {
+      //     type: 'navigation/node',
+      //     parameter: node's faceting parameter
+      //     value: node's faceting value
+      //   })
+      // }
     })
 
     // The event that gets fired when a user hits enter in the search box
