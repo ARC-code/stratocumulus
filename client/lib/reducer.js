@@ -1,6 +1,11 @@
 const Context = require('./Context')
 
 module.exports = (state, action) => {
+  // Context reducer.
+  // This pure function takes in the current state object and an action and
+  // returns a new state object. The old state is not modified.
+  //
+
   // Navigation
   if (action.type === 'navigation') {
     const facetContext = Context.fromFacetPath(action.path)
