@@ -21,45 +21,8 @@ const SearchForm = function () {
 
   // TODO These next two vars need to come from somewhere else
   // (same ones found in ArtifactCard/generateDataPlaneCardContent.js)
-  const corporaApiPrefix = 'https://corpora.dh.tamu.edu/api/corpus/5f623b8eff276600a4f44553/'
-  const roleMapping = {
-    ART: 'Visual Artist',
-    AUT: 'Author',
-    EDT: 'Editor',
-    PBL: 'Publisher',
-    TRL: 'Translator',
-    CRE: 'Creator',
-    ETR: 'Etcher',
-    EGR: 'Engraver',
-    OWN: 'Owner',
-    ARC: 'Architect',
-    BND: 'Binder',
-    BKD: 'Book designer',
-    BKP: 'Book producer',
-    CLL: 'Calligrapher',
-    CTG: 'Cartographer',
-    COL: 'Collector',
-    CLR: 'Colorist',
-    CWT: 'Commentator',
-    COM: 'Compiler',
-    CMT: 'Compositor',
-    DUB: 'Dubious author',
-    FAC: 'Facsimilist',
-    ILU: 'Illuminator',
-    ILL: 'Illustrator',
-    LTG: 'Lithographer',
-    PRT: 'Printer',
-    POP: 'Printer of plates',
-    PRM: 'Printmaker',
-    RPS: 'Repository',
-    RBR: 'Rubricator',
-    SCR: 'Scribe',
-    SCL: 'Sculptor',
-    TYD: 'Type designer',
-    TYG: 'Typographer',
-    WDE: 'Wood engraver',
-    WDC: 'Wood cutter'
-  }
+  const corporaApiPrefix = window.stratocumulus.corporaApiPrefix
+  const roleMapping = window.stratocumulus.agentRoleMapping
 
   this.agentRoleRegex = /(\([^)]*\))$/ // Find last parentheses content
   this.parseAgentString = (agent) => {
