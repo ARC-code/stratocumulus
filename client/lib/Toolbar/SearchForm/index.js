@@ -64,6 +64,7 @@ const SearchForm = function () {
             currentFilters = '&' + currentFilters
           }
 
+          // Request autocomplete suggestions from Corpora's "suggest" API, storing results in "suggestions"
           const requestUrl = `${corporaApiPrefix}ArcArtifact/suggest/?q=${query}${currentFilters}`
           const request = await fetch(requestUrl)
           const suggestions = await request.json()
@@ -72,7 +73,22 @@ const SearchForm = function () {
           }
           sender.lastAutocompleteRequest = currentAutocompleteRequest
 
+          // Initialize array for keeping track of suggestions
           const data = []
+
+          // Query DOM for nodes on current stratum matching user query to add to suggestions
+          const navigable_nodes = document.querySelectorAll(`div.current-stratum div.node-shape[data-facetparam]`)
+          navigable_nodes.forEach(n => {
+            let label = n.getAttribute('data-label')
+            if (label.toLowerCase().includes(query.toLowerCase())) {
+              data.push({
+                suggestion: label,
+                field: n.getAttribute('data-kind')
+              })
+            }
+          })
+
+          // Add to suggestions any results from Corpora "suggest" API
           Object.keys(suggestions).forEach(field => {
             suggestions[field].forEach(suggestion => {
               data.push({
@@ -102,6 +118,8 @@ const SearchForm = function () {
             itemLabel = `${name} (${role})`
             fieldLabel = 'PERSON'
           }
+
+          if (fieldLabel.endsWith('s')) fieldLabel = fieldLabel.substring(0, fieldLabel.length - 1)
 
           item.style = 'display: flex; justify-content: space-between;'
           item.innerHTML = `
@@ -149,15 +167,17 @@ const SearchForm = function () {
           type: 'filter/person',
           name: suggestion
         })
+      } else {
+        // Assuming now that suggestion is a navigable facet node, find matching node in DOM and retrieve
+        // facet param and facet value necessary for navigation
+        let nav_node = document.querySelector(`div.current-stratum div.node-shape[data-kind='${suggestionField}'][data-label='${suggestion}']`)
+
+        sender.emit('submit', {
+          type: 'navigation/node',
+          parameter: nav_node.getAttribute('data-facetparam'),
+          value: nav_node.getAttribute('data-facetvalue')
+        })
       }
-      // TODO select a node
-      // } else if (suggestionField === 'node') { // or something
-      //   sender.emit('submit', {
-      //     type: 'navigation/node',
-      //     parameter: node's faceting parameter
-      //     value: node's faceting value
-      //   })
-      // }
     })
 
     // The event that gets fired when a user hits enter in the search box
