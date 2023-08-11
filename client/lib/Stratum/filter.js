@@ -1,12 +1,16 @@
 const io = require('../io')
+const config = require('../config')
 
-module.exports = function (keyword) {
-  // Filter the stratum by a free-form text query.
+module.exports = function (context) {
+  // @Stratum:filter(context)
+  //
+  // Filter the stratum by a filtering context.
   // This will send a new stratum build job.
   //
   // Parameters:
-  //   keyword
-  //     a string, a search phrase containing one or more words.
+  //   context
+  //     a Context. The context can include faceting parameters but
+  //     .. only filtering parameters have effect here.
   //
 
   // Safeguard
@@ -14,17 +18,23 @@ module.exports = function (keyword) {
     return
   }
 
+  // Old context for comparison
+  const oldContext = this.context
+  // Pick filtering parameters from the given context.
+  const newFilters = context.filter(key => {
+    return config.filterParameters.includes(key)
+  })
+  // Strip any old filters from the old context.
+  const nakedContext = oldContext.filter(key => {
+    return !config.filterParameters.includes(key)
+  })
+  // Add new filters, if any.
+  this.context = nakedContext.merge(newFilters)
+
   // Prevent unnecessary filtering.
-  const prevKeyword = this.context.getValue('q')
-  if (prevKeyword === keyword || (!prevKeyword && !keyword)) {
+  if (this.context.equals(oldContext)) {
     // Filtered already.
     return
-  }
-
-  // Update the filtering context for further queries.
-  this.context = this.context.remove('q')
-  if (keyword.length > 0) {
-    this.context = this.context.append('q', keyword)
   }
 
   const beginBuildJob = () => {

@@ -41,6 +41,10 @@ const StratumNode = function (key, attrs) {
     // Style root nodes.
     newItem.addClass('root-node')
   }
+  if (attrs.isFacetable) {
+    // Style facetable nodes.
+    newItem.addClass('facetable-node')
+  }
 
   // Gravity at node center
   newItem.setAnchor(newItem.atCenter())

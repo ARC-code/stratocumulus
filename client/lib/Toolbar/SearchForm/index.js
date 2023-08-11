@@ -1,5 +1,6 @@
 require('@tarekraafat/autocomplete.js/dist/css/autoComplete.css')
 require('./searchform.css')
+const Context = require('../../Context')
 const AutoComplete = require('@tarekraafat/autocomplete.js')
 const emitter = require('component-emitter')
 const fetch = window.fetch
@@ -12,54 +13,23 @@ const SearchForm = function () {
   //     when a non-empty search keyword is submitted
   //
 
+  // Current context for SearchForm.
+  // The main context change listener at the app index is responsible
+  // to call SearchForm:setContext whenever the context changes.
+  this.ctx = new Context()
+
+  // Construct input element
   const textBox = document.createElement('input')
   textBox.id = 'strato-autocomplete'
   this.element = textBox
+
+  // Autocompletion
   this.autocomplete = null
   this.lastAutocompleteRequest = (new Date()).getTime()
   this.autocompleteSelected = false
 
-  // TODO These next two vars need to come from somewhere else
-  // (same ones found in ArtifactCard/generateDataPlaneCardContent.js)
-  const corporaApiPrefix = 'https://corpora.dh.tamu.edu/api/corpus/5f623b8eff276600a4f44553/'
-  const roleMapping = {
-    ART: 'Visual Artist',
-    AUT: 'Author',
-    EDT: 'Editor',
-    PBL: 'Publisher',
-    TRL: 'Translator',
-    CRE: 'Creator',
-    ETR: 'Etcher',
-    EGR: 'Engraver',
-    OWN: 'Owner',
-    ARC: 'Architect',
-    BND: 'Binder',
-    BKD: 'Book designer',
-    BKP: 'Book producer',
-    CLL: 'Calligrapher',
-    CTG: 'Cartographer',
-    COL: 'Collector',
-    CLR: 'Colorist',
-    CWT: 'Commentator',
-    COM: 'Compiler',
-    CMT: 'Compositor',
-    DUB: 'Dubious author',
-    FAC: 'Facsimilist',
-    ILU: 'Illuminator',
-    ILL: 'Illustrator',
-    LTG: 'Lithographer',
-    PRT: 'Printer',
-    POP: 'Printer of plates',
-    PRM: 'Printmaker',
-    RPS: 'Repository',
-    RBR: 'Rubricator',
-    SCR: 'Scribe',
-    SCL: 'Sculptor',
-    TYD: 'Type designer',
-    TYG: 'Typographer',
-    WDE: 'Wood engraver',
-    WDC: 'Wood cutter'
-  }
+  const corporaApiPrefix = window.stratocumulus.corporaApiPrefix
+  const roleMapping = window.stratocumulus.agentRoleMapping
 
   this.agentRoleRegex = /(\([^)]*\))$/ // Find last parentheses content
   this.parseAgentString = (agent) => {
@@ -87,10 +57,15 @@ const SearchForm = function () {
         src: async (query) => {
           const currentAutocompleteRequest = (new Date()).getTime()
 
-          // TODO: use current search params to build out this variable
-          const currentFilters = ''
+          // Apply the current context to filter the autocomplete results.
+          // See lib/Context/toQueryString for details.
+          let currentFilters = sender.ctx.toQueryString()
+          if (currentFilters.length > 0) {
+            currentFilters = '&' + currentFilters
+          }
 
-          const request = await fetch(`${corporaApiPrefix}ArcArtifact/suggest/?q=${query}${currentFilters}`)
+          const requestUrl = `${corporaApiPrefix}ArcArtifact/suggest/?q=${query}${currentFilters}`
+          const request = await fetch(requestUrl)
           const suggestions = await request.json()
           if (currentAutocompleteRequest < sender.lastAutocompleteRequest) {
             throw Error('Stale autocomplete response')
@@ -159,17 +134,30 @@ const SearchForm = function () {
       sender.autocompleteSelected = true
       const suggestion = event.detail.selection.value.suggestion
       const suggestionField = event.detail.selection.value.field
-      const searchParams = {}
+      sender.element.value = ''
 
+      // Send filtering actions towards the reducer.
+      // The reducer is responsible of handling the exact query parameters.
       if (suggestionField === 'title') {
-        searchParams[`f_${suggestionField}`] = suggestion
+        sender.emit('submit', {
+          type: 'filter/title',
+          title: suggestion
+        })
       } else if (suggestionField === 'agents') {
         // let [name, role] = sender.parseAgentString(suggestion)
-        searchParams[`f_${suggestionField}.label.raw`] = suggestion
+        sender.emit('submit', {
+          type: 'filter/person',
+          name: suggestion
+        })
       }
-
-      sender.element.value = ''
-      sender.emit('submit', searchParams)
+      // TODO select a node
+      // } else if (suggestionField === 'node') { // or something
+      //   sender.emit('submit', {
+      //     type: 'navigation/node',
+      //     parameter: node's faceting parameter
+      //     value: node's faceting value
+      //   })
+      // }
     })
 
     // The event that gets fired when a user hits enter in the search box
@@ -177,7 +165,10 @@ const SearchForm = function () {
       if (sender.autocompleteSelected) {
         sender.autocompleteSelected = false
       } else if (event.key === 'Enter') {
-        sender.emit('submit', { q: sender.element.value })
+        sender.emit('submit', {
+          type: 'filter/keyword',
+          keyword: sender.element.value
+        })
       }
     })
   }
@@ -191,3 +182,4 @@ emitter(proto)
 
 // Methods
 proto.getElement = require('./getElement')
+proto.setContext = require('./setContext')

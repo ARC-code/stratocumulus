@@ -2,7 +2,7 @@
 const fetch = window.fetch
 
 // This string will now be passed to the client by the backend upon initial stratum rendering
-const corporaApiPrefix = 'https://corpora.dh.tamu.edu/api/corpus/5f623b8eff276600a4f44553/'
+const corporaApiPrefix = window.stratocumulus.corporaApiPrefix
 
 // Often the referenced thumbnail for an artifact suffers from link rot, and often multiple artifacts
 // share the same thumbnail, so let's keep track of any bad thumbnails to avoid wasting time trying to
@@ -17,44 +17,7 @@ const federationThumbnails = {}
 // let thumbnailsLoaded = false
 
 // For mapping an agent's role to a legible label
-const agentRoleMapping = {
-  ART: 'Visual Artist',
-  AUT: 'Author',
-  EDT: 'Editor',
-  PBL: 'Publisher',
-  TRL: 'Translator',
-  CRE: 'Creator',
-  ETR: 'Etcher',
-  EGR: 'Engraver',
-  OWN: 'Owner',
-  ARC: 'Architect',
-  BND: 'Binder',
-  BKD: 'Book designer',
-  BKP: 'Book producer',
-  CLL: 'Calligrapher',
-  CTG: 'Cartographer',
-  COL: 'Collector',
-  CLR: 'Colorist',
-  CWT: 'Commentator',
-  COM: 'Compiler',
-  CMT: 'Compositor',
-  DUB: 'Dubious author',
-  FAC: 'Facsimilist',
-  ILU: 'Illuminator',
-  ILL: 'Illustrator',
-  LTG: 'Lithographer',
-  PRT: 'Printer',
-  POP: 'Printer of plates',
-  PRM: 'Printmaker',
-  RPS: 'Repository',
-  RBR: 'Rubricator',
-  SCR: 'Scribe',
-  SCL: 'Sculptor',
-  TYD: 'Type designer',
-  TYG: 'Typographer',
-  WDE: 'Wood engraver',
-  WDC: 'Wood cutter'
-}
+const agentRoleMapping = window.stratocumulus.agentRoleMapping
 // Capture a group of parentheses and its contents at the end of a string.
 const agentRoleRegex = /(\([^)]*\))$/
 

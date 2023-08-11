@@ -1,5 +1,12 @@
 const template = require('./template.ejs')
 const io = require('../../io')
+const toFilterLabel = require('./toFilterLabel')
+const toFilterTypeLabel = require('./toFilterTypeLabel')
+const config = require('../../config')
+
+const MIN_DECADE = config.decades.minDecade
+const MAX_DECADE = config.decades.maxDecade
+const DEFAULT_DECADE_RANGE = MIN_DECADE + 'to' + MAX_DECADE
 
 module.exports = function () {
   // @ContextForm:render()
@@ -7,46 +14,39 @@ module.exports = function () {
   // Render the current context.
   //
 
-  // Convert to array for easy filtering.
-  let contextArray = this.ctx.toArray()
+  const facetContext = this.ctx.getFacetingContext()
+  let filterContext = this.ctx.getFilteringContext()
 
   // Remove default filters
-  contextArray = contextArray.filter(item => {
-    if (item.parameter === 'r_years' && item.value === '400to2100') {
+  filterContext = filterContext.filter((key, value) => {
+    if (key === 'r_years' && value === DEFAULT_DECADE_RANGE) {
+      return false
+    }
+    if (key === 'q' && value.trim() === '') {
       return false
     }
     return true
   })
 
-  // Create labels
-  const labeledArray = contextArray.map((item) => {
-    let label = ''
-    let typeLabel = ''
-    const title = item.parameter + '=' + item.value
+  // Add type labels
+  const facetArray = facetContext.map((key, value) => {
+    const title = key + '=' + value
+    const label = io.labelStore.read(key, value)
+    const type = 'facet'
+    return { title, label, type }
+  })
 
-    switch (item.type) {
-      case 'f':
-        label = io.labelStore.read(item.parameter, item.value)
-        typeLabel = 'facet'
-        break
-      case 'q':
-        label = item.value
-        typeLabel = 'keyword'
-        break
-      case 'r':
-        label = item.value.replace('to', '–')
-        typeLabel = 'years'
-        break
-      default:
-        break
-    }
-
-    return { ...item, label, typeLabel, title }
+  const filterArray = filterContext.map((key, value) => {
+    const title = key + '=' + value
+    const parameter = key
+    const label = toFilterLabel(key, value)
+    const type = toFilterTypeLabel(key)
+    return { title, parameter, value, label, type }
   })
 
   // Render
   this.element.innerHTML = template({
-    facets: labeledArray.filter(item => item.type === 'f'),
-    filters: labeledArray.filter(item => ['q', 'r'].includes(item.type))
+    facets: facetArray,
+    filters: filterArray
   })
 }

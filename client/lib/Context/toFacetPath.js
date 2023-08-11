@@ -1,3 +1,5 @@
+const config = require('../config')
+
 module.exports = function () {
   // @Context:toFacetPath()
   //
@@ -16,7 +18,7 @@ module.exports = function () {
   const facetValues = []
 
   this.keys.forEach((key, i) => {
-    if (key.startsWith('f_')) {
+    if (config.facetParameters.includes(key)) {
       facetKeys.push(key)
       facetValues.push(this.values[i])
     }

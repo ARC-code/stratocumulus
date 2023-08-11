@@ -7,8 +7,8 @@ const Toolbar = function () {
   // A component for search and information tools.
   //
   // Emits:
-  //   search { query }
-  //   clear { parameter }
+  //   search { type, ... }
+  //   clear { type, parameter }
   //
   this.element = document.createElement('div')
   this.element.className = 'toolbar-box'
@@ -29,12 +29,7 @@ const Toolbar = function () {
 
   // Forward context events
   this.contextForm.on('clear', (ev) => {
-    if (ev.parameter === 'q') {
-      this.emit('filter/keyword/clear')
-    }
-    if (ev.parameter === 'r_years') {
-      this.emit('filter/years/clear')
-    }
+    this.emit('clear', ev)
   })
 }
 
@@ -46,3 +41,4 @@ emitter(proto)
 
 // Methods
 proto.getElement = require('./getElement')
+proto.setContext = require('./setContext')

@@ -31,8 +31,47 @@
       // the server to be accessed by the client app.
       // This way we do not need to render server variables into client bundle.
       window.stratocumulus = {
-        sseStreamUrl: "{{ url_for('sse.stream') }}",
-        sseStreamKey: "{{ key }}"
+        sseStreamUrl: '{{ url_for('sse.stream') }}',
+        sseStreamKey: '{{ key }}',
+        corporaApiPrefix: 'https://corpora.dh.tamu.edu/api/corpus/5f623b8eff276600a4f44553/',
+        agentRoleMapping: {
+          ART: 'Visual Artist',
+          AUT: 'Author',
+          EDT: 'Editor',
+          PBL: 'Publisher',
+          TRL: 'Translator',
+          CRE: 'Creator',
+          ETR: 'Etcher',
+          EGR: 'Engraver',
+          OWN: 'Owner',
+          ARC: 'Architect',
+          BND: 'Binder',
+          BKD: 'Book designer',
+          BKP: 'Book producer',
+          CLL: 'Calligrapher',
+          CTG: 'Cartographer',
+          COL: 'Collector',
+          CLR: 'Colorist',
+          CWT: 'Commentator',
+          COM: 'Compiler',
+          CMT: 'Compositor',
+          DUB: 'Dubious author',
+          FAC: 'Facsimilist',
+          ILU: 'Illuminator',
+          ILL: 'Illustrator',
+          LTG: 'Lithographer',
+          PRT: 'Printer',
+          POP: 'Printer of plates',
+          PRM: 'Printmaker',
+          RPS: 'Repository',
+          RBR: 'Rubricator',
+          SCR: 'Scribe',
+          SCL: 'Sculptor',
+          TYD: 'Type designer',
+          TYG: 'Typographer',
+          WDE: 'Wood engraver',
+          WDC: 'Wood cutter'
+        }
       }
     </script>
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>

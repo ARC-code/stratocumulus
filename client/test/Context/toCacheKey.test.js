@@ -9,8 +9,8 @@ module.exports = (test, Context) => {
     )
 
     const ctx = new Context(
-      ['f_genres.id', 'f_disciplines.id', 'q', 'r_years'],
-      ['ABC', 'E', 'keyword', '200to400']
+      ['f_genres.id', 'f_disciplines.id', 'q', 'foo'],
+      ['ABC', 'E', 'keyword', 'bar']
     )
 
     t.equal(

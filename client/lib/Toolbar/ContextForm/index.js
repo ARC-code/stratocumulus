@@ -13,6 +13,9 @@ const ContextForm = function () {
   //   clear { parameter }
   //
 
+  // Current context for ContextForm.
+  // The main context change listener at the app index is responsible
+  // to call ContextForm:setContext whenever the context changes.
   this.ctx = new Context()
 
   // Prepare container
@@ -30,8 +33,10 @@ const ContextForm = function () {
     }
 
     if (dataset.action === 'remove') {
-      const parameter = dataset.facetParam
-      this.emit('clear', { parameter })
+      this.emit('clear', {
+        type: 'filter/clear',
+        parameter: dataset.facetParam
+      })
     }
   })
 }
