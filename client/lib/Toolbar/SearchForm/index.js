@@ -64,8 +64,10 @@ const SearchForm = function () {
             currentFilters = '&' + currentFilters
           }
 
-          // Request autocomplete suggestions from Corpora's "suggest" API, storing results in "suggestions"
-          const requestUrl = `${corporaApiPrefix}ArcArtifact/suggest/?q=${query}${currentFilters}`
+          // Request autocomplete suggestions from Corpora's "suggest" API,
+          // storing results in "suggestions"
+          const requestPath = `${corporaApiPrefix}ArcArtifact/suggest/`
+          const requestUrl = `${requestPath}?q=${query}${currentFilters}`
           const request = await fetch(requestUrl)
           const suggestions = await request.json()
           if (currentAutocompleteRequest < sender.lastAutocompleteRequest) {
@@ -77,9 +79,10 @@ const SearchForm = function () {
           const data = []
 
           // Query DOM for nodes on current stratum matching user query to add to suggestions
-          const navigable_nodes = document.querySelectorAll(`div.current-stratum div.node-shape[data-facetparam]`)
-          navigable_nodes.forEach(n => {
-            let label = n.getAttribute('data-label')
+          const qs = 'div.current-stratum div.node-shape[data-facetparam]'
+          const navigableNodes = document.querySelectorAll(qs)
+          navigableNodes.forEach(n => {
+            const label = n.getAttribute('data-label')
             if (label.toLowerCase().includes(query.toLowerCase())) {
               data.push({
                 suggestion: label,
@@ -168,14 +171,15 @@ const SearchForm = function () {
           name: suggestion
         })
       } else {
-        // Assuming now that suggestion is a navigable facet node, find matching node in DOM and retrieve
+        // Assuming now that suggestion is a navigable facet node,
+        // find matching node in DOM and retrieve
         // facet param and facet value necessary for navigation
-        let nav_node = document.querySelector(`div.current-stratum div.node-shape[data-kind='${suggestionField}'][data-label='${suggestion}']`)
+        const navNode = document.querySelector(`div.current-stratum div.node-shape[data-kind='${suggestionField}'][data-label='${suggestion}']`)
 
         sender.emit('submit', {
           type: 'navigation/node',
-          parameter: nav_node.getAttribute('data-facetparam'),
-          value: nav_node.getAttribute('data-facetvalue')
+          parameter: navNode.getAttribute('data-facetparam'),
+          value: navNode.getAttribute('data-facetvalue')
         })
       }
     })
