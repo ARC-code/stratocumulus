@@ -61,5 +61,12 @@
   border-radius: 0.5em;
 }
 .context-box .filter-list li a.filter-item-remove {
-  color: #EEE;
+  font-size: 1.6em;
+  vertical-align: bottom;
+  color: #DDD;
+  text-decoration: none;
+  cursor: pointer;
+}
+.context-box .filter-list li a.filter-item-remove:hover {
+  color: white;
 }

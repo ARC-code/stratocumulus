@@ -3,9 +3,9 @@
   <h5>Filters:</h5>
   <ul class="filter-list">
     <% filters.forEach((filter) => { %>
-      <li title="<%= filter.title %>">
-        <span class="pill"><%= filter.type %> | <%= filter.label %></span>
-        <a class="filter-item-remove" href="#" data-action="remove" data-facet-param="<%= filter.parameter %>" data-facet-value="<%= filter.value %>">clear</a>
+      <li>
+        <span class="pill" title="<%= filter.title %>"><%= filter.type %> | <%= filter.label %></span>
+        <a class="filter-item-remove" title="remove filter" href="#" data-action="remove" data-facet-param="<%= filter.parameter %>" data-facet-value="<%= filter.value %>">&times;</a>
       </li>
     <% }) %>
   </ul>
