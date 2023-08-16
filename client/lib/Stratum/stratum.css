@@ -1,6 +1,5 @@
 .stratum-edge {
-  /* tapspace edges use only border-top */
-  border-top: 3px solid rgba(200, 200, 200, 0.5) !important; /* TODO tapspace */
+  background: linear-gradient(0.25turn, #444444, #AAAAAA);
 }
 
 .stratum-edge.empty-edge,
