@@ -11,6 +11,8 @@ module.exports = function (final = false, updateCount = 0) {
   // Parameters:
   //   final
   //     boolean, set true to update edges
+  //   updateCount
+  //     an integer
   //
   const nodePlaneOrigin = this.nodePlane.at(0, 0)
 

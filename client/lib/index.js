@@ -86,9 +86,14 @@ exports.start = function () {
     // Refresh context widget and search bar to reflect the new context.
     toolbar.setContext(context)
 
-    // Move to current stratum.
-    const facetPath = context.toFacetPath()
-    sky.navigateTo(facetPath)
+    // Navigate to current position.
+    if (state.currentNode) {
+      const facetParam = state.currentNode.parameter
+      const facetValue = state.currentNode.value
+      sky.navigateToNode(context, facetParam, facetValue)
+    } else {
+      sky.navigateToStratum(context)
+    }
 
     // Filter strata
     sky.filter(context)
