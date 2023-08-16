@@ -26,7 +26,7 @@ module.exports = function (context, facetParam, facetValue) {
   // Zoom to node component
   const duration = 800
   this.viewport.animateOnce({ duration })
-  this.viewport.zoomToFill(stratumNode.component, 0.3)
+  this.viewport.zoomToFill(stratumNode.component, 0.5)
   // TODO emit idle after animation
   setTimeout(() => {
     this.viewport.hyperspace.commit()
