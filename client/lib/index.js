@@ -64,8 +64,14 @@ exports.start = function () {
 
   // Connect search bar
   toolbar.on('search', (ev) => {
-    // Filter strata by search query
-    contextStore.dispatch(ev)
+    // TODO handle node search in the reducer too.
+    if (ev.type === 'navigation/node') {
+      // Zoom to node
+      sky.navigateToNode(ev.parameter, ev.value)
+    } else {
+      // Filter strata by search query
+      contextStore.dispatch(ev)
+    }
   })
   toolbar.on('clear', (ev) => {
     contextStore.dispatch(ev)
