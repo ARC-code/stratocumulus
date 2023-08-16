@@ -82,11 +82,11 @@ const SearchForm = function () {
           const qs = 'div.current-stratum div.node-shape[data-facetparam]'
           const navigableNodes = document.querySelectorAll(qs)
           navigableNodes.forEach(n => {
-            const label = n.getAttribute('data-label')
+            const label = n.dataset.label
             if (label.toLowerCase().includes(query.toLowerCase())) {
               data.push({
                 suggestion: label,
-                field: n.getAttribute('data-kind')
+                field: n.dataset.kind
               })
             }
           })
@@ -178,8 +178,8 @@ const SearchForm = function () {
 
         sender.emit('submit', {
           type: 'navigation/node',
-          parameter: navNode.getAttribute('data-facetparam'),
-          value: navNode.getAttribute('data-facetvalue')
+          parameter: navNode.dataset.facetparam,
+          value: navNode.dataset.facetvalue
         })
       }
     })
