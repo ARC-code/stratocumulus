@@ -1,12 +1,11 @@
 const tapspace = require('tapspace')
 const io = require('./io')
-const Context = require('./Context')
 const Sky = require('./Sky')
 const TimeSlider = require('./TimeSlider')
 const Toolbar = require('./Toolbar')
 const ViewportManager = require('./ViewportManager')
 const ReduxStore = require('./ReduxStore')
-const contextReducer = require('./reducer')
+const reducer = require('./reducer')
 const clientVersion = require('./version')
 
 exports.start = function () {
@@ -19,8 +18,8 @@ exports.start = function () {
 
   // Open SSE stream
   io.stream.connect()
-  // Context state management.
-  const contextStore = new ReduxStore(new Context(), contextReducer)
+  // State management.
+  const store = new ReduxStore({}, reducer)
 
   // Setup tapspace viewport
   const viewportManager = new ViewportManager()
@@ -56,24 +55,23 @@ exports.start = function () {
   // Navigation changes current context.
   sky.on('navigation', (ev) => {
     console.log('navigation event', ev.context.toFacetPath())
-    contextStore.dispatch({
+    store.dispatch({
       type: 'navigation',
       path: ev.context.toFacetPath()
     })
   })
 
-  // Connect search bar
+  // Connect search bar and other tools.
   toolbar.on('search', (ev) => {
-    // Filter strata by search query
-    contextStore.dispatch(ev)
+    store.dispatch(ev)
   })
   toolbar.on('clear', (ev) => {
-    contextStore.dispatch(ev)
+    store.dispatch(ev)
   })
 
   // Connect time range slider
   slider.on('change', (ev) => {
-    contextStore.dispatch({
+    store.dispatch({
       type: 'filter/years',
       rangeStart: ev.rangeStart,
       rangeEnd: ev.rangeEnd
@@ -81,15 +79,21 @@ exports.start = function () {
   })
 
   // Propagate context state changes to the components.
-  contextStore.subscribe(() => {
-    const context = contextStore.getState()
+  store.subscribe(() => {
+    const state = store.getState()
+    const context = state.context
 
     // Refresh context widget and search bar to reflect the new context.
     toolbar.setContext(context)
 
-    // Move to current stratum.
-    const facetPath = context.toFacetPath()
-    sky.navigateTo(facetPath)
+    // Navigate to current position.
+    if (state.currentNode) {
+      const facetParam = state.currentNode.parameter
+      const facetValue = state.currentNode.value
+      sky.navigateToNode(context, facetParam, facetValue)
+    } else {
+      sky.navigateToStratum(context)
+    }
 
     // Filter strata
     sky.filter(context)

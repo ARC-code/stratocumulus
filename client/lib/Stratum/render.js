@@ -11,6 +11,8 @@ module.exports = function (final = false, updateCount = 0) {
   // Parameters:
   //   final
   //     boolean, set true to update edges
+  //   updateCount
+  //     an integer
   //
   const nodePlaneOrigin = this.nodePlane.at(0, 0)
 
@@ -85,7 +87,7 @@ module.exports = function (final = false, updateCount = 0) {
 
       if (!edgeItem) {
         // No such edge yet rendered. Create
-        edgeItem = tapspace.createEdge('gray')
+        edgeItem = tapspace.createEdge(3)
         edgeItem.addClass('stratum-edge')
         edgeItem.edgeKey = edgeKey
         // or model.edgeKey

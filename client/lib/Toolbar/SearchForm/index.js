@@ -56,6 +56,10 @@ const SearchForm = function () {
       data: {
         src: async (query) => {
           const currentAutocompleteRequest = (new Date()).getTime()
+          if (currentAutocompleteRequest < sender.lastAutocompleteRequest) {
+            return // The query has already changed. Dismiss the response.
+          }
+          sender.lastAutocompleteRequest = currentAutocompleteRequest
 
           // Apply the current context to filter the autocomplete results.
           // See lib/Context/toQueryString for details.
@@ -64,26 +68,25 @@ const SearchForm = function () {
             currentFilters = '&' + currentFilters
           }
 
-          // Request autocomplete suggestions from Corpora's "suggest" API, storing results in "suggestions"
-          const requestUrl = `${corporaApiPrefix}ArcArtifact/suggest/?q=${query}${currentFilters}`
+          // Request autocomplete suggestions from Corpora's "suggest" API,
+          // storing results in "suggestions"
+          const requestPath = `${corporaApiPrefix}ArcArtifact/suggest/`
+          const requestUrl = `${requestPath}?q=${query}${currentFilters}`
           const request = await fetch(requestUrl)
           const suggestions = await request.json()
-          if (currentAutocompleteRequest < sender.lastAutocompleteRequest) {
-            throw Error('Stale autocomplete response')
-          }
-          sender.lastAutocompleteRequest = currentAutocompleteRequest
 
           // Initialize array for keeping track of suggestions
           const data = []
 
           // Query DOM for nodes on current stratum matching user query to add to suggestions
-          const navigable_nodes = document.querySelectorAll(`div.current-stratum div.node-shape[data-facetparam]`)
-          navigable_nodes.forEach(n => {
-            let label = n.getAttribute('data-label')
+          const qs = 'div.current-stratum div.node-shape[data-facetparam]'
+          const navigableNodes = document.querySelectorAll(qs)
+          navigableNodes.forEach(n => {
+            const label = n.dataset.label
             if (label.toLowerCase().includes(query.toLowerCase())) {
               data.push({
                 suggestion: label,
-                field: n.getAttribute('data-kind')
+                field: n.dataset.kind
               })
             }
           })
@@ -168,14 +171,15 @@ const SearchForm = function () {
           name: suggestion
         })
       } else {
-        // Assuming now that suggestion is a navigable facet node, find matching node in DOM and retrieve
+        // Assuming now that suggestion is a navigable facet node,
+        // find matching node in DOM and retrieve
         // facet param and facet value necessary for navigation
-        let nav_node = document.querySelector(`div.current-stratum div.node-shape[data-kind='${suggestionField}'][data-label='${suggestion}']`)
+        const navNode = document.querySelector(`div.current-stratum div.node-shape[data-kind='${suggestionField}'][data-label='${suggestion}']`)
 
         sender.emit('submit', {
           type: 'navigation/node',
-          parameter: nav_node.getAttribute('data-facetparam'),
-          value: nav_node.getAttribute('data-facetvalue')
+          parameter: navNode.dataset.facetparam,
+          value: navNode.dataset.facetvalue
         })
       }
     })

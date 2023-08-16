@@ -141,7 +141,9 @@ module.exports = (sky, loader) => {
   // enable the viewport interaction.
   loader.once('opened', (ev) => {
     const stratum = ev.space.stratum
-    // Wait to ensure stratum is in space.
+    // Mark as current. Necessary to enable search from current stratum.
+    ev.space.addClass('current-stratum')
+    // Wait to ensure stratum is in DOM.
     setTimeout(() => {
       stratum.once('first', () => {
         sky.emit('first')

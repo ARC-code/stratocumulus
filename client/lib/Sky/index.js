@@ -33,4 +33,5 @@ emitter(proto)
 // Methods
 proto.init = require('./init')
 proto.filter = require('./filter')
-proto.navigateTo = require('./navigateTo')
+proto.navigateToStratum = require('./navigateToStratum')
+proto.navigateToNode = require('./navigateToNode')
