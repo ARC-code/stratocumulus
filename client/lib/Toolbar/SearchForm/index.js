@@ -56,6 +56,10 @@ const SearchForm = function () {
       data: {
         src: async (query) => {
           const currentAutocompleteRequest = (new Date()).getTime()
+          if (currentAutocompleteRequest < sender.lastAutocompleteRequest) {
+            return // The query has already changed. Dismiss the response.
+          }
+          sender.lastAutocompleteRequest = currentAutocompleteRequest
 
           // Apply the current context to filter the autocomplete results.
           // See lib/Context/toQueryString for details.
@@ -70,10 +74,6 @@ const SearchForm = function () {
           const requestUrl = `${requestPath}?q=${query}${currentFilters}`
           const request = await fetch(requestUrl)
           const suggestions = await request.json()
-          if (currentAutocompleteRequest < sender.lastAutocompleteRequest) {
-            throw Error('Stale autocomplete response')
-          }
-          sender.lastAutocompleteRequest = currentAutocompleteRequest
 
           // Initialize array for keeping track of suggestions
           const data = []
