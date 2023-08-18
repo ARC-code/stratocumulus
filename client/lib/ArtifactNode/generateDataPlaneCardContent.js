@@ -1,8 +1,4 @@
-// Use native fetch API
-const fetch = window.fetch
-
-// This string will now be passed to the client by the backend upon initial stratum rendering
-const corporaApiPrefix = window.stratocumulus.corporaApiPrefix
+const io = require('../io')
 
 // Often the referenced thumbnail for an artifact suffers from link rot, and often multiple artifacts
 // share the same thumbnail, so let's keep track of any bad thumbnails to avoid wasting time trying to
@@ -85,117 +81,120 @@ const agentRoleRegex = /(\([^)]*\))$/
 
 module.exports = function (artifactId, cardFrame) {
   console.log('generateDataPlaneCard', artifactId)
-  const artifactDetailEndpoint = `${corporaApiPrefix}ArcArtifact/${artifactId}/`
 
-  fetch(artifactDetailEndpoint)
-    .then(response => response.json())
-    .then(art => {
-      const cardHeader = document.createElement('div')
-      cardHeader.setAttribute('class', 'dataplane-card-header')
+  io.corpora.fetchArtifact(artifactId, (err, art) => {
+    if (err) {
+      // TODO alert user?
+      console.error(err)
+      return
+    }
 
-      const primaryFederation = art.federations[0].id
+    const cardHeader = document.createElement('div')
+    cardHeader.setAttribute('class', 'dataplane-card-header')
 
-      if (primaryFederation in federationThumbnails) {
-        const thumbnail = document.createElement('img')
-        thumbnail.setAttribute('class', 'dataplane-card-thumbnail')
-        thumbnail.setAttribute('alt', art.title)
+    const primaryFederation = art.federations[0].id
 
-        if (art.thumbnail_url) {
-          const adjustedThumbnailUrl = art.thumbnail_url.replace('http:', 'https:')
+    if (primaryFederation in federationThumbnails) {
+      const thumbnail = document.createElement('img')
+      thumbnail.setAttribute('class', 'dataplane-card-thumbnail')
+      thumbnail.setAttribute('alt', art.title)
 
-          if (!invalidCardThumbnails.includes(adjustedThumbnailUrl)) {
-            const thumbnailErrorHandler = (event) => {
-              event.target.removeEventListener('error', thumbnailErrorHandler, false)
-              invalidCardThumbnails.push(event.target.getAttribute('src'))
-              event.target.setAttribute('src', event.target.getAttribute('data-federation-thumbnail'))
-            }
-            thumbnail.setAttribute('data-federation-thumbnail', federationThumbnails[primaryFederation])
-            thumbnail.addEventListener('error', thumbnailErrorHandler, false)
-            thumbnail.setAttribute('src', adjustedThumbnailUrl)
-          } else {
-            thumbnail.setAttribute('src', federationThumbnails[primaryFederation])
+      if (art.thumbnail_url) {
+        const adjustedThumbnailUrl = art.thumbnail_url.replace('http:', 'https:')
+
+        if (!invalidCardThumbnails.includes(adjustedThumbnailUrl)) {
+          const thumbnailErrorHandler = (event) => {
+            event.target.removeEventListener('error', thumbnailErrorHandler, false)
+            invalidCardThumbnails.push(event.target.getAttribute('src'))
+            event.target.setAttribute('src', event.target.getAttribute('data-federation-thumbnail'))
           }
+          thumbnail.setAttribute('data-federation-thumbnail', federationThumbnails[primaryFederation])
+          thumbnail.addEventListener('error', thumbnailErrorHandler, false)
+          thumbnail.setAttribute('src', adjustedThumbnailUrl)
         } else {
           thumbnail.setAttribute('src', federationThumbnails[primaryFederation])
         }
-
-        cardHeader.appendChild(thumbnail)
-      }
-
-      const title = document.createElement('h2')
-      title.setAttribute('class', 'dataplane-card-title')
-      title.innerHTML = art.title
-      cardHeader.appendChild(title)
-      cardFrame.appendChild(cardHeader)
-
-      const metadata = document.createElement('dl')
-      metadata.setAttribute('class', 'dataplane-card-metadata')
-
-      // date
-      const dateDt = document.createElement('dt')
-      dateDt.innerHTML = 'Published'
-      const dateDd = document.createElement('dd')
-      if (art.years.length === 1) {
-        dateDd.innerHTML = art.years[0]
-      } else if (art.years.length > 1) {
-        dateDd.innerHTML = `${art.years[0]}-${art.years[art.years.length - 1]}`
-      }
-      metadata.appendChild(dateDt)
-      metadata.appendChild(dateDd)
-
-      // agents
-      art.agents.forEach(agent => {
-        let name = agent.label
-        let role = ''
-
-        const roleMatch = name.match(agentRoleRegex)
-        if (roleMatch !== null) {
-          let roleCode = roleMatch[0]
-          name = name.replace(roleCode, '').trim()
-          roleCode = roleCode.replace('(', '').replace(')', '')
-          if (roleCode in agentRoleMapping) {
-            role = agentRoleMapping[roleCode]
-          }
-        }
-
-        const roleDt = document.createElement('dt')
-        roleDt.innerHTML = role
-        const nameDd = document.createElement('dd')
-        nameDd.innerHTML = name
-        metadata.appendChild(roleDt)
-        metadata.appendChild(nameDd)
-      })
-
-      // archive
-      const archiveLink = document.createElement('a')
-      archiveLink.innerHTML = art.archive.label
-      if (art.archive.id in archiveUrls) {
-        archiveLink.setAttribute('href', archiveUrls[art.archive.id])
       } else {
-        archiveLink.setAttribute('data-archive-id', art.archive.id)
+        thumbnail.setAttribute('src', federationThumbnails[primaryFederation])
       }
 
-      const archiveDt = document.createElement('dt')
-      archiveDt.innerHTML = 'Site'
-      const archiveDd = document.createElement('dd')
-      archiveDd.appendChild(archiveLink)
-      metadata.appendChild(archiveDt)
-      metadata.appendChild(archiveDd)
+      cardHeader.appendChild(thumbnail)
+    }
 
-      const genreDt = document.createElement('dt')
-      genreDt.innerHTML = 'Genre(s)'
-      const genreDd = document.createElement('dd')
-      genreDd.innerHTML = art.genres.map(genre => genre.label).join(',')
-      metadata.appendChild(genreDt)
-      metadata.appendChild(genreDd)
+    const title = document.createElement('h2')
+    title.setAttribute('class', 'dataplane-card-title')
+    title.innerHTML = art.title
+    cardHeader.appendChild(title)
+    cardFrame.appendChild(cardHeader)
 
-      const disciplineDt = document.createElement('dt')
-      disciplineDt.innerHTML = 'Discipline(s)'
-      const disciplineDd = document.createElement('dd')
-      disciplineDd.innerHTML = art.disciplines.map(discipline => discipline.label).join(',')
-      metadata.appendChild(disciplineDt)
-      metadata.appendChild(disciplineDd)
+    const metadata = document.createElement('dl')
+    metadata.setAttribute('class', 'dataplane-card-metadata')
 
-      cardFrame.appendChild(metadata)
+    // date
+    const dateDt = document.createElement('dt')
+    dateDt.innerHTML = 'Published'
+    const dateDd = document.createElement('dd')
+    if (art.years.length === 1) {
+      dateDd.innerHTML = art.years[0]
+    } else if (art.years.length > 1) {
+      dateDd.innerHTML = `${art.years[0]}-${art.years[art.years.length - 1]}`
+    }
+    metadata.appendChild(dateDt)
+    metadata.appendChild(dateDd)
+
+    // agents
+    art.agents.forEach(agent => {
+      let name = agent.label
+      let role = ''
+
+      const roleMatch = name.match(agentRoleRegex)
+      if (roleMatch !== null) {
+        let roleCode = roleMatch[0]
+        name = name.replace(roleCode, '').trim()
+        roleCode = roleCode.replace('(', '').replace(')', '')
+        if (roleCode in agentRoleMapping) {
+          role = agentRoleMapping[roleCode]
+        }
+      }
+
+      const roleDt = document.createElement('dt')
+      roleDt.innerHTML = role
+      const nameDd = document.createElement('dd')
+      nameDd.innerHTML = name
+      metadata.appendChild(roleDt)
+      metadata.appendChild(nameDd)
     })
+
+    // archive
+    const archiveLink = document.createElement('a')
+    archiveLink.innerHTML = art.archive.label
+    if (art.archive.id in archiveUrls) {
+      archiveLink.setAttribute('href', archiveUrls[art.archive.id])
+    } else {
+      archiveLink.setAttribute('data-archive-id', art.archive.id)
+    }
+
+    const archiveDt = document.createElement('dt')
+    archiveDt.innerHTML = 'Site'
+    const archiveDd = document.createElement('dd')
+    archiveDd.appendChild(archiveLink)
+    metadata.appendChild(archiveDt)
+    metadata.appendChild(archiveDd)
+
+    const genreDt = document.createElement('dt')
+    genreDt.innerHTML = 'Genre(s)'
+    const genreDd = document.createElement('dd')
+    genreDd.innerHTML = art.genres.map(genre => genre.label).join(',')
+    metadata.appendChild(genreDt)
+    metadata.appendChild(genreDd)
+
+    const disciplineDt = document.createElement('dt')
+    disciplineDt.innerHTML = 'Discipline(s)'
+    const disciplineDd = document.createElement('dd')
+    disciplineDd.innerHTML = art.disciplines.map(discipline => discipline.label).join(',')
+    metadata.appendChild(disciplineDt)
+    metadata.appendChild(disciplineDd)
+
+    cardFrame.appendChild(metadata)
+  })
 }

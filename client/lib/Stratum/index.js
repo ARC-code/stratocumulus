@@ -23,7 +23,7 @@ const Stratum = function (context) {
   //   first
   //     when the first node has been loaded and rendered.
   //   final
-  //     when all subgraphs of the stratum has been loaded and rendered.
+  //     when all nodes of the stratum have been loaded and rendered.
   //   substratumrequest
   //     when the stratum would like one of its nodes to be opened as
   //     a new stratum.
@@ -95,6 +95,7 @@ const Stratum = function (context) {
 
 module.exports = Stratum
 const proto = Stratum.prototype
+proto.isStratum = true
 
 // Inherit
 emitter(proto)

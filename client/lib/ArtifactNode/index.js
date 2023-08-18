@@ -4,7 +4,11 @@ const generateDataPlaneCardContent = require('./generateDataPlaneCardContent')
 const getArtifactId = require('./getArtifactId')
 
 const ArtifactNode = function (key, attrs) {
-  // DataCard is a card-like element in space.
+  // @ArtifactNode
+  //
+  // ArtifactNode is a card-like element in space.
+  // ArtifactNode implements interface similar to StratumNode,
+  // so that the caller does not need to know which is which.
   //
   // Parameters:
   //   key
@@ -33,6 +37,7 @@ const ArtifactNode = function (key, attrs) {
 
 module.exports = ArtifactNode
 const proto = ArtifactNode.prototype
+proto.isArtifactNode = true
 
 // TODO make it unnecessary to implement every StratumNode method.
 proto.translateTo = require('./translateTo')
