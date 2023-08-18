@@ -1,6 +1,6 @@
 require('./artifactnode.css')
+const io = require('../io')
 const tapspace = require('tapspace')
-const generateDataPlaneCardContent = require('./generateDataPlaneCardContent')
 const getArtifactId = require('./getArtifactId')
 
 const ArtifactNode = function (key, attrs) {
@@ -31,8 +31,20 @@ const ArtifactNode = function (key, attrs) {
   // Allow interaction with content.
   this.component.setContentInput('pointer')
 
-  // Begin fetching content for the card.
-  generateDataPlaneCardContent(artifactId, this.element)
+  // Fetch the content for the card.
+  this.artifact = null
+  io.corpora.fetchArtifact(artifactId, (err, art) => {
+    if (err) {
+      // TODO alert user?
+      console.error(err)
+      return
+    }
+
+    this.artifact = art
+
+    // TODO prevent duplicate render calls because Stratum calls render() too.
+    this.render()
+  })
 }
 
 module.exports = ArtifactNode
