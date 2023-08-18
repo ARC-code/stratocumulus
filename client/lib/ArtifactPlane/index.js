@@ -1,32 +1,38 @@
+require('./style.css')
 const emitter = require('component-emitter')
 
-const ArtifactPlane = function (path, context) {
+const ArtifactPlane = function (context) {
+  // @ArtifactPlane
+  //
   // A document collection laid on a plane.
   //
-  // ArtifactPlane inherits Emitter
+  // ArtifactPlane inherits Emitter.
+  // ArtifactPlane and Stratum should expose the same interface for Sky.
   //
   // Parameters:
-  //   path
-  //     string, the stratum id
   //   context
-  //     object, tells where the user came from.
+  //     a Context. The context gives identity to the artifact plane and
+  //     .. defines the faceting and filtering of its content.
   //
   // ArtifactPlane emits:
   //   first
   //     when the first node has been loaded and rendered.
   //   final
-  //     when all subgraphs of the cards have been loaded and rendered.
+  //     when all nodes of the stratum has been loaded and rendered.
+  //   substratumrequest
+  //     when the stratum would like one of its nodes to be opened as
+  //     a new stratum.
   //
-
-  // TODO follow stratum interface?
-  // TODO Is ArtifactPlane just a stratum but with alternative view?
 }
 
 module.exports = ArtifactPlane
 const proto = ArtifactPlane.prototype
+proto.isArtifactPlane = true
 
 // Inherit
 emitter(proto)
 
 // Methods
-// TODO
+proto.load = require('./load')
+proto.remove = require('./remove')
+proto.render = require('./render')
