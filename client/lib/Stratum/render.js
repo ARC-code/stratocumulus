@@ -22,7 +22,11 @@ module.exports = function (final = false, updateCount = 0) {
   this.graph.forEachNode((key, attrs) => {
     let stratumNode = this.renderedNodes[key]
 
-    if (!stratumNode) {
+    if (stratumNode) {
+      // Node already exists.
+      // Update content and scale according to attributes.
+      stratumNode.render(attrs)
+    } else {
       // Node does not exist. Create.
       const isDataCard = (attrs.kind && attrs.kind === 'artifact')
       if (isDataCard) {
@@ -53,8 +57,6 @@ module.exports = function (final = false, updateCount = 0) {
     const nPosition = layoutPositions[key]
     const nPoint = nodePlaneOrigin.offset(nPosition.x, nPosition.y)
     stratumNode.translateTo(nPoint)
-    // Update size and scale according to attributes.
-    stratumNode.render(attrs)
   })
 
   // Re-compute bounding circle at each render.
