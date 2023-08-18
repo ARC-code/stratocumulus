@@ -1,0 +1,26 @@
+<div class="dataplane-card-header">
+  <% if (thumbnail) { %>
+    <picture>
+      <source srcset="<%= thumbnail.url %>" />
+      <img class="dataplane-card-thumbnail" alt="<%= thumbnail.title %>" src="<%= thumbnail.fallbackUrl %>" />
+    </picture>
+  <% } %>
+  <h2 class="dataplane-card-title"><%= title %></h2>
+</div>
+<dl class="dataplane-card-metadata">
+  <dt>Published</dt>
+  <dd><%= years %></dd>
+  <% agents.forEach(agent => { %>
+    <dt><%= agent.role %></dt>
+    <dd><%= agent.name %></dd>
+  <% }) %>
+
+  <dt>Site</dt>
+  <dd><a href="<%= archive.url %>" data-archive-id="<%= archive.id %>"><%= archive.label %></a></dd>
+
+  <dt>Genres</dt>
+  <dd><%= genres.map(g => g.label).join(',') %></dd>
+
+  <dt>Disciplines</dt>
+  <dd><%= disciplines.map(d => d.label).join(',') %></dd>
+</dl>

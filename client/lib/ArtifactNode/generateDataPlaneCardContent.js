@@ -1,4 +1,5 @@
 const io = require('../io')
+const template = require('./template.ejs')
 
 // Often the referenced thumbnail for an artifact suffers from link rot, and often multiple artifacts
 // share the same thumbnail, so let's keep track of any bad thumbnails to avoid wasting time trying to
@@ -89,112 +90,79 @@ module.exports = function (artifactId, cardFrame) {
       return
     }
 
-    const cardHeader = document.createElement('div')
-    cardHeader.setAttribute('class', 'dataplane-card-header')
+    // Preprocess title
+    const title = art.title
 
+    // Preprocess thumbnail to { title, url, fallbackUrl }
+    let thumbnail = null
     const primaryFederation = art.federations[0].id
-
     if (primaryFederation in federationThumbnails) {
-      const thumbnail = document.createElement('img')
-      thumbnail.setAttribute('class', 'dataplane-card-thumbnail')
-      thumbnail.setAttribute('alt', art.title)
+      const fallbackUrl = federationThumbnails[primaryFederation]
 
+      let thumbnailUrl = fallbackUrl
       if (art.thumbnail_url) {
-        const adjustedThumbnailUrl = art.thumbnail_url.replace('http:', 'https:')
+        const normalizedUrl = art.thumbnail_url.replace('http:', 'https:')
 
-        if (!invalidCardThumbnails.includes(adjustedThumbnailUrl)) {
-          const thumbnailErrorHandler = (event) => {
-            event.target.removeEventListener('error', thumbnailErrorHandler, false)
-            invalidCardThumbnails.push(event.target.getAttribute('src'))
-            event.target.setAttribute('src', event.target.getAttribute('data-federation-thumbnail'))
-          }
-          thumbnail.setAttribute('data-federation-thumbnail', federationThumbnails[primaryFederation])
-          thumbnail.addEventListener('error', thumbnailErrorHandler, false)
-          thumbnail.setAttribute('src', adjustedThumbnailUrl)
-        } else {
-          thumbnail.setAttribute('src', federationThumbnails[primaryFederation])
+        if (!invalidCardThumbnails.includes(normalizedUrl)) {
+          thumbnailUrl = normalizedUrl
         }
-      } else {
-        thumbnail.setAttribute('src', federationThumbnails[primaryFederation])
       }
 
-      cardHeader.appendChild(thumbnail)
+      thumbnail = {
+        title: art.title,
+        url: thumbnailUrl,
+        fallbackUrl
+      }
     }
 
-    const title = document.createElement('h2')
-    title.setAttribute('class', 'dataplane-card-title')
-    title.innerHTML = art.title
-    cardHeader.appendChild(title)
-    cardFrame.appendChild(cardHeader)
-
-    const metadata = document.createElement('dl')
-    metadata.setAttribute('class', 'dataplane-card-metadata')
-
-    // date
-    const dateDt = document.createElement('dt')
-    dateDt.innerHTML = 'Published'
-    const dateDd = document.createElement('dd')
+    // Preprocess years
+    let years = ''
     if (art.years.length === 1) {
-      dateDd.innerHTML = art.years[0]
+      years = art.years[0]
     } else if (art.years.length > 1) {
-      dateDd.innerHTML = `${art.years[0]}-${art.years[art.years.length - 1]}`
+      years = `${art.years[0]}-${art.years[art.years.length - 1]}`
     }
-    metadata.appendChild(dateDt)
-    metadata.appendChild(dateDd)
 
-    // agents
-    art.agents.forEach(agent => {
+    // Preprocess agents to array of { role, name }
+    const agents = art.agents.map(agent => {
       let name = agent.label
       let role = ''
 
+      console.log('agent.label', name)
       const roleMatch = name.match(agentRoleRegex)
-      if (roleMatch !== null) {
-        let roleCode = roleMatch[0]
+      if (roleMatch) {
+        let roleCode = roleMatch[1]
         name = name.replace(roleCode, '').trim()
         roleCode = roleCode.replace('(', '').replace(')', '')
         if (roleCode in agentRoleMapping) {
           role = agentRoleMapping[roleCode]
+        } else {
+          role = roleCode
         }
       }
 
-      const roleDt = document.createElement('dt')
-      roleDt.innerHTML = role
-      const nameDd = document.createElement('dd')
-      nameDd.innerHTML = name
-      metadata.appendChild(roleDt)
-      metadata.appendChild(nameDd)
+      return { name, role }
     })
 
-    // archive
-    const archiveLink = document.createElement('a')
-    archiveLink.innerHTML = art.archive.label
-    if (art.archive.id in archiveUrls) {
-      archiveLink.setAttribute('href', archiveUrls[art.archive.id])
-    } else {
-      archiveLink.setAttribute('data-archive-id', art.archive.id)
+    // Preprocess archive to { url, id, label }
+    const archive = {
+      label: art.archive.label,
+      id: art.archive.id,
+      url: archiveUrls[art.archive.id] || ''
     }
 
-    const archiveDt = document.createElement('dt')
-    archiveDt.innerHTML = 'Site'
-    const archiveDd = document.createElement('dd')
-    archiveDd.appendChild(archiveLink)
-    metadata.appendChild(archiveDt)
-    metadata.appendChild(archiveDd)
+    // Preprocess genres and disciplines
+    const genres = art.genres
+    const disciplines = art.disciplines
 
-    const genreDt = document.createElement('dt')
-    genreDt.innerHTML = 'Genre(s)'
-    const genreDd = document.createElement('dd')
-    genreDd.innerHTML = art.genres.map(genre => genre.label).join(',')
-    metadata.appendChild(genreDt)
-    metadata.appendChild(genreDd)
-
-    const disciplineDt = document.createElement('dt')
-    disciplineDt.innerHTML = 'Discipline(s)'
-    const disciplineDd = document.createElement('dd')
-    disciplineDd.innerHTML = art.disciplines.map(discipline => discipline.label).join(',')
-    metadata.appendChild(disciplineDt)
-    metadata.appendChild(disciplineDd)
-
-    cardFrame.appendChild(metadata)
+    cardFrame.innerHTML = template({
+      thumbnail,
+      title,
+      years,
+      agents,
+      archive,
+      genres,
+      disciplines
+    })
   })
 }

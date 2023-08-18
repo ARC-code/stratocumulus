@@ -32,6 +32,7 @@
 
 .dataplane-card-metadata dt {
   font-weight: bold;
+  text-transform: capitalize;
 }
 
 .dataplane-card-metadata dd {
