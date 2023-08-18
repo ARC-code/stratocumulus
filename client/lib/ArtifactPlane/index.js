@@ -1,9 +1,9 @@
 const emitter = require('component-emitter')
 
-const DataPlane = function (path, context) {
+const ArtifactPlane = function (path, context) {
   // A document collection laid on a plane.
   //
-  // DataPlane inherits Emitter
+  // ArtifactPlane inherits Emitter
   //
   // Parameters:
   //   path
@@ -11,7 +11,7 @@ const DataPlane = function (path, context) {
   //   context
   //     object, tells where the user came from.
   //
-  // DataPlane emits:
+  // ArtifactPlane emits:
   //   first
   //     when the first node has been loaded and rendered.
   //   final
@@ -19,11 +19,11 @@ const DataPlane = function (path, context) {
   //
 
   // TODO follow stratum interface?
-  // TODO Is DataPlane just a stratum but with alternative view?
+  // TODO Is ArtifactPlane just a stratum but with alternative view?
 }
 
-module.exports = DataPlane
-const proto = DataPlane.prototype
+module.exports = ArtifactPlane
+const proto = ArtifactPlane.prototype
 
 // Inherit
 emitter(proto)
