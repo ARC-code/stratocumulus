@@ -55,6 +55,5 @@ proto.isArtifactNode = true
 proto.translateTo = require('./translateTo')
 proto.getOrigin = require('./getOrigin')
 proto.getRadius = require('./getRadius')
-proto.isFacetable = require('./isFacetable')
 proto.remove = require('./remove')
 proto.render = require('./render')
