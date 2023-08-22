@@ -22,11 +22,6 @@ const CategoryNode = function (key, attrs) {
   // Inherit
   StratumNode.call(this)
 
-  // TODO References to sub-node elements. Can be done only after rendering...
-  // this.circleElement
-  // this.labelElement
-  // this.countElement
-
   // Constant rendering size 256x256
   const radiusPx = 128
   const newItem = tapspace.createNode(radiusPx)
@@ -34,7 +29,7 @@ const CategoryNode = function (key, attrs) {
   newItem.addClass('stratum-node')
 
   if (attrs.kind !== 'root' && attrs.kind !== 'grouping' && !attrs.isFacetable) {
-    // Gray out nodes we are inside. TODO hide from user.
+    // Gray out nodes we are inside.
     newItem.addClass('context-node')
   }
   //
