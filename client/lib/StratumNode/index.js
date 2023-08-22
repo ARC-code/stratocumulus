@@ -13,5 +13,6 @@ proto.isStratumNode = true
 
 // Methods
 proto.getOrigin = require('./getOrigin')
+proto.getRadius = require('./getRadius')
 proto.remove = require('./remove')
 proto.translateTo = require('./translateTo')

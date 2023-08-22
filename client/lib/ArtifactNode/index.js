@@ -59,5 +59,4 @@ proto.isArtifactNode = true
 Object.assign(proto, StratumNode.prototype)
 
 // TODO make it unnecessary to implement every CategoryNode method.
-proto.getRadius = require('./getRadius')
 proto.render = require('./render')
