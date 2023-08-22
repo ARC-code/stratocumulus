@@ -1,4 +1,5 @@
-const Stratum = require('../../Stratum')
+const CategoryStratum = require('../../CategoryStratum')
+// const ArtifactStratum = require('../../ArtifactStratum')
 const io = require('../../io')
 
 module.exports = (sky, loader) => {
@@ -29,7 +30,7 @@ module.exports = (sky, loader) => {
     // Else, use CategoryStratum
 
     // Create
-    const stratum = new Stratum(context)
+    const stratum = new CategoryStratum(context)
     sky.strata[path] = stratum
 
     // Populate with a single node. This node will be upgraded later.
