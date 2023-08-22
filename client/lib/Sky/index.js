@@ -3,6 +3,8 @@ const emitter = require('component-emitter')
 const loader = require('./loader')
 
 const Sky = function (viewport) {
+  // @Sky
+  //
   // Sky manages stratum objects and their loading.
   //
   // Parameters:

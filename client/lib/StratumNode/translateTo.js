@@ -1,5 +1,5 @@
 module.exports = function (point) {
-  // @CategoryNode:translateTo(point)
+  // @StratumNode:translateTo(point)
   //
   // Move the node to a position.
   // Useful when the graph model layout has changed.

@@ -1,6 +1,8 @@
 const emitter = require('component-emitter')
 
 const Stratum = function (context) {
+  // @Stratum
+  //
   // Abstract class for ArtifactStratum and CategoryStratum.
   //
   // Stratum inherits Emitter
