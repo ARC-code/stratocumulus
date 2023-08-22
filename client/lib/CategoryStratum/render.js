@@ -1,5 +1,6 @@
 const tapspace = require('tapspace')
 const layoutGraph = require('./layout')
+const sizing = require('../config').sizing
 const CategoryNode = require('../CategoryNode')
 const ArtifactNode = require('../ArtifactNode')
 
@@ -53,7 +54,11 @@ module.exports = function (final = false, updateCount = 0) {
       }
     }
 
-    // Update position according to the layout.
+    // Derive scale relative to the stratum basis.
+    const nSize = (attrs.size ? attrs.size : sizing.minNodeSize)
+    const nScale = 0.6 * nSize / sizing.maxNodeSize
+    stratumNode.setScale(nScale)
+    // Update node position and scale according to the layout.
     const nPosition = layoutPositions[key]
     const nPoint = nodePlaneOrigin.offset(nPosition.x, nPosition.y)
     stratumNode.translateTo(nPoint)

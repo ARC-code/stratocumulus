@@ -12,7 +12,10 @@ const buildDataAttrs = (attrs) => {
   //
   let dataAttrs = ''
   for (const a in attrs) {
-    dataAttrs += ` data-${a}="${attrs[a]}"`
+    // Skip non-serializable and large attributes
+    if (a !== 'decades') {
+      dataAttrs += ` data-${a}="${attrs[a]}"`
+    }
   }
 
   return dataAttrs
