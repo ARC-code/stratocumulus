@@ -1,4 +1,4 @@
-require('./stratumNode.css')
+require('./style.css')
 const StratumNode = require('../StratumNode')
 const tapspace = require('tapspace')
 
@@ -30,6 +30,7 @@ const CategoryNode = function (key, attrs) {
   // Constant rendering size 256x256
   const radiusPx = 128
   const newItem = tapspace.createNode(radiusPx)
+  newItem.addClass('category-node')
   newItem.addClass('stratum-node')
 
   if (attrs.kind !== 'root' && attrs.kind !== 'grouping' && !attrs.isFacetable) {

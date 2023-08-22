@@ -53,8 +53,8 @@ module.exports = function () {
   //         data.records.forEach(record => {
   //           const cardFrame = document.createElement('div')
   //
-  //           cardFrame.setAttribute('id', `dataplane-card-${record.id}`)
-  //           cardFrame.setAttribute('class', 'dataplane-card')
+  //           cardFrame.setAttribute('id', `artifact-card-${record.id}`)
+  //           cardFrame.setAttribute('class', 'artifact-card')
   //
   //           // Here we're just appending the div to our viewport element--replace this with Tapspace
   //           // placement

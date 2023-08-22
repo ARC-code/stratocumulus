@@ -1,13 +1,13 @@
-<div class="dataplane-card-header">
+<div class="artifact-card-header">
   <% if (thumbnail) { %>
     <picture>
       <source srcset="<%= thumbnail.url %>" />
-      <img class="dataplane-card-thumbnail" alt="<%= thumbnail.title %>" src="<%= thumbnail.fallbackUrl %>" />
+      <img class="artifact-card-thumbnail" alt="<%= thumbnail.title %>" src="<%= thumbnail.fallbackUrl %>" />
     </picture>
   <% } %>
-  <h2 class="dataplane-card-title"><%= title %></h2>
+  <h2 class="artifact-card-title"><%= title %></h2>
 </div>
-<dl class="dataplane-card-metadata">
+<dl class="artifact-card-metadata">
   <dt>Published</dt>
   <dd><%= years %></dd>
   <% agents.forEach(agent => { %>

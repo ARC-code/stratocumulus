@@ -1,4 +1,4 @@
-require('./artifactnode.css')
+require('./style.css')
 const StratumNode = require('../StratumNode')
 const io = require('../io')
 const tapspace = require('tapspace')
@@ -24,7 +24,7 @@ const ArtifactNode = function (key, attrs) {
   const artifactId = getArtifactId(attrs)
 
   this.element = document.createElement('div')
-  this.element.className = 'dataplane-card'
+  this.element.className = 'artifact-card'
 
   // Create an item to add to the space.
   this.component = tapspace.createItem(this.element)

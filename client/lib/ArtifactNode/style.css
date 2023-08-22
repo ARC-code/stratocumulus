@@ -1,40 +1,40 @@
-.dataplane-card {
+.artifact-card {
   background-color: #f8f8f8;
   border-radius: 0.5rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 300px;
 }
 
-.dataplane-card-header {
+.artifact-card-header {
   display: flex;
   align-items: center;
   gap: 1rem;
   padding: 1rem;
 }
 
-.dataplane-card-thumbnail {
+.artifact-card-thumbnail {
   width: 10rem;
   height: auto;
   border-radius: 0.5rem;
   object-fit: cover;
 }
 
-.dataplane-card-title {
+.artifact-card-title {
   font-size: 1.5rem;
   margin: 0;
 }
 
-.dataplane-card-metadata {
+.artifact-card-metadata {
   margin: 0;
   padding: 1rem;
   display: block;
 }
 
-.dataplane-card-metadata dt {
+.artifact-card-metadata dt {
   font-weight: bold;
   text-transform: capitalize;
 }
 
-.dataplane-card-metadata dd {
+.artifact-card-metadata dd {
   margin: 0 0 0.5rem 0;
 }
