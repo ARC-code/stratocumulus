@@ -1,5 +1,5 @@
-
 exports.sizing = {
+  stratumSize: 2560, // px
   maxNodeSize: 100,
   minNodeSize: 10,
   maxValue: 100,
