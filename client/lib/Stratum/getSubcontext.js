@@ -9,7 +9,7 @@ module.exports = function (nodeKey) {
   //   a Context
   //
 
-  // TODO maybe build this in each node once?
+  // TODO maybe build this in each CategoryNode once?
 
   if (!this.graph.hasNode(nodeKey)) {
     throw new Error('Unknown stratum node: ' + nodeKey)

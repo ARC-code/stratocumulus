@@ -5,21 +5,21 @@ const io = require('../io')
 
 const RENDER_SIZE = 2560
 
-const Stratum = function (context) {
-  // @Stratum
+const CategoryStratum = function (context) {
+  // @CategoryStratum
   //
   // A tree graph laid on a plane.
   // The stratum is not yet added to the document.
   // Append stratum.space to a parent space in order to do that.
   //
-  // Stratum inherits Emitter
+  // CategoryStratum inherits Emitter
   //
   // Parameters:
   //   context
   //     a Context. The context gives identity to the stratum and
   //     .. defines the faceting and filtering of its content.
   //
-  // Stratum emits:
+  // CategoryStratum emits:
   //   first
   //     when the first node has been loaded and rendered.
   //   final
@@ -41,7 +41,7 @@ const Stratum = function (context) {
   stratumPlane.addClass('stratum-plane')
   // Allow fast filtering of strata from all other components.
   stratumPlane.isStratum = true
-  // Allow references from component to Stratum.
+  // Allow references from component to CategoryStratum.
   // This is a circular reference which usually is a bad thing.
   // However, the stratum and its plane are tightly coupled and
   // we need the ability to reference them to both directions,
@@ -93,9 +93,9 @@ const Stratum = function (context) {
   this.graph = io.graphStore.get(this.context)
 }
 
-module.exports = Stratum
-const proto = Stratum.prototype
-proto.isStratum = true
+module.exports = CategoryStratum
+const proto = CategoryStratum.prototype
+proto.isCategoryStratum = true
 
 // Inherit
 emitter(proto)

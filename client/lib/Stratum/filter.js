@@ -2,7 +2,7 @@ const io = require('../io')
 const config = require('../config')
 
 module.exports = function (context) {
-  // @Stratum:filter(context)
+  // @CategoryStratum:filter(context)
   //
   // Filter the stratum by a filtering context.
   // This will send a new stratum build job.
