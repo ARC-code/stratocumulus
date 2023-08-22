@@ -97,7 +97,6 @@ proto.isCategoryNode = true
 Object.assign(proto, StratumNode.prototype)
 
 // Methods
-proto.getScale = require('./getScale')
 proto.makeClosed = require('./makeClosed')
 proto.makeOpened = require('./makeOpened')
 proto.render = require('./render')
