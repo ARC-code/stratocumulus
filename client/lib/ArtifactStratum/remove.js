@@ -1,5 +1,5 @@
 module.exports = function () {
-  // Destroy the ArtifactPlane. Stop loading and kill listeners.
+  // Destroy the ArtifactStratum. Stop loading and kill listeners.
   // However, does not remove the plane from the DOM.
   //
 

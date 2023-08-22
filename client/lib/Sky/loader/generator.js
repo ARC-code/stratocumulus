@@ -24,6 +24,10 @@ module.exports = (sky, loader) => {
       return
     }
 
+    // Choose stratum class according to the context.
+    // If the context has page-attribute, use ArtifactStratum
+    // Else, use CategoryStratum
+
     // Create
     const stratum = new Stratum(context)
     sky.strata[path] = stratum
