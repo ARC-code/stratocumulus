@@ -1,6 +1,6 @@
 const tapspace = require('tapspace')
 const layoutGraph = require('./layout')
-const StratumNode = require('../StratumNode')
+const CategoryNode = require('../CategoryNode')
 const ArtifactNode = require('../ArtifactNode')
 
 module.exports = function (final = false, updateCount = 0) {
@@ -32,7 +32,7 @@ module.exports = function (final = false, updateCount = 0) {
       if (isDataCard) {
         stratumNode = new ArtifactNode(key, attrs)
       } else {
-        stratumNode = new StratumNode(key, attrs)
+        stratumNode = new CategoryNode(key, attrs)
       }
 
       this.nodePlane.addChild(stratumNode.component)
