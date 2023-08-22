@@ -1,5 +1,5 @@
 require('./stratum.css')
-const emitter = require('component-emitter')
+const Stratum = require('../Stratum')
 const tapspace = require('tapspace')
 const io = require('../io')
 
@@ -12,7 +12,7 @@ const CategoryStratum = function (context) {
   // The stratum is not yet added to the document.
   // Append stratum.space to a parent space in order to do that.
   //
-  // CategoryStratum inherits Emitter
+  // CategoryStratum inherits Stratum
   //
   // Parameters:
   //   context
@@ -30,6 +30,9 @@ const CategoryStratum = function (context) {
   //   layout
   //     when the stratum layout changes
   //
+
+  // Inherit
+  Stratum.call(this, context)
 
   // DEBUG validate arguments
   if (!context || !context.isContext) {
@@ -98,7 +101,7 @@ const proto = CategoryStratum.prototype
 proto.isCategoryStratum = true
 
 // Inherit
-emitter(proto)
+Object.assign(proto, Stratum.prototype)
 
 // Methods
 proto.enableFaceting = require('./enableFaceting')
@@ -107,7 +110,6 @@ proto.getBoundingCircle = require('./getBoundingCircle')
 proto.getFacetNode = require('./getFacetNode')
 proto.getNodes = require('./getNodes')
 proto.getOrigin = require('./getOrigin')
-proto.getSpace = require('./getSpace')
 proto.getSubcontext = require('./getSubcontext')
 proto.getSubpaths = require('./getSubpaths')
 proto.getSupercontext = require('./getSupercontext')

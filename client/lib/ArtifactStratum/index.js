@@ -1,5 +1,5 @@
 require('./style.css')
-const emitter = require('component-emitter')
+const Stratum = require('../Stratum')
 
 const ArtifactStratum = function (context) {
   // @ArtifactStratum
@@ -30,7 +30,7 @@ const proto = ArtifactStratum.prototype
 proto.isArtifactStratum = true
 
 // Inherit
-emitter(proto)
+Object.assign(proto, Stratum.prototype)
 
 // Methods
 proto.load = require('./load')
