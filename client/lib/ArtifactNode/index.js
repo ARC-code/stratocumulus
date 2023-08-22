@@ -1,4 +1,5 @@
 require('./artifactnode.css')
+const StratumNode = require('../StratumNode')
 const io = require('../io')
 const tapspace = require('tapspace')
 const getArtifactId = require('./getArtifactId')
@@ -16,6 +17,9 @@ const ArtifactNode = function (key, attrs) {
   //   attrs
   //     node attributes
   //
+
+  // Inherit
+  StratumNode.call(this)
 
   const artifactId = getArtifactId(attrs)
 
@@ -51,9 +55,9 @@ module.exports = ArtifactNode
 const proto = ArtifactNode.prototype
 proto.isArtifactNode = true
 
+// Inherit
+Object.assign(proto, StratumNode.prototype)
+
 // TODO make it unnecessary to implement every CategoryNode method.
-proto.translateTo = require('./translateTo')
-proto.getOrigin = require('./getOrigin')
 proto.getRadius = require('./getRadius')
-proto.remove = require('./remove')
 proto.render = require('./render')

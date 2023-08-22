@@ -1,0 +1,17 @@
+const StratumNode = function () {
+  // Abstract class for ArtifactNode and CategoryNode.
+  // Useful for ensuring Sky can handle nodes through the same interface.
+  //
+
+  // Force subclasses to init component
+  this.component = null
+}
+
+module.exports = StratumNode
+const proto = StratumNode.prototype
+proto.isStratumNode = true
+
+// Methods
+proto.getOrigin = require('./getOrigin')
+proto.remove = require('./remove')
+proto.translateTo = require('./translateTo')

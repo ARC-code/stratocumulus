@@ -1,4 +1,5 @@
 require('./stratumNode.css')
+const StratumNode = require('../StratumNode')
 const tapspace = require('tapspace')
 
 const CategoryNode = function (key, attrs) {
@@ -17,6 +18,9 @@ const CategoryNode = function (key, attrs) {
   //   openingrequest `{ nodeKey: <string>, item: <Component> }`
   //     when the user interacts with the node in order to open something.
   //
+
+  // Inherit
+  StratumNode.call(this)
 
   // TODO References to sub-node elements. Can be done only after rendering...
   // this.circleElement
@@ -89,13 +93,13 @@ module.exports = CategoryNode
 const proto = CategoryNode.prototype
 proto.isCategoryNode = true
 
+// Inherit
+Object.assign(proto, StratumNode.prototype)
+
 // Methods
-proto.getOrigin = require('./getOrigin')
 proto.getRadius = require('./getRadius')
 proto.getScale = require('./getScale')
 proto.makeClosed = require('./makeClosed')
 proto.makeOpened = require('./makeOpened')
-proto.remove = require('./remove')
 proto.render = require('./render')
 proto.setLoadingAnimation = require('./setLoadingAnimation')
-proto.translateTo = require('./translateTo')

@@ -23,6 +23,9 @@ const ArtifactStratum = function (context) {
   //     when the stratum would like one of its nodes to be opened as
   //     a new stratum.
   //
+
+  // Inherit
+  Stratum.call(this, context)
 }
 
 module.exports = ArtifactStratum
