@@ -7,7 +7,7 @@ const ArtifactNode = function (key, attrs) {
   // @ArtifactNode
   //
   // ArtifactNode is a card-like element in space.
-  // ArtifactNode implements interface similar to StratumNode,
+  // ArtifactNode implements interface similar to CategoryNode,
   // so that the caller does not need to know which is which.
   //
   // Parameters:
@@ -51,7 +51,7 @@ module.exports = ArtifactNode
 const proto = ArtifactNode.prototype
 proto.isArtifactNode = true
 
-// TODO make it unnecessary to implement every StratumNode method.
+// TODO make it unnecessary to implement every CategoryNode method.
 proto.translateTo = require('./translateTo')
 proto.getOrigin = require('./getOrigin')
 proto.getRadius = require('./getRadius')

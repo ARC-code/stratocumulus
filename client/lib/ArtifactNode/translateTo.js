@@ -1,5 +1,5 @@
 module.exports = function (point) {
-  // CorporaCard:translateTo(point)
+  // @ArtifactNode:translateTo(point)
   //
   // Move the node to a position.
   // Useful when the graph model layout has changed.
