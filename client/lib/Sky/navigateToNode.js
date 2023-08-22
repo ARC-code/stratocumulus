@@ -21,12 +21,12 @@ module.exports = function (context, facetParam, facetValue) {
   // Find the node within stratum.
   const subcontext = context.append(facetParam, facetValue)
   const nodePath = subcontext.toFacetPath()
-  const stratumNode = stratum.getFacetNode(nodePath)
+  const facetNode = stratum.getFacetNode(nodePath)
 
   // Zoom to node component
   const duration = 800
   this.viewport.animateOnce({ duration })
-  this.viewport.zoomToFill(stratumNode.component, 0.5)
+  this.viewport.zoomToFill(facetNode.component, 0.5)
   // TODO emit idle after animation
   setTimeout(() => {
     this.viewport.hyperspace.commit()

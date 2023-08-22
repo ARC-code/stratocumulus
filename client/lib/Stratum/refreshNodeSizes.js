@@ -13,11 +13,11 @@ module.exports = function () {
 
   // Render nodes again.
   this.graph.forEachNode((key, attrs) => {
-    const stratumNode = this.renderedNodes[key]
+    const catNode = this.renderedNodes[key]
 
-    if (stratumNode) {
+    if (catNode) {
       // Update size and scale according to attributes.
-      stratumNode.render(attrs)
+      catNode.render(attrs)
     }
   })
 

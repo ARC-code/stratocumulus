@@ -1,11 +1,11 @@
 require('./stratumNode.css')
 const tapspace = require('tapspace')
 
-const StratumNode = function (key, attrs) {
+const CategoryNode = function (key, attrs) {
   // A node in a stratum. Stratum maintains set of nodes.
   // A slave component, causes only visual side-effects, model-ignorant.
   //
-  // StratumNode inherits Emitter
+  // CategoryNode inherits Emitter
   //
   // Parameters:
   //   key
@@ -85,9 +85,9 @@ const StratumNode = function (key, attrs) {
   this.component = newItem
 }
 
-module.exports = StratumNode
-const proto = StratumNode.prototype
-proto.isStratumNode = true
+module.exports = CategoryNode
+const proto = CategoryNode.prototype
+proto.isCategoryNode = true
 
 // Methods
 proto.getOrigin = require('./getOrigin')

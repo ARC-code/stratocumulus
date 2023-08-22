@@ -69,7 +69,7 @@ const Stratum = function (context) {
   this.space = stratumPlane
   this.nodePlane = nodePlane
   this.edgePlane = edgePlane
-  // Keep track of rendered nodes. nodeKey -> StratumNode
+  // Keep track of rendered nodes. nodeKey -> CategoryNode
   this.renderedNodes = {}
   // Keep track of rendered edges. edgeKey -> StratumEdge
   this.renderedEdges = {}

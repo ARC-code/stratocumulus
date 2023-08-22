@@ -2,7 +2,7 @@ const template = require('./template')
 const sizing = require('../config').sizing
 
 module.exports = function (attrs) {
-  // StratumNode:render(attrs)
+  // CategoryNode:render(attrs)
   //
   // Parameters:
   //   attrs

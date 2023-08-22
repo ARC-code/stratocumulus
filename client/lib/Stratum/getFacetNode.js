@@ -6,7 +6,7 @@ module.exports = function (path) {
   //     a string, a facet path
   //
   // Return
-  //   a StratumNode or null
+  //   a CategoryNode or null
   //
 
   const nodeKey = this.facetNodeIndex[path]
@@ -15,11 +15,11 @@ module.exports = function (path) {
     return null
   }
 
-  const stratumNode = this.renderedNodes[nodeKey]
+  const facetNode = this.renderedNodes[nodeKey]
 
-  if (!stratumNode) {
+  if (!facetNode) {
     return null
   }
 
-  return stratumNode
+  return facetNode
 }

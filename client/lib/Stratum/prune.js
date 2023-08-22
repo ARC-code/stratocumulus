@@ -8,8 +8,8 @@ module.exports = function () {
 
   renderedNodeKeys.forEach(nodeKey => {
     if (!this.graph.hasNode(nodeKey)) {
-      const stratumNode = this.renderedNodes[nodeKey]
-      stratumNode.remove()
+      const catNode = this.renderedNodes[nodeKey]
+      catNode.remove()
       delete this.renderedNodes[nodeKey]
     }
   })

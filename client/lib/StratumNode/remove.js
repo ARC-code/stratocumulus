@@ -1,5 +1,5 @@
 module.exports = function () {
-  // StratumNode:remove()
+  // CategoryNode:remove()
   //
   // Remove the rendered. Useful when the graph has been filtered.
   //

@@ -5,7 +5,7 @@ module.exports = function () {
   //   an array of string.
   //
 
-  // TODO maybe compute just once in StratumNode?
+  // TODO maybe compute just once in CategoryNode?
 
   const subpaths = []
 
