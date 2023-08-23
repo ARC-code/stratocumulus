@@ -11,18 +11,18 @@ module.exports = function (nodeKey) {
 
   // TODO maybe build this in each CategoryNode once?
 
-  if (!this.graph.hasNode(nodeKey)) {
+  if (!this.renderedNodes[nodeKey]) {
     throw new Error('Unknown stratum node: ' + nodeKey)
   }
 
-  const attrs = this.graph.getNodeAttributes(nodeKey)
+  const node = this.renderedNodes[nodeKey]
 
-  if (!attrs.isFacetable) {
+  if (!node.isFacetable) {
     throw new Error('Unexpected non-facetable stratum node: ' + nodeKey)
   }
 
-  const facetParam = attrs.facetParam
-  const facetValue = attrs.facetValue
+  const facetParam = node.facetParam
+  const facetValue = node.facetValue
   const subcontext = this.context.append(facetParam, facetValue)
 
   return subcontext

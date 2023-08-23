@@ -56,6 +56,8 @@ const CategoryNode = function (key, attrs) {
 
   // Faceting state.
   this.isFacetable = attrs.isFacetable
+  this.facetParam = attrs.facetParam || null
+  this.facetValue = attrs.facetValue || null
   this.isFaceted = false
   // Interactive attributes for the node
   this.tapToZoom = true

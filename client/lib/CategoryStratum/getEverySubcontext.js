@@ -7,9 +7,9 @@ module.exports = function () {
 
   const subctxs = []
 
-  this.graph.forEachNode((key, attrs) => {
-    if (attrs.isFacetable) {
-      const subctx = this.context.append(attrs.facetParam, attrs.facetValue)
+  this.getNodes().forEach((node) => {
+    if (node.isFacetable) {
+      const subctx = this.context.append(node.facetParam, node.facetValue)
       subctxs.push(subctx)
     }
   })
