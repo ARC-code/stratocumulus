@@ -163,12 +163,14 @@ module.exports = (sky, loader) => {
     // Make the associated node look closed.
     const path = ev.id
     const superContext = ev.space.stratum.getSupercontext()
-    const superPath = superContext.toFacetPath()
-    const superStratum = sky.strata[superPath]
-    if (superStratum) {
-      const superNode = superStratum.getFacetNode(path)
-      if (superNode) {
-        superNode.makeClosed()
+    if (superContext) {
+      const superPath = superContext.toFacetPath()
+      const superStratum = sky.strata[superPath]
+      if (superStratum) {
+        const superNode = superStratum.getFacetNode(path)
+        if (superNode) {
+          superNode.makeClosed()
+        }
       }
     }
 

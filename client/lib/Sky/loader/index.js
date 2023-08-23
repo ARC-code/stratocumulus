@@ -34,7 +34,8 @@ module.exports = function (sky) {
 
     tracker: function (parentPath, parentSpace) {
       // Get IDs of the children of the parent component.
-      return parentSpace.stratum.getSubpaths()
+      const ctxs = parentSpace.stratum.getEverySubcontext()
+      return ctxs.map(ctx => ctx.toFacetPath())
     },
 
     backtracker: function (childPath, childSpace) {

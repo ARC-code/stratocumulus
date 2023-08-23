@@ -64,7 +64,7 @@ proto.filter = require('./filter')
 
 proto.getFacetNode = require('./getFacetNode')
 proto.getSubcontext = require('./getSubcontext')
-proto.getSubpaths = require('./getSubpaths')
+proto.getEverySubcontext = require('./getEverySubcontext')
 proto.getSupercontext = require('./getSupercontext')
 proto.load = require('./load')
 proto.prune = require('./prune')

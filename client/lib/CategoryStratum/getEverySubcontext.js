@@ -1,20 +1,18 @@
 module.exports = function () {
-  // Get the paths of substrata.
+  // Get the context of each substrata.
   //
   // Return
-  //   an array of string.
+  //   an array of Context.
   //
 
-  // TODO maybe compute just once in CategoryNode?
-
-  const subpaths = []
+  const subctxs = []
 
   this.graph.forEachNode((key, attrs) => {
     if (attrs.isFacetable) {
       const subctx = this.context.append(attrs.facetParam, attrs.facetValue)
-      subpaths.push(subctx.toFacetPath())
+      subctxs.push(subctx)
     }
   })
 
-  return subpaths
+  return subctxs
 }
