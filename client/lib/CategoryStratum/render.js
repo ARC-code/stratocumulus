@@ -2,7 +2,6 @@ const tapspace = require('tapspace')
 const layoutGraph = require('./layout')
 const sizing = require('../config').sizing
 const CategoryNode = require('../CategoryNode')
-const ArtifactNode = require('../ArtifactNode')
 
 module.exports = function (final = false, updateCount = 0) {
   // Render the graph. If elements already exist, update.
@@ -29,12 +28,7 @@ module.exports = function (final = false, updateCount = 0) {
       stratumNode.render(attrs)
     } else {
       // Node does not exist. Create.
-      const isDataCard = (attrs.kind && attrs.kind === 'artifact')
-      if (isDataCard) {
-        stratumNode = new ArtifactNode(key, attrs)
-      } else {
-        stratumNode = new CategoryNode(key, attrs)
-      }
+      stratumNode = new CategoryNode(key, attrs)
 
       this.nodePlane.addChild(stratumNode.component)
       stratumNode.render(attrs)
@@ -43,7 +37,7 @@ module.exports = function (final = false, updateCount = 0) {
       this.renderedNodes[key] = stratumNode
 
       // Build facet node index.
-      if (!isDataCard && attrs.isFacetable) {
+      if (attrs.isFacetable) {
         const facetParam = attrs.facetParam
         const facetValue = attrs.facetValue
         if (facetParam && facetValue) {

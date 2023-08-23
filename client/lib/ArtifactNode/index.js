@@ -4,7 +4,7 @@ const io = require('../io')
 const tapspace = require('tapspace')
 const getArtifactId = require('./getArtifactId')
 
-const ArtifactNode = function (key, attrs) {
+const ArtifactNode = function (key) {
   // @ArtifactNode
   //
   // ArtifactNode is a card-like element in space.
@@ -14,14 +14,12 @@ const ArtifactNode = function (key, attrs) {
   // Parameters:
   //   key
   //     a string, node key
-  //   attrs
-  //     node attributes
   //
 
   // Inherit
   StratumNode.call(this)
 
-  const artifactId = getArtifactId(attrs)
+  const artifactId = key
 
   this.element = document.createElement('div')
   this.element.className = 'artifact-card'

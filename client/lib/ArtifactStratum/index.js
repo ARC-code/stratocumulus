@@ -26,6 +26,9 @@ const ArtifactStratum = function (context) {
 
   // Inherit
   Stratum.call(this, context)
+
+  // This model defines the artifacts of this stratum and their order.
+  this.artifactIds = []
 }
 
 module.exports = ArtifactStratum
@@ -37,5 +40,6 @@ Object.assign(proto, Stratum.prototype)
 
 // Methods
 proto.load = require('./load')
+proto.prune = require('./prune')
 proto.remove = require('./remove')
 proto.render = require('./render')

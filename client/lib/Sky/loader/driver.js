@@ -75,7 +75,7 @@ module.exports = (sky, loader) => {
 
     // Reveal and hide node labels at each idle.
     Object.values(loader.spaces).forEach((space) => {
-      if (space.stratum) {
+      if (space.stratum && space.stratum.revealLabels) {
         space.stratum.revealLabels()
       }
     })

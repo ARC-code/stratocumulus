@@ -1,5 +1,5 @@
 const CategoryStratum = require('../../CategoryStratum')
-// const ArtifactStratum = require('../../ArtifactStratum')
+const ArtifactStratum = require('../../ArtifactStratum')
 const io = require('../../io')
 
 module.exports = (sky, loader) => {
@@ -30,7 +30,15 @@ module.exports = (sky, loader) => {
     // Else, use CategoryStratum
 
     // Create
-    const stratum = new CategoryStratum(context)
+    let stratum
+    if (context.hasParameter('page')) {
+      stratum = new ArtifactStratum(context)
+    } else {
+      stratum = new CategoryStratum(context)
+    }
+
+    // Maintain index of create strata.
+    // TODO unnecessary overlap with loader spaces?
     sky.strata[path] = stratum
 
     // Populate with a single node. This node will be upgraded later.

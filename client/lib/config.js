@@ -25,3 +25,8 @@ exports.filterParameters = [
   'q',
   'r_years'
 ]
+
+// Artifacts
+exports.artifacts = {
+  pageSize: 9
+}
