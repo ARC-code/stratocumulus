@@ -40,7 +40,11 @@ module.exports = function (sky) {
     backtracker: function (childPath, childSpace) {
       // Find parent id.
       // If no parent and the child is the root node, return null.
-      return childSpace.stratum.getSuperpath()
+      const superctx = childSpace.stratum.getSupercontext()
+      if (superctx) {
+        return superctx.toFacetPath()
+      }
+      return null
     }
   })
 

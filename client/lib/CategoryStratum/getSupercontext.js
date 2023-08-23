@@ -4,7 +4,11 @@ module.exports = function () {
   // with the last faceting parameter removed.
   //
   // Return
-  //   a Context
+  //   a Context or null is stratum is root.
   //
+  if (this.path === '/') {
+    return null
+  }
+
   return this.context.removeLastFacet()
 }
