@@ -12,10 +12,12 @@ exports.decades = {
 }
 
 // Facet parameters are Corpora-parameters navigable by zooming.
+// TODO rename as navigationParameters or pathParameters or stratumParameters
 exports.facetParameters = [
   'f_federations.id',
   'f_genres.id',
-  'f_disciplines.id'
+  'f_disciplines.id',
+  'page'
 ]
 
 // Filter parameters are Corpora-parameters that do not affect navigation.
