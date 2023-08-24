@@ -54,10 +54,6 @@ module.exports = function (graph, subgraph) {
       subgraph.nodes.forEach(n => {
         // Add new nodes to graph.
         const nodeKey = n.id
-        if (!n.is_facetable && n.kind !== 'root' && n.kind !== 'grouping') {
-          // Skip non-facetable facet node i.e. node in the context.
-          return
-        }
         if (graph.hasNode(nodeKey)) {
           // Update existing node.
           // Server might send same node multiple times with additional data.
