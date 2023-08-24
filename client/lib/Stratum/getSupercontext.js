@@ -10,5 +10,21 @@ module.exports = function () {
     return null
   }
 
+  if (this.context.hasParameter('page')) {
+    const pageNumber = parseInt(this.context.getValue('page'))
+    if (pageNumber) {
+      if (pageNumber <= 1) {
+        // Switch from artifacts to categories.
+        return this.context.remove('page')
+      } else {
+        // Goto previous page.
+        const prevPageStr = '' + (pageNumber - 1)
+        return this.context.remove('page').append('page', prevPageStr)
+      }
+    } else {
+      console.error('Invalid page number: ' + pageNumber)
+    }
+  }
+
   return this.context.removeLastFacet()
 }

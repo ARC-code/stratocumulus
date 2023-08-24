@@ -5,14 +5,17 @@ module.exports = function () {
   //   an array of Context.
   //
 
-  const subctxs = []
+  const subcontexts = []
 
-  this.getNodes().forEach((node) => {
-    if (node.isFacetable) {
-      const subctx = this.context.append(node.facetParam, node.facetValue)
-      subctxs.push(subctx)
+  const nodeKeys = Object.keys(this.renderedNodes)
+  const len = nodeKeys.length
+
+  for (let i = 0; i < len; i += 1) {
+    const subctx = this.getSubcontext(nodeKeys[i])
+    if (subctx) {
+      subcontexts.push(subctx)
     }
-  })
+  }
 
-  return subctxs
+  return subcontexts
 }

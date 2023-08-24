@@ -50,6 +50,8 @@ const CategoryNode = function (key, attrs) {
   newItem.nodeKey = key
 
   // Faceting state.
+  this.isFacetNode = (attrs.kind !== 'root' && attrs.kind !== 'grouping')
+  this.isExhausted = (!attrs.isFacetable && this.isFacetNode)
   this.isFacetable = attrs.isFacetable
   this.facetParam = attrs.facetParam || null
   this.facetValue = attrs.facetValue || null
@@ -65,7 +67,7 @@ const CategoryNode = function (key, attrs) {
       viewport.zoomToFill(this.component, 0.3)
     }
 
-    if (this.isFacetable && !this.isFaceted) {
+    if (this.isFacetNode && !this.isFaceted) {
       // Send event to be handled in Stratum
       const openingRequest = new window.CustomEvent('openingrequest', {
         bubbles: true,

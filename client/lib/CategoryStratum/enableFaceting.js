@@ -17,8 +17,16 @@ module.exports = function () {
         return
       }
 
+      // Build context for the stratum of this node.
+      // TODO exhausted nodes should also put page.
+      let subcontext = this.context
+      subcontext = subcontext.append(facetParam, facetValue)
+      if (nodeAttrs.value < 100 || nodeAttrs.isExhausted) {
+        subcontext = subcontext.remove('page').append('page', '1')
+      }
+
       this.emit('substratumrequest', {
-        context: this.context.append(facetParam, facetValue),
+        context: subcontext,
         nodeKey: nodeKey
       })
     }

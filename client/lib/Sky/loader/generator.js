@@ -101,7 +101,7 @@ module.exports = (sky, loader) => {
     stratum.on('substratumrequest', (rev) => {
       // This event tells us that an interaction within the stratum
       // requested a substratum to be built and rendered.
-      const childPath = rev.context.toFacetPath()
+      const childPath = rev.context.toFacetPath() // TODO toStratumPath
       // Pass to next open
       const eventData = { context: rev.context }
       loader.openChild(path, childPath, eventData)
