@@ -28,11 +28,6 @@ const CategoryNode = function (key, attrs) {
   newItem.addClass('category-node')
   newItem.addClass('stratum-node')
 
-  if (attrs.kind !== 'root' && attrs.kind !== 'grouping' && !attrs.isFacetable) {
-    // Gray out nodes we are inside.
-    newItem.addClass('context-node')
-  }
-  //
   if (attrs.kind === 'grouping') {
     // Style structure nodes.
     newItem.addClass('grouping-node')

@@ -61,8 +61,7 @@
 .category-node .node-shape.node-genres {
   background: linear-gradient(#2ca25f, #006d2c);
 }
-.category-node.empty-node .node-shape,
-.category-node.context-node .node-shape {
+.category-node.empty-node .node-shape {
   background: linear-gradient(#969696, #666666);
 }
 
