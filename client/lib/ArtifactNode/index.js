@@ -2,7 +2,6 @@ require('./style.css')
 const StratumNode = require('../StratumNode')
 const io = require('../io')
 const tapspace = require('tapspace')
-const getArtifactId = require('./getArtifactId')
 
 const ArtifactNode = function (key) {
   // @ArtifactNode
