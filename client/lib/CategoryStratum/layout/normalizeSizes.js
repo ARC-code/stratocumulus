@@ -1,6 +1,6 @@
-// const sizingConfig = require('../../config').sizing
-const minAllowedSize = 10
-const maxAllowedSize = 100
+const config = require('../../config')
+const minAllowedSize = config.sizing.minNodeSize
+const maxAllowedSize = config.sizing.maxNodeSize
 const allowedSizeRange = maxAllowedSize - minAllowedSize
 
 const valueToSize = (minValue, maxValue, value) => {
@@ -35,8 +35,8 @@ module.exports = (graph) => {
     return acc
   }, {
     // Init
-    minValue: 10,
-    maxValue: 100
+    minValue: config.sizing.minValue,
+    maxValue: config.sizing.maxValue
   })
 
   // Extract

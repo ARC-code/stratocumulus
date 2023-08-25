@@ -1,6 +1,6 @@
 const emitter = require('component-emitter')
 const tapspace = require('tapspace')
-const RENDER_SIZE = require('../config').sizing.stratumSize
+const RENDER_SIZE = require('../config').rendering.stratumSize
 
 const Stratum = function (context) {
   // @Stratum

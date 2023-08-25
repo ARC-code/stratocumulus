@@ -1,4 +1,4 @@
-const RENDER_SIZE = require('../config').sizing.stratumSize
+const RENDER_SIZE = require('../config').rendering.stratumSize
 
 module.exports = function () {
   // @Stratum:getOrigin()

@@ -1,5 +1,9 @@
+exports.rendering = {
+  stratumSize: 2560, // px TODO use
+  nodeSize: 256, // px TODO use
+}
+
 exports.sizing = {
-  stratumSize: 2560, // px
   maxNodeSize: 100,
   minNodeSize: 10,
   maxValue: 100,
@@ -30,5 +34,6 @@ exports.filterParameters = [
 
 // Artifacts
 exports.artifacts = {
+  threshold: 100, // min facetable count
   pageSize: 9
 }

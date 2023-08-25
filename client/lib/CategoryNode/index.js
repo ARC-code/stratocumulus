@@ -1,7 +1,9 @@
 require('./style.css')
 const StratumNode = require('../StratumNode')
 const tapspace = require('tapspace')
-const FACETING_THRESHOLD = 100 // TODO move to config, MIN_FACETABLE_COUNT
+const config = require('../config')
+const NODE_RENDER_SIZE = config.rendering.nodeSize
+const FACETING_THRESHOLD = config.artifacts.threshold
 
 const CategoryNode = function (key, attrs) {
   // A node in a stratum. Stratum maintains set of nodes.
@@ -23,8 +25,8 @@ const CategoryNode = function (key, attrs) {
   // Inherit
   StratumNode.call(this)
 
-  // Constant rendering size 256x256
-  const radiusPx = 128
+  // Constant rendering size. Use scaling to "size" nodes.
+  const radiusPx = NODE_RENDER_SIZE / 2
   const newItem = tapspace.createNode(radiusPx)
   newItem.addClass('category-node')
   newItem.addClass('stratum-node')
