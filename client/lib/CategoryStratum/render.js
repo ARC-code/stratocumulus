@@ -28,13 +28,11 @@ module.exports = function (final = false, updateCount = 0) {
     if (stratumNode) {
       // Node already exists.
       // Update content and scale according to attributes.
-      stratumNode.render(attrs)
+      stratumNode.update(attrs)
     } else {
       // Node does not exist. Create.
       stratumNode = new CategoryNode(key, attrs)
-
       this.nodePlane.addChild(stratumNode.component)
-      stratumNode.render(attrs)
 
       // Build index of rendered nodes.
       this.renderedNodes[key] = stratumNode

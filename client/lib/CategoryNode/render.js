@@ -1,15 +1,11 @@
 const template = require('./template')
 
-module.exports = function (attrs) {
-  // @CategoryNode:render(attrs)
-  //
-  // Parameters:
-  //   attrs
-  //     graph model node attributes
+module.exports = function () {
+  // @CategoryNode:render()
   //
 
-  const nodeIsStale = attrs.stale
-  const nodeValue = attrs.value || 0
+  const nodeIsStale = this.data.stale
+  const nodeValue = this.data.value || 0
   if (nodeValue < 0.1 || nodeIsStale) {
     this.component.addClass('empty-node')
   } else {
@@ -17,5 +13,5 @@ module.exports = function (attrs) {
   }
 
   // Just render again and replace
-  this.component.html(template(attrs))
+  this.component.html(template(this.data))
 }

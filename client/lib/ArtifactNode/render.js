@@ -22,13 +22,13 @@ module.exports = function () {
   // @ArtifactNode:render()
   //
 
-  if (!this.artifact) {
+  if (!this.data) {
     // Not ready for rendering.
     return
   }
 
   // Shorthand
-  const art = this.artifact
+  const art = this.data
 
   // Preprocess title
   const title = art.title

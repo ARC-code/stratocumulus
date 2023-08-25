@@ -13,17 +13,14 @@ module.exports = function () {
     let artifactNode = this.renderedNodes[key]
 
     if (artifactNode) {
-      // TODO refresh
+      // TODO Refresh
+      // artifactNode.update(data?)
     } else {
-      // Node does not exist. Create.
-      artifactNode = new ArtifactNode(key)
+      // Node does not exist. Create. Artifact data is populated later.
+      artifactNode = new ArtifactNode(key, {})
       this.renderedNodes[key] = artifactNode
-
       // Place to DOM although artifact frame is currently empty.
       this.nodePlane.addChild(artifactNode.component)
-
-      // NOTE no need to call artifactNode.render() because
-      // called within ArtifactNode
     }
 
     // Derive scale relative to the stratum basis.

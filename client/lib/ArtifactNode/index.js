@@ -5,7 +5,7 @@ const tapspace = require('tapspace')
 const config = require('../config')
 const ARTIFACT_SIZE = config.rendering.artifactNodeSize
 
-const ArtifactNode = function (key) {
+const ArtifactNode = function (key, artifact) {
   // @ArtifactNode
   //
   // ArtifactNode is a card-like element in space.
@@ -18,9 +18,7 @@ const ArtifactNode = function (key) {
   //
 
   // Inherit
-  StratumNode.call(this)
-
-  const artifactId = key
+  StratumNode.call(this, key, artifact)
 
   this.element = document.createElement('div')
   this.element.className = 'artifact-card'
@@ -36,6 +34,7 @@ const ArtifactNode = function (key) {
 
   // Fetch the content for the card.
   this.artifact = null
+  const artifactId = this.key
   io.corpora.fetchArtifact(artifactId, (err, art) => {
     if (err) {
       // TODO alert user?
@@ -43,10 +42,7 @@ const ArtifactNode = function (key) {
       return
     }
 
-    this.artifact = art
-
-    // TODO prevent duplicate render calls because Stratum calls render() too.
-    this.render()
+    this.update(art)
   })
 }
 

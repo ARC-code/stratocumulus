@@ -15,7 +15,7 @@ const CategoryNode = function (key, attrs) {
   //   key
   //     string, graph node key, e.g. "/arc/genres" or "/arc/genres/1234"
   //   attrs
-  //     object, the initial graph node attributes.
+  //     object, the node attributes from the graph.
   //
   // Emits:
   //   openingrequest `{ nodeKey: <string>, item: <Component> }`
@@ -23,23 +23,37 @@ const CategoryNode = function (key, attrs) {
   //
 
   // Inherit
-  StratumNode.call(this)
+  StratumNode.call(this, key, attrs)
+
+  // Node typing
+  this.isRootNode = this.data.kind === 'root'
+  this.isGroupingNode = this.data.kind === 'grouping'
+  this.isFacetNode = (!this.isRootNode && !this.isGroupingNode)
+  this.isFacetable = this.data.isFacetable
+  this.isExhausted = (!this.isFacetable && this.isFacetNode) ||
+    this.data.value < FACETING_THRESHOLD
+  // this.isGateNode =  this.isExhausted || this.data.value < FACETING_THRESHOLD
+  // TODO read from data
+  this.facetParam = this.data.facetParam || null
+  this.facetValue = this.data.facetValue || null
 
   // Constant rendering size. Use scaling to "size" nodes.
   const radiusPx = NODE_RENDER_SIZE / 2
   const newItem = tapspace.createNode(radiusPx)
   newItem.addClass('category-node')
   newItem.addClass('stratum-node')
+  // Make it easy to find node attributes via tapspace component.
+  newItem.nodeKey = this.key
 
-  if (attrs.kind === 'grouping') {
+  if (this.isGroupingNode) {
     // Style structure nodes.
     newItem.addClass('grouping-node')
   }
-  if (attrs.kind === 'root') {
+  if (this.isRootNode) {
     // Style root nodes.
     newItem.addClass('root-node')
   }
-  if (attrs.isFacetable) {
+  if (this.isFacetNode) {
     // Style facetable nodes.
     newItem.addClass('facetable-node')
   }
@@ -49,16 +63,7 @@ const CategoryNode = function (key, attrs) {
   // Disable interaction with node content.
   newItem.setContentInput(false)
 
-  // Make it easy to find node attributes via tapspace component.
-  newItem.nodeKey = key
-
   // Faceting state.
-  this.isFacetNode = (attrs.kind !== 'root' && attrs.kind !== 'grouping')
-  this.isExhausted = (!attrs.isFacetable && this.isFacetNode) ||
-    attrs.value < FACETING_THRESHOLD
-  this.isFacetable = attrs.isFacetable
-  this.facetParam = attrs.facetParam || null
-  this.facetValue = attrs.facetValue || null
   this.isFaceted = false
   // Interactive attributes for the node
   this.tapToZoom = true
@@ -84,8 +89,10 @@ const CategoryNode = function (key, attrs) {
     }
   })
 
-  this.key = key
+  // Replace default component
   this.component = newItem
+
+  this.render()
 }
 
 module.exports = CategoryNode
