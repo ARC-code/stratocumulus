@@ -1,21 +1,15 @@
-module.exports = function (nodeKey) {
+module.exports = function (node) {
   // Get faceting context for a substratum.
   //
   // Parameters:
-  //   nodeKey
-  //     a string, a facet node key.
+  //   node
+  //     a StratumNode
   //
   // Return:
-  //   a Context or null if node does not have substratum.
+  //   a Context or null if the node cannot have a substratum.
   //
 
   // TODO maybe build this in each CategoryNode once?
-
-  if (!this.renderedNodes[nodeKey]) {
-    throw new Error('Unknown stratum node: ' + nodeKey)
-  }
-
-  const node = this.renderedNodes[nodeKey]
 
   if (node.isCategoryNode) {
     if (node.facetParam) { // TODO isFacetNode OR isGateNode
@@ -43,12 +37,12 @@ module.exports = function (nodeKey) {
           throw new Error('Invalid page number: ' + pageNumber)
         }
       } else {
-        throw new Error('Unexpected artifact in non-page context: ' + nodeKey)
+        throw new Error('Unexpected artifact in non-page context: ' + node.key)
       }
     }
     // Only the last card has substratum.
     return null
   }
 
-  throw new Error('Unexpected type for node: ' + nodeKey)
+  throw new Error('Unexpected type for node: ' + node.key)
 }

@@ -7,11 +7,11 @@ module.exports = function () {
 
   const subcontexts = []
 
-  const nodeKeys = Object.keys(this.renderedNodes)
-  const len = nodeKeys.length
+  const nodes = Object.values(this.renderedNodes)
+  const len = nodes.length
 
   for (let i = 0; i < len; i += 1) {
-    const subctx = this.getSubcontext(nodeKeys[i])
+    const subctx = this.getSubcontext(nodes[i])
     if (subctx) {
       subcontexts.push(subctx)
     }

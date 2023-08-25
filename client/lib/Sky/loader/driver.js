@@ -56,7 +56,7 @@ module.exports = (sky, loader) => {
       const currentNode = findCurrentNode(sky, currentStratum)
       // If current node available, open it.
       if (currentNode) {
-        const subcontext = currentStratum.getSubcontext(currentNode.key)
+        const subcontext = currentStratum.getSubcontext(currentNode)
         const subpath = subcontext.toFacetPath()
         const eventData = { context: subcontext }
         loader.openChild(currentStratumPath, subpath, eventData)

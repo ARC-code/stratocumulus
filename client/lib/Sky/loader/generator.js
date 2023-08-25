@@ -167,8 +167,7 @@ module.exports = (sky, loader) => {
   })
 
   loader.on('close', (ev) => {
-    // DEBUG
-    // console.log('space closing:', ev)
+    // console.log('space closing:', ev) // DEBUG
 
     // Make the associated node look closed.
     const path = ev.id
