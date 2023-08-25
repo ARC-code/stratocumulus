@@ -58,7 +58,7 @@ module.exports = function (final = false, updateCount = 0) {
   this.recomputeBoundingCircle()
   // Re-position the stratum w.r.t. its superstratum node.
   if (updateCount < 5 || Math.random() > 0.66) {
-    this.scaleToFit()
+    this.scaleNodesToFit()
   }
 
   // Display and position the context label.

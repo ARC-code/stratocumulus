@@ -2,7 +2,7 @@ const config = require('../config')
 const RENDER_SIZE = config.rendering.stratumSize
 
 module.exports = function () {
-  // @Stratum:scaleToFit()
+  // @Stratum:scaleNodesToFit()
   //
   // Transforms the node plane so that it fits the rendering area.
   //

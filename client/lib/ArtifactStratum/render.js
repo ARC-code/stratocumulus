@@ -33,5 +33,5 @@ module.exports = function () {
   // Re-compute bounding circle at each render.
   this.recomputeBoundingCircle()
   // Scale so that cards just fit inside the rendering area.
-  this.scaleToFit()
+  this.scaleNodesToFit()
 }
