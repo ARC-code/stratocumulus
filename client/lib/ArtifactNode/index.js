@@ -2,6 +2,8 @@ require('./style.css')
 const StratumNode = require('../StratumNode')
 const io = require('../io')
 const tapspace = require('tapspace')
+const config = require('../config')
+const ARTIFACT_SIZE = config.rendering.artifactNodeSize
 
 const ArtifactNode = function (key) {
   // @ArtifactNode
@@ -25,7 +27,7 @@ const ArtifactNode = function (key) {
 
   // Create an item to add to the space.
   this.component = tapspace.createItem(this.element)
-  this.component.setSize(300, 500)
+  this.component.setSize(ARTIFACT_SIZE, ARTIFACT_SIZE)
   // Gravity at card center
   this.component.setAnchor(this.component.atCenter())
 

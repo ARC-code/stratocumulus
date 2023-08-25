@@ -1,6 +1,9 @@
 const tapspace = require('tapspace')
 const layoutGraph = require('./layout')
-const sizing = require('../config').sizing
+const config = require('../config')
+const MIN_NODE_SIZE = config.sizing.minNodeSize
+const MAX_NODE_SIZE = config.sizing.maxNodeSize
+const RENDER_SIZE = config.rendering.stratumSize
 const CategoryNode = require('../CategoryNode')
 
 module.exports = function (final = false, updateCount = 0) {
@@ -45,8 +48,8 @@ module.exports = function (final = false, updateCount = 0) {
     }
 
     // Derive scale relative to the stratum basis.
-    const nSize = (attrs.size ? attrs.size : sizing.minNodeSize)
-    const nScale = 0.6 * nSize / sizing.maxNodeSize
+    const nSize = (attrs.size ? attrs.size : MIN_NODE_SIZE)
+    const nScale = 0.6 * nSize / MAX_NODE_SIZE
     stratumNode.setScale(nScale)
     // Update node position and scale according to the layout.
     const nPosition = layoutPositions[key]
@@ -62,8 +65,8 @@ module.exports = function (final = false, updateCount = 0) {
     const circleRadius = this.boundingCircle.getRadius()
     const circleTop = circleCenter.polarOffset(circleRadius, -Math.PI / 2)
     const circleBottom = circleCenter.polarOffset(circleRadius, Math.PI / 2)
-    const targetTop = this.space.at(1280, 0)
-    const targetBottom = this.space.at(1280, 0.8 * 2560)
+    const targetTop = this.space.at(RENDER_SIZE / 2, 0)
+    const targetBottom = this.space.at(RENDER_SIZE / 2, 0.8 * RENDER_SIZE)
     this.nodePlane.match({
       source: [circleTop, circleBottom],
       target: [targetTop, targetBottom],

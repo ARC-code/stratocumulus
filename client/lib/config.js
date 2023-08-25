@@ -1,6 +1,7 @@
 exports.rendering = {
-  stratumSize: 2560, // px TODO use
-  nodeSize: 256, // px TODO use
+  stratumSize: 2560, // px
+  categoryNodeSize: 256, // px
+  artifactNodeSize: 512 // px
 }
 
 exports.sizing = {

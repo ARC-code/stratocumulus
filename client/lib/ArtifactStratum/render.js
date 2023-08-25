@@ -29,7 +29,7 @@ module.exports = function () {
     // Derive scale relative to the stratum basis.
     artifactNode.setScale(0.4)
     // Update position according to order.
-    const nPoint = nodePlaneOrigin.offset(i * 100, 0) // TODO spiral
+    const nPoint = nodePlaneOrigin.offset(i * 200, 0) // TODO spiral
     artifactNode.translateTo(nPoint)
   })
 

@@ -2,7 +2,7 @@ require('./style.css')
 const StratumNode = require('../StratumNode')
 const tapspace = require('tapspace')
 const config = require('../config')
-const NODE_RENDER_SIZE = config.rendering.nodeSize
+const NODE_RENDER_SIZE = config.rendering.categoryNodeSize
 const FACETING_THRESHOLD = config.artifacts.threshold
 
 const CategoryNode = function (key, attrs) {
