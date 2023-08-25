@@ -37,7 +37,7 @@ module.exports = function (final = false, updateCount = 0) {
       // Build index of rendered nodes.
       this.renderedNodes[key] = stratumNode
 
-      // Build facet node index.
+      // Build facet node index. TODO save to nodes and iterate nodes to read
       const facetContext = this.getSubcontext(key)
       if (facetContext) {
         const facetPath = facetContext.toFacetPath()
@@ -58,6 +58,7 @@ module.exports = function (final = false, updateCount = 0) {
   // Re-compute bounding circle at each render.
   this.recomputeBoundingCircle()
   // Re-position the stratum w.r.t. its superstratum node.
+  // TODO move into .fit()
   if (updateCount < 5 || Math.random() > 0.66) {
     const circleCenter = this.boundingCircle.atCenter()
     const circleRadius = this.boundingCircle.getRadius()

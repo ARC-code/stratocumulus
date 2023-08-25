@@ -46,6 +46,7 @@ module.exports = (attrs) => {
     return contentHtml
   }
 
+  // Non-facet nodes lack shape
   if (attrs.kind === 'grouping' || attrs.kind === 'root') {
     const labelHtml = buildLabelElement(attrs)
     return labelHtml

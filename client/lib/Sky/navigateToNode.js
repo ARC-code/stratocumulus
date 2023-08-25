@@ -19,6 +19,7 @@ module.exports = function (context, facetParam, facetValue) {
   const stratum = space.stratum
 
   // Find the node within stratum.
+  // TODO navigate by node key and use stratum.getSubcontext
   const subcontext = context.append(facetParam, facetValue)
   const nodePath = subcontext.toFacetPath()
   const facetNode = stratum.getFacetNode(nodePath)
