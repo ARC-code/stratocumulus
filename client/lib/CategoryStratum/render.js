@@ -3,7 +3,6 @@ const layoutGraph = require('./layout')
 const config = require('../config')
 const MIN_NODE_SIZE = config.sizing.minNodeSize
 const MAX_NODE_SIZE = config.sizing.maxNodeSize
-const RENDER_SIZE = config.rendering.stratumSize
 const CategoryNode = require('../CategoryNode')
 
 module.exports = function (final = false, updateCount = 0) {
@@ -58,19 +57,8 @@ module.exports = function (final = false, updateCount = 0) {
   // Re-compute bounding circle at each render.
   this.recomputeBoundingCircle()
   // Re-position the stratum w.r.t. its superstratum node.
-  // TODO move into .fit()
   if (updateCount < 5 || Math.random() > 0.66) {
-    const circleCenter = this.boundingCircle.atCenter()
-    const circleRadius = this.boundingCircle.getRadius()
-    const circleTop = circleCenter.polarOffset(circleRadius, -Math.PI / 2)
-    const circleBottom = circleCenter.polarOffset(circleRadius, Math.PI / 2)
-    const targetTop = this.space.at(RENDER_SIZE / 2, 0)
-    const targetBottom = this.space.at(RENDER_SIZE / 2, 0.8 * RENDER_SIZE)
-    this.nodePlane.match({
-      source: [circleTop, circleBottom],
-      target: [targetTop, targetBottom],
-      estimator: 'TS'
-    })
+    this.scaleToFit()
   }
 
   // Display and position the context label.
