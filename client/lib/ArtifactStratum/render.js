@@ -24,6 +24,12 @@ module.exports = function () {
       this.renderedNodes[key] = artifactNode
       // Place to DOM although artifact frame is currently empty.
       this.nodePlane.addChild(artifactNode.component)
+      // Last one opens the next page. TODO do something more flexible
+      if (i === ids.length - 1) {
+        artifactNode.isLast = true
+      } else {
+        artifactNode.isLast = false
+      }
     }
 
     // Derive scale relative to the stratum basis.

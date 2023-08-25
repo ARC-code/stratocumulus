@@ -9,5 +9,22 @@ module.exports = function (subcontext) {
   //   a CategoryNode or null
   //
 
+  // TODO build more flexible way to load pages and other content.
+
+  const subPageNumber = parseInt(subcontext.getValue('page'))
+  const pageNumber = parseInt(this.context.getValue('page'))
+  if (pageNumber !== subPageNumber - 1) {
+    return null
+  }
+
+  const nodes = Object.values(this.renderedNodes)
+  const lastNode = nodes.find(n => {
+    return n.isLast
+  })
+
+  if (lastNode) {
+    return lastNode
+  }
+
   return null
 }
