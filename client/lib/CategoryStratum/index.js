@@ -61,8 +61,7 @@ Object.assign(proto, Stratum.prototype)
 // Methods
 proto.enableFaceting = require('./enableFaceting')
 proto.filter = require('./filter')
-
-proto.getFacetNode = require('./getFacetNode')
+proto.getNodeBySubcontext = require('./getNodeBySubcontext')
 proto.load = require('./load')
 proto.prune = require('./prune')
 proto.refreshNodeSizes = require('./refreshNodeSizes')

@@ -83,7 +83,7 @@ module.exports = (sky, loader) => {
     if (ev.parentId) {
       const superStratum = sky.strata[ev.parentId]
       if (superStratum) {
-        const superNode = superStratum.getFacetNode(context)
+        const superNode = superStratum.getNodeBySubcontext(context)
         if (superNode) {
           superNode.makeOpened()
           superNode.setLoadingAnimation(true)
@@ -94,7 +94,7 @@ module.exports = (sky, loader) => {
     // ensure that the associated node looks opened.
     if (ev.childId) {
       const subcontext = Context.fromFacetPath(ev.childId)
-      const facetNode = stratum.getFacetNode(subcontext)
+      const facetNode = stratum.getNodeBySubcontext(subcontext)
       if (facetNode) {
         facetNode.makeOpened()
         facetNode.setLoadingAnimation(true)
@@ -128,7 +128,7 @@ module.exports = (sky, loader) => {
         // Ensure the child node looks opened.
         // Also stop loading animation, if any.
         const subcontext = Context.fromFacetPath(ev.childId)
-        const superNode = stratum.getFacetNode(subcontext)
+        const superNode = stratum.getNodeBySubcontext(subcontext)
         if (superNode) {
           superNode.makeOpened()
           superNode.setLoadingAnimation(false)
@@ -140,7 +140,7 @@ module.exports = (sky, loader) => {
       if (ev.parentId) {
         const superStratum = sky.strata[ev.parentId]
         if (superStratum) {
-          const superNode = superStratum.getFacetNode(context)
+          const superNode = superStratum.getNodeBySubcontext(context)
           if (superNode) {
             superNode.makeOpened()
             superNode.setLoadingAnimation(false)
@@ -180,7 +180,7 @@ module.exports = (sky, loader) => {
       const superPath = superContext.toFacetPath()
       const superStratum = sky.strata[superPath]
       if (superStratum) {
-        const superNode = superStratum.getFacetNode(stratum.context)
+        const superNode = superStratum.getNodeBySubcontext(stratum.context)
         if (superNode) {
           superNode.makeClosed()
         }

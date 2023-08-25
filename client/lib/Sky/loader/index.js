@@ -19,7 +19,7 @@ module.exports = function (sky) {
       // If there is no position for the child, null.
       const parentStratum = parentSpace.stratum
       const subctx = Context.fromFacetPath(childPath)
-      const facetNode = parentStratum.getFacetNode(subctx)
+      const facetNode = parentStratum.getNodeBySubcontext(subctx)
       if (!facetNode) {
         console.warn('Unknown or non-existing facet node: ' + childPath)
         return null
