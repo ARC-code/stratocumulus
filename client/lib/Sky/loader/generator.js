@@ -1,5 +1,6 @@
 const CategoryStratum = require('../../CategoryStratum')
 const ArtifactStratum = require('../../ArtifactStratum')
+const Context = require('../../Context')
 const io = require('../../io')
 
 module.exports = (sky, loader) => {
@@ -82,7 +83,7 @@ module.exports = (sky, loader) => {
     if (ev.parentId) {
       const superStratum = sky.strata[ev.parentId]
       if (superStratum) {
-        const superNode = superStratum.getFacetNode(path)
+        const superNode = superStratum.getFacetNode(context)
         if (superNode) {
           superNode.makeOpened()
           superNode.setLoadingAnimation(true)
@@ -92,10 +93,11 @@ module.exports = (sky, loader) => {
     // If this stratum was openend by a substratum,
     // ensure that the associated node looks opened.
     if (ev.childId) {
-      const superNode = stratum.getFacetNode(ev.childId)
-      if (superNode) {
-        superNode.makeOpened()
-        superNode.setLoadingAnimation(true)
+      const subcontext = Context.fromFacetPath(ev.childId)
+      const facetNode = stratum.getFacetNode(subcontext)
+      if (facetNode) {
+        facetNode.makeOpened()
+        facetNode.setLoadingAnimation(true)
       }
     }
 
@@ -125,7 +127,8 @@ module.exports = (sky, loader) => {
 
         // Ensure the child node looks opened.
         // Also stop loading animation, if any.
-        const superNode = stratum.getFacetNode(ev.childId)
+        const subcontext = Context.fromFacetPath(ev.childId)
+        const superNode = stratum.getFacetNode(subcontext)
         if (superNode) {
           superNode.makeOpened()
           superNode.setLoadingAnimation(false)
@@ -137,7 +140,7 @@ module.exports = (sky, loader) => {
       if (ev.parentId) {
         const superStratum = sky.strata[ev.parentId]
         if (superStratum) {
-          const superNode = superStratum.getFacetNode(path)
+          const superNode = superStratum.getFacetNode(context)
           if (superNode) {
             superNode.makeOpened()
             superNode.setLoadingAnimation(false)
@@ -171,12 +174,13 @@ module.exports = (sky, loader) => {
 
     // Make the associated node look closed.
     const path = ev.id
-    const superContext = ev.space.stratum.getSupercontext()
+    const stratum = ev.space.stratum
+    const superContext = stratum.getSupercontext()
     if (superContext) {
       const superPath = superContext.toFacetPath()
       const superStratum = sky.strata[superPath]
       if (superStratum) {
-        const superNode = superStratum.getFacetNode(path)
+        const superNode = superStratum.getFacetNode(stratum.context)
         if (superNode) {
           superNode.makeClosed()
         }

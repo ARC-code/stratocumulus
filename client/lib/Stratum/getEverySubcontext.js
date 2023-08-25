@@ -1,4 +1,6 @@
 module.exports = function () {
+  // @Stratum:getEverySubcontext()
+  //
   // Get the context of each substrata.
   //
   // Return

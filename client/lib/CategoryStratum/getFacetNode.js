@@ -1,5 +1,5 @@
-module.exports = function (path) {
-  // Get a node by its substratum path. Can be null if no node found.
+module.exports = function (subcontext) {
+  // Get a node by its subcontext. Can be null if no node found.
   //
   // Parameters:
   //   path
@@ -9,13 +9,14 @@ module.exports = function (path) {
   //   a CategoryNode or null
   //
 
-  const nodeKey = this.facetNodeIndex[path]
+  const facet = subcontext.remove('page').getLastFacet()
+  const facetParam = facet.parameter
+  const facetValue = facet.value
 
-  if (!nodeKey) {
-    return null
-  }
-
-  const facetNode = this.renderedNodes[nodeKey]
+  const nodes = Object.values(this.renderedNodes)
+  const facetNode = nodes.find(n => {
+    return n.data.facetParam === facetParam && n.data.facetValue === facetValue
+  })
 
   if (!facetNode) {
     return null

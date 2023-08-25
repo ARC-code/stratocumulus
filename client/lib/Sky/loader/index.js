@@ -1,6 +1,7 @@
 const tapspace = require('tapspace')
 const driver = require('./driver')
 const generator = require('./generator')
+const Context = require('../../Context')
 
 module.exports = function (sky) {
   // Use tapspace TreeLoader for loading and unloading of fractal spaces.
@@ -17,7 +18,8 @@ module.exports = function (sky) {
       // In other words, find a basis for the child.
       // If there is no position for the child, null.
       const parentStratum = parentSpace.stratum
-      const facetNode = parentStratum.getFacetNode(childPath)
+      const subctx = Context.fromFacetPath(childPath)
+      const facetNode = parentStratum.getFacetNode(subctx)
       if (!facetNode) {
         console.warn('Unknown or non-existing facet node: ' + childPath)
         return null
