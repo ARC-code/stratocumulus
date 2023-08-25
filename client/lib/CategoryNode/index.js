@@ -1,6 +1,7 @@
 require('./style.css')
 const StratumNode = require('../StratumNode')
 const tapspace = require('tapspace')
+const FACETING_THRESHOLD = 100 // TODO move to config, MIN_FACETABLE_COUNT
 
 const CategoryNode = function (key, attrs) {
   // A node in a stratum. Stratum maintains set of nodes.
@@ -51,7 +52,8 @@ const CategoryNode = function (key, attrs) {
 
   // Faceting state.
   this.isFacetNode = (attrs.kind !== 'root' && attrs.kind !== 'grouping')
-  this.isExhausted = (!attrs.isFacetable && this.isFacetNode)
+  this.isExhausted = (!attrs.isFacetable && this.isFacetNode) ||
+    attrs.value < FACETING_THRESHOLD
   this.isFacetable = attrs.isFacetable
   this.facetParam = attrs.facetParam || null
   this.facetValue = attrs.facetValue || null

@@ -18,13 +18,14 @@ module.exports = function (nodeKey) {
   const node = this.renderedNodes[nodeKey]
 
   if (node.isCategoryNode) {
-    if (node.facetParam) {
-      if (node.isExhausted) {
-        // Switch to artifacts
-        return this.context.append('page', '1')
-      }
+    if (node.facetParam) { // TODO isFacetNode OR isGateNode
+      // Subcontext for the next category stratum.
       const facetParam = node.facetParam
       const facetValue = node.facetValue
+      if (node.isExhausted) {
+        // Switch to artifacts
+        return this.context.append(facetParam, facetValue).append('page', '1')
+      }
       return this.context.append(facetParam, facetValue)
     }
     return null
@@ -32,6 +33,7 @@ module.exports = function (nodeKey) {
 
   if (node.isArtifactNode) {
     if (node.isLast) {
+      // Subcontext for the next page
       if (this.context.hasParameter('page')) {
         const pageNumber = parseInt(this.context.getValue('page'))
         if (pageNumber) {

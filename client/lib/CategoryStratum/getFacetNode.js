@@ -1,5 +1,5 @@
 module.exports = function (path) {
-  // Get node by its substratum path. Can be null if no node found.
+  // Get a node by its substratum path. Can be null if no node found.
   //
   // Parameters:
   //   path

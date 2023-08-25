@@ -37,14 +37,10 @@ module.exports = function (final = false, updateCount = 0) {
       this.renderedNodes[key] = stratumNode
 
       // Build facet node index.
-      if (attrs.isFacetable) {
-        const facetParam = attrs.facetParam
-        const facetValue = attrs.facetValue
-        if (facetParam && facetValue) {
-          const facetContext = this.context.append(facetParam, facetValue)
-          const facetPath = facetContext.toFacetPath()
-          this.facetNodeIndex[facetPath] = key
-        }
+      const facetContext = this.getSubcontext(key)
+      if (facetContext) {
+        const facetPath = facetContext.toFacetPath()
+        this.facetNodeIndex[facetPath] = key
       }
     }
 

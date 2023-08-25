@@ -15,7 +15,8 @@ module.exports = function () {
     if (pageNumber) {
       if (pageNumber <= 1) {
         // Switch from artifacts to categories.
-        return this.context.remove('page')
+        // Remove page and the last facet parameter.
+        return this.context.remove('page').removeLastFacet()
       } else {
         // Goto previous page.
         const prevPageStr = '' + (pageNumber - 1)
