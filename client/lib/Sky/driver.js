@@ -63,6 +63,19 @@ module.exports = (sky, loader) => {
           context: currentStratum.context.copy()
         })
       }
+    } else {
+      // No current stratum; no stratum pinned inside viewport.
+      // The nearest stratum might be very small if users zoomed out quickly.
+      // Therefore, if there is a previous stratum, expand its parent.
+      // TODO improve to find the largest visible stratum and use it
+      // TODO as the current stratum.
+      if (previousStratumPath && previousStratumPath !== '/') {
+        const previousStratum = sky.strata[previousStratumPath]
+        if (previousStratum) {
+          const eventData = { context: previousStratum.getSupercontext() }
+          loader.openParent(previousStratumPath, eventData)
+        }
+      }
     }
 
     // Reveal and hide node labels at each idle.
