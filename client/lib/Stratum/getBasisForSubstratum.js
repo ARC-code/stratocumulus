@@ -1,5 +1,5 @@
 module.exports = function (subcontext) {
-  // @Stratum:getBasisBySubcontext(subcontext)
+  // @Stratum:getBasisForSubstratum(subcontext)
   //
   // A placeholder that ensures subclasses implement the method.
   //
@@ -15,5 +15,5 @@ module.exports = function (subcontext) {
   // Returns:
   //   a tapspace.geometry.Basis
   //
-  throw new Error('Subclasses must implement the getBasisBySubcontext method.')
+  throw new Error('Subclasses must implement the getBasisForSubstratum method.')
 }

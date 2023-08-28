@@ -1,7 +1,7 @@
 module.exports = function (subcontext) {
-  // @CategoryStratum:getBasisBySubcontext(subcontext)
+  // @ArtifactStratum:getBasisForSubstratum(subcontext)
   //
-  // Overrides Stratum:getBasisBySubcontext
+  // Overrides Stratum:getBasisForSubstratum
   //
   // The method should return a basis for the given subcontext.
   //
@@ -13,5 +13,5 @@ module.exports = function (subcontext) {
   //   a tapspace.geometry.Basis
   //
 
-  // TODO basis of the associated facet node for the substratum.
+  // TODO basis for next page
 }
