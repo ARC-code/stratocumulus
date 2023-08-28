@@ -18,15 +18,8 @@ module.exports = function (sky) {
       // In other words, find a basis for the child.
       // If there is no position for the child, null.
       const parentStratum = parentSpace.stratum
-      const subctx = Context.fromFacetPath(childPath)
-      const facetNode = parentStratum.getNodeBySubcontext(subctx)
-      if (!facetNode) {
-        console.warn('Unknown or non-existing facet node: ' + childPath)
-        return null
-      }
-      const childBasis = facetNode.component.getBasis()
-      // Nodes have constant rendering size that is 10th of stratum size.
-      return childBasis.scaleBy(0.1, facetNode.component.at(0, 0))
+      const subcontext = Context.fromFacetPath(childPath)
+      return parentStratum.getBasisForSubstratum(subcontext)
     },
 
     backmapper: function (childPath, childSpace, parentPath) {

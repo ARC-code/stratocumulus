@@ -3,7 +3,8 @@ module.exports = function (subcontext) {
   //
   // Overrides Stratum:getBasisForSubstratum
   //
-  // The method should return a basis for the given subcontext.
+  // The method returns a basis for the given subcontext.
+  // The basis is useful to position substrata.
   //
   // Parameters:
   //   subcontext
@@ -14,4 +15,6 @@ module.exports = function (subcontext) {
   //
 
   // TODO basis for next page
+
+  return this.nodePlane.getBasis().scaleBy(0.2) // TODO improve position
 }
