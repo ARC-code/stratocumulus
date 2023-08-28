@@ -13,8 +13,8 @@ module.exports = function (viewport) {
   // On the current stratum, find the nearest openable node.
   const currentNode = this.findNearbyNode(viewport)
 
-  // If current node available, open it.
-  if (currentNode) {
+  // If current node is available and openable, open it.
+  if (currentNode && currentNode.isFacetNode && !currentNode.isFaceted) {
     const subcontext = this.getSubcontext(currentNode)
     if (subcontext) {
       // Eventually triggers loading of the substratum.

@@ -83,9 +83,7 @@ const CategoryNode = function (key, attrs) {
         detail: this.key
       })
       this.component.element.dispatchEvent(openingRequest)
-      // Make look open and loading
-      this.makeOpened()
-      this.setLoadingAnimation(true)
+      // The node will be made look open and loading via Sky generator.
     }
   })
 
