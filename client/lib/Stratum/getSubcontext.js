@@ -25,7 +25,7 @@ module.exports = function (node) {
     return null
   }
 
-  if (node.isArtifactNode) {
+  if (node.isArtifactNode) { // TODO remove
     if (node.isLast) {
       // Subcontext for the next page
       if (this.context.hasParameter('page')) {

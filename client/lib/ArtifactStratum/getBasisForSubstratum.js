@@ -14,7 +14,8 @@ module.exports = function (subcontext) {
   //   a tapspace.geometry.Basis
   //
 
-  // TODO basis for next page
-
-  return this.nodePlane.getBasis().scaleBy(0.2) // TODO improve position
+  // TODO improve position
+  this.recomputeBoundingCircle()
+  const origin = this.boundingCircle.atCenter()
+  return this.nodePlane.getBasis().scaleBy(0.6, origin)
 }
