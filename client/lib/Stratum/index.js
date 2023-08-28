@@ -76,6 +76,7 @@ proto.isStratum = true
 emitter(proto)
 
 // Methods
+proto.filter = require('./filter')
 proto.getBoundingCircle = require('./getBoundingCircle')
 proto.getEverySubcontext = require('./getEverySubcontext')
 proto.getBasisForSubstratum = require('./getBasisForSubstratum')
