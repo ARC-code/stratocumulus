@@ -73,7 +73,6 @@ emitter(proto)
 // Methods
 proto.getBoundingCircle = require('./getBoundingCircle')
 proto.getEverySubcontext = require('./getEverySubcontext')
-proto.getNodeBySubcontext = require('./getNodeBySubcontext')
 proto.getBasisForSubstratum = require('./getBasisForSubstratum')
 proto.getNodes = require('./getNodes')
 proto.getOrigin = require('./getOrigin')

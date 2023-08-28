@@ -41,7 +41,6 @@ Object.assign(proto, Stratum.prototype)
 // Methods
 proto.filter = require('./filter')
 proto.getBasisForSubstratum = require('./getBasisForSubstratum')
-proto.getNodeBySubcontext = require('./getNodeBySubcontext')
 proto.load = require('./load')
 proto.prune = require('./prune')
 proto.remove = require('./remove')

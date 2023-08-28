@@ -18,5 +18,5 @@ module.exports = function (params) {
   //       stage
   //         a string
   //
-  throw new Error('Subclass must implement the getNodeBySubcontext method.')
+  throw new Error('Subclasses must implement the serveSubstratum method.')
 }

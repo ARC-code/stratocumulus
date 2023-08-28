@@ -17,7 +17,7 @@ module.exports = function (params) {
   const subcontext = params.subcontext
   const stage = params.stage
 
-  const node = this.getNodeBySubcontext(subcontext)
+  const node = this.getFacetNode(subcontext)
 
   if (!node) {
     // Nothing to serve
