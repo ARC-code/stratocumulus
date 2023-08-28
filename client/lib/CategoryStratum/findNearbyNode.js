@@ -1,21 +1,23 @@
-module.exports = (sky, stratum) => {
-  // Find the current stratum node. Can be null.
+module.exports = function (viewport) => {
+  // @CategoryStratum:findNearbyNode(viewport)
+  //
+  // Find a stratum node close to viewport. The result can be null.
   //
 
-  const nodes = stratum.getNodes()
+  const nodes = this.getNodes()
 
   // The current node must have viewport center inside it.
-  const pin = sky.viewport.atCenter()
+  const pin = viewport.atCenter()
   const pinnedNodes = nodes.filter(stratumNode => {
     const circle = stratumNode.component.getBoundingCircle()
     return circle.detectCollision(pin)
   })
 
   // The current node must be visually large.
-  const viewportArea = sky.viewport.getBoundingBox().getArea().getRaw()
+  const viewportArea = viewport.getBoundingBox().getArea().getRaw()
   const reachableNodes = pinnedNodes.filter(stratumNode => {
     const circle = stratumNode.component.getBoundingCircle()
-    const area = circle.getArea().transitRaw(sky.viewport)
+    const area = circle.getArea().transitRaw(viewport)
     const areaRatio = area / viewportArea
     return areaRatio > 0.1
   })

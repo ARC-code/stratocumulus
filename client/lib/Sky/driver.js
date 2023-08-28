@@ -1,5 +1,4 @@
 const findCurrentStratum = require('./findCurrentStratum')
-const findCurrentNode = require('./findCurrentNode')
 
 module.exports = (sky, loader) => {
   // Driver for TreeLoader.
@@ -53,13 +52,15 @@ module.exports = (sky, loader) => {
       }
 
       // On the current stratum, find the nearest openable node.
-      const currentNode = findCurrentNode(sky, currentStratum)
+      const currentNode = currentStratum.findNearbyNode(sky.viewport)
       // If current node available, open it.
       if (currentNode) {
         const subcontext = currentStratum.getSubcontext(currentNode)
-        const subpath = subcontext.toFacetPath()
-        const eventData = { context: subcontext }
-        loader.openChild(currentStratumPath, subpath, eventData)
+        if (subcontext) {
+          const subpath = subcontext.toFacetPath()
+          const eventData = { context: subcontext }
+          loader.openChild(currentStratumPath, subpath, eventData)
+        }
       }
 
       // Detect change of context.

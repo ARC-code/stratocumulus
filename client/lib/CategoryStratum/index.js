@@ -61,6 +61,7 @@ Object.assign(proto, Stratum.prototype)
 // Methods
 proto.enableFaceting = require('./enableFaceting')
 proto.filter = require('./filter')
+proto.findNearbyNode = require('./findNearbyNode')
 proto.getBasisForSubstratum = require('./getBasisForSubstratum')
 proto.getFacetNode = require('./getFacetNode')
 proto.load = require('./load')
