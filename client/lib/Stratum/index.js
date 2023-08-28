@@ -18,6 +18,11 @@ const Stratum = function (context) {
     throw new Error('Invalid stratum context: ' + context)
   }
 
+  // Alive when loading or loaded.
+  this.alive = false
+  // Keep track if still loading.
+  this.loading = false
+
   // The faceting context.
   this.path = context.toFacetPath() // TODO toStratumPath
   this.context = context

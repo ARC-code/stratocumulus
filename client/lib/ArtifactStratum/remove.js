@@ -3,6 +3,13 @@ module.exports = function () {
   // However, does not remove the plane from the DOM.
   //
 
+  if (!this.alive) {
+    // Already removed
+    return
+  }
+
+  this.alive = false
+
   // Stop all listeners
   this.off()
 }

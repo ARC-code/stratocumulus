@@ -35,11 +35,6 @@ const CategoryStratum = function (context) {
   // Special element class
   this.space.addClass('category-stratum')
 
-  // Alive when loading or loaded.
-  this.alive = false
-  // Keep track if still loading.
-  this.loading = false
-
   // Context label element displays information about the filtering context
   this.contextLabel = null
 

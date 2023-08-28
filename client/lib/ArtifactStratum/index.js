@@ -27,6 +27,9 @@ const ArtifactStratum = function (context) {
   // Inherit
   Stratum.call(this, context)
 
+  // Special element class
+  this.space.addClass('artifact-stratum')
+
   // This model defines the artifacts of this stratum and their order.
   this.artifactIds = []
 }
