@@ -19,8 +19,7 @@ module.exports = function (viewport) {
     if (subcontext) {
       // Eventually triggers loading of the substratum.
       this.emit('substratumrequest', {
-        context: subcontext,
-        nodeKey: currentNode.key // TODO is really needed in the event?
+        context: subcontext
       })
     }
   }

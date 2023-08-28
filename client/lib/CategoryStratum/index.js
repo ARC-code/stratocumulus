@@ -23,7 +23,8 @@ const CategoryStratum = function (context) {
   //     when all nodes of the stratum have been loaded and rendered.
   //   substratumrequest
   //     when the stratum would like one of its nodes to be opened as
-  //     a new stratum.
+  //     .. a new stratum. Emitted with an object { context } where
+  //     .. the context is the requested context of the substratum.
   //   layout
   //     when the stratum layout changes
   //

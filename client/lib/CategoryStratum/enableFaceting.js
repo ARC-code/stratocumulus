@@ -26,8 +26,7 @@ module.exports = function () {
       }
 
       this.emit('substratumrequest', {
-        context: subcontext,
-        nodeKey: nodeKey
+        context: subcontext
       })
     }
   }
