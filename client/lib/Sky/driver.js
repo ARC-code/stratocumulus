@@ -51,19 +51,10 @@ module.exports = (sky, loader) => {
         loader.openParent(currentStratumPath, eventData)
       }
 
-      // On the current stratum, find the nearest openable node.
-      const currentNode = currentStratum.findNearbyNode(sky.viewport)
-      // If current node available, open it.
-      if (currentNode) {
-        const subcontext = currentStratum.getSubcontext(currentNode)
-        if (subcontext) {
-          const subpath = subcontext.toFacetPath()
-          const eventData = { context: subcontext }
-          loader.openChild(currentStratumPath, subpath, eventData)
-        }
-      }
+      // Trigger possible substratum requests on the current stratum
+      currentStratum.triggerSubstratum(sky.viewport)
 
-      // Detect change of context.
+      // Detect change of current stratum.
       if (previousStratumPath !== currentStratumPath) {
         previousStratumPath = currentStratumPath
         sky.emit('navigation', {

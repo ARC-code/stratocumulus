@@ -9,5 +9,6 @@ module.exports = function (viewport) {
   //   viewport
   //     a tapspace.components.Viewport
   //
-  throw new Error('Not implemented')
+
+  console.log('ArtifactStratum:triggerSubstratum')
 }

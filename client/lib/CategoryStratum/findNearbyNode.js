@@ -1,4 +1,4 @@
-module.exports = function (viewport) => {
+module.exports = function (viewport) {
   // @CategoryStratum:findNearbyNode(viewport)
   //
   // Find a stratum node close to viewport. The result can be null.

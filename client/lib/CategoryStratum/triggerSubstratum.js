@@ -9,5 +9,19 @@ module.exports = function (viewport) {
   //   viewport
   //     a tapspace.components.Viewport
   //
-  throw new Error('Not implemented')
+
+  // On the current stratum, find the nearest openable node.
+  const currentNode = this.findNearbyNode(viewport)
+
+  // If current node available, open it.
+  if (currentNode) {
+    const subcontext = this.getSubcontext(currentNode)
+    if (subcontext) {
+      // Eventually triggers loading of the substratum.
+      this.emit('substratumrequest', {
+        context: subcontext,
+        nodeKey: currentNode.key // TODO is really needed in the event?
+      })
+    }
+  }
 }
