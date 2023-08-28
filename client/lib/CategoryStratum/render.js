@@ -35,13 +35,6 @@ module.exports = function (final = false, updateCount = 0) {
 
       // Build index of rendered nodes.
       this.renderedNodes[key] = stratumNode
-
-      // Build facet node index. TODO save to nodes and iterate nodes to read?
-      const facetContext = this.getSubcontext(stratumNode)
-      if (facetContext) {
-        const facetPath = facetContext.toFacetPath()
-        this.facetNodeIndex[facetPath] = key
-      }
     }
 
     // Derive scale relative to the stratum basis.

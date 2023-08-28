@@ -43,11 +43,6 @@ const CategoryStratum = function (context) {
   // Context label element displays information about the filtering context
   this.contextLabel = null
 
-  // Maintain index of facet paths to node keys.
-  // Otherwise finding nodes by facet path is very tedious.
-  // facetPath -> nodeKey
-  this.facetNodeIndex = {}
-
   // Read-only graph model
   this.graph = io.graphStore.get(this.context)
 }
