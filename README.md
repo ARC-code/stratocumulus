@@ -12,6 +12,8 @@ Corpora database visualized with Stratocumulus. Two of the entity collections ar
 - [live prototype](http://prototype.bigdiva.org/)
 - [BigDIVA](https://bigdiva.org/)
 - [Center of Digital Humanities Research](https://codhr.dh.tamu.edu/)
+- [Stratocumulus Server API documentation](#thebackend)
+- [Stratocumulus Client API documentation](client/docs/architecture.md)
 
 ## Browser and Research Features
 
