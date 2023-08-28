@@ -1,5 +1,5 @@
-module.exports = function (subcontext, stage) {
-  // @Stratum:serveSubstratum(subcontext, stage)
+module.exports = function (params) {
+  // @Stratum:serveSubstratum(params)
   //
   // A placeholder that ensures subclasses implement the method.
   //
@@ -9,6 +9,14 @@ module.exports = function (subcontext, stage) {
   //
   // For example, use this method to visually open a category node when its
   // substratum is loading or loaded.
+  //
+  // Parameters:
+  //   params
+  //     an object with properties:
+  //       subcontext
+  //         a Context
+  //       stage
+  //         a string
   //
   throw new Error('Subclass must implement the getNodeBySubcontext method.')
 }

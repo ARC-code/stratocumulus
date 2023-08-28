@@ -83,22 +83,20 @@ module.exports = (sky, loader) => {
     if (ev.parentId) {
       const superStratum = sky.strata[ev.parentId]
       if (superStratum) {
-        const superNode = superStratum.getNodeBySubcontext(context)
-        if (superNode) {
-          superNode.makeOpened()
-          superNode.setLoadingAnimation(true)
-        }
+        superStratum.serveSubstratum({
+          subcontext: context,
+          stage: 'loading'
+        })
       }
     }
     // If this stratum was openend by a substratum,
     // ensure that the associated node looks opened.
     if (ev.childId) {
       const subcontext = Context.fromFacetPath(ev.childId)
-      const facetNode = stratum.getNodeBySubcontext(subcontext)
-      if (facetNode) {
-        facetNode.makeOpened()
-        facetNode.setLoadingAnimation(true)
-      }
+      stratum.serveSubstratum({
+        subcontext,
+        stage: 'loading'
+      })
     }
 
     // Begin listening strata and nodes.
@@ -128,11 +126,10 @@ module.exports = (sky, loader) => {
         // Ensure the child node looks opened.
         // Also stop loading animation, if any.
         const subcontext = Context.fromFacetPath(ev.childId)
-        const superNode = stratum.getNodeBySubcontext(subcontext)
-        if (superNode) {
-          superNode.makeOpened()
-          superNode.setLoadingAnimation(false)
-        }
+        stratum.serveSubstratum({
+          subcontext,
+          stage: 'loaded'
+        })
       }
 
       // Ensure the node in the parent stratum looks opened.
@@ -140,11 +137,10 @@ module.exports = (sky, loader) => {
       if (ev.parentId) {
         const superStratum = sky.strata[ev.parentId]
         if (superStratum) {
-          const superNode = superStratum.getNodeBySubcontext(context)
-          if (superNode) {
-            superNode.makeOpened()
-            superNode.setLoadingAnimation(false)
-          }
+          superStratum.serveSubstratum({
+            subcontext: context,
+            stage: 'loaded'
+          })
         }
       }
     })
@@ -180,10 +176,10 @@ module.exports = (sky, loader) => {
       const superPath = superContext.toFacetPath()
       const superStratum = sky.strata[superPath]
       if (superStratum) {
-        const superNode = superStratum.getNodeBySubcontext(stratum.context)
-        if (superNode) {
-          superNode.makeClosed()
-        }
+        superStratum.serveSubstratum({
+          subcontext: stratum.context,
+          stage: 'closing'
+        })
       }
     }
 
