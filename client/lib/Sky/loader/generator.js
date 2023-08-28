@@ -169,22 +169,24 @@ module.exports = (sky, loader) => {
     // console.log('space closing:', ev) // DEBUG
 
     // Make the associated node look closed.
+    // Note that due to asynchronity, this stratum may be already removed.
     const path = ev.id
-    const stratum = ev.space.stratum
-    const superContext = stratum.getSupercontext()
+    let closingStratum = ev.space.stratum
+    const superContext = closingStratum.getSupercontext()
     if (superContext) {
       const superPath = superContext.toFacetPath()
       const superStratum = sky.strata[superPath]
       if (superStratum) {
         superStratum.serveSubstratum({
-          subcontext: stratum.context,
+          subcontext: closingStratum.context,
           stage: 'closing'
         })
       }
     }
 
-    // Remove the contained stratum.
-    const closingStratum = sky.strata[path]
+    // Ensure the closing stratum is removed.
+    // Read from sky.strata instead of event to make sure.
+    closingStratum = sky.strata[path]
     if (closingStratum) {
       // Remove from DOM and stop listeners.
       closingStratum.remove()
