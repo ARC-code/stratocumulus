@@ -1,4 +1,12 @@
-// The client root index.
+// @0 Stratocumulus
+//
+// Components:
+// - Context
+// - Stratum
+//
+
+// NOTE
+// This is the client root index.
 // If you modify this file, you need to rebuild the docker image
 // for the changes to take effect.
 
