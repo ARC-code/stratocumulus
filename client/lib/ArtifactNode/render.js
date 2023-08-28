@@ -84,10 +84,13 @@ module.exports = function () {
   })
 
   // Preprocess archive to { url, id, label }
-  const archive = {
-    label: art.archive.label,
-    id: art.archive.id,
-    url: archiveUrls[art.archive.id] || ''
+  let archive = null
+  if (art.archive) {
+    archive = {
+      label: art.archive.label,
+      id: art.archive.id,
+      url: archiveUrls[art.archive.id] || ''
+    }
   }
 
   // Preprocess genres and disciplines

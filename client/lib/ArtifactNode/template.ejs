@@ -16,7 +16,13 @@
   <% }) %>
 
   <dt>Site</dt>
-  <dd><a href="<%= archive.url %>" data-archive-id="<%= archive.id %>"><%= archive.label %></a></dd>
+  <dd><%
+    if (archive) {
+      %><a href="<%= archive.url %>" data-archive-id="<%= archive.id %>"><%= archive.label %></a><%
+    } else {
+      %><span>unknown</span><%
+    }
+  %></dd>
 
   <dt>Genres</dt>
   <dd><%= genres.map(g => g.label).join(',') %></dd>

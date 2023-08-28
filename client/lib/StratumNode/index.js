@@ -11,7 +11,7 @@ const StratumNode = function (key, data) {
 
   // Common properties
   this.key = key
-  this.data = data || {}
+  this.data = data || null
 
   // Force subclasses to init component
   this.component = null

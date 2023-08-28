@@ -33,7 +33,6 @@ const ArtifactNode = function (key, artifact) {
   this.component.setContentInput('pointer')
 
   // Fetch the content for the card.
-  this.artifact = null
   const artifactId = this.key
   io.corpora.fetchArtifact(artifactId, (err, art) => {
     if (err) {
@@ -42,7 +41,13 @@ const ArtifactNode = function (key, artifact) {
       return
     }
 
-    this.update(art)
+    try {
+      this.update(art)
+    } catch (errr) {
+      // Catch errors from update so that they do not propagate to
+      // hard-to-debug promise-based error handling in io.
+      console.error(errr)
+    }
   })
 }
 
