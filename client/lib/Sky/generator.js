@@ -1,7 +1,7 @@
-const CategoryStratum = require('../../CategoryStratum')
-const ArtifactStratum = require('../../ArtifactStratum')
-const Context = require('../../Context')
-const io = require('../../io')
+const CategoryStratum = require('../CategoryStratum')
+const ArtifactStratum = require('../ArtifactStratum')
+const Context = require('../Context')
+const io = require('../io')
 
 module.exports = (sky, loader) => {
   // Generator for TreeLoader. Generator defines how the loaded spaces
