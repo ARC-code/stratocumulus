@@ -1,4 +1,6 @@
 module.exports = function () {
+  // @StratumNode:getRadius()
+  //
   // Get node radius as a distance tensor.
   // Useful for trimming edges between nodes.
   //

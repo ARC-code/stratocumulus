@@ -1,4 +1,8 @@
+const RENDER_SIZE = require('../config').rendering.stratumSize
+
 module.exports = function () {
+  // @Stratum:getOrigin()
+  //
   // Get the origin point tensor of the stratum.
   // Useful for determining the anchor point of the stratum.
   // In future we might want the root node be the origin.
@@ -6,6 +10,6 @@ module.exports = function () {
   // Return
   //   a tapspace.geometry.Point
   //
-  const d = this.renderSize / 2
+  const d = RENDER_SIZE / 2
   return this.space.at(d, d)
 }

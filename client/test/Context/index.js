@@ -16,6 +16,7 @@ const units = {
   getRangeValue: require('./getRangeValue.test'),
   getValue: require('./getValue.test'),
   hasParameter: require('./hasParameter.test'),
+  hasValue: require('./hasValue.test'),
   map: require('./map.test'),
   merge: require('./merge.test'),
   remove: require('./remove.test'),

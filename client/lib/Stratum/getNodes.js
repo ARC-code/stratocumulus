@@ -1,5 +1,5 @@
-module.exports = function (nodeKey) {
-  // Get nodes in an array.
+module.exports = function () {
+  // Get stratum nodes in an array.
   //
   // Return
   //   array of StratumNode

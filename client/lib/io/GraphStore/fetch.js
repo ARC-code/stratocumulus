@@ -51,6 +51,26 @@ module.exports = function (context) {
       this.graphs[key] = graph
     }
 
+    // Find nodes that are already in the context.
+    const contextNodes = subgraph.nodes.filter(n => {
+      if (n.facet_param && n.facet_value) {
+        if (context.hasValue(n.facet_param, n.facet_value)) {
+          return true
+        }
+      }
+      return false
+    })
+    const contextNodeKeys = contextNodes.map(n => n.id)
+    // Strip those nodes
+    subgraph.nodes = subgraph.nodes.filter(n => {
+      return !contextNodeKeys.includes(n.id)
+    })
+    // Strip edges to those nodes.
+    subgraph.edges = subgraph.edges.filter(edge => {
+      return !contextNodeKeys.includes(edge.from) &&
+        !contextNodeKeys.includes(edge.to)
+    })
+
     // Update the model and detect if had its first content.
     const wasEmpty = (graph.order === 0)
     updateGraph(graph, subgraph)

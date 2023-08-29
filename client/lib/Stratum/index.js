@@ -1,40 +1,31 @@
-require('./stratum.css')
 const emitter = require('component-emitter')
 const tapspace = require('tapspace')
-const io = require('../io')
-
-const RENDER_SIZE = 2560
+const RENDER_SIZE = require('../config').rendering.stratumSize
 
 const Stratum = function (context) {
   // @Stratum
   //
-  // A tree graph laid on a plane.
-  // The stratum is not yet added to the document.
-  // Append stratum.space to a parent space in order to do that.
+  // Abstract class for ArtifactStratum and CategoryStratum.
   //
   // Stratum inherits Emitter
   //
   // Parameters:
   //   context
-  //     a Context. The context gives identity to the stratum and
-  //     .. defines the faceting and filtering of its content.
-  //
-  // Stratum emits:
-  //   first
-  //     when the first node has been loaded and rendered.
-  //   final
-  //     when all subgraphs of the stratum has been loaded and rendered.
-  //   substratumrequest
-  //     when the stratum would like one of its nodes to be opened as
-  //     a new stratum.
-  //   layout
-  //     when the stratum layout changes
   //
 
   // DEBUG validate arguments
   if (!context || !context.isContext) {
     throw new Error('Invalid stratum context: ' + context)
   }
+
+  // Alive when loading or loaded.
+  this.alive = false
+  // Keep track if still loading.
+  this.loading = false
+
+  // The faceting context.
+  this.path = context.toFacetPath() // TODO toStratumPath
+  this.context = context
 
   // Create container for the stratum
   const stratumPlane = tapspace.createPlane()
@@ -48,6 +39,9 @@ const Stratum = function (context) {
   // so the circular reference here is better than some additional index.
   stratumPlane.stratum = this
 
+  // Create containers for nodes and edges.
+  // Create the containers separately so that it is easy to
+  // iterate them and control their rendering order.
   const nodePlane = tapspace.createPlane()
   nodePlane.addClass('stratum-plane-nodes')
   const edgePlane = tapspace.createPlane()
@@ -56,66 +50,43 @@ const Stratum = function (context) {
   stratumPlane.addChild(edgePlane)
   stratumPlane.addChild(nodePlane)
 
-  // The faceting context.
-  this.path = context.toFacetPath()
-  this.context = context
-
-  // Alive when loading or loaded.
-  this.alive = false
-  // Keep track if still loading.
-  this.loading = false
-
   // Space components
   this.space = stratumPlane
   this.nodePlane = nodePlane
   this.edgePlane = edgePlane
-  // Keep track of rendered nodes. nodeKey -> StratumNode
+  // Keep track of rendered nodes. nodeKey -> CategoryNode
   this.renderedNodes = {}
   // Keep track of rendered edges. edgeKey -> StratumEdge
   this.renderedEdges = {}
-  // Context label element displays information about the filtering context
-  this.contextLabel = null
 
-  // Maintain index of facet paths to node keys.
-  // Otherwise finding nodes by facet path is very tedious.
-  // facetPath -> nodeKey
-  this.facetNodeIndex = {}
-
-  // Rendering size in pixels.
-  this.renderSize = RENDER_SIZE
   // Maintain latent stratum bounding circle.
   // Recomputing can be intensive. Update only when necessary, e.g. at final.
+  // Rendering size in pixels.
+  this.renderSize = RENDER_SIZE
   const radius = RENDER_SIZE / 2
   const circle = { x: radius, y: radius, z: 0, r: radius / 2 }
   this.boundingCircle = new tapspace.geometry.Circle(this.space, circle)
-
-  // Read-only graph model
-  this.graph = io.graphStore.get(this.context)
 }
 
 module.exports = Stratum
 const proto = Stratum.prototype
+proto.isStratum = true
 
 // Inherit
 emitter(proto)
 
 // Methods
-proto.enableFaceting = require('./enableFaceting')
 proto.filter = require('./filter')
 proto.getBoundingCircle = require('./getBoundingCircle')
-proto.getFacetNode = require('./getFacetNode')
+proto.getEverySubcontext = require('./getEverySubcontext')
+proto.getBasisForSubstratum = require('./getBasisForSubstratum')
 proto.getNodes = require('./getNodes')
 proto.getOrigin = require('./getOrigin')
 proto.getSpace = require('./getSpace')
 proto.getSubcontext = require('./getSubcontext')
-proto.getSubpaths = require('./getSubpaths')
 proto.getSupercontext = require('./getSupercontext')
-proto.getSuperpath = require('./getSuperpath')
-proto.load = require('./load')
-proto.prune = require('./prune')
 proto.recomputeBoundingCircle = require('./recomputeBoundingCircle')
-proto.refreshNodeSizes = require('./refreshNodeSizes')
-proto.remove = require('./remove')
 proto.render = require('./render')
-proto.renderContextLabel = require('./renderContextLabel')
-proto.revealLabels = require('./revealLabels')
+proto.scaleNodesToFit = require('./scaleNodesToFit')
+proto.serveSubstratum = require('./serveSubstratum')
+proto.triggerSubstratum = require('./triggerSubstratum')

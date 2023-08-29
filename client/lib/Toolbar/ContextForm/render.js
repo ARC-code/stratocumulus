@@ -30,9 +30,16 @@ module.exports = function () {
 
   // Add type labels
   const facetArray = facetContext.map((key, value) => {
-    const title = key + '=' + value
-    const label = io.labelStore.read(key, value)
     const type = 'facet'
+    const title = key + '=' + value
+
+    let label
+    if (key === 'page') {
+      label = 'Page ' + value
+    } else {
+      label = io.labelStore.read(key, value)
+    }
+
     return { title, label, type }
   })
 

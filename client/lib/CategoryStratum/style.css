@@ -1,0 +1,8 @@
+.category-stratum .stratum-edge {
+  background: linear-gradient(0.25turn, #444444, #AAAAAA);
+}
+
+.category-stratum .stratum-edge.empty-edge,
+.category-stratum.stratum-loading .stratum-edge {
+  display: none;
+}

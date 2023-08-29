@@ -1,43 +1,62 @@
-require('./artifactnode.css')
+require('./style.css')
+const StratumNode = require('../StratumNode')
+const io = require('../io')
 const tapspace = require('tapspace')
-const generateDataPlaneCardContent = require('./generateDataPlaneCardContent')
-const getArtifactId = require('./getArtifactId')
+const config = require('../config')
+const ARTIFACT_SIZE = config.rendering.artifactNodeSize
 
-const ArtifactNode = function (key, attrs) {
-  // DataCard is a card-like element in space.
+const ArtifactNode = function (key, artifact) {
+  // @ArtifactNode
+  //
+  // ArtifactNode is a card-like element in space.
+  // ArtifactNode implements interface similar to CategoryNode,
+  // so that the caller does not need to know which is which.
   //
   // Parameters:
   //   key
   //     a string, node key
-  //   attrs
-  //     node attributes
   //
 
-  const artifactId = getArtifactId(attrs)
+  // Inherit
+  StratumNode.call(this, key, artifact)
 
   this.element = document.createElement('div')
-  this.element.className = 'dataplane-card'
+  this.element.className = 'artifact-card'
 
   // Create an item to add to the space.
   this.component = tapspace.createItem(this.element)
-  this.component.setSize(300, 500)
+  this.component.setSize(ARTIFACT_SIZE, ARTIFACT_SIZE)
   // Gravity at card center
   this.component.setAnchor(this.component.atCenter())
 
   // Allow interaction with content.
   this.component.setContentInput('pointer')
 
-  // Begin fetching content for the card.
-  generateDataPlaneCardContent(artifactId, this.element)
+  // Fetch the content for the card.
+  const artifactId = this.key
+  io.corpora.fetchArtifact(artifactId, (err, art) => {
+    if (err) {
+      // TODO alert user?
+      console.error(err)
+      return
+    }
+
+    try {
+      this.update(art)
+    } catch (errr) {
+      // Catch errors from update so that they do not propagate to
+      // hard-to-debug promise-based error handling in io.
+      console.error(errr)
+    }
+  })
 }
 
 module.exports = ArtifactNode
 const proto = ArtifactNode.prototype
+proto.isArtifactNode = true
 
-// TODO make it unnecessary to implement every StratumNode method.
-proto.translateTo = require('./translateTo')
-proto.getOrigin = require('./getOrigin')
-proto.getRadius = require('./getRadius')
-proto.isFacetable = require('./isFacetable')
-proto.remove = require('./remove')
+// Inherit
+Object.assign(proto, StratumNode.prototype)
+
+// TODO make it unnecessary to implement every CategoryNode method.
 proto.render = require('./render')
