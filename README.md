@@ -1,12 +1,30 @@
 # Stratocumulus
 
-This is a very barebones, initial README intended to help a bit with initial development.
+Millions of linked data documents and huge databases of semantic networks ask for a browser, a way to approach and explore the mass of entities. Stratocumulus approach the task with a zoomable nested network graph of facets. Each facet shaves the mass, a facet by facet, until you reach the entities and results which you are looking for. Just dive in. Stratocumulus lets you build your facet sequence by diving - and zooming - through facet nodes.
+
+## Examples
+
+[![BigDIVA Prototype](docs/stratocumulus_0.3.0_example.png)](http://prototype.bigdiva.org/)
+Corpora database visualized with Stratocumulus. Two of the entity collections are faceted and their facet subgraphs rendered and zoomable.
 
 ## Resources
 
 - [live prototype](http://prototype.bigdiva.org/)
 - [BigDIVA](https://bigdiva.org/)
 - [Center of Digital Humanities Research](https://codhr.dh.tamu.edu/)
+- [Stratocumulus Server API documentation](#thebackend)
+- [Stratocumulus Client API documentation](client/docs/architecture.md)
+
+## Browser and Research Features
+
+- search documents and categories via fractal zooming
+- search and filter by keywords
+- filter by year range
+
+## Technical Features
+
+- SPA single page application
+- HTML CSS JS Python Flask Celery Graphology Tapspace
 
 ## Building and Running the App
 
@@ -49,3 +67,5 @@ At present, the client only does the following:
 * After calling the "performLayout" function upon receiving subgraph messages, a timer commences (that timer is reset every time a new message is received). Once, however, the timer elapses, the "fit_network" function is called. This function was initially intended to make sure the vis.js rendered graph fits on the screen. Now that we're transitioning to Graphology (which only lays out the graph), all this function does is start a new timer, which when elapsed, calls the "take_network_snapshot" function. This function now calls "performLayout" one last time, passing in "true" for the "final" parameter. When "final" is set to "true," performLayout forgoes the circle pack layout and instead tries to adjust node positions via force layout, and then again via a "no overlap" layout. That "final" boolean is also then passed to "drawGraph," which causes lines to be drawn between nodes to reflect the existence of edges.
 
 It's important to note that the current logic present in the "drawGraph" function is intended to be replaced by a more sophisticated, Tapspace/Affineplane rendering method. Once this has been implemented, there will no longer be a need for the jQuery and jQuery Connections libraries which are currently only used to facilitate the drawing of nodes and edges.
+
+## Licence
