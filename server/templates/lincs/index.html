@@ -9,11 +9,13 @@
 
     <style>
         :root {
-            --main-bg-color: #06303f;
+            --main-bg-color: #0D2226;
             --dataplane-bg-color: #f8f8f8;
             --input-text-color: #810f7c;
             --autocomplete-bg-image: url("data:image/svg+xml,<svg version='1.1' id='Layer_1' focusable='false' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 30 30' style='enable-background:new 0 0 30 30;' xml:space='preserve'><path fill='none' d='M0,30.2V0h30.2v30.2H0z'/><g><path fill='%23810f7c' d='M13,3C7.5,3,3,7.5,3,13s4.5,10,10,10c2.4,0,4.6-0.9,6.3-2.3l6,6c0.3,0.3,0.6,0.4,1,0.3c0.4-0.1,0.6-0.4,0.7-0.7c0.1-0.4,0-0.7-0.3-1l-6-6c1.4-1.7,2.3-3.9,2.3-6.3C23,7.5,18.5,3,13,3z M13,5c4.4,0,8,3.6,8,8s-3.6,8-8,8s-8-3.6-8-8S8.6,5,13,5z'/></g></svg>");
             --toolbar-text-color: #ffffff;
+            --default-node-color-dark: #00428F;
+            --default-node-color-light: #006EEB;
         }
 
         html, body {
@@ -31,7 +33,7 @@
             height: 100%;
         }
 
-        /* node styling */
+        /* node styling examples, should distinct colors per facet be desired
         .stratum-node .node-shape.node-graphs {
             background: linear-gradient(#86C8C2, #479A93);
         }
@@ -45,6 +47,7 @@
         .stratum-node .node-shape.node-affiliations {
             background: linear-gradient(#FFF8AD, #FFF05A);
         }
+        */
         .stratum-node.empty-node .node-shape,
         .stratum-node.context-node .node-shape {
             background: linear-gradient(#969696, #666666);
