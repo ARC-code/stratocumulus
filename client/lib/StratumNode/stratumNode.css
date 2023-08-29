@@ -51,21 +51,6 @@
   display: block;
 }
 
-/* Kind-specific styling */
-.stratum-node .node-shape.node-disciplines {
-  background: linear-gradient(#efb915, #e2aa00);
-}
-.stratum-node .node-shape.node-federations {
-  background: linear-gradient(#8856a7, #810f7c);
-}
-.stratum-node .node-shape.node-genres {
-  background: linear-gradient(#2ca25f, #006d2c);
-}
-.stratum-node.empty-node .node-shape,
-.stratum-node.context-node .node-shape {
-  background: linear-gradient(#969696, #666666);
-}
-
 /* Faceting */
 .stratum-node.facetable-node .node-shape,
 .stratum-node.facetable-node .node-label {
@@ -75,7 +60,7 @@
   border-color: white;
 }
 .stratum-node.faceted-node .node-shape {
-  background: #444444; /* match with sky bg to visually hide edges below */
+  background: var(--main-bg-color); /* match with sky bg to visually hide edges below */
   box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
 }
 .stratum-node.faceted-node:hover .node-shape {

@@ -43,6 +43,7 @@ exports.connect = function () {
     const msg = `${data.stage} for '${data.path}' ` +
       `(edges:${data.edges.length}, nodes:${data.nodes.length})`
     console.log('Incoming SSE event: ' + msg)
+    console.log(JSON.stringify(data.nodes))
 
     // Check event format
     if (data && data.path) {

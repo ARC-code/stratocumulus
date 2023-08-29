@@ -1,7 +1,7 @@
 .toolbar-box {
   width: 100%;
   padding: 0.6em;
-  color: white;
+  color: var(--toolbar-text-color);
   background: rgba(255, 255, 255, 0.2);
   border: 1px solid gray;
   border-radius: 3px 3px 50px 3px;
