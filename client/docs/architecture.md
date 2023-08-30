@@ -17,43 +17,43 @@ This document is generated with [yamdog](https://github.com/axelpale/yamdog).
 
 <p style="margin-bottom: 0">Abstract Components:</p>
 
-- *Stratum*
-- *StratumNode*
+- [Stratum](#stratum), a collection of nodes and edges
+- [StratumNode](#stratumnode), a node on a [Stratum](#stratum)
 
 
 <p style="margin-bottom: 0">Components:</p>
 
-- *ArtifactNode*
-- *ArtifactStratum*
-- *CategoryNode*
-- *CategoryStratum*
-- *ContextForm*
-- *ContextLabel*
-- *SearchForm*
-- *Sky*
-- *TimeSlider*
-- *Toolbar*
-- *ViewportManager*
+- [ArtifactNode](#artifactnode), a node that displays single entity as a card.
+- [ArtifactStratum](#artifactstratum), an assortment of artifacts
+- [CategoryNode](#categorynode), an openable node that represents a collection of artifacts.
+- [CategoryStratum](#categorystratum), a network graph of faceting categories
+- [ContextForm](#contextform), a widget to display the current navigation path and filters.
+- [ContextLabel](#contextlabel), a label displaying stratum path in readable form
+- SearchForm, a text search form
+- [Sky](#sky), a loader for nested strata
+- [TimeSlider](#timeslider), a control widget for time range filtering
+- Toolbar, a container for search and filtering tools.
+- [ViewportManager](#viewportmanager), a helper class to setup [Sky](#sky) viewport.
 
 
 <p style="margin-bottom: 0">Data Models:</p>
 
-- *Context*
-- *GraphStore*
-- *LabelStore*
-- *ReduxStore*
+- [Context](#context), an ordered set of filtering and faceting parameters and values
+- [GraphStore](#iographstore), a caching layer for loading stratum graphs
+- [LabelStore](#iolabelstore), a caching layer for facet node labels
+- [ReduxStore](#reduxstore), a minimal redux-like state management
 
 
 <p style="margin-bottom: 0">Adapters:</p>
 
-- [io](#io).corpora
-- [io](#io).stream
+- [io](#io).corpora, fetch methods specific to Corpora API
+- [io](#io).stream, SSE stream handling
 
 
-<p style="margin-bottom: 0">Libraries</p>
+<p style="margin-bottom: 0">Libraries:</p>
 
-- *tapspace*
-- *graphology*
+- tapspace, provides zoomable user interface
+- graphology, provides graph models
 
 
 Source: [client/index.js](https://github.com/ARC-code/stratocumulus/blob/main/client/index.js)
@@ -88,12 +88,11 @@ Refesh the content.
 Source: [render.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/ArtifactNode/render.js)
 
 <a name="artifactstratum"></a>
-## [ArtifactStratum](#artifactstratum)
+## [ArtifactStratum](#artifactstratum)(context)
 
-A document collection laid on a plane.
+Inherits [Stratum](#stratum)
 
-[ArtifactStratum](#artifactstratum) inherits [Stratum](#stratum)
-All [Stratum](#stratum) classes should expose the same interface for [Sky](#sky).
+[ArtifactStratum](#artifactstratum) is a document collection laid on a plane.
 
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
 
@@ -108,8 +107,7 @@ All [Stratum](#stratum) classes should expose the same interface for [Sky](#sky)
 - *final*
   - when all nodes of the stratum has been loaded and rendered.
 - *substratumrequest*
-  - when the stratum would like one of its nodes to be opened as
-  - a new stratum.
+  - when the stratum would like one of its nodes to be opened as a new stratum.
 
 
 
@@ -1109,15 +1107,18 @@ Initialize the [Sky](#sky): begin loading the first stratum.
 Source: [init.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/Sky/init.js)
 
 <a name="stratum"></a>
-## [Stratum](#stratum)
+## [Stratum](#stratum)(context)
+
+Inherits [Emitter](https://www.npmjs.com/package/component-emitter)
 
 Abstract class for [ArtifactStratum](#artifactstratum) and [CategoryStratum](#categorystratum).
-
-[Stratum](#stratum) inherits [Emitter](https://www.npmjs.com/package/component-emitter)
+All subclasses should expose the same interface for [Sky](#sky)
+to handle them consistently.
 
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
 
 - *context*
+  - a [Context](#context)
 
 
 
@@ -1612,7 +1613,7 @@ The returned graph is meant for read-only use.
 
 <p style="margin-bottom: 0"><strong>Returns:</strong></p>
 
-- a graphology Graph.
+- a graphology.Graph.
 
 
 Source: [get.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/io/GraphStore/get.js)
