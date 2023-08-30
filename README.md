@@ -69,3 +69,5 @@ At present, the client only does the following:
 It's important to note that the current logic present in the "drawGraph" function is intended to be replaced by a more sophisticated, Tapspace/Affineplane rendering method. Once this has been implemented, there will no longer be a need for the jQuery and jQuery Connections libraries which are currently only used to facilitate the drawing of nodes and edges.
 
 ## Licence
+
+[MIT](LICENSE)
