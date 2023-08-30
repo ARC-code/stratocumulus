@@ -1,6 +1,8 @@
 const normalizeSizes = require('./layout/normalizeSizes')
 
 module.exports = function () {
+  // @CategoryStratum:refreshNodeSizes()
+  //
   // Refresh the node sizes. Does not change layout.
   //
 

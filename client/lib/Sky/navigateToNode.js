@@ -1,4 +1,6 @@
 module.exports = function (context, facetParam, facetValue) {
+  // @Stratum:navigateToNode(context, facetParam, facetValue)
+  //
   // Jump viewport to certain stratum node if such node is available.
   //
   // Parameters

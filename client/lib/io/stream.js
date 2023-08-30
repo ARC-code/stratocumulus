@@ -28,6 +28,8 @@ let graphStream = null
 const pathEmitter = new Emitter()
 
 exports.connect = function () {
+  // @io.stream.connect()
+  //
   // Open a SSE stream and begin to listen to events.
   //
   if (graphStream) {
@@ -65,6 +67,8 @@ exports.connect = function () {
 }
 
 exports.on = function (path, handler) {
+  // @io.stream.on(path, handler)
+  //
   // Register a path listener.
   // The handler will be called with a subgraph object
   // when an event with the given path arrives.
@@ -88,6 +92,8 @@ exports.on = function (path, handler) {
 }
 
 exports.off = function (path, handler) {
+  // @io.stream.off(path, handler)
+  //
   // Unregister a path listener
   //
   // Parameters:
@@ -106,6 +112,8 @@ exports.off = function (path, handler) {
 }
 
 exports.sendStratumBuildJob = function (path, context) {
+  // @io.stream.sendStratumBuildJob(path, context)
+  //
   // Send a job to server to build a stratum.
   // The job result arrives later and triggers listeners for this path.
   //

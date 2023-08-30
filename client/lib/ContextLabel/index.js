@@ -3,7 +3,10 @@ const tapspace = require('tapspace')
 const template = require('./template')
 
 const ContextLabel = function (context) {
-  // A stratum context label.
+  // @ContextLabel(context)
+  //
+  // A Stratum context label. Displays the faceting context of the stratum.
+  //
 
   // Create label.
   const labelText = template(context)

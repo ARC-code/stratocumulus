@@ -1,6 +1,9 @@
 const template = require('./template')
 
 module.exports = function (context) {
-  // Update label.
+  // @ContextLabel:update(context)
+  //
+  // Update the context and render the label again.
+  //
   this.component.html(template(context))
 }

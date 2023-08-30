@@ -1,4 +1,6 @@
 module.exports = function (context, handler) {
+  // @GraphStore:unsubscribe(context, handler)
+  //
   // Unsubscribe from graph event stream.
   //
   // Parameters:

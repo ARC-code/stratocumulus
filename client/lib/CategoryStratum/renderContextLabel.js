@@ -2,6 +2,8 @@ const tapspace = require('tapspace')
 const ContextLabel = require('../ContextLabel')
 
 module.exports = function () {
+  // @CategoryStratum:renderContextLabel()
+  //
   // Render or update the large text label
   // that tells the user how the stratum was formed.
 

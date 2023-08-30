@@ -1,4 +1,6 @@
 module.exports = function (context) {
+  // @Stratum:navigateToStratum(context)
+  //
   // Jump viewport to certain stratum and load the path if needed.
   //
   // Parameters

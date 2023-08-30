@@ -4,6 +4,8 @@ const SearchForm = require('./SearchForm')
 const ContextForm = require('./ContextForm')
 
 const Toolbar = function () {
+  // @Toolbar()
+  //
   // A component for search and information tools.
   //
   // Emits:

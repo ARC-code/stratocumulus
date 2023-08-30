@@ -1,4 +1,6 @@
 module.exports = function () {
+  // @Stratum:recomputeBoundingCircle()
+  //
   // Computation of bounding circle can be heavy, thus this method
   // computes it at demand.
   //

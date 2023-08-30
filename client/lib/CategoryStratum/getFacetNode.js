@@ -1,4 +1,6 @@
 module.exports = function (subcontext) {
+  // @CategoryStratum:getFacetNode(subcontext)
+  //
   // Get a node by its subcontext. Can be null if no node found.
   //
   // Parameters:

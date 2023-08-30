@@ -1,4 +1,6 @@
 module.exports = function () {
+  // @ArtifactStratum:remove()
+  //
   // Destroy the ArtifactStratum. Stop loading and kill listeners.
   // However, does not remove the plane from the DOM.
   //

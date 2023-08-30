@@ -1,5 +1,11 @@
 module.exports = function (bbox) {
+  // @ContextLabel(bbox)
+  //
   // Position the label inside a bounding box.
+  //
+  // Parameters:
+  //   bbox
+  //     a tapspace.geometry.Box
   //
 
   // Move below the stratum.

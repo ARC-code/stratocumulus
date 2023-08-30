@@ -6,11 +6,11 @@ const config = require('../config')
 const ARTIFACT_SIZE = config.rendering.artifactNodeSize
 
 const ArtifactNode = function (key, artifact) {
-  // @ArtifactNode
+  // @ArtifactNode(key)
+  //
+  // Inherits StratumNode
   //
   // ArtifactNode is a card-like element in space.
-  // ArtifactNode implements interface similar to CategoryNode,
-  // so that the caller does not need to know which is which.
   //
   // Parameters:
   //   key

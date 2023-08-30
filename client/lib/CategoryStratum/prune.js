@@ -1,4 +1,6 @@
 module.exports = function () {
+  // @CategoryStratum:prune()
+  //
   // Remove all graph node and edge elements that do not anymore exist in
   // the given graph.
   //

@@ -1,4 +1,6 @@
 module.exports = function () {
+  // @CategoryNode:makeClosed()
+  //
   // Make the node look and behave like it has been closed.
   //
   if (this.isFaceted) {

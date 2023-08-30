@@ -1,7 +1,9 @@
 const tapspace = require('tapspace')
 
 const ViewportManager = function () {
-  // The viewport manager handles the tapspace Viewport interaction setup.
+  // @ViewportManager
+  //
+  // The viewport manager handles the tapspace.components.Viewport setup.
   // The manager can be used to enable or disable interaction.
   //
   // For example, we would like to avoid user to interact with

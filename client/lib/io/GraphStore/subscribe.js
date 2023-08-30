@@ -1,4 +1,6 @@
 module.exports = function (context, handler) {
+  // @GraphStore:subscribe(context, handler)
+  //
   // Subscribe to graph event stream.
   //
   // Parameters:
