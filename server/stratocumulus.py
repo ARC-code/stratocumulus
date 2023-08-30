@@ -1,10 +1,11 @@
 import logging
 import uuid
+import adapters
+import importlib
 import os
 from flask import Flask, request, render_template, session
 from flask_sse import sse
 from time import sleep
-from adapters.arc.stratum import build_stratum as build_arc_stratum
 from celery import Celery
 
 
@@ -29,7 +30,8 @@ def index():
     sess_key = _get_strato_key()
 
     # render the HTML template injecting our session key
-    return render_template("index.html", key=sess_key)
+    plugin = os.environ.get('STRATO_PLUGIN', 'arc')
+    return render_template(f"{plugin}/index.html", key=sess_key)
 
 
 # this endpoint is called by the client when it's ready to build a "stratum," which here signifies a bird's eye view of
@@ -91,7 +93,11 @@ def _get_strato_key():
 # "build_stratum" function belonging to the "arc" module
 @client.task
 def launch_stratum_build_job(session_key, cache_key, context, wait):
-    build_arc_stratum(session_key, cache_key, context, wait)
+    plugin = os.environ.get('STRATO_PLUGIN', 'arc')
+    print(plugin)
+    logging.error(plugin)
+    plugin = importlib.import_module(f"adapters.{plugin}.stratum")
+    plugin.build_stratum(session_key, cache_key, context, wait)
 
 
 if __name__ == '__main__':

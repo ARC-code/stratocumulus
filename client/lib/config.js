@@ -22,6 +22,10 @@ exports.facetParameters = [
   'f_federations.id',
   'f_genres.id',
   'f_disciplines.id',
+  'f_nations.id',
+  'f_graphs.id',
+  'f_affiliations',
+  'f_professions.id',
   'page'
 ]
 

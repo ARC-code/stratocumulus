@@ -8,12 +8,16 @@
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
     <style>
+        :root {
+            --main-bg-color: #06303f;
+        }
+
         html, body {
             width: 100%;
             height: 100%;
             margin: 0;
             padding: 0;
-            background-color: #444444;
+            background-color:  var(--main-bg-color);
         }
 
         #sky {
@@ -22,6 +26,20 @@
             width: 100%;
             height: 100%;
         }
+
+        /* Kind-specific styling */
+        /*.category-node .node-shape.node-disciplines {
+          background: linear-gradient(#efb915, #e2aa00);
+        }
+        .category-node .node-shape.node-federations {
+          background: linear-gradient(#8856a7, #810f7c);
+        }
+        .category-node .node-shape.node-genres {
+          background: linear-gradient(#2ca25f, #006d2c);
+        }
+        .category-node.empty-node .node-shape {
+          background: linear-gradient(#969696, #666666);
+        }*/
     </style>
 </head>
 <body>
