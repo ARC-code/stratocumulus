@@ -139,8 +139,7 @@ def build_stratum(channel, cache_key, context={}, wait=0):
     # every time!
     stratum_graph['stage'] = 'final'
     stratum_graph['provenance'] = 'cache'
-    # TODO: uncomment line below to enable caching
-    # redis_cache.set(cache_key, json.dumps(stratum_graph), ex=cache_expiry)
+    redis_cache.set(cache_key, json.dumps(stratum_graph), ex=cache_expiry)
 
     # now that we've cached the full graph, let's declare the graph as fully built to the client so edges can be drawn,
     # etc.
