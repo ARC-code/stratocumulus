@@ -17,43 +17,43 @@ This document is generated with [yamdog](https://github.com/axelpale/yamdog).
 
 <p style="margin-bottom: 0">Abstract Components:</p>
 
-- *Stratum*
-- *StratumNode*
+- [Stratum](#stratum), a collection of nodes and edges
+- [StratumNode](#stratumnode), a node on a [Stratum](#stratum)
 
 
 <p style="margin-bottom: 0">Components:</p>
 
-- *ArtifactNode*
-- *ArtifactStratum*
-- *CategoryNode*
-- *CategoryStratum*
-- *ContextForm*
-- *ContextLabel*
-- *SearchForm*
-- *Sky*
-- *TimeSlider*
-- *Toolbar*
-- *ViewportManager*
+- [ArtifactNode](#artifactnode), a node that displays single entity as a card.
+- [ArtifactStratum](#artifactstratum), an assortment of artifacts
+- [CategoryNode](#categorynode), an openable node that represents a collection of artifacts.
+- [CategoryStratum](#categorystratum), a network graph of faceting categories
+- [ContextForm](#contextform), a widget to display the current navigation path and filters.
+- [ContextLabel](#contextlabel), a label displaying stratum path in readable form
+- SearchForm, a text search form
+- [Sky](#sky), a loader for nested strata
+- [TimeSlider](#timeslider), a control widget for time range filtering
+- [Toolbar](#toolbar), a container for search and filtering tools.
+- [ViewportManager](#viewportmanager), a helper class to setup [Sky](#sky) viewport.
 
 
 <p style="margin-bottom: 0">Data Models:</p>
 
-- *Context*
-- *GraphStore*
-- *LabelStore*
-- *ReduxStore*
+- [Context](#context), an ordered set of filtering and faceting parameters and values
+- [GraphStore](#iographstore), a caching layer for loading stratum graphs
+- [LabelStore](#iolabelstore), a caching layer for facet node labels
+- [ReduxStore](#reduxstore), a minimal redux-like state management
 
 
 <p style="margin-bottom: 0">Adapters:</p>
 
-- [io](#io).corpora
-- [io](#io).stream
+- [io](#io).corpora, fetch methods specific to Corpora API
+- [io](#io).stream, SSE stream handling
 
 
-<p style="margin-bottom: 0">Libraries</p>
+<p style="margin-bottom: 0">Libraries:</p>
 
-- *tapspace*
-- *graphology*
+- [tapspace](https://axelpale.github.io/tapspace/api/v2/), provides zoomable user interface
+- [graphology](https://graphology.github.io/), provides graph models
 
 
 Source: [client/index.js](https://github.com/ARC-code/stratocumulus/blob/main/client/index.js)
@@ -88,12 +88,11 @@ Refesh the content.
 Source: [render.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/ArtifactNode/render.js)
 
 <a name="artifactstratum"></a>
-## [ArtifactStratum](#artifactstratum)
+## [ArtifactStratum](#artifactstratum)(context)
 
-A document collection laid on a plane.
+Inherits [Stratum](#stratum)
 
-[ArtifactStratum](#artifactstratum) inherits [Stratum](#stratum)
-All [Stratum](#stratum) classes should expose the same interface for [Sky](#sky).
+[ArtifactStratum](#artifactstratum) is a document collection laid on a plane.
 
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
 
@@ -108,8 +107,7 @@ All [Stratum](#stratum) classes should expose the same interface for [Sky](#sky)
 - *final*
   - when all nodes of the stratum has been loaded and rendered.
 - *substratumrequest*
-  - when the stratum would like one of its nodes to be opened as
-  - a new stratum.
+  - when the stratum would like one of its nodes to be opened as a new stratum.
 
 
 
@@ -157,7 +155,7 @@ The basis is useful to position substrata.
 
 <p style="margin-bottom: 0"><strong>Returns:</strong></p>
 
-- a tapspace.geometry.Basis
+- a [tapspace](https://axelpale.github.io/tapspace/api/v2/).geometry.Basis
 
 
 Source: [getBasisForSubstratum.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/ArtifactStratum/getBasisForSubstratum.js)
@@ -216,7 +214,7 @@ zoom level and other viewport conditions so allow.
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
 
 - *viewport*
-  - a tapspace.components.Viewport
+  - a [tapspace](https://axelpale.github.io/tapspace/api/v2/).components.Viewport
 
 
 Source: [triggerSubstratum.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/ArtifactStratum/triggerSubstratum.js)
@@ -384,7 +382,7 @@ represents the substratum.
 
 <p style="margin-bottom: 0"><strong>Returns:</strong></p>
 
-- a tapspace.geometry.Basis or null if no basis found for the subcontext.
+- a [tapspace](https://axelpale.github.io/tapspace/api/v2/).geometry.Basis or null if no basis found for the subcontext.
 
 
 Source: [getBasisForSubstratum.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/CategoryStratum/getBasisForSubstratum.js)
@@ -500,7 +498,7 @@ zoom level and other viewport conditions so allow.
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
 
 - *viewport*
-  - a tapspace.components.Viewport
+  - a [tapspace](https://axelpale.github.io/tapspace/api/v2/).components.Viewport
 
 
 Source: [triggerSubstratum.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/CategoryStratum/triggerSubstratum.js)
@@ -991,7 +989,7 @@ Position the label inside a bounding box.
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
 
 - *bbox*
-  - a tapspace.geometry.Box
+  - a [tapspace](https://axelpale.github.io/tapspace/api/v2/).geometry.Box
 
 
 
@@ -1069,7 +1067,7 @@ Source: [subscribe.js](https://github.com/ARC-code/stratocumulus/blob/main/clien
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
 
 - *viewport*
-  - a tapspace.components.Viewport
+  - a [tapspace](https://axelpale.github.io/tapspace/api/v2/).components.Viewport
 
 
 <p style="margin-bottom: 0">Emits:</p>
@@ -1109,15 +1107,18 @@ Initialize the [Sky](#sky): begin loading the first stratum.
 Source: [init.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/Sky/init.js)
 
 <a name="stratum"></a>
-## [Stratum](#stratum)
+## [Stratum](#stratum)(context)
+
+Inherits [Emitter](https://www.npmjs.com/package/component-emitter)
 
 Abstract class for [ArtifactStratum](#artifactstratum) and [CategoryStratum](#categorystratum).
-
-[Stratum](#stratum) inherits [Emitter](https://www.npmjs.com/package/component-emitter)
+All subclasses should expose the same interface for [Sky](#sky)
+to handle them consistently.
 
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
 
 - *context*
+  - a [Context](#context)
 
 
 
@@ -1184,7 +1185,7 @@ the basis from the [Sky](#sky) driver.
 
 <p style="margin-bottom: 0"><strong>Returns:</strong></p>
 
-- a tapspace.geometry.Basis
+- a [tapspace](https://axelpale.github.io/tapspace/api/v2/).geometry.Basis
 
 
 Source: [getBasisForSubstratum.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/Stratum/getBasisForSubstratum.js)
@@ -1196,7 +1197,7 @@ Get the cached stratum boundary.
 
 <p style="margin-bottom: 0"><strong>Returns:</strong></p>
 
-- a tapspace.geometry.Sphere
+- a [tapspace](https://axelpale.github.io/tapspace/api/v2/).geometry.Sphere
 
 
 Source: [getBoundingCircle.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/Stratum/getBoundingCircle.js)
@@ -1234,7 +1235,7 @@ In future we might want the root node be the origin.
 
 <p style="margin-bottom: 0"><strong>Returns:</strong></p>
 
-- a tapspace.geometry.Point
+- a [tapspace](https://axelpale.github.io/tapspace/api/v2/).geometry.Point
 
 
 Source: [getOrigin.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/Stratum/getOrigin.js)
@@ -1244,7 +1245,7 @@ Source: [getOrigin.js](https://github.com/ARC-code/stratocumulus/blob/main/clien
 
 <p style="margin-bottom: 0"><strong>Returns:</strong></p>
 
-- a tapspace.components.Plane
+- a [tapspace](https://axelpale.github.io/tapspace/api/v2/).components.Plane
 
 
 Source: [getSpace.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/Stratum/getSpace.js)
@@ -1369,7 +1370,7 @@ zoom level and other viewport conditions so allow.
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
 
 - *viewport*
-  - a tapspace.components.Viewport
+  - a [tapspace](https://axelpale.github.io/tapspace/api/v2/).components.Viewport
 
 
 Source: [triggerSubstratum.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/Stratum/triggerSubstratum.js)
@@ -1411,7 +1412,7 @@ Useful for getting the node position in a consistent manner.
 
 <p style="margin-bottom: 0"><strong>Returns:</strong></p>
 
-- a tapspace.geometry.Point
+- a [tapspace](https://axelpale.github.io/tapspace/api/v2/).geometry.Point
 
 
 Source: [getOrigin.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/StratumNode/getOrigin.js)
@@ -1424,7 +1425,7 @@ Useful for trimming edges between nodes.
 
 <p style="margin-bottom: 0"><strong>Returns:</strong></p>
 
-- a tapspace.geometry.Distance
+- a [tapspace](https://axelpale.github.io/tapspace/api/v2/).geometry.Distance
 
 
 Source: [getRadius.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/StratumNode/getRadius.js)
@@ -1466,7 +1467,7 @@ Useful when the graph model layout has changed.
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
 
 - *point*
-  - a tapspace.geometry.Point
+  - a [tapspace](https://axelpale.github.io/tapspace/api/v2/).geometry.Point
 
 
 Source: [translateTo.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/StratumNode/translateTo.js)
@@ -1517,10 +1518,48 @@ Set slider position.
 
 Source: [setRange.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/TimeSlider/setRange.js)
 
+<a name="toolbar"></a>
+## [Toolbar](#toolbar)()
+
+A component for search and information tools.
+
+<p style="margin-bottom: 0">Emits:</p>
+
+- search { type, ... }
+- clear { type, parameter }
+
+
+
+<p style="margin-bottom: 0"><strong>Contents:</strong></p>
+
+
+- [Toolbar:getElement](#toolbargetelement)
+- [Toolbar:setContext](#toolbarsetcontext)
+
+
+Source: [Toolbar/index.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/Toolbar/index.js)
+
+<a name="toolbargetelement"></a>
+## [Toolbar](#toolbar):[getElement](#toolbargetelement)()
+
+<p style="margin-bottom: 0"><strong>Returns:</strong></p>
+
+- a [HTMLElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement)
+
+
+Source: [getElement.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/Toolbar/getElement.js)
+
+<a name="toolbarsetcontext"></a>
+## [Toolbar](#toolbar):[setContext](#toolbarsetcontext)(newContext)
+
+Propagate context changes to the forms and widgets.
+
+Source: [setContext.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/Toolbar/setContext.js)
+
 <a name="viewportmanager"></a>
 ## [ViewportManager](#viewportmanager)
 
-The viewport manager handles the tapspace.components.Viewport setup.
+The viewport manager handles the [tapspace](https://axelpale.github.io/tapspace/api/v2/).components.Viewport setup.
 The manager can be used to enable or disable interaction.
 
 For example, we would like to avoid user to interact with
@@ -1612,7 +1651,7 @@ The returned graph is meant for read-only use.
 
 <p style="margin-bottom: 0"><strong>Returns:</strong></p>
 
-- a graphology Graph.
+- a [graphology](https://graphology.github.io/).Graph.
 
 
 Source: [get.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/io/GraphStore/get.js)
@@ -1749,8 +1788,7 @@ Unregister a path listener
 - *path*
   - a string
 - *handler*
-  - optional handler function. If omitted, removes all handler
-  - functions for the given path.
+  - optional handler function. If omitted, removes all handler functions for the given path.
 
 
 Source: [stream.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/io/stream.js)

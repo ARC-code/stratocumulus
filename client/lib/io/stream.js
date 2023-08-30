@@ -101,7 +101,7 @@ exports.off = function (path, handler) {
   //     a string
   //   handler
   //     optional handler function. If omitted, removes all handler
-  //     functions for the given path.
+  //     .. functions for the given path.
   //
 
   if (typeof path !== 'string') {

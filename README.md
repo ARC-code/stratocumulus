@@ -13,7 +13,7 @@ Corpora database visualized with Stratocumulus. Two of the entity collections ar
 - [BigDIVA](https://bigdiva.org/)
 - [Center of Digital Humanities Research](https://codhr.dh.tamu.edu/)
 - [Stratocumulus Server API documentation](#the-backend)
-- [Stratocumulus Client API documentation](https://arc-code.github.io/stratocumulus/docs/architecture.md)
+- [Stratocumulus Client API documentation](https://arc-code.github.io/stratocumulus/client/docs/architecture.html)
 
 ## Browser and Research Features
 
@@ -69,3 +69,5 @@ At present, the client only does the following:
 It's important to note that the current logic present in the "drawGraph" function is intended to be replaced by a more sophisticated, Tapspace/Affineplane rendering method. Once this has been implemented, there will no longer be a need for the jQuery and jQuery Connections libraries which are currently only used to facilitate the drawing of nodes and edges.
 
 ## Licence
+
+[MIT](LICENSE)
