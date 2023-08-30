@@ -1,5 +1,7 @@
 module.exports = function (kind, id, label) {
-  // Store a label
+  // @LabelStore:write(kind, id, label)
+  //
+  // Store a label.
   //
 
   if (!this.labels[kind]) {

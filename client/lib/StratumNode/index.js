@@ -1,4 +1,6 @@
 const StratumNode = function (key, data) {
+  // @StratumNode
+  //
   // Abstract class for ArtifactNode and CategoryNode.
   // Useful for ensuring Sky can handle nodes through the same interface.
   //

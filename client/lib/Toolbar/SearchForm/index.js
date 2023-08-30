@@ -6,6 +6,8 @@ const emitter = require('component-emitter')
 const fetch = window.fetch
 
 const SearchForm = function () {
+  // @SearchForm()
+  //
   // A search bar and a submit button
   //
   // Emits

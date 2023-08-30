@@ -3,7 +3,7 @@ const Stratum = require('../Stratum')
 const io = require('../io')
 
 const CategoryStratum = function (context) {
-  // @CategoryStratum
+  // @CategoryStratum(context)
   //
   // A tree graph laid on a plane.
   // The stratum is not yet added to the document.

@@ -21,6 +21,8 @@ const archiveUrls = {}
 module.exports = function () {
   // @ArtifactNode:render()
   //
+  // Refesh the content.
+  //
 
   if (!this.data) {
     // Not ready for rendering.

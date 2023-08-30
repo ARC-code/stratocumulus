@@ -6,10 +6,12 @@ const NODE_RENDER_SIZE = config.rendering.categoryNodeSize
 const FACETING_THRESHOLD = config.artifacts.threshold
 
 const CategoryNode = function (key, attrs) {
+  // @CategoryNode(key, attrs)
+  //
+  // Inherits ArtifactNode
+  //
   // A node in a stratum. Stratum maintains set of nodes.
   // A slave component, causes only visual side-effects, model-ignorant.
-  //
-  // CategoryNode inherits Emitter
   //
   // Parameters:
   //   key

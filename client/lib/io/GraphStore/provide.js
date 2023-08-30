@@ -2,6 +2,8 @@ const graphology = require('graphology')
 const addNode = require('./model/addNode')
 
 module.exports = function (context, nodeAttrs) {
+  // @GraphStore:provide(context, nodeAttrs)
+  //
   // Provide the graph a single node.
   // Useful to initiate the graph with a single node.
   // If the node already exists, do nothing.

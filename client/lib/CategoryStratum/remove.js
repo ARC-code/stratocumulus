@@ -1,6 +1,8 @@
 const io = require('../io')
 
 module.exports = function () {
+  // @CategoryStratum:remove()
+  //
   // Destroy the stratum. Stop loading and kill listeners.
   // However, does not remove the stratum from the DOM.
   //

@@ -3,6 +3,8 @@ const template = require('./template')
 module.exports = function () {
   // @CategoryNode:render()
   //
+  // Refresh the contents.
+  //
 
   const nodeIsStale = this.data.stale
   const nodeValue = this.data.value || 0

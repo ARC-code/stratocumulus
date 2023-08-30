@@ -1,6 +1,12 @@
 module.exports = function (yearRange) {
   // @TimeSlider:setRange(yearRange)
   //
+  // Set slider position.
+  //
+  // Parameters:
+  //   yearRange
+  //     an object { rangeStart, rangeEnd }
+  //
   const v1 = this.slider.value1
   const v2 = this.slider.value2
   const r1 = yearRange.rangeStart

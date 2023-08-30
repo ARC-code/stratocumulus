@@ -3,6 +3,8 @@ const graphology = require('graphology')
 const updateGraph = require('./model/updateGraph')
 
 module.exports = function (context) {
+  // @GraphStore:fetch(context)
+  //
   // Start fetching a graph with the given context.
   // Listens stream events.
   //

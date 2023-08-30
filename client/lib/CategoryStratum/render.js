@@ -6,15 +6,18 @@ const MAX_NODE_SIZE = config.sizing.maxNodeSize
 const CategoryNode = require('../CategoryNode')
 
 module.exports = function (final = false, updateCount = 0) {
+  // @CategoryStratum:render(final, updateCount)
+  //
   // Render the graph. If elements already exist, update.
   // This method is idempotent, thus you can call this method multiple times
   // for example once for every new substratum from the server.
   //
   // Parameters:
   //   final
-  //     boolean, set true to update edges
+  //     optional boolean, default false. Set true to update edges
   //   updateCount
-  //     an integer
+  //     optional integer, default 0. Index number of the subgraph event.
+  //     .. Useful to identify and distinguish early and late rendering stages.
   //
   const nodePlaneOrigin = this.nodePlane.at(0, 0)
 

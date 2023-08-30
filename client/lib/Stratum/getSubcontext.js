@@ -1,4 +1,6 @@
 module.exports = function (node) {
+  // @Stratum:getSubcontext(node)
+  //
   // Get faceting context for a substratum.
   //
   // Parameters:

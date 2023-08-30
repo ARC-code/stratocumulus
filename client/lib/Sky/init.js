@@ -1,6 +1,8 @@
 const Context = require('../Context')
 
 module.exports = function (firstPath) {
+  // @Sky:init(firstPath)
+  //
   // Initialize the Sky: begin loading the first stratum.
   //
 

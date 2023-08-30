@@ -1,4 +1,6 @@
 module.exports = function () {
+  // @Stratum:getSupercontext()
+  //
   // Get faceting context for the superstratum.
   // Basically takes the stratum context, and returns a new context
   // with the last faceting parameter removed.

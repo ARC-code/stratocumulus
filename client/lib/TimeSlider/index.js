@@ -10,6 +10,8 @@ require('toolcool-range-slider')
 const THROTTLE_DELAY = 200 // ms
 
 const TimeSlider = function () {
+  // @TimeSlider
+  //
   // A year-range slider.
   //
   this.element = document.createElement('div')

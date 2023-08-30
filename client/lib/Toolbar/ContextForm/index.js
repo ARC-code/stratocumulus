@@ -3,7 +3,7 @@ const emitter = require('component-emitter')
 const Context = require('../../Context')
 
 const ContextForm = function () {
-  // @ContextForm
+  // @ContextForm()
   //
   // ContextForm is a viewer and editor for the current Context.
   // It emits events when the context is modified through it.

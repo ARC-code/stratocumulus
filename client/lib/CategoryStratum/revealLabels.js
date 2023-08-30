@@ -1,4 +1,6 @@
 module.exports = function () {
+  // @CategoryStratum:revealLabels()
+  //
   // Refresh the label visibility in a semantic zoom manner.
   // Reveals and hides the labels based on their apparent size.
   //

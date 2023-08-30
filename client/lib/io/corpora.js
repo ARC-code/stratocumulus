@@ -9,6 +9,8 @@ const PAGE_SIZE = require('../config').artifacts.pageSize
 let federationThumbnails = null
 
 exports.fetchThumbnails = (callback) => {
+  // @io.corpora.fetchThumbnails(callback)
+  //
   // Fetch federation thumbnails
   //
   // Parameters:
@@ -52,6 +54,8 @@ exports.fetchThumbnails = (callback) => {
 }
 
 exports.fetchArtifact = (id, callback) => {
+  // @io.corpora.fetchArtifact(id, callback)
+  //
   // Fetch single artifact from the Corpora API.
   //
   // Parameters:
@@ -69,6 +73,8 @@ exports.fetchArtifact = (id, callback) => {
 }
 
 exports.fetchArtifactPage = (context, callback) => {
+  // @io.corpora.fetchArtifactPage(context, callback)
+  //
   // Fetch single page of artifacts.
   //
   // Parameters:

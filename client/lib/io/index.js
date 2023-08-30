@@ -1,3 +1,5 @@
+// @io
+//
 // Stratocumulus client-side IO.
 //
 // Gather here all code that handles sending and receiving data from

@@ -1,6 +1,8 @@
 const io = require('../io')
 
 module.exports = function () {
+  // @ArtifactStratum:load()
+  //
   // Begin constructing stratum from the back-end.
   // This makes the stratum alive.
   //

@@ -20,10 +20,24 @@ yamdog.generate({
     '0 Stratocumulus': '0 Stratocumulus', // TODO alphabetical hack
     // Libraries
     'tapspace': 'tapspace',
+    'graphology': 'graphology',
     // Components
+    'ArtifactNode': 'ArtifactNode',
+    'ArtifactStratum': 'ArtifactStratum',
+    'CategoryNode': 'CategoryNode',
+    'CategoryStratum': 'CategoryStratum',
+    'Context': 'Context',
+    'ContextForm': 'ContextForm',
+    'ContextLabel': 'ContextLabel',
+    'GraphStore': 'io.GraphStore',
+    'io': 'io',
+    'LabelStore': 'io.LabelStore',
+    'ReduxStore': 'ReduxStore',
+    'Sky': 'Sky',
     'Stratum': 'Stratum',
     'StratumNode': 'StratumNode',
-    'Context': 'Context'
+    'TimeSlider': 'TimeSlider',
+    'ViewportManager': 'ViewportManager'
   },
   // Main title of the document
   title: 'Stratocumulus Client Documentation v' + version,

@@ -1,4 +1,6 @@
 module.exports = function () {
+  // @CategoryStratum:enableFaceting()
+  //
   // Enable stratum faceting.
   // In other words, listen nodes for opening requests.
   //

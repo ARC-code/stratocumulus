@@ -1,8 +1,35 @@
 // @0 Stratocumulus
 //
-// Components:
-// - Context
+// Abstract Components:
 // - Stratum
+// - StratumNode
+//
+// Components:
+// - ArtifactNode
+// - ArtifactStratum
+// - CategoryNode
+// - CategoryStratum
+// - ContextForm
+// - ContextLabel
+// - SearchForm
+// - Sky
+// - TimeSlider
+// - Toolbar
+// - ViewportManager
+//
+// Data Models:
+// - Context
+// - GraphStore
+// - LabelStore
+// - ReduxStore
+//
+// Adapters:
+// - io.corpora
+// - io.stream
+//
+// Libraries
+// - tapspace
+// - graphology
 //
 
 // NOTE

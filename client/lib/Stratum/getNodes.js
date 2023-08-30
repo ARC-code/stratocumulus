@@ -1,4 +1,6 @@
 module.exports = function () {
+  // @Stratum:getNodes()
+  //
   // Get stratum nodes in an array.
   //
   // Return
