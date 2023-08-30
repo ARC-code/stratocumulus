@@ -12,7 +12,7 @@ module.exports = function (context) {
   //     a Context
   //
   // Return
-  //   a graphology Graph.
+  //   a graphology.Graph.
   //
 
   const key = context.toCacheKey()

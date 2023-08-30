@@ -2,12 +2,11 @@ require('./style.css')
 const Stratum = require('../Stratum')
 
 const ArtifactStratum = function (context) {
-  // @ArtifactStratum
+  // @ArtifactStratum(context)
   //
-  // A document collection laid on a plane.
+  // Inherits Stratum
   //
-  // ArtifactStratum inherits Stratum
-  // All Stratum classes should expose the same interface for Sky.
+  // ArtifactStratum is a document collection laid on a plane.
   //
   // Parameters:
   //   context
@@ -21,7 +20,7 @@ const ArtifactStratum = function (context) {
   //     when all nodes of the stratum has been loaded and rendered.
   //   substratumrequest
   //     when the stratum would like one of its nodes to be opened as
-  //     a new stratum.
+  //     .. a new stratum.
   //
 
   // Inherit

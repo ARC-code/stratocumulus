@@ -3,14 +3,17 @@ const tapspace = require('tapspace')
 const RENDER_SIZE = require('../config').rendering.stratumSize
 
 const Stratum = function (context) {
-  // @Stratum
+  // @Stratum(context)
+  //
+  // Inherits Emitter
   //
   // Abstract class for ArtifactStratum and CategoryStratum.
-  //
-  // Stratum inherits Emitter
+  // All subclasses should expose the same interface for Sky
+  // to handle them consistently.
   //
   // Parameters:
   //   context
+  //     a Context
   //
 
   // DEBUG validate arguments
