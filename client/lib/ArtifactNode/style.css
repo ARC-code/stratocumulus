@@ -1,5 +1,5 @@
 .artifact-card {
-  background-color: var(dataplane-bg-color);
+  background-color: var(--dataplane-bg-color);
   border-radius: 0.5rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 300px;
