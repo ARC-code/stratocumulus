@@ -13,7 +13,7 @@ Corpora database visualized with Stratocumulus. Two of the entity collections ar
 - [BigDIVA](https://bigdiva.org/)
 - [Center of Digital Humanities Research](https://codhr.dh.tamu.edu/)
 - [Stratocumulus Server API documentation](#the-backend)
-- [Stratocumulus Client API documentation](https://arc-code.github.io/stratocumulus/docs/architecture.md)
+- [Stratocumulus Client API documentation](https://arc-code.github.io/stratocumulus/client/docs/architecture.html)
 
 ## Browser and Research Features
 
