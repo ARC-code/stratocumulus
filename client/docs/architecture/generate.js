@@ -5,6 +5,7 @@ const introText = require('./intro')
 const deco = yamdog.decorators
 const mdnDocs = 'https://developer.mozilla.org/en-US/docs/Web/API/'
 const tapspaceDocs = 'https://axelpale.github.io/tapspace/api/v2/'
+const graphologyDocs = 'https://graphology.github.io/'
 
 yamdog.generate({
   // Where to start collecting comment blocks
@@ -18,9 +19,6 @@ yamdog.generate({
     // Root index table of content
     'stratocumulus': 'stratocumulus',
     '0 Stratocumulus': '0 Stratocumulus', // TODO alphabetical hack
-    // Libraries
-    'tapspace': 'tapspace',
-    'graphology': 'graphology',
     // Components
     'ArtifactNode': 'ArtifactNode',
     'ArtifactStratum': 'ArtifactStratum',
@@ -37,6 +35,7 @@ yamdog.generate({
     'Stratum': 'Stratum',
     'StratumNode': 'StratumNode',
     'TimeSlider': 'TimeSlider',
+    'Toolbar': 'Toolbar',
     'ViewportManager': 'ViewportManager'
   },
   // Main title of the document
@@ -59,7 +58,9 @@ yamdog.generate({
       // Terminology
       'Complexity': 'https://en.wikipedia.org/wiki/Computational_complexity',
       // Tapspace components and geometries
-      'Viewport': tapspaceDocs + '#tapspacecomponentsviewport'
+      'tapspace': tapspaceDocs,
+      'tapspace.components.Viewport': tapspaceDocs + '#tapspacecomponentsviewport',
+      'graphology': graphologyDocs
     }),
     deco.replace([
       {
