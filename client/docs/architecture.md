@@ -1788,8 +1788,7 @@ Unregister a path listener
 - *path*
   - a string
 - *handler*
-  - optional handler function. If omitted, removes all handler
-  - functions for the given path.
+  - optional handler function. If omitted, removes all handler functions for the given path.
 
 
 Source: [stream.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/io/stream.js)
