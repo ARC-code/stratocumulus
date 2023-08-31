@@ -25,6 +25,10 @@ module.exports = function (graph, subgraph) {
   //         a string, one of 'stratum_graph', 'data_plane'
   //
 
+  if (subgraph.size) {
+    graph.setAttribute('numArtifacts', parseInt(subgraph.size))
+  }
+
   // Determine if it is a stratum or a data plane.
   // Either: stratum_graph, data_plane
   let structureKind = graph.getAttribute('structure')

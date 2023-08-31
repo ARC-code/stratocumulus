@@ -78,7 +78,7 @@ module.exports = function () {
     // Shareable URL for current path
     const currentUrl = window.location.href
     // Copy to clipboard
-    window.navigator.clipboard.writeText(currentUrl);
+    window.navigator.clipboard.writeText(currentUrl)
     // Make message visible
     messageEl.style.display = 'block'
     // Make message disappear after a while

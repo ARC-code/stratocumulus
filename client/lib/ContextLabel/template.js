@@ -1,11 +1,18 @@
 const io = require('../io')
 
-module.exports = (context) => {
+module.exports = (context, numArtifacts) => {
   // Make label text.
   //
   // Return
   //   a string
   //
+
+  let prefix = 'Documents within<br>'
+
+  // Artifact count
+  if (numArtifacts === 0) {
+    prefix = 'No documents within<br>'
+  }
 
   // Print facets
   const facetContext = context.getFacetingContext()
@@ -15,11 +22,12 @@ module.exports = (context) => {
   })
   const labelCount = labels.length
 
-  let facetLabel = 'All documents'
   if (labelCount === 0) {
-    facetLabel = 'All documents'
-  } else {
-    facetLabel = 'Documents within<br>'
+    prefix = 'All documents'
+  }
+
+  let facetLabel = ''
+  if (labelCount > 0) {
     // Single facet.
     if (labelCount === 1) {
       facetLabel += labels[0]
@@ -32,5 +40,5 @@ module.exports = (context) => {
     }
   }
 
-  return facetLabel
+  return prefix + facetLabel
 }
