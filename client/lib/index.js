@@ -107,6 +107,9 @@ exports.start = function () {
       const range = context.getRangeValue('r_years')
       slider.setRange(range)
     }
+
+    // Update URL
+    pathManager.setContext(context)
   })
 
   // Begin loading the first space.

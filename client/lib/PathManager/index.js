@@ -9,9 +9,10 @@ const PathManager = function () {
 
   this.context = new Context()
 
-  window.addEventListener('popstate', (ev) => {
-    console.log('popstate', ev)
-  })
+  // TODO prevent full page load if user navigates the history
+  // window.addEventListener('popstate', (ev) => {
+  //   console.log('popstate', ev)
+  // })
 }
 
 module.exports = PathManager
