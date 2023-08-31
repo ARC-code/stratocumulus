@@ -1,0 +1,19 @@
+/* Loading animation */
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.spinner {
+  display: none;
+}
+.spinner.loading {
+  display: block;
+  animation: rotation 5s infinite ease-in-out;
+}
+.spinner .spinner-circle {
+  background: rgb(160, 160, 160);
+}
