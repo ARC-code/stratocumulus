@@ -124,6 +124,9 @@ module.exports = (sky, loader) => {
     stratum.on('layout', (ev) => {
       loader.remapChildren(path)
     })
+
+    // First loading should enable viewport to zoom to loading animation.
+    sky.emit('loading')
   })
 
   // The first stratum and first content should

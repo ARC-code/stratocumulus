@@ -15,6 +15,10 @@ const Sky = function (viewport) {
   //     a tapspace.components.Viewport
   //
   // Emits:
+  //   loading
+  //     when beginning to load stratum
+  //   first
+  //     when first stratum has some content.
   //   navigation
   //     when there is a new current stratum.
   //

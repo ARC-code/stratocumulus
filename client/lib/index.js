@@ -45,8 +45,15 @@ exports.start = function () {
   // Instead, the first stratum is loaded in the state store listener below.
   const sky = new Sky(viewport)
 
+
   // Once the first stratum has some rendered content,
   // make the viewport interactive and begin refreshing labels.
+  sky.once('loading', () => {
+    // Already some loading animations might be visible.
+    // Fit to content
+    const bbox = viewport.hyperspace.getBoundingBox()
+    viewport.zoomToFill(bbox, 0.2)
+  })
   sky.once('first', () => {
     // Fit to content
     const bbox = viewport.hyperspace.getBoundingBox()
