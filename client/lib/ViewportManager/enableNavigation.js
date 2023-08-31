@@ -1,7 +1,13 @@
 const tapspace = require('tapspace')
 
 module.exports = function () {
-  // Enable viewport navigation
+  // @ViewportManager:enableNavigation()
+  //
+  // Enable viewport navigation: cursor panning, wheel zooming, zoom buttons,
+  // and others.
+  //
+  // It is recommended to call this only after the space has
+  // some visible content so that user does not get lost into empty space.
   //
 
   // Prevent double enabling
