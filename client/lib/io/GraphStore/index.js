@@ -38,6 +38,10 @@ const GraphStore = function (labelStore) {
   // cacheKey -> integer
   this.updates = {}
 
+  // Track which graphs are finished loading
+  // cacheKey -> boolean
+  this.completed = {}
+
   // Graphs have states:
   // initial -> partial -> complete
   // complete -> filtering -> complete

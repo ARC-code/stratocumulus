@@ -5,6 +5,7 @@ module.exports = function (context, nodeAttrs) {
   // @GraphStore:provide(context, nodeAttrs)
   //
   // Provide the graph a single node.
+  // This does not make the graph completed.
   // Useful to initiate the graph with a single node.
   // If the node already exists, do nothing.
   //
