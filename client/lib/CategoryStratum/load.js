@@ -32,6 +32,9 @@ module.exports = function () {
       return
     }
 
+    // Stop any loading animations
+    this.spinner.stop()
+
     // Replace the graph
     this.graph = io.graphStore.get(ev.context)
 

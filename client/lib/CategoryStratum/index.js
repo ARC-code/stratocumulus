@@ -1,6 +1,10 @@
 require('./style.css')
 const Stratum = require('../Stratum')
+const Spinner = require('../Spinner')
 const io = require('../io')
+const config = require('../config')
+const RENDER_SIZE = config.rendering.stratumSize
+const CENTER = RENDER_SIZE / 2
 
 const CategoryStratum = function (context) {
   // @CategoryStratum(context)
@@ -40,6 +44,15 @@ const CategoryStratum = function (context) {
 
   // Read-only graph model
   this.graph = io.graphStore.get(this.context)
+
+  // Spinner that can be hidden after stratum is not loading.
+  this.spinner = new Spinner({
+    diameter: 200,
+    circles: 5,
+    circleDiameter: 20
+  })
+  this.space.addChild(this.spinner.component)
+  this.spinner.component.translateTo(this.space.at(CENTER, CENTER))
 }
 
 module.exports = CategoryStratum
