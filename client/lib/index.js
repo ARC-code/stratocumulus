@@ -4,6 +4,7 @@ const Sky = require('./Sky')
 const TimeSlider = require('./TimeSlider')
 const Toolbar = require('./Toolbar')
 const ViewportManager = require('./ViewportManager')
+const PathManager = require('./PathManager')
 const ReduxStore = require('./ReduxStore')
 const reducer = require('./reducer')
 const clientVersion = require('./version')
@@ -35,6 +36,9 @@ exports.start = function () {
   // Setup year range slider
   const slider = new TimeSlider()
   document.body.appendChild(slider.getElement())
+
+  // Setup URL management
+  const pathManager = new PathManager()
 
   // Init stratum loader and begin loading the first stratum
   const sky = new Sky(viewport)
