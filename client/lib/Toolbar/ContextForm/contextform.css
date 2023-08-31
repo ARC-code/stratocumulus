@@ -70,3 +70,7 @@
 .context-box .filter-list li a.filter-item-remove:hover {
   color: white;
 }
+
+.context-box .sharing-message {
+  display: none;
+}
