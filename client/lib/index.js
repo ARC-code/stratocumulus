@@ -40,10 +40,10 @@ exports.start = function () {
   // Setup URL management
   const pathManager = new PathManager()
 
-  // Init stratum loader and begin loading the first stratum
+  // Init stratum loader.
+  // The loader does not yet begin loading the first stratum.
+  // Instead, the first stratum is loaded in the state store listener below.
   const sky = new Sky(viewport)
-  // Begin from the root stratum path '/'
-  sky.init('/')
 
   // Once the first stratum has some rendered content,
   // make the viewport interactive and begin refreshing labels.
@@ -107,5 +107,11 @@ exports.start = function () {
       const range = context.getRangeValue('r_years')
       slider.setRange(range)
     }
+  })
+
+  // Begin loading the first space.
+  store.dispatch({
+    type: 'init',
+    context: pathManager.getContext()
   })
 }

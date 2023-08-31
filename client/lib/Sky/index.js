@@ -73,7 +73,6 @@ const proto = Sky.prototype
 emitter(proto)
 
 // Methods
-proto.init = require('./init')
 proto.filter = require('./filter')
 proto.navigateToStratum = require('./navigateToStratum')
 proto.navigateToNode = require('./navigateToNode')

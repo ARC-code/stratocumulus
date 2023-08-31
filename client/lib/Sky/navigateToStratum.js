@@ -8,10 +8,22 @@ module.exports = function (context) {
   //     a Context, defines the current stratum.
   //
 
-  const path = context.toFacetPath()
-  console.log('navigate to', path)
-  // TODO
-  // this.loader.init(path, basis) .goto(path, basis) .moveTo(path, basis)
+  const facetPath = context.toFacetPath()
 
-  // TODO prevent re-navigation where we already are.
+  if (this.loader.hasSpace(facetPath)) {
+    // Space for the context exists already.
+    // No need to reset the spaces.
+    // TODO Navigate to it, unless navigation itself caused the fn call.
+    // const space = this.loader.getSpace(facetPath)
+    // const stratum = space.stratum
+    // this.viewport.zoomToFill(stratum.nodePlane, 0.5)
+    return
+  }
+
+  // Space does not exist. Close all spaces and then re-initialize the loader.
+  this.loader.closeAll()
+  const defaultBasis = this.viewport.getBasisAt(this.viewport.atCenter())
+  const eventData = { context: context }
+  const openingDepth = 0
+  this.loader.initSpace(facetPath, defaultBasis, openingDepth, eventData)
 }
