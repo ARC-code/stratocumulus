@@ -15,6 +15,10 @@ const Sky = function (viewport) {
   //     a tapspace.components.Viewport
   //
   // Emits:
+  //   loading
+  //     when beginning to load stratum
+  //   first
+  //     when first stratum has some content.
   //   navigation
   //     when there is a new current stratum.
   //
@@ -25,6 +29,11 @@ const Sky = function (viewport) {
   this.strata = {}
 
   this.viewport = viewport
+
+  // Track last known current stratum.
+  // Useful to detect when current stratum changes.
+  // Useful to limit strata during filtering.
+  this.currentStratumPath = null
 
   // Use tapspace TreeLoader for loading and unloading of fractal spaces.
   this.loader = new tapspace.loaders.TreeLoader({
@@ -73,7 +82,7 @@ const proto = Sky.prototype
 emitter(proto)
 
 // Methods
-proto.init = require('./init')
 proto.filter = require('./filter')
+proto.findCurrentStratum = require('./findCurrentStratum')
 proto.navigateToStratum = require('./navigateToStratum')
 proto.navigateToNode = require('./navigateToNode')

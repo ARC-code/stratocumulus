@@ -10,4 +10,9 @@ __pycache__/
 *.DS_Store
 
 # Client builds
+/client/dist/*
+!/client/dist/.gitkeep
 /server/static/js/stratocumulus-client.bundle.js
+
+# Environment
+.env

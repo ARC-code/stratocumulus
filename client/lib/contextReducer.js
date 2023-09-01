@@ -10,6 +10,14 @@ module.exports = (state, action) => {
     state = new Context()
   }
 
+  // Navigation initialization
+  if (action.type === 'init') {
+    if (action.context) {
+      return action.context
+    }
+    return state
+  }
+
   // Navigation
   if (action.type === 'navigation') {
     const facetContext = Context.fromFacetPath(action.path)

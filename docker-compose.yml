@@ -8,17 +8,11 @@ services:
       - ./server:/usr/src/app
       - static:/usr/src/static
     environment:
+      STRATO_PLUGIN: arc # arc, lincs
       STRATO_SECRET_KEY: bananarama
       STRATO_STATIC_FOLDER: /usr/src/static
-      # PRODUCTION CORPORA
-      STRATO_CORPORA_HOST: https://corpora.dh.tamu.edu
-      STRATO_CORPORA_CORPUS_ID: 5f623b8eff276600a4f44553
-      # LOCAL CORPORA
-      # STRATO_CORPORA_HOST: http://host.docker.internal
-      # STRATO_CORPORA_CORPUS_ID: 6398f4be0751727e7d1db3f7
-      # DEV CORPORA
-      # STRATO_CORPORA_HOST: https://corpora-dev.dh.tamu.edu
-      # STRATO_CORPORA_CORPUS_ID: 5f623b8eff276600a4f44553
+      STRATO_CORPORA_HOST: https://example.org # your Corpora API endpoint
+      STRATO_CORPORA_CORPUS_ID: 123456789abcdef # your Corpora corpus ID
     depends_on:
       - redis
       - stratocumulus_client
@@ -34,17 +28,11 @@ services:
       - ./server:/usr/src/app
       - static:/usr/src/static
     environment:
+      STRATO_PLUGIN: arc # arc, lincs
       STRATO_SECRET_KEY: bananarama
       STRATO_STATIC_FOLDER: /usr/src/static
-      # PRODUCTION CORPORA
-      STRATO_CORPORA_HOST: https://corpora.dh.tamu.edu
-      STRATO_CORPORA_CORPUS_ID: 5f623b8eff276600a4f44553
-      # LOCAL CORPORA
-      # STRATO_CORPORA_HOST: http://host.docker.internal
-      # STRATO_CORPORA_CORPUS_ID: 6398f4be0751727e7d1db3f7
-      # DEV CORPORA
-      # STRATO_CORPORA_HOST: https://corpora-dev.dh.tamu.edu
-      # STRATO_CORPORA_CORPUS_ID: 5f623b8eff276600a4f44553
+      STRATO_CORPORA_HOST: https://example.org # your Corpora API endpoint
+      STRATO_CORPORA_CORPUS_ID: 123456789abcdef # your Corpora corpus ID
     depends_on:
       - redis
       - stratocumulus

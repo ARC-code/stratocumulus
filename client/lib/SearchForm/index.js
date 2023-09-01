@@ -1,6 +1,6 @@
 require('@tarekraafat/autocomplete.js/dist/css/autoComplete.css')
 require('./searchform.css')
-const Context = require('../../Context')
+const Context = require('../Context')
 const AutoComplete = require('@tarekraafat/autocomplete.js')
 const emitter = require('component-emitter')
 const fetch = window.fetch

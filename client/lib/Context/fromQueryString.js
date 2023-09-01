@@ -27,12 +27,18 @@ module.exports = (Context) => {
 
     keyValues.forEach((kv) => {
       const parts = kv.split('=')
-      if (parts.length !== 2) {
-        throw new Error('Invalid query string: ' + query)
+      if (parts.length === 2) {
+        const key = parts[0]
+        const value = parts[1]
+        if (key.length > 0 && value.length > 0) {
+          keys.push(key)
+          values.push(value)
+        }
       }
 
-      keys.push(parts[0])
-      values.push(parts[1])
+      // Skip malformed parts
+      console.warn('Invalid query string: ' + query)
+      return
     })
 
     // Keys and values are being validated inside the constructor.

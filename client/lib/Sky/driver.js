@@ -1,6 +1,6 @@
-const findCurrentStratum = require('./findCurrentStratum')
-
 module.exports = (sky, loader) => {
+  // @Sky.driver(sky, loader)
+  //
   // Driver for TreeLoader.
   // Driver is a handler ran at each viewport idle event.
   // Driver is responsible of triggering semantic zooming effects.
@@ -10,9 +10,6 @@ module.exports = (sky, loader) => {
   //   sky
   //   loader
   //
-
-  // Detect when current stratum changes.
-  let previousStratumPath = null
 
   sky.viewport.on('idle', () => {
     // DEBUG
@@ -30,16 +27,19 @@ module.exports = (sky, loader) => {
     })
 
     // Find closest stratum, our current location.
-    const currentStratum = findCurrentStratum(sky)
+    const currentStratum = sky.findCurrentStratum()
     if (currentStratum) {
       const currentStratumPath = currentStratum.path
       console.log('currently nearest stratum:', currentStratumPath)
 
       // Classify the stratum space as current. Clear others.
+      const currentSpace = currentStratum.getSpace()
+      currentSpace.addClass('current-stratum')
       loader.getSpaces().forEach(space => {
-        space.removeClass('current-stratum')
+        if (space !== currentSpace) {
+          space.removeClass('current-stratum')
+        }
       })
-      currentStratum.getSpace().addClass('current-stratum')
 
       // Prune the spaces, i.e. strata.
       // Close all sub and superstrata a couple of steps away.
@@ -51,14 +51,16 @@ module.exports = (sky, loader) => {
         loader.openParent(currentStratumPath, eventData)
       }
 
-      // Trigger possible substratum requests on the current stratum
+      // Trigger possible viewport-dependent substratum requests
+      // on the current stratum.
       currentStratum.triggerSubstratum(sky.viewport)
 
       // Detect change of current stratum.
-      if (previousStratumPath !== currentStratumPath) {
-        previousStratumPath = currentStratumPath
+      if (this.currentStratumPath !== currentStratumPath) {
+        const previous = this.currentStratumPath
+        this.currentStratumPath = currentStratumPath
         sky.emit('navigation', {
-          previousPath: previousStratumPath,
+          previousPath: previous,
           currentPath: currentStratumPath,
           context: currentStratum.context.copy()
         })
@@ -69,11 +71,12 @@ module.exports = (sky, loader) => {
       // Therefore, if there is a previous stratum, expand its parent.
       // TODO improve to find the largest visible stratum and use it
       // TODO as the current stratum.
-      if (previousStratumPath && previousStratumPath !== '/') {
-        const previousStratum = sky.strata[previousStratumPath]
-        if (previousStratum) {
-          const eventData = { context: previousStratum.getSupercontext() }
-          loader.openParent(previousStratumPath, eventData)
+      if (this.currentStratumPath && this.currentStratumPath !== '/') {
+        const lastKnownPath = this.currentStratumPath
+        const lastKnownStratum = sky.strata[lastKnownPath]
+        if (lastKnownStratum) {
+          const eventData = { context: lastKnownStratum.getSupercontext() }
+          loader.openParent(lastKnownPath, eventData)
         }
       }
     }

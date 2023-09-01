@@ -1,0 +1,21 @@
+.affine-control-zoom-in {
+  border-top-left-radius: 9px;
+  border-top-right-radius: 9px;
+  cursor: pointer;
+}
+.affine-control-zoom-out {
+  border-bottom-left-radius: 9px;
+  border-bottom-right-radius: 9px;
+  cursor: pointer;
+}
+
+.affine-control-zoom-in:hover,
+.affine-control-zoom-out:hover {
+  background-color: #AAA;
+  color: #111;
+}
+.affine-control-zoom-in:active,
+.affine-control-zoom-out:active {
+  background-color: #666;
+  color: black;
+}

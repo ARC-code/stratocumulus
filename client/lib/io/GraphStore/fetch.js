@@ -18,7 +18,7 @@ module.exports = function (context) {
   }
 
   // Not yet loading. Do we have the graph already?
-  if (this.graphs[key]) {
+  if (this.graphs[key] && this.completed[key]) {
     // Complete cached graph exists.
     setTimeout(() => {
       this.emit(path, {
@@ -38,6 +38,7 @@ module.exports = function (context) {
   // Mark that the graph is loading.
   this.loading[key] = true
   this.updates[key] = 0
+  this.completed[key] = false
 
   // Start loading.
   stream.sendStratumBuildJob(path, context)
@@ -98,6 +99,7 @@ module.exports = function (context) {
     // Mark that loading is finished.
     // Note: do not reset update counter here. Maybe useful.
     if (isFinal) {
+      this.completed[key] = true
       delete this.loading[key]
     }
 

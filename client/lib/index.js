@@ -4,6 +4,7 @@ const Sky = require('./Sky')
 const TimeSlider = require('./TimeSlider')
 const Toolbar = require('./Toolbar')
 const ViewportManager = require('./ViewportManager')
+const PathManager = require('./PathManager')
 const ReduxStore = require('./ReduxStore')
 const reducer = require('./reducer')
 const clientVersion = require('./version')
@@ -29,20 +30,32 @@ exports.start = function () {
   const toolbar = new Toolbar()
   const toolbarControl = tapspace.createControl(toolbar.getElement())
   toolbarControl.setSize(256, 60)
-  viewport.addControl(toolbarControl, viewport.at(10, 12))
+  viewport.addControl(toolbarControl, viewport.at(12, 12))
   toolbar.configure()
 
   // Setup year range slider
   const slider = new TimeSlider()
   document.body.appendChild(slider.getElement())
 
-  // Init stratum loader and begin loading the first stratum
+  // Setup URL management
+  const pathManager = new PathManager()
+
+  // Init stratum loader.
+  // The loader does not yet begin loading the first stratum.
+  // Instead, the first stratum is loaded in the state store listener below.
   const sky = new Sky(viewport)
-  // Begin from the root stratum path '/'
-  sky.init('/')
 
   // Once the first stratum has some rendered content,
   // make the viewport interactive and begin refreshing labels.
+  sky.once('loading', () => {
+    // Already some loading animations might be visible.
+    // Fit to content
+    const bbox = viewport.hyperspace.getBoundingBox()
+    // Avoid singular inversions with empty box. TODO fix in tapspace
+    if (bbox.getArea().getRaw() > 0) {
+      viewport.zoomToFill(bbox, 0.2)
+    }
+  })
   sky.once('first', () => {
     // Fit to content
     const bbox = viewport.hyperspace.getBoundingBox()
@@ -103,5 +116,14 @@ exports.start = function () {
       const range = context.getRangeValue('r_years')
       slider.setRange(range)
     }
+
+    // Update URL
+    pathManager.setContext(context)
+  })
+
+  // Begin loading the first space.
+  store.dispatch({
+    type: 'init',
+    context: pathManager.getContext()
   })
 }

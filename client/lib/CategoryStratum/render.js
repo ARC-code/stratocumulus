@@ -89,7 +89,7 @@ module.exports = function (final = false, updateCount = 0) {
         const sourceRadius = sourceNode.getRadius().scaleBy(scaler)
         const targetRadius = targetNode.getRadius().scaleBy(scaler)
         edgeItem.trimPoints(
-          sourceNode.getOrigin(), // OPTIMIZE save a fn call by direct at()
+          sourceNode.getOrigin(),
           targetNode.getOrigin(),
           sourceRadius,
           targetRadius

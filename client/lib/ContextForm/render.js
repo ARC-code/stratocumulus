@@ -1,8 +1,9 @@
 const template = require('./template.ejs')
-const io = require('../../io')
+const io = require('../io')
 const toFilterLabel = require('./toFilterLabel')
 const toFilterTypeLabel = require('./toFilterTypeLabel')
-const config = require('../../config')
+const config = require('../config')
+const Context = require('../Context')
 
 const MIN_DECADE = config.decades.minDecade
 const MAX_DECADE = config.decades.maxDecade
@@ -28,7 +29,8 @@ module.exports = function () {
     return true
   })
 
-  // Add type labels
+  // Add labels and urls
+  let cumulativeContext = new Context()
   const facetArray = facetContext.map((key, value) => {
     const type = 'facet'
     const title = key + '=' + value
@@ -38,9 +40,16 @@ module.exports = function () {
       label = 'Page ' + value
     } else {
       label = io.labelStore.read(key, value)
+      if (!label) {
+        label = title
+      }
     }
 
-    return { title, label, type }
+    cumulativeContext = cumulativeContext.append(key, value)
+    const query = cumulativeContext.merge(filterContext).toQueryString()
+    const url = '/' + (query.length > 0 ? '?' + query : '')
+
+    return { title, label, type, url }
   })
 
   const filterArray = filterContext.map((key, value) => {
@@ -51,9 +60,31 @@ module.exports = function () {
     return { title, parameter, value, label, type }
   })
 
+  // URL for non-faceted "All"
+  const filterQuery = filterContext.toQueryString()
+  const rootUrl = '/' + (filterQuery.length > 0 ? '?' + filterQuery : '')
+
   // Render
   this.element.innerHTML = template({
+    rootUrl,
     facets: facetArray,
     filters: filterArray
+  })
+
+  // Setup share button interaction
+  const buttonEl = this.element.querySelector('.sharing button.share-button')
+  const messageEl = this.element.querySelector('.sharing .sharing-message')
+  buttonEl.addEventListener('click', () => {
+    // Shareable URL for current path
+    const currentUrl = window.location.href
+    // Copy to clipboard
+    window.navigator.clipboard.writeText(currentUrl)
+    // Make message visible
+    messageEl.style.display = 'block'
+    // Make message disappear after a while
+    // TODO animate
+    setTimeout(() => {
+      messageEl.style.display = 'none'
+    }, 5000)
   })
 }

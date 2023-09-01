@@ -1,5 +1,5 @@
 <a name="top"></a>
-# Stratocumulus Client Documentation v0.3.0
+# Stratocumulus Client Documentation v0.4.0
 
 
 Welcome to Stratocumulus client architecture and interface documentation.
@@ -325,10 +325,10 @@ Append stratum.space to a parent space in order to do that.
 - [CategoryStratum:getFacetNode](#categorystratumgetfacetnode)
 - [CategoryStratum:load](#categorystratumload)
 - [CategoryStratum:prune](#categorystratumprune)
-- [CategoryStratum:refreshNodeSizes](#categorystratumrefreshnodesizes)
 - [CategoryStratum:remove](#categorystratumremove)
 - [CategoryStratum:render](#categorystratumrender)
 - [CategoryStratum:renderContextLabel](#categorystratumrendercontextlabel)
+- [CategoryStratum:renderOverlapEdges](#categorystratumrenderoverlapedges)
 - [CategoryStratum:revealLabels](#categorystratumreveallabels)
 - [CategoryStratum:serveSubstratum](#categorystratumservesubstratum)
 - [CategoryStratum:triggerSubstratum](#categorystratumtriggersubstratum)
@@ -421,13 +421,6 @@ the given graph.
 
 Source: [prune.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/CategoryStratum/prune.js)
 
-<a name="categorystratumrefreshnodesizes"></a>
-## [CategoryStratum](#categorystratum):[refreshNodeSizes](#categorystratumrefreshnodesizes)()
-
-Refresh the node sizes. Does not change layout.
-
-Source: [refreshNodeSizes.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/CategoryStratum/refreshNodeSizes.js)
-
 <a name="categorystratumremove"></a>
 ## [CategoryStratum](#categorystratum):[remove](#categorystratumremove)()
 
@@ -460,6 +453,22 @@ Render or update the large text label
 that tells the user how the stratum was formed.
 
 Source: [renderContextLabel.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/CategoryStratum/renderContextLabel.js)
+
+<a name="categorystratumrenderoverlapedges"></a>
+## [CategoryStratum](#categorystratum):[renderOverlapEdges](#categorystratumrenderoverlapedges)(getOverlap)
+
+EXPERIMENTAL
+
+Render edges between substrata to reveal their overlap.
+Useful to inspect high overlap to design improved graph layouts.
+
+<p style="margin-bottom: 0"><strong>Parameters:</strong></p>
+
+- *getOverlap*
+  - a function (facet0, facet1)
+
+
+Source: [renderOverlapEdges.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/CategoryStratum/renderOverlapEdges.js)
 
 <a name="categorystratumreveallabels"></a>
 ## [CategoryStratum](#categorystratum):[revealLabels](#categorystratumreveallabels)()
@@ -941,7 +950,7 @@ It provides methods to update the context it is currently viewing.
 - [ContextForm:setContext](#contextformsetcontext)
 
 
-Source: [ContextForm/index.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/Toolbar/ContextForm/index.js)
+Source: [ContextForm/index.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/ContextForm/index.js)
 
 <a name="contextformgetelement"></a>
 ## [ContextForm](#contextform):[getElement](#contextformgetelement)()
@@ -951,26 +960,34 @@ Source: [ContextForm/index.js](https://github.com/ARC-code/stratocumulus/blob/ma
 - a [HTMLElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement)
 
 
-Source: [getElement.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/Toolbar/ContextForm/getElement.js)
+Source: [getElement.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/ContextForm/getElement.js)
 
 <a name="contextformrender"></a>
 ## [ContextForm](#contextform):[render](#contextformrender)()
 
 Render the current context.
 
-Source: [render.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/Toolbar/ContextForm/render.js)
+Source: [render.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/ContextForm/render.js)
 
 <a name="contextformsetcontext"></a>
 ## [ContextForm](#contextform):[setContext](#contextformsetcontext)(newContext)
 
 Replace the context and render the new one.
 
-Source: [setContext.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/Toolbar/ContextForm/setContext.js)
+Source: [setContext.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/ContextForm/setContext.js)
 
 <a name="contextlabel"></a>
-## [ContextLabel](#contextlabel)(context)
+## [ContextLabel](#contextlabel)(context, numArtifacts)
 
 A [Stratum](#stratum) context label. Displays the faceting context of the stratum.
+
+<p style="margin-bottom: 0"><strong>Parameters:</strong></p>
+
+- *context*
+  - a [Context](#context)
+- *numArtifacts*
+  - a number
+
 
 
 <p style="margin-bottom: 0"><strong>Contents:</strong></p>
@@ -1002,11 +1019,45 @@ Position the label inside a bounding box.
 Source: [alignToBox.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/ContextLabel/alignToBox.js)
 
 <a name="contextlabelupdate"></a>
-## [ContextLabel](#contextlabel):[update](#contextlabelupdate)(context)
+## [ContextLabel](#contextlabel):[update](#contextlabelupdate)(context, numArtifacts)
 
 Update the context and render the label again.
 
 Source: [update.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/ContextLabel/update.js)
+
+<a name="pathmanager"></a>
+## [PathManager](#pathmanager)
+
+The path manager handles URL navigation and browser history.pushState.
+
+
+<p style="margin-bottom: 0"><strong>Contents:</strong></p>
+
+
+- [PathManager:getContext](#pathmanagergetcontext)
+- [PathManager:setContext](#pathmanagersetcontext)
+
+
+Source: [PathManager/index.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/PathManager/index.js)
+
+<a name="pathmanagergetcontext"></a>
+## [PathManager](#pathmanager):[getContext](#pathmanagergetcontext)()
+
+Get a [Context](#context) from the current page URL.
+
+<p style="margin-bottom: 0"><strong>Returns:</strong></p>
+
+- a [Context](#context)
+
+
+Source: [getContext.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/PathManager/getContext.js)
+
+<a name="pathmanagersetcontext"></a>
+## [PathManager](#pathmanager):[setContext](#pathmanagersetcontext)(context)
+
+Rewrite the current URL to reflect the given [Context](#context).
+
+Source: [setContext.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/PathManager/setContext.js)
 
 <a name="reduxstore"></a>
 ## [ReduxStore](#reduxstore)
@@ -1072,6 +1123,10 @@ Source: [subscribe.js](https://github.com/ARC-code/stratocumulus/blob/main/clien
 
 <p style="margin-bottom: 0">Emits:</p>
 
+- *loading*
+  - when beginning to load stratum
+- *first*
+  - when first stratum has some content.
 - *navigation*
   - when there is a new current stratum.
 
@@ -1081,7 +1136,9 @@ Source: [subscribe.js](https://github.com/ARC-code/stratocumulus/blob/main/clien
 
 
 - [Sky:filter](#skyfilter)
-- [Sky:init](#skyinit)
+- [Sky:findCurrentStratum](#skyfindcurrentstratum)
+- [Sky.driver](#skydriver)
+- [Sky.generator](#skygenerator)
 
 
 Source: [Sky/index.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/Sky/index.js)
@@ -1099,12 +1156,71 @@ Filter the visible strata.
 
 Source: [filter.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/Sky/filter.js)
 
-<a name="skyinit"></a>
-## [Sky](#sky):[init](#skyinit)(firstPath)
+<a name="skyfindcurrentstratum"></a>
+## [Sky](#sky):[findCurrentStratum](#skyfindcurrentstratum)()
 
-Initialize the [Sky](#sky): begin loading the first stratum.
+Find the current stratum. Can be null.
 
-Source: [init.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/Sky/init.js)
+<p style="margin-bottom: 0"><strong>Returns:</strong></p>
+
+- a [Stratum](#stratum)
+- or null, if no suitable stratum found.
+
+
+Source: [findCurrentStratum.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/Sky/findCurrentStratum.js)
+
+<a name="skydriver"></a>
+## [Sky](#sky).[driver](#skydriver)(sky, loader)
+
+Driver for TreeLoader.
+Driver is a handler ran at each viewport idle event.
+Driver is responsible of triggering semantic zooming effects.
+Driver initiates the loading of sub- and superstrata.
+
+<p style="margin-bottom: 0"><strong>Parameters:</strong></p>
+
+- *sky*
+- *loader*
+
+
+Source: [driver.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/Sky/driver.js)
+
+<a name="skygenerator"></a>
+## [Sky](#sky).[generator](#skygenerator)(sky, loader)
+
+Generator for TreeLoader. Generator defines how the loaded spaces
+are constructed and destructed.
+
+<p style="margin-bottom: 0"><strong>Parameters:</strong></p>
+
+- *sky*
+- *loader*
+
+
+Source: [generator.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/Sky/generator.js)
+
+<a name="spinner"></a>
+## [Spinner](#spinner)
+
+N nodes rotating.
+
+Gives transparent and easy to configure loading animation.
+
+
+<p style="margin-bottom: 0"><strong>Contents:</strong></p>
+
+
+- [Spinner:stop](#spinnerstop)
+
+
+Source: [Spinner/index.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/Spinner/index.js)
+
+<a name="spinnerstop"></a>
+## [Spinner](#spinner):[stop](#spinnerstop)()
+
+Stop spinning, hide the spinner.
+
+Source: [stop.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/Spinner/stop.js)
 
 <a name="stratum"></a>
 ## [Stratum](#stratum)(context)
@@ -1557,7 +1673,7 @@ Propagate context changes to the forms and widgets.
 Source: [setContext.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/Toolbar/setContext.js)
 
 <a name="viewportmanager"></a>
-## [ViewportManager](#viewportmanager)
+## [ViewportManager](#viewportmanager)()
 
 The viewport manager handles the [tapspace](https://axelpale.github.io/tapspace/api/v2/).components.Viewport setup.
 The manager can be used to enable or disable interaction.
@@ -1567,7 +1683,33 @@ the viewport before there is something to show.
 Otherwise a few accidental moves could pan the viewport somewhere
 where there will be no content.
 
+
+<p style="margin-bottom: 0"><strong>Contents:</strong></p>
+
+
+- [ViewportManager:enableNavigation](#viewportmanagerenablenavigation)
+- [ViewportManager:getViewport](#viewportmanagergetviewport)
+
+
 Source: [ViewportManager/index.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/ViewportManager/index.js)
+
+<a name="viewportmanagerenablenavigation"></a>
+## [ViewportManager](#viewportmanager):[enableNavigation](#viewportmanagerenablenavigation)()
+
+Enable viewport navigation: cursor panning, wheel zooming, zoom buttons,
+and others.
+
+It is recommended to call this only after the space has
+some visible content so that user does not get lost into empty space.
+
+Source: [enableNavigation.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/ViewportManager/enableNavigation.js)
+
+<a name="viewportmanagergetviewport"></a>
+## [ViewportManager](#viewportmanager):[getViewport](#viewportmanagergetviewport)()
+
+Get the Viewport object.
+
+Source: [getViewport.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/ViewportManager/getViewport.js)
 
 <a name="io"></a>
 ## [io](#io)
@@ -1660,6 +1802,7 @@ Source: [get.js](https://github.com/ARC-code/stratocumulus/blob/main/client/lib/
 ## [io](#io).[GraphStore](#iographstore):[provide](#iographstoreprovide)(context, nodeAttrs)
 
 Provide the graph a single node.
+This does not make the graph completed.
 Useful to initiate the graph with a single node.
 If the node already exists, do nothing.
 

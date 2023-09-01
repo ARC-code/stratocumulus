@@ -32,6 +32,9 @@ module.exports = function () {
       return
     }
 
+    // Stop any loading animations
+    this.spinner.stop()
+
     // Replace the graph
     this.graph = io.graphStore.get(ev.context)
 
@@ -52,6 +55,8 @@ module.exports = function () {
     if (ev.final) {
       // Register that loading is now finished.
       this.loading = false
+      // Look so that the loading is now finished.
+      this.space.removeClass('stratum-loading')
       // Signal e.g. viewport that the graph is rendered.
       this.emit('final')
     }

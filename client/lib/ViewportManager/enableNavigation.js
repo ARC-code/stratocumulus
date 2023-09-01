@@ -1,7 +1,13 @@
 const tapspace = require('tapspace')
 
 module.exports = function () {
-  // Enable viewport navigation
+  // @ViewportManager:enableNavigation()
+  //
+  // Enable viewport navigation: cursor panning, wheel zooming, zoom buttons,
+  // and others.
+  //
+  // It is recommended to call this only after the space has
+  // some visible content so that user does not get lost into empty space.
   //
 
   // Prevent double enabling
@@ -22,6 +28,9 @@ module.exports = function () {
   // Position to bottom right corner
   zoomControl.match({
     source: zoomControl.atBottomLeft(),
-    target: this.viewport.atBottomLeft().offset(10, -70)
+    target: this.viewport.atBottomLeft().offset(12, -70)
   })
+
+  // HACK TODO tapspace should not set hardcoded bg color, hard to override
+  zoomControl.element.style.backgroundColor = 'transparent'
 }

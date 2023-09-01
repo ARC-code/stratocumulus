@@ -73,9 +73,16 @@ const CategoryNode = function (key, attrs) {
   newItem.tappable({ preventDefault: false })
   newItem.on('tap', (ev) => {
     if (this.tapToZoom) {
+      // View root nodes farther
+      let relativeSize = 0.4
+      if (this.isGroupingNode) {
+        relativeSize = 0.25
+      } else if (this.isRootNode) {
+        relativeSize = 0.15
+      }
       const viewport = this.component.getViewport()
       viewport.animateOnce({ duration: 500 })
-      viewport.zoomToFill(this.component, 0.3)
+      viewport.zoomToFill(this.component, relativeSize)
     }
 
     if (this.isFacetNode && !this.isFaceted) {

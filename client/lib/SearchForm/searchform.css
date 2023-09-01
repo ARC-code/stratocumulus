@@ -1,6 +1,6 @@
 .autoComplete_wrapper > input {
   width: 254px;
-  border-radius: unset;
+  border-radius: 5px;
   border: .05rem solid var(--input-text-color);
   font-family: Arial, Helvetica, sans-serif;
   color: var(--input-text-color) !important;

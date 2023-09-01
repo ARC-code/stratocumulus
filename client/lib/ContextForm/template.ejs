@@ -1,4 +1,3 @@
-
 <% if (filters.length > 0) { %>
   <h5>Filters:</h5>
   <ul class="filter-list">
@@ -13,8 +12,17 @@
 
 <h5>Viewing:</h5>
 <ul class="facet-list" aria-label="Facets">
-  <li><a href="#">All</a></li>
+  <li><a href="<%= rootUrl %>">All</a></li>
 <% facets.forEach((facet) => { %>
-  <li title="<%= facet.title %>"><a href="#"><%= facet.label %></a></li>
+  <li title="<%= facet.title %>"><a href="<%= facet.url %>"><%= facet.label %></a></li>
 <% }) %>
 </ul>
+
+<div class="sharing">
+  <p>
+    <button class="share-button">&#128279; Share Path</button>
+  </p>
+  <p class="sharing-message">
+    Path copied to clipboard.
+  </p>
+</div>

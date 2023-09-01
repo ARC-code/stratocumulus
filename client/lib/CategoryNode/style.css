@@ -14,6 +14,8 @@
   /* Disable native touch actions for the node */
   touch-action: none;
   user-select: none;
+  /* Node should act like clickable */
+  cursor: pointer;
 }
 
 /* Label */
@@ -29,6 +31,8 @@
   color: white;
   /* For moving label nicely when opened */
   transition: left 0.5s ease;
+  /* Label should act like clickable */
+  cursor: pointer;
 }
 .category-node .node-label .node-label-count {
   font-size: 50%;

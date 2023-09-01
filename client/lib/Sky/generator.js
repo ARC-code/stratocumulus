@@ -1,9 +1,10 @@
 const CategoryStratum = require('../CategoryStratum')
 const ArtifactStratum = require('../ArtifactStratum')
 const Context = require('../Context')
-const io = require('../io')
 
 module.exports = (sky, loader) => {
+  // @Sky.generator(sky, loader)
+  //
   // Generator for TreeLoader. Generator defines how the loaded spaces
   // are constructed and destructed.
   //
@@ -41,30 +42,6 @@ module.exports = (sky, loader) => {
     // Maintain index of create strata.
     // TODO unnecessary overlap with loader spaces?
     sky.strata[path] = stratum
-
-    if (!context.hasParameter('page')) {
-      // Populate with a single node. This node will be upgraded later.
-      // TODO smells hacky
-      if (ev.childId && stratum.graph.order === 0) {
-        const subStratum = sky.strata[ev.childId]
-        if (subStratum) {
-          const lastFacet = subStratum.context.getLastFacet()
-          const nodeKey = subStratum.context.toNodeKey()
-          const label = io.labelStore.read(lastFacet.parameter, lastFacet.value)
-          io.graphStore.provide(context, {
-            id: nodeKey,
-            kind: lastFacet.kind, // TODO do not use parameter-based kind, sketcy
-            label: label || '', // will be replaced in load
-            is_facetable: true,
-            facet_param: lastFacet.parameter,
-            facet_value: lastFacet.value
-          })
-        }
-      }
-    }
-
-    // Attempt to render.
-    stratum.render(false, 1)
 
     // Add stratum to space via the loader.
     const spaceAdded = loader.addSpace(path, stratum.getSpace())
@@ -149,6 +126,9 @@ module.exports = (sky, loader) => {
     stratum.on('layout', (ev) => {
       loader.remapChildren(path)
     })
+
+    // First loading should enable viewport to zoom to loading animation.
+    sky.emit('loading')
   })
 
   // The first stratum and first content should

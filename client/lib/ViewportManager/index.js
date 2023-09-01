@@ -1,7 +1,8 @@
+require('./style.css')
 const tapspace = require('tapspace')
 
 const ViewportManager = function () {
-  // @ViewportManager
+  // @ViewportManager()
   //
   // The viewport manager handles the tapspace.components.Viewport setup.
   // The manager can be used to enable or disable interaction.
@@ -29,6 +30,7 @@ const ViewportManager = function () {
 
 module.exports = ViewportManager
 const proto = ViewportManager.prototype
+proto.isViewportManager = true
 
 // Methods
 proto.enableNavigation = require('./enableNavigation')

@@ -1,6 +1,9 @@
 .category-stratum .stratum-edge {
   background: linear-gradient(0.25turn, var(--main-bg-color), #AAAAAA);
 }
+.category-stratum .stratum-overlap-edge {
+  background: #AAAAAA;
+}
 
 .category-stratum .stratum-edge.empty-edge,
 .category-stratum.stratum-loading .stratum-edge {
