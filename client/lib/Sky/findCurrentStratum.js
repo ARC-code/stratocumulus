@@ -7,43 +7,74 @@ module.exports = function () {
   //   a Stratum
   //   or null, if no suitable stratum found.
   //
+  const strata = this.strata
+  const loader = this.loader
+  const viewport = this.viewport
 
   // The current stratum must be alive and in the space.
-  const strata = Object.values(sky.strata).filter(stratum => {
-    return stratum.alive && sky.loader.hasSpace(stratum.path)
+  const aliveStrata = Object.values(strata).filter(stratum => {
+    return stratum.alive && loader.hasSpace(stratum.path)
   })
 
-  if (strata.length === 0) {
+  if (aliveStrata.length === 0) {
     return null
   }
 
   // Update bounds
-  strata.forEach(stratum => stratum.recomputeBoundingCircle())
+  aliveStrata.forEach(stratum => stratum.recomputeBoundingCircle())
 
   // The current stratum must have viewport center inside it.
-  const pin = sky.viewport.atCenter()
-  const pinnedStrata = strata.filter(stratum => {
+  const pin = viewport.atCenter()
+  const pinnedStrata = aliveStrata.filter(stratum => {
     if (!stratum.space.getViewport()) {
       throw new Error('Disconnected space detected: ' + stratum.path)
     }
     return stratum.boundingCircle.detectCollision(pin)
   })
 
-  // The current stratum must be visually large.
-  const viewportArea = sky.viewport.getBoundingBox().getArea().getRaw()
-  const reachableStrata = pinnedStrata.filter(stratum => {
-    const area = stratum.boundingCircle.getArea().transitRaw(sky.viewport)
+  if (pinnedStrata.length === 0) {
+    // No pinned strata. Rely on previous.
+    return null
+  }
+
+  // Compute strata areas for ranking them.
+  const viewportArea = viewport.getBoundingBox().getArea().getRaw()
+  const pinnedAreaStrata = pinnedStrata.map(stratum => {
+    const area = stratum.boundingCircle.getArea().transitRaw(viewport)
     const areaRatio = area / viewportArea
-    return areaRatio > 0.2
+    return { stratum, area, areaRatio }
   })
 
+  // The current stratum must be visually large.
+  const reachableAreaStrata = pinnedAreaStrata.filter(areaStratum => {
+    return areaStratum.areaRatio > 0.2
+  })
+
+  if (reachableAreaStrata.length === 0) {
+    // There are pinned strata but no big enough strata.
+    // Pick the largest of the pinned.
+    const largest = pinnedAreaStrata.reduce((acc, areaStratum) => {
+      if (areaStratum.area >= acc.maxArea) {
+        return {
+          maxArea: areaStratum.area,
+          maxStratum: areaStratum.stratum
+        }
+      }
+      return acc
+    }, {
+      maxArea: 0,
+      maxStratum: null
+    })
+
+    return largest.maxStratum
+  }
+
   // Select smallest of the reachable strata to be the current stratum.
-  const smallest = reachableStrata.reduce((acc, stratum) => {
-    const area = stratum.boundingCircle.getArea().transitRaw(sky.viewport)
-    if (area < acc.minArea) {
+  const smallest = reachableAreaStrata.reduce((acc, areaStratum) => {
+    if (areaStratum.area < acc.minArea) {
       return {
-        minArea: area,
-        minStratum: stratum
+        minArea: areaStratum.area,
+        minStratum: areaStratum.stratum
       }
     }
     return acc
@@ -53,7 +84,5 @@ module.exports = function () {
   })
 
   // Note minStratum may be null.
-  const currentStratum = smallest.minStratum
-
-  return currentStratum
+  return smallest.minStratum
 }
