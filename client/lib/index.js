@@ -45,7 +45,6 @@ exports.start = function () {
   // Instead, the first stratum is loaded in the state store listener below.
   const sky = new Sky(viewport)
 
-
   // Once the first stratum has some rendered content,
   // make the viewport interactive and begin refreshing labels.
   sky.once('loading', () => {
