@@ -51,7 +51,10 @@ exports.start = function () {
     // Already some loading animations might be visible.
     // Fit to content
     const bbox = viewport.hyperspace.getBoundingBox()
-    viewport.zoomToFill(bbox, 0.2)
+    // Avoid singular inversions with empty box. TODO fix in tapspace
+    if (bbox.getArea().getRaw() > 0) {
+      viewport.zoomToFill(bbox, 0.2)
+    }
   })
   sky.once('first', () => {
     // Fit to content
