@@ -10,6 +10,7 @@ Corpora database visualized with Stratocumulus. Two of the entity collections ar
 ## Resources
 
 - [live prototype](http://prototype.bigdiva.org/)
+- [Git repository](https://github.com/ARC-code/stratocumulus)
 - [BigDIVA](https://bigdiva.org/)
 - [Center of Digital Humanities Research](https://codhr.dh.tamu.edu/)
 - [Stratocumulus Server API documentation](#the-backend)
