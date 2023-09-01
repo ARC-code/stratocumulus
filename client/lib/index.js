@@ -30,7 +30,7 @@ exports.start = function () {
   const toolbar = new Toolbar()
   const toolbarControl = tapspace.createControl(toolbar.getElement())
   toolbarControl.setSize(256, 60)
-  viewport.addControl(toolbarControl, viewport.at(10, 12))
+  viewport.addControl(toolbarControl, viewport.at(12, 12))
   toolbar.configure()
 
   // Setup year range slider

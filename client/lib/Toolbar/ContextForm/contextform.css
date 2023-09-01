@@ -71,6 +71,16 @@
   color: white;
 }
 
+.context-box .share-button {
+  border-radius: 9px;
+  cursor: pointer;
+}
+.context-box .share-button:hover {
+  background-color: #CCC;
+}
+.context-box .sharing p {
+  margin-bottom: 0;
+}
 .context-box .sharing-message {
   display: none;
 }

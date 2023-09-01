@@ -4,6 +4,6 @@
   color: var(--toolbar-text-color);
   background: rgba(255, 255, 255, 0.2);
   border: 1px solid gray;
-  border-radius: 3px 3px 50px 3px;
+  border-radius: 9px 9px 50px 9px;
   font-family: Arial, Helvetica, sans-serif;
 }

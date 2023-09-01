@@ -28,6 +28,9 @@ module.exports = function () {
   // Position to bottom right corner
   zoomControl.match({
     source: zoomControl.atBottomLeft(),
-    target: this.viewport.atBottomLeft().offset(10, -70)
+    target: this.viewport.atBottomLeft().offset(12, -70)
   })
+
+  // HACK TODO tapspace should not set hardcoded bg color, hard to override
+  zoomControl.element.style.backgroundColor = 'transparent'
 }

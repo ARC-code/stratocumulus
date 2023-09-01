@@ -1,3 +1,4 @@
+require('./style.css')
 const tapspace = require('tapspace')
 
 const ViewportManager = function () {
