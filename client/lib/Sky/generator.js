@@ -3,6 +3,8 @@ const ArtifactStratum = require('../ArtifactStratum')
 const Context = require('../Context')
 
 module.exports = (sky, loader) => {
+  // @Sky.generator(sky, loader)
+  //
   // Generator for TreeLoader. Generator defines how the loaded spaces
   // are constructed and destructed.
   //

@@ -1,6 +1,6 @@
-const findCurrentStratum = require('./findCurrentStratum')
-
 module.exports = (sky, loader) => {
+  // @Sky.driver(sky, loader)
+  //
   // Driver for TreeLoader.
   // Driver is a handler ran at each viewport idle event.
   // Driver is responsible of triggering semantic zooming effects.
@@ -27,7 +27,7 @@ module.exports = (sky, loader) => {
     })
 
     // Find closest stratum, our current location.
-    const currentStratum = findCurrentStratum(sky)
+    const currentStratum = sky.findCurrentStratum()
     if (currentStratum) {
       const currentStratumPath = currentStratum.path
       console.log('currently nearest stratum:', currentStratumPath)

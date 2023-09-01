@@ -1,5 +1,11 @@
-module.exports = (sky) => {
+module.exports = function () {
+  // @Sky:findCurrentStratum()
+  //
   // Find the current stratum. Can be null.
+  //
+  // Return
+  //   a Stratum
+  //   or null, if no suitable stratum found.
   //
 
   // The current stratum must be alive and in the space.

@@ -83,5 +83,6 @@ emitter(proto)
 
 // Methods
 proto.filter = require('./filter')
+proto.findCurrentStratum = require('./findCurrentStratum')
 proto.navigateToStratum = require('./navigateToStratum')
 proto.navigateToNode = require('./navigateToNode')
