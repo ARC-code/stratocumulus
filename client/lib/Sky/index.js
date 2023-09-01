@@ -30,6 +30,11 @@ const Sky = function (viewport) {
 
   this.viewport = viewport
 
+  // Track last known current stratum.
+  // Useful to detect when current stratum changes.
+  // Useful to limit strata during filtering.
+  this.currentStratumPath = null
+
   // Use tapspace TreeLoader for loading and unloading of fractal spaces.
   this.loader = new tapspace.loaders.TreeLoader({
     viewport: this.viewport,
