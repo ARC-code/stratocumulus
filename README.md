@@ -29,6 +29,7 @@ Corpora database visualized with Stratocumulus. Two of the entity collections ar
 ## Building and Running the App
 
 * Have [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed on your development machine and make sure it's running
+* Replace placeholder environment variables in `docker-compose.yml` with your Corpora endpoint details.
 * In a terminal, navigate to this locally cloned repo directory (the same directory as docker-compose.yml) and issue this command: `docker-compose up`
 * Visit the prototype by opening a browser and navigating to [localhost](localhost)
 
@@ -52,21 +53,19 @@ The backend for this app is located under `server` dir. It's a Flask app (Python
 
 The code for all three endpoints can be found in `server/stratocumulus.py`. The code for the ARC "build_stratum" task can be found in `server/adapters/arc/__init__.py`.
 
-In the future, other endpoints will need to be created to handle things like semantic zoom events, saving/exporting the user's graph, etc.
-
 ### The Frontend
 
 The frontend code is located under `client` directory. As the frontend will consists of multiple javascript-files, stylesheets, and images, they must be bundled together and be served as static files by the backend. For the build process, the frontend has a Docker container that runs [webpack](https://webpack.js.org/). Webpack places the finished bundle to a volume that is shared with the container running the backend. In addition to the bundle, the backend serves an HTML page defined in `server/templates/index.html`. When a user opens the page, the browser requests the bundle and other assets from the backend.
 
 In the future there can be multiple frontends. Each frontend should have its own directory and build process to avoid unnecessary dependencies.
 
-At present, the client only does the following:
+At present, the client does the following:
 
-* Loading the page causes the client to a) subscribe to the SSE channel and dictate what happens when subgraph messages are received on the channel's stream, and then b) call the /build_stratum endpoint. The code for these actions resides in the "DOMContentLoaded" event handler toward the top of the Javascript, which itself calls the "buildStratum" function directly below the handler.
-* Upon receiving subgraph messages on the SSE channel, the client attempts to perform an initial, "circle pack" layout of the graph. This is intended to provide initial x/y coordinates for each node, grouping nodes together according to its parent. The code for this is in the "performLayout" function. For debugging purposes, the "performLayout" function also calls the "drawGraph" function, which at present tries to draw nodes as square, colored HTML divs.
-* After calling the "performLayout" function upon receiving subgraph messages, a timer commences (that timer is reset every time a new message is received). Once, however, the timer elapses, the "fit_network" function is called. This function was initially intended to make sure the vis.js rendered graph fits on the screen. Now that we're transitioning to Graphology (which only lays out the graph), all this function does is start a new timer, which when elapsed, calls the "take_network_snapshot" function. This function now calls "performLayout" one last time, passing in "true" for the "final" parameter. When "final" is set to "true," performLayout forgoes the circle pack layout and instead tries to adjust node positions via force layout, and then again via a "no overlap" layout. That "final" boolean is also then passed to "drawGraph," which causes lines to be drawn between nodes to reflect the existence of edges.
+* Loading the page causes the client to a) subscribe to the SSE channel and dictate what happens when subgraph messages are received on the channel's stream, and then b) call the /build_stratum endpoint. The code for these actions resides in the `client/lib/io` module.
+* Upon receiving subgraph messages on the SSE channel, the client attempts to perform a circle pack layout of the graph. This is intended to provide initial x/y coordinates for each node, grouping nodes together according to its parent. The code for this is in the `render` method of each stratum class.
+* Nodes in the graph are openable and will load and display a faceted version of the same stratum. Users can navigate further down inside the nodes to inspect the results. The code that handles automatic opening of nodes and recursive loading of nested strata resides in the `client/lib/Sky` component.
 
-It's important to note that the current logic present in the "drawGraph" function is intended to be replaced by a more sophisticated, Tapspace/Affineplane rendering method. Once this has been implemented, there will no longer be a need for the jQuery and jQuery Connections libraries which are currently only used to facilitate the drawing of nodes and edges.
+Additional details of frontend architecture are available in [Stratocumulus Client API documentation](https://arc-code.github.io/stratocumulus/client/docs/architecture.html)
 
 ## Licence
 
