@@ -1,5 +1,4 @@
 const io = require('../io')
-const config = require('../config')
 
 module.exports = function (context) {
   // @CategoryStratum:filter(context)
