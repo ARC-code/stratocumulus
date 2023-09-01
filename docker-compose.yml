@@ -8,8 +8,12 @@ services:
       - ./server:/usr/src/app
       - static:/usr/src/static
     environment:
+      STRATO_PLUGIN: arc # arc, lincs
       STRATO_SECRET_KEY: bananarama
       STRATO_STATIC_FOLDER: /usr/src/static
+      # LINCS CORPORA
+      # STRATO_CORPORA_HOST: https://corpora.lincsproject.ca
+      # STRATO_CORPORA_CORPUS_ID: 64e3eb4f513f8fe73f408668
       # PRODUCTION CORPORA
       STRATO_CORPORA_HOST: https://corpora.dh.tamu.edu
       STRATO_CORPORA_CORPUS_ID: 5f623b8eff276600a4f44553
@@ -34,8 +38,12 @@ services:
       - ./server:/usr/src/app
       - static:/usr/src/static
     environment:
+      STRATO_PLUGIN: arc # arc, lincs
       STRATO_SECRET_KEY: bananarama
       STRATO_STATIC_FOLDER: /usr/src/static
+      # LINCS CORPORA
+      # STRATO_CORPORA_HOST: https://corpora.lincsproject.ca
+      # STRATO_CORPORA_CORPUS_ID: 64e3eb4f513f8fe73f408668
       # PRODUCTION CORPORA
       STRATO_CORPORA_HOST: https://corpora.dh.tamu.edu
       STRATO_CORPORA_CORPUS_ID: 5f623b8eff276600a4f44553

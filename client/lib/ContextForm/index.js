@@ -1,6 +1,6 @@
 require('./contextform.css')
 const emitter = require('component-emitter')
-const Context = require('../../Context')
+const Context = require('../Context')
 
 const ContextForm = function () {
   // @ContextForm()

@@ -1,9 +1,9 @@
 const template = require('./template.ejs')
-const io = require('../../io')
+const io = require('../io')
 const toFilterLabel = require('./toFilterLabel')
 const toFilterTypeLabel = require('./toFilterTypeLabel')
-const config = require('../../config')
-const Context = require('../../Context')
+const config = require('../config')
+const Context = require('../Context')
 
 const MIN_DECADE = config.decades.minDecade
 const MAX_DECADE = config.decades.maxDecade
