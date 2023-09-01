@@ -55,6 +55,8 @@ module.exports = function () {
     if (ev.final) {
       // Register that loading is now finished.
       this.loading = false
+      // Look so that the loading is now finished.
+      this.space.removeClass('stratum-loading')
       // Signal e.g. viewport that the graph is rendered.
       this.emit('final')
     }
