@@ -13,3 +13,6 @@ __pycache__/
 /client/dist/*
 !/client/dist/.gitkeep
 /server/static/js/stratocumulus-client.bundle.js
+
+# Environment
+.env
