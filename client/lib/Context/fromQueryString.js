@@ -33,12 +33,12 @@ module.exports = (Context) => {
         if (key.length > 0 && value.length > 0) {
           keys.push(key)
           values.push(value)
+          return
         }
       }
 
       // Skip malformed parts
       console.warn('Invalid query string: ' + query)
-      return
     })
 
     // Keys and values are being validated inside the constructor.
