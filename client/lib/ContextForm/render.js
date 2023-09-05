@@ -5,8 +5,8 @@ const toFilterTypeLabel = require('./toFilterTypeLabel')
 const config = require('../config')
 const Context = require('../Context')
 
-const MIN_YEAR = config.decades.minYear
-const MAX_YEAR = config.decades.maxYear
+const MIN_YEAR = config.yearRange.minYear
+const MAX_YEAR = config.yearRange.maxYear
 const DEFAULT_YEAR_RANGE = MIN_YEAR + 'to' + MAX_YEAR
 
 module.exports = function () {
