@@ -63,9 +63,9 @@ module.exports = (state, action) => {
     const parameter = action.parameter
     if (parameter === 'r_years') {
       // Use default range
-      const minDecade = config.decades.minDecade
-      const maxDecade = config.decades.maxDecade
-      const defaultRangeValue = minDecade + 'to' + maxDecade
+      const minYear = config.decades.minYear
+      const maxYear = config.decades.maxYear
+      const defaultRangeValue = minYear + 'to' + maxYear
       return state.remove('r_years').append('r_years', defaultRangeValue)
     } else {
       return state.remove(parameter)

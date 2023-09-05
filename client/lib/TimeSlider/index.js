@@ -18,8 +18,8 @@ const TimeSlider = function () {
   this.element.className = 'time-slider-box'
 
   this.element.innerHTML = template({
-    minValue: config.decades.minDecade,
-    maxValue: config.decades.maxDecade
+    minValue: config.decades.minYear,
+    maxValue: config.decades.maxYear
   })
   this.slider = this.element.querySelector('.time-slider')
 

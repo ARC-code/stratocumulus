@@ -11,9 +11,10 @@ exports.sizing = {
   minValue: 10
 }
 
+// TODO yearRange, resolution
 exports.decades = {
-  minDecade: 400,
-  maxDecade: 2100
+  minYear: 400,
+  maxYear: 2100
 }
 
 // Artifacts
