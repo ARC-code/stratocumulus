@@ -77,6 +77,14 @@
           'q',
           'r_years'
         ],
+        // Year range selector step size and range.
+        // A large step size is recommended to improve usability and caching.
+        // For example, set the step size 10 for decades, 100 for centuries.
+        yearRange: {
+          step: 10,
+          minYear: 400,
+          maxYear: 2100
+        },
         // Mapping from agent role abbreviations to readable strings.
         agentRoleMapping: {
           ART: 'Visual Artist',

@@ -2,14 +2,13 @@ require('./timeslider.css')
 const emitter = require('component-emitter')
 const roundYearStep = require('./roundYearStep')
 const template = require('./template.ejs')
-const config = require('../config')
 // Run dependencies
 require('toolcool-range-slider/dist/plugins/tcrs-marks.min.js')
 require('toolcool-range-slider')
 
-const YEAR_STEP = config.yearRange.resolution
-const MIN_YEAR = config.yearRange.minYear
-const MAX_YEAR = config.yearRange.maxYear
+const YEAR_STEP = window.stratocumulus.yearRange.step
+const MIN_YEAR = window.stratocumulus.yearRange.minYear
+const MAX_YEAR = window.stratocumulus.yearRange.maxYear
 const THROTTLE_DELAY = 200 // ms
 
 const TimeSlider = function () {
@@ -21,7 +20,7 @@ const TimeSlider = function () {
   this.element.className = 'time-slider-box'
 
   this.element.innerHTML = template({
-    resolution: YEAR_STEP,
+    step: YEAR_STEP,
     minValue: MIN_YEAR,
     maxValue: MAX_YEAR
   })

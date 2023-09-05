@@ -2,11 +2,10 @@ const template = require('./template.ejs')
 const io = require('../io')
 const toFilterLabel = require('./toFilterLabel')
 const toFilterTypeLabel = require('./toFilterTypeLabel')
-const config = require('../config')
 const Context = require('../Context')
 
-const MIN_YEAR = config.yearRange.minYear
-const MAX_YEAR = config.yearRange.maxYear
+const MIN_YEAR = window.stratocumulus.yearRange.minYear
+const MAX_YEAR = window.stratocumulus.yearRange.maxYear
 const DEFAULT_YEAR_RANGE = MIN_YEAR + 'to' + MAX_YEAR
 
 module.exports = function () {

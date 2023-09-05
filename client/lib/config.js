@@ -11,12 +11,6 @@ exports.sizing = {
   minValue: 10
 }
 
-exports.yearRange = {
-  resolution: 10,
-  minYear: 400,
-  maxYear: 2100
-}
-
 // Artifacts
 exports.artifacts = {
   threshold: 100, // min facetable count
