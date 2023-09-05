@@ -11,8 +11,9 @@ exports.sizing = {
   minValue: 10
 }
 
-// TODO yearRange, resolution
+// TODO yearRange
 exports.decades = {
+  resolution: 10,
   minYear: 400,
   maxYear: 2100
 }
