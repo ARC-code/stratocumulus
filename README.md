@@ -5,7 +5,7 @@ Millions of linked data documents and huge databases of semantic networks ask fo
 ## Examples
 
 [![BigDIVA Prototype](docs/stratocumulus_0.3.0_example.png)](http://prototype.bigdiva.org/)
-Corpora database visualized with Stratocumulus. Two of the entity collections are faceted and their facet subgraphs rendered and zoomable.
+A [Corpora](https://corpora-docs.dh.tamu.edu/) database visualized with Stratocumulus. Two of the entity collections are faceted and their facet subgraphs rendered and zoomable.
 
 ## Resources
 
@@ -30,17 +30,19 @@ Corpora database visualized with Stratocumulus. Two of the entity collections ar
 ## Building and Running the App
 
 * Have [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed on your development machine and make sure it's running
-* Replace placeholder environment variables in `docker-compose.yml` with your Corpora endpoint details.
-* In a terminal, navigate to this locally cloned repo directory (the same directory as docker-compose.yml) and issue this command: `docker-compose up`
+* Clone the repo by `git clone git@github.com:ARC-code/stratocumulus.git`
+* Locate `docker-compose.yml` at the root of this cloned repository.
+* Create a `.env` file next to `docker-compose.yml` for your environment variables such as Corpora endpoint details. See `.env.example` for an example and `docker-compose.yml` for how they are used.
+* In a terminal, navigate to the repo directory (the same directory as docker-compose.yml) and issue this command: `docker compose up`. If you use a custom env file like `.env.arc` issue this instead: `docker compose --env-file .env.arc up`.
 * Visit the prototype by opening a browser and navigating to [localhost](localhost)
 
 ## Development Workflow
 
-When making changes to code (including the HTML template file), those changes won't reflect on the running application until you kill the Docker Compose stack by going to the terminal running the Docker app, hitting ctrl+c, and then restarting the stack by running `docker-compose up` again.
+When making changes to code (including the HTML template file), those changes won't reflect on the running application until you kill the Docker Compose stack by going to the terminal running the Docker app, hitting ctrl+c, and then restarting the stack by running `docker compose up` again.
 
-Changes to frontend code do not require container restarts or image rebuilds, only a few seconds and a page refresh. The changes under `client/lib` are automatically watched and the frontend code bundle rebuilt by webpack running in the frontend container. However, any changes outside `client/lib` – for example to `client/index.js` or `client/node_modules` – need an image rebuild with `docker-compose up --build`. Also, if you modify static files to be served by the backend, the volumes from where these static files are served need a reset with `docker-compose down --volumes`.
+Changes to frontend code do not require container restarts or image rebuilds, only a few seconds and a page refresh. The changes under `client/lib` are automatically watched and the frontend code bundle rebuilt by webpack running in the frontend container. However, any changes outside `client/lib` – for example to `client/index.js` or `client/node_modules` – need an image rebuild with `docker compose up --build`. Also, if you modify static files to be served by the backend, the volumes from where these static files are served need a reset with `docker compose down --volumes`.
 
-To inspect frontend build errors, see the console output of the frontend container via Docker Desktop or in the terminal in which you are running `docker-compose`.
+To inspect frontend build errors, see the console output of the frontend container via Docker Desktop or in the terminal in which you are running `docker compose`.
 
 To lint the frontend code to catch unused variables and other issues, cd to `client/` and run `npm run lint`. The frontend code should follow [JavaScript Standard Style](https://standardjs.com/).
 

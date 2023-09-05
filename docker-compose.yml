@@ -8,11 +8,11 @@ services:
       - ./server:/usr/src/app
       - static:/usr/src/static
     environment:
-      STRATO_PLUGIN: arc # arc, lincs
+      STRATO_PLUGIN: ${STRATO_PLUGIN}
       STRATO_SECRET_KEY: bananarama
       STRATO_STATIC_FOLDER: /usr/src/static
-      STRATO_CORPORA_HOST: https://example.org # your Corpora API endpoint
-      STRATO_CORPORA_CORPUS_ID: 123456789abcdef # your Corpora corpus ID
+      STRATO_CORPORA_HOST: ${STRATO_CORPORA_HOST}
+      STRATO_CORPORA_CORPUS_ID: ${STRATO_CORPORA_CORPUS_ID}
     depends_on:
       - redis
       - stratocumulus_client
@@ -28,11 +28,11 @@ services:
       - ./server:/usr/src/app
       - static:/usr/src/static
     environment:
-      STRATO_PLUGIN: arc # arc, lincs
+      STRATO_PLUGIN: ${STRATO_PLUGIN}
       STRATO_SECRET_KEY: bananarama
       STRATO_STATIC_FOLDER: /usr/src/static
-      STRATO_CORPORA_HOST: https://example.org # your Corpora API endpoint
-      STRATO_CORPORA_CORPUS_ID: 123456789abcdef # your Corpora corpus ID
+      STRATO_CORPORA_HOST: ${STRATO_CORPORA_HOST}
+      STRATO_CORPORA_CORPUS_ID: ${STRATO_CORPORA_CORPUS_ID}
     depends_on:
       - redis
       - stratocumulus
