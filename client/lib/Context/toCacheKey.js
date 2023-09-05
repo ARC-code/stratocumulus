@@ -1,4 +1,5 @@
-const config = require('../config')
+const facetParameters = window.stratocumulus.facetParameters
+const filterParameters = window.stratocumulus.filterParameters
 
 module.exports = function () {
   // @Context:toCacheKey()
@@ -22,17 +23,17 @@ module.exports = function () {
 
   // Split
   this.keys.forEach((key, i) => {
-    if (config.filterParameters.includes(key)) {
+    if (filterParameters.includes(key)) {
       filterKeys.push(key)
       filterValues.push(this.values[i])
-    } else if (config.facetParameters.includes(key)) {
+    } else if (facetParameters.includes(key)) {
       cacheKeys.push(key)
       cacheValues.push(this.values[i])
     }
   })
 
   // Append filters into paths in a consistent order.
-  config.filterParameters.forEach(param => {
+  filterParameters.forEach(param => {
     const i = filterKeys.indexOf(param)
     if (i >= 0) {
       cacheKeys.push(filterKeys[i])

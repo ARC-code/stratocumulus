@@ -1,4 +1,4 @@
-const config = require('../config')
+const filterParameters = window.stratocumulus.filterParameters
 
 module.exports = function (context) {
   // @ArtifactStratum:filter(context)
@@ -21,11 +21,11 @@ module.exports = function (context) {
   const oldContext = this.context
   // Pick filtering parameters from the given context.
   const newFilters = context.filter(key => {
-    return config.filterParameters.includes(key)
+    return filterParameters.includes(key)
   })
   // Strip any old filters from the old context.
   const nakedContext = oldContext.filter(key => {
-    return !config.filterParameters.includes(key)
+    return !filterParameters.includes(key)
   })
   // Add new filters, if any.
   this.context = nakedContext.merge(newFilters)

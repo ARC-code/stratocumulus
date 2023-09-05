@@ -1,4 +1,4 @@
-const config = require('../config')
+const filterParameters = window.stratocumulus.filterParameters
 
 module.exports = function () {
   // @Context:getFilteringContext()
@@ -15,7 +15,7 @@ module.exports = function () {
   const len = this.keys.length
   for (let i = 0; i < len; i += 1) {
     const key = this.keys[i]
-    if (config.filterParameters.includes(key)) {
+    if (filterParameters.includes(key)) {
       keys.push(key)
       values.push(this.values[i])
     }
@@ -24,7 +24,7 @@ module.exports = function () {
   // Sort consistently
   const orderedKeys = []
   const orderedValues = []
-  config.filterParameters.forEach(fkey => {
+  filterParameters.forEach(fkey => {
     const i = keys.indexOf(fkey)
     if (i >= 0) {
       orderedKeys.push(fkey)
