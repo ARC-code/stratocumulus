@@ -1,5 +1,3 @@
-const config = require('../config')
-
 module.exports = function () {
   // @Context:getFacetingContext()
   //
@@ -9,13 +7,15 @@ module.exports = function () {
   //   a Context
   //
 
+  const facetParameters = window.stratocumulus.facetParameters
+
   // Pick facets
   const keys = []
   const values = []
   const len = this.keys.length
   for (let i = 0; i < len; i += 1) {
     const key = this.keys[i]
-    if (config.facetParameters.includes(key)) {
+    if (facetParameters.includes(key)) {
       keys.push(key)
       values.push(this.values[i])
     }

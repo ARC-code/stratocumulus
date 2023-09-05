@@ -1,4 +1,4 @@
-const config = require('../config')
+const facetParameters = window.stratocumulus.facetParameters
 
 module.exports = function () {
   // @Context:toFacetPath()
@@ -18,7 +18,7 @@ module.exports = function () {
   const facetValues = []
 
   this.keys.forEach((key, i) => {
-    if (config.facetParameters.includes(key)) {
+    if (facetParameters.includes(key)) {
       facetKeys.push(key)
       facetValues.push(this.values[i])
     }

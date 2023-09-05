@@ -2,12 +2,11 @@ const template = require('./template.ejs')
 const io = require('../io')
 const toFilterLabel = require('./toFilterLabel')
 const toFilterTypeLabel = require('./toFilterTypeLabel')
-const config = require('../config')
 const Context = require('../Context')
 
-const MIN_DECADE = config.decades.minDecade
-const MAX_DECADE = config.decades.maxDecade
-const DEFAULT_DECADE_RANGE = MIN_DECADE + 'to' + MAX_DECADE
+const MIN_YEAR = window.stratocumulus.yearRange.minYear
+const MAX_YEAR = window.stratocumulus.yearRange.maxYear
+const DEFAULT_YEAR_RANGE = MIN_YEAR + 'to' + MAX_YEAR
 
 module.exports = function () {
   // @ContextForm:render()
@@ -20,7 +19,7 @@ module.exports = function () {
 
   // Remove default filters
   filterContext = filterContext.filter((key, value) => {
-    if (key === 'r_years' && value === DEFAULT_DECADE_RANGE) {
+    if (key === 'r_years' && value === DEFAULT_YEAR_RANGE) {
       return false
     }
     if (key === 'q' && value.trim() === '') {

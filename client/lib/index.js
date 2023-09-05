@@ -1,3 +1,4 @@
+const config = require('./config')
 const tapspace = require('tapspace')
 const io = require('./io')
 const Sky = require('./Sky')
@@ -16,6 +17,9 @@ exports.start = function () {
   // - app bundle is cached (ok messages, old versions)
   console.log('stratocumulus-client v' + clientVersion)
   console.log('tapspace.js v' + tapspace.version)
+
+  // Validate configuration received from the server.
+  config.validate()
 
   // Open SSE stream
   io.stream.connect()

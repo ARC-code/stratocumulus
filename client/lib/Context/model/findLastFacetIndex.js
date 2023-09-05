@@ -1,4 +1,4 @@
-const config = require('../../config')
+const facetParameters = window.stratocumulus.facetParameters
 
 module.exports = (keys) => {
   // Find last faceting parameter.
@@ -6,7 +6,7 @@ module.exports = (keys) => {
   const len = keys.length
   let last = -1
   for (let i = 0; i < len; i += 1) {
-    if (config.facetParameters.includes(keys[i])) {
+    if (facetParameters.includes(keys[i])) {
       last = i
     }
   }

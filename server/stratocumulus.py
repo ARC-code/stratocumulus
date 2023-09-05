@@ -7,6 +7,7 @@ from flask import Flask, request, render_template, session
 from flask_sse import sse
 from time import sleep
 from celery import Celery
+from urllib.parse import urljoin
 
 
 # instantiate and configure our Flask app, including SSE (server sent events).
@@ -31,7 +32,15 @@ def index():
 
     # render the HTML template injecting our session key
     plugin = os.environ.get('STRATO_PLUGIN', 'arc')
-    return render_template(f"{plugin}/index.html", key=sess_key)
+    template = f"{plugin}/index.html"
+
+    # inject corpora endpoint for the client to call directly
+    corpora_host = os.environ.get('STRATO_CORPORA_HOST')
+    corpus_id = os.environ.get('STRATO_CORPORA_CORPUS_ID')
+    corpora_api_base = urljoin(corpora_host, 'api/corpus/')
+    corpora_api = urljoin(corpora_api_base, corpus_id + '/')
+
+    return render_template(template, key=sess_key, corpora_api=corpora_api)
 
 
 # this endpoint is called by the client when it's ready to build a "stratum," which here signifies a bird's eye view of

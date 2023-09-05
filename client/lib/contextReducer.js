@@ -1,5 +1,7 @@
 const Context = require('./Context')
-const config = require('./config')
+const MIN_YEAR = window.stratocumulus.yearRange.minYear
+const MAX_YEAR = window.stratocumulus.yearRange.maxYear
+const DEFAULT_YEAR_RANGE = MIN_YEAR + 'to' + MAX_YEAR
 
 module.exports = (state, action) => {
   // Context reducer.
@@ -63,10 +65,7 @@ module.exports = (state, action) => {
     const parameter = action.parameter
     if (parameter === 'r_years') {
       // Use default range
-      const minDecade = config.decades.minDecade
-      const maxDecade = config.decades.maxDecade
-      const defaultRangeValue = minDecade + 'to' + maxDecade
-      return state.remove('r_years').append('r_years', defaultRangeValue)
+      return state.remove('r_years').append('r_years', DEFAULT_YEAR_RANGE)
     } else {
       return state.remove(parameter)
     }

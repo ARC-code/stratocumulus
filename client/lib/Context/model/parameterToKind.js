@@ -1,9 +1,9 @@
-const config = require('../../config')
+const facetParameters = window.stratocumulus.facetParameters
 
 module.exports = (param) => {
   // Faceting parameter to kind string.
   //
-  if (config.facetParameters.includes(param)) {
+  if (facetParameters.includes(param)) {
     const match = param.match(/^f_([a-z0-9]+).id$/i)
     if (match && match[1]) {
       return match[1]

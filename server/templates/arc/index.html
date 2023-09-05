@@ -57,7 +57,35 @@
       window.stratocumulus = {
         sseStreamUrl: '{{ url_for('sse.stream') }}',
         sseStreamKey: '{{ key }}',
-        corporaApiPrefix: 'https://corpora.dh.tamu.edu/api/corpus/5f623b8eff276600a4f44553/',
+        corporaApiPrefix: '{{ corpora_api }}',
+        // Faceting parameters are Corpora API query parameter
+        // that are navigable by zooming and loading nested strata graphs.
+        // Set these to match the facet parameters in your graph nodes.
+        // These parameters are used to build paths for strata and
+        // thus define their identity.
+        facetParameters: [
+          'f_federations.id',
+          'f_genres.id',
+          'f_disciplines.id',
+          'page'
+        ],
+        // Filtering parameters are Corpora API query parameters that filter
+        // the strata contents. They do not affect the navigation.
+        filterParameters: [
+          'f_title',
+          'f_agents.label.raw',
+          'q',
+          'r_years'
+        ],
+        // Year range selector step size and range.
+        // A large step size is recommended to improve usability and caching.
+        // For example, set the step size 10 for decades, 100 for centuries.
+        yearRange: {
+          step: 10,
+          minYear: 400,
+          maxYear: 2100
+        },
+        // Mapping from agent role abbreviations to readable strings.
         agentRoleMapping: {
           ART: 'Visual Artist',
           AUT: 'Author',

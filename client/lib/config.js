@@ -11,34 +11,52 @@ exports.sizing = {
   minValue: 10
 }
 
-exports.decades = {
-  minDecade: 400,
-  maxDecade: 2100
-}
-
-// Facet parameters are Corpora-parameters navigable by zooming.
-// TODO rename as navigationParameters or pathParameters or stratumParameters
-exports.facetParameters = [
-  'f_federations.id',
-  'f_genres.id',
-  'f_disciplines.id',
-  'f_nations.id',
-  'f_graphs.id',
-  'f_affiliations',
-  'f_professions.id',
-  'page'
-]
-
-// Filter parameters are Corpora-parameters that do not affect navigation.
-exports.filterParameters = [
-  'f_title',
-  'f_agents.label.raw',
-  'q',
-  'r_years'
-]
-
 // Artifacts
 exports.artifacts = {
   threshold: 100, // min facetable count
   pageSize: 9
+}
+
+// Required server-provided configuration
+const required = [
+  { key: 'sseStreamUrl', type: 'string' },
+  { key: 'sseStreamKey', type: 'string' },
+  { key: 'corporaApiPrefix', type: 'string' },
+  { key: 'facetParameters', type: 'array' },
+  { key: 'filterParameters', type: 'array' },
+  { key: 'yearRange', type: 'object' },
+  { key: 'agentRoleMapping', type: 'object' }
+]
+
+exports.validate = () => {
+  // @config.validate()
+  //
+  // Validate the server-provided configuration.
+  //
+  if (!window || !window.stratocumulus) {
+    throw new Error('Missing window.stratocumulus configuration object.')
+  }
+  const conf = window.stratocumulus
+
+  for (let i = 0; i < required.length; i += 1) {
+    const schemaItem = required[i]
+    const key = schemaItem.key
+    const type = schemaItem.type
+
+    if (!conf[key]) {
+      throw new Error('Missing configuration: window.stratocumulus.' + key)
+    }
+
+    if (type === 'array') {
+      if (!Array.isArray(conf[key])) {
+        throw new Error('Invalid configuration: window.stratocumulus.' + key)
+      }
+    } else {
+      if (typeof conf[key] !== type) {
+        throw new Error('Invalid configuration: window.stratocumulus.' + key)
+      }
+    }
+  }
+
+  // No errors, everything ok
 }
