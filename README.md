@@ -1,5 +1,7 @@
 # Stratocumulus
 
+> **ATTENTION:** Repository migrated to GitLab in September 2023. Development continues at [gitlab.com/calincs/access/stratocumulus](https://gitlab.com/calincs/access/stratocumulus)
+
 Millions of linked data documents and huge databases of semantic networks ask for a browser, a way to approach and explore the mass of entities. Stratocumulus approach the task with a zoomable nested network graph of facets. Each facet shaves the mass, a facet by facet, until you reach the entities and results which you are looking for. Just dive in. Stratocumulus lets you build your facet sequence by diving - and zooming - through facet nodes.
 
 ## Examples
@@ -10,7 +12,7 @@ A [Corpora](https://corpora-docs.dh.tamu.edu/) database visualized with Stratocu
 ## Resources
 
 - [live prototype](http://prototype.bigdiva.org/)
-- [Git repository](https://github.com/ARC-code/stratocumulus)
+- [Git repository](https://gitlab.com/calincs/access/stratocumulus)
 - [BigDIVA](https://bigdiva.org/)
 - [Center of Digital Humanities Research](https://codhr.dh.tamu.edu/)
 - [Stratocumulus Server API documentation](#the-backend)
